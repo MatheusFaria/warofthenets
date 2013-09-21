@@ -14,6 +14,7 @@ public:
 
 private:
 	SDL_Window * window;
+	bool isFinished;
 
 };
 
