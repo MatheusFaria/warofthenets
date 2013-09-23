@@ -1,5 +1,5 @@
 #include "game.h"
-#include "game_time.h"
+#include "gametime.h"
 
 #include <iostream>
 using namespace std;
@@ -29,46 +29,18 @@ void Game::init()
 
 }
 
-//Atualizar tempo de jogo
-void updateTime()
+Game::~Game()
 {
-	GameTime* time = new GameTime();
-
-	if(time != NULL)
-		cout<<"Update time"<<endl;
-
+	cout << "Finishing War of the Nets" << endl;
+	SDL_DestroyWindow(this->window);
 }
 
-void getInput()
-{
-	cout<<"Inputs received"<<endl;
-}
-
-//Funcao que ira simular o comportamento de conexao de uma rede
-void getNetworkMessage()
-{
-	cout<<"Getting Network Message"<<endl;
-}
-
-//Atualizar os elementos lógicos contidos no jogo
-void simulateWorld()
-{
-	cout<<"Simulating world units"<<endl;
-}
-
-//Atualizar o estado dos objetos contidos no jogo
-void updateObjects()
-{
-	cout<<"Onjects atualized"<<endl;
-}
-
-//Atualizar as telas do jogo
-void renderWorld()
-{
-	cout<<"World Screen Atualized"<<endl;
-}
-
-
+void updateTime();
+void getInput();	
+void getNetworkMessage();
+void simulateWorld();
+void updateObjects();
+void renderWorld();
 
 void Game::run()
 {
@@ -90,9 +62,35 @@ void Game::run()
 	SDL_Delay(3000);
 }
 
-Game::~Game()
+void updateTime()
 {
-	cout << "Finishing War of the Nets" << endl;
-	SDL_DestroyWindow(this->window);
+	GameTime* time = new GameTime();
+
+	if(time != NULL)
+		cout<<"Update time"<<endl;
 }
 
+void getInput()
+{
+	cout<<"Inputs received"<<endl;
+}
+
+void getNetworkMessage()
+{
+	cout<<"Getting Network Message"<<endl;
+}
+
+void simulateWorld()
+{
+	cout<<"Simulating world units"<<endl;
+}
+
+void updateObjects()
+{
+	cout<<"Onjects atualized"<<endl;
+}
+
+void renderWorld()
+{
+	cout<<"World Screen Atualized"<<endl;
+}
