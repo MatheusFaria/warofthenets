@@ -1,2 +1,6 @@
 prog
 NotMakefile
+*.swp
+*.swo
+*~
+
