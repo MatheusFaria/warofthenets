@@ -2,6 +2,7 @@
 #define GAME_H
 
 #include "SDL2/SDL.h"
+#include "window.h"
 
 class Game{
 
@@ -13,7 +14,7 @@ public:
 	void run();
 
 private:
-	SDL_Window * window;
+	Window * window;
 	bool isFinished;
 
 };

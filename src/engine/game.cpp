@@ -21,18 +21,14 @@ void Game::init()
 	else
 		cout << "ERROR in Video Initialization: [" << SDL_GetError() << "]" << endl;
 
-	this->window = SDL_CreateWindow("War of the Nets", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
-									800, 600, SDL_WINDOW_SHOWN);//SDL_WINDOW_FULLSCREEN_DESKTOP);
-	
-	if(!(this->window))
-		cout << "The Window Could Not Be Created: [" << SDL_GetError() << "]" << endl;
-
+	this->window = new Window(800, 600, 0, 0, "War of The Nets");
+	(this->window)->createWindow();
 }
 
 Game::~Game()
 {
 	cout << "Finishing War of the Nets" << endl;
-	SDL_DestroyWindow(this->window);
+	delete window;
 }
 
 void updateTime();
