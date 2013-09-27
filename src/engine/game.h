@@ -12,6 +12,9 @@ public:
 
 	void init();
 	void run();
+	void presentation();
+	void mainLoop();
+	void menu();
 
 private:
 	Window * window;

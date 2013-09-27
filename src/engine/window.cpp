@@ -3,7 +3,7 @@
 #include <iostream>
 using namespace std;
 
-Window::Window(int width, int height, int x, int y, string title)
+Window::Window(int width, int height, int x, int y, const char * title)
 {
 	this->width = width;
 	this->height = height;
@@ -18,11 +18,21 @@ Window::~Window()
 		SDL_DestroyWindow(this->window);
 }
 
-void Window::createWindow()
+void 
+Window::createWindow()
 {
-	this->window = SDL_CreateWindow((this->title).c_str(), this->x, this->y,
+	this->window = SDL_CreateWindow(this->title, this->x, this->y,
 									this->width, this->height, SDL_WINDOW_SHOWN);
 	if(!(this->window))
 		cout << "The Window Could Not Be Created: [" << SDL_GetError() << "]" << endl;
+		
+	render = Render::getInstance();
+	render.createRender(this->window);
+}
+
+Render 
+Window::getRender()
+{
+	return this->render;
 }
 

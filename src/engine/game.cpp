@@ -1,8 +1,12 @@
 #include "game.h"
 #include "gametime.h"
+#include "image.h"
+#include "render.h"
 
 #include <iostream>
 using namespace std;
+
+#define PLAY_GAME 1
 
 Game::Game()
 {
@@ -21,7 +25,8 @@ void Game::init()
 	else
 		cout << "ERROR in Video Initialization: [" << SDL_GetError() << "]" << endl;
 
-	this->window = new Window(800, 600, 0, 0, "War of The Nets");
+	const char * title = "War of The Nets";
+	this->window = new Window(800, 600, 0, 0, title);
 	(this->window)->createWindow();
 }
 
@@ -42,6 +47,33 @@ void Game::run()
 {
 	cout << "Run" << endl;
 
+	bool quit = false;
+	
+	presentation();
+	
+	SDL_Event event;	
+	while(!quit)
+	{
+		SDL_PollEvent(&event);
+		if(event.type == SDL_QUIT)
+			quit = true;//menu();
+	}
+}
+
+void
+Game::presentation()
+{
+	Image logo;
+	Render rend = this->window->getRender();
+	logo.loadImage("resources/img/logo.bmp", rend.getRenderer());
+	rend.clear();
+	rend.renderImage(logo, 10, 10);
+	rend.present();
+}
+
+void
+Game::mainLoop()
+{
 	isFinished = false;
 
 	while(!isFinished)
@@ -53,9 +85,16 @@ void Game::run()
 		updateObjects();
 		renderWorld();
 		isFinished = true;
-	}	
+	}
+}
 
-	SDL_Delay(3000);
+void
+Game::menu()
+{
+	int choice = 0;
+	
+	if(choice == PLAY_GAME)
+		mainLoop();
 }
 
 void updateTime()

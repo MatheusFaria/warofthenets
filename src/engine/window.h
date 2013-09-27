@@ -2,15 +2,16 @@
 #define WINDOW_H
 
 #include "SDL2/SDL.h"
-#include <string>
-using namespace std;
+#include "render.h"
 
 class Window{
 public:
-	Window(int, int, int, int, string);
+	Window(int, int, int, int, const char *);
 	~Window();
 
 	void createWindow();
+	
+	Render getRender();
 
 private:
 	SDL_Window * window;
@@ -18,7 +19,8 @@ private:
 	int height;
 	int x;
 	int y; 
-	string title;
+	const char * title;
+	Render render;
 };
 
 #endif
