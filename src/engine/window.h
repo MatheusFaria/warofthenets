@@ -12,6 +12,7 @@ public:
 	void createWindow();
 	
 	Render * getRender();
+	SDL_Window * getWindow();
 
 private:
 	SDL_Window * window;

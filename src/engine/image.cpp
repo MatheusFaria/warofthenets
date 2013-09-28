@@ -7,6 +7,12 @@ Image::Image()
 {
 }
 
+Image::~Image()
+{
+	if(this->texture != NULL)
+		SDL_DestroyTexture(texture);
+}
+
 bool
 Image::loadImage(const char* path, SDL_Renderer * renderer)
 {

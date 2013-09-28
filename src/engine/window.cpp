@@ -38,3 +38,8 @@ Window::getRender()
 	return this->render;
 }
 
+SDL_Window * 
+Window::getWindow()
+{
+	return this->window;
+}

@@ -7,14 +7,13 @@ class Image{
 
 public:
 	Image();
+	~Image();
 	
 	bool loadImage(const char* path, SDL_Renderer * render);
 	SDL_Texture * getTexture();
 
 private:
 	SDL_Texture * texture;
-	int width;
-	int height;
 };
 
 #endif

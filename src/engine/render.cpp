@@ -16,7 +16,6 @@ Render::getInstance()
 
 Render::Render()
 {
-	
 }
 
 Render::~Render()
@@ -39,7 +38,6 @@ Render::createRender(SDL_Window * win)
 void 
 Render::renderAll()
 {
-	
 }
 
 void
