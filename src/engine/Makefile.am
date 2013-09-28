@@ -2,27 +2,27 @@
 # Date: 26/11/2010
 
 # Library description
-lib_LTLIBRARIES = 
+lib_LTLIBRARIES = libengine.la
 
 # Programs excluded from instalation
 #noinst_PROGRAMS = warofthenets
-bin_PROGRAMS = warofthenets
+#bin_PROGRAMS = warofthenets
 
 # Library flags
-# libitem_la_LDFLAGS = -static
+libengine_la_LDFLAGS = -static
 
 # Library sources
-# libitem_la_SOURCES = 
+libengine_la_SOURCES = window.cpp render.cpp image.cpp game.cpp
 
 # Libraries needed to build our library
-# libitem_la_LIBADD = -lSDL2
+libengine_la_LIBADD = -lSDL2
 
 # Program description
-warofthenets_SOURCES = main.cpp
+#warofthenets_SOURCES =
 
 # Libraries needed to build program
-warofthenets_LDADD = -lSDL2
+#warofthenets_LDADD = 
 
 # Include flags
-INCLUDES = -I../include -W -Wall -pedantic -ansi -Wno-long-long
+INCLUDES = -I../../include -W -Wall -pedantic -ansi -Wno-long-long
 

@@ -20,10 +20,10 @@
 
 
 
-pkgdatadir = $(datadir)/atendimento
-pkgincludedir = $(includedir)/atendimento
-pkglibdir = $(libdir)/atendimento
-pkglibexecdir = $(libexecdir)/atendimento
+pkgdatadir = $(datadir)/warofthenets
+pkgincludedir = $(includedir)/warofthenets
+pkglibdir = $(libdir)/warofthenets
+pkglibexecdir = $(libexecdir)/warofthenets
 am__cd = CDPATH="$${ZSH_VERSION+.}$(PATH_SEPARATOR)" && cd
 install_sh_DATA = $(install_sh) -c -m 644
 install_sh_PROGRAM = $(install_sh) -c
@@ -79,16 +79,10 @@ am__uninstall_files_from_dir = { \
   }
 am__installdirs = "$(DESTDIR)$(libdir)" "$(DESTDIR)$(bindir)"
 LTLIBRARIES = $(lib_LTLIBRARIES)
-libitem_la_DEPENDENCIES =
-am_libitem_la_OBJECTS = window.lo render.lo image.lo game.lo
-libitem_la_OBJECTS = $(am_libitem_la_OBJECTS)
-libitem_la_LINK = $(LIBTOOL) --tag=CXX $(AM_LIBTOOLFLAGS) \
-	$(LIBTOOLFLAGS) --mode=link $(CXXLD) $(AM_CXXFLAGS) \
-	$(CXXFLAGS) $(libitem_la_LDFLAGS) $(LDFLAGS) -o $@
 PROGRAMS = $(bin_PROGRAMS)
 am_warofthenets_OBJECTS = main.$(OBJEXT)
 warofthenets_OBJECTS = $(am_warofthenets_OBJECTS)
-warofthenets_DEPENDENCIES = libitem.la
+warofthenets_DEPENDENCIES =
 DEFAULT_INCLUDES = -I. -I$(top_builddir)/include
 depcomp = $(SHELL) $(top_srcdir)/config/depcomp
 am__depfiles_maybe = depfiles
@@ -102,8 +96,8 @@ CXXLD = $(CXX)
 CXXLINK = $(LIBTOOL) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) \
 	--mode=link $(CXXLD) $(AM_CXXFLAGS) $(CXXFLAGS) $(AM_LDFLAGS) \
 	$(LDFLAGS) -o $@
-SOURCES = $(libitem_la_SOURCES) $(warofthenets_SOURCES)
-DIST_SOURCES = $(libitem_la_SOURCES) $(warofthenets_SOURCES)
+SOURCES = $(warofthenets_SOURCES)
+DIST_SOURCES = $(warofthenets_SOURCES)
 ETAGS = etags
 CTAGS = ctags
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
@@ -161,7 +155,7 @@ OBJDUMP = objdump
 OBJEXT = o
 OTOOL = 
 OTOOL64 = 
-PACKAGE = atendimento
+PACKAGE = warofthenets
 PACKAGE_BUGREPORT = 
 PACKAGE_NAME = 
 PACKAGE_STRING = 
@@ -235,22 +229,22 @@ top_builddir = ..
 top_srcdir = ..
 
 # Library description
-lib_LTLIBRARIES = libitem.la
+lib_LTLIBRARIES = 
 
 # Library flags
-libitem_la_LDFLAGS = -static
+# libitem_la_LDFLAGS = -static
 
 # Library sources
-libitem_la_SOURCES = engine/window.cpp engine/render.cpp engine/image.cpp engine/game.cpp
+# libitem_la_SOURCES = 
 
 # Libraries needed to build our library
-libitem_la_LIBADD = -lSDL2
+# libitem_la_LIBADD = -lSDL2
 
 # Program description
 warofthenets_SOURCES = main.cpp
 
 # Libraries needed to build program
-warofthenets_LDADD = libitem.la -lSDL2
+warofthenets_LDADD = -lSDL2
 
 # Include flags
 INCLUDES = -I../include -W -Wall -pedantic -ansi -Wno-long-long
@@ -319,8 +313,6 @@ clean-libLTLIBRARIES:
 	  echo "rm -f \"$${dir}/so_locations\""; \
 	  rm -f "$${dir}/so_locations"; \
 	done
-libitem.la: $(libitem_la_OBJECTS) $(libitem_la_DEPENDENCIES) $(EXTRA_libitem_la_DEPENDENCIES) 
-	$(libitem_la_LINK) -rpath $(libdir) $(libitem_la_OBJECTS) $(libitem_la_LIBADD) $(LIBS)
 install-binPROGRAMS: $(bin_PROGRAMS)
 	@$(NORMAL_INSTALL)
 	test -z "$(bindir)" || $(MKDIR_P) "$(DESTDIR)$(bindir)"
@@ -374,11 +366,7 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
-include ./$(DEPDIR)/game.Plo
-include ./$(DEPDIR)/image.Plo
 include ./$(DEPDIR)/main.Po
-include ./$(DEPDIR)/render.Plo
-include ./$(DEPDIR)/window.Plo
 
 .cpp.o:
 	$(CXXCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
@@ -400,34 +388,6 @@ include ./$(DEPDIR)/window.Plo
 #	source='$<' object='$@' libtool=yes \
 #	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
 #	$(LTCXXCOMPILE) -c -o $@ $<
-
-window.lo: engine/window.cpp
-	$(LIBTOOL)  --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT window.lo -MD -MP -MF $(DEPDIR)/window.Tpo -c -o window.lo `test -f 'engine/window.cpp' || echo '$(srcdir)/'`engine/window.cpp
-	$(am__mv) $(DEPDIR)/window.Tpo $(DEPDIR)/window.Plo
-#	source='engine/window.cpp' object='window.lo' libtool=yes \
-#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
-#	$(LIBTOOL)  --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o window.lo `test -f 'engine/window.cpp' || echo '$(srcdir)/'`engine/window.cpp
-
-render.lo: engine/render.cpp
-	$(LIBTOOL)  --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT render.lo -MD -MP -MF $(DEPDIR)/render.Tpo -c -o render.lo `test -f 'engine/render.cpp' || echo '$(srcdir)/'`engine/render.cpp
-	$(am__mv) $(DEPDIR)/render.Tpo $(DEPDIR)/render.Plo
-#	source='engine/render.cpp' object='render.lo' libtool=yes \
-#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
-#	$(LIBTOOL)  --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o render.lo `test -f 'engine/render.cpp' || echo '$(srcdir)/'`engine/render.cpp
-
-image.lo: engine/image.cpp
-	$(LIBTOOL)  --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT image.lo -MD -MP -MF $(DEPDIR)/image.Tpo -c -o image.lo `test -f 'engine/image.cpp' || echo '$(srcdir)/'`engine/image.cpp
-	$(am__mv) $(DEPDIR)/image.Tpo $(DEPDIR)/image.Plo
-#	source='engine/image.cpp' object='image.lo' libtool=yes \
-#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
-#	$(LIBTOOL)  --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o image.lo `test -f 'engine/image.cpp' || echo '$(srcdir)/'`engine/image.cpp
-
-game.lo: engine/game.cpp
-	$(LIBTOOL)  --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT game.lo -MD -MP -MF $(DEPDIR)/game.Tpo -c -o game.lo `test -f 'engine/game.cpp' || echo '$(srcdir)/'`engine/game.cpp
-	$(am__mv) $(DEPDIR)/game.Tpo $(DEPDIR)/game.Plo
-#	source='engine/game.cpp' object='game.lo' libtool=yes \
-#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
-#	$(LIBTOOL)  --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o game.lo `test -f 'engine/game.cpp' || echo '$(srcdir)/'`engine/game.cpp
 
 mostlyclean-libtool:
 	-rm -f *.lo
