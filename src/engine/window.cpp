@@ -16,6 +16,8 @@ Window::~Window()
 {
 	if(this->window != NULL)
 		SDL_DestroyWindow(this->window);
+	if(this->render != NULL)
+		delete render;
 }
 
 void 
@@ -27,10 +29,10 @@ Window::createWindow()
 		cout << "The Window Could Not Be Created: [" << SDL_GetError() << "]" << endl;
 		
 	render = Render::getInstance();
-	render.createRender(this->window);
+	render->createRender(this->window);
 }
 
-Render 
+Render * 
 Window::getRender()
 {
 	return this->render;

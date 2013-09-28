@@ -1,5 +1,4 @@
 #include "game.h"
-#include "gametime.h"
 #include "image.h"
 #include "render.h"
 
@@ -13,7 +12,15 @@ Game::Game()
 	cout << "Creating War of the Nets" << endl;
 }
 
-void Game::init()
+Game::~Game()
+{
+	cout << "Finishing War of the Nets" << endl;
+	if(window != NULL)
+		delete window;
+}
+
+void
+Game::init()
 {
 	cout << "Intialize" << endl;
 
@@ -30,20 +37,9 @@ void Game::init()
 	(this->window)->createWindow();
 }
 
-Game::~Game()
-{
-	cout << "Finishing War of the Nets" << endl;
-	delete window;
-}
 
-void updateTime();
-void getInput();	
-void getNetworkMessage();
-void simulateWorld();
-void updateObjects();
-void renderWorld();
-
-void Game::run()
+void
+Game::run()
 {
 	cout << "Run" << endl;
 
@@ -56,7 +52,7 @@ void Game::run()
 	{
 		SDL_PollEvent(&event);
 		if(event.type == SDL_QUIT)
-			quit = true;//menu();
+			quit = true;
 	}
 }
 
@@ -64,28 +60,11 @@ void
 Game::presentation()
 {
 	Image logo;
-	Render rend = this->window->getRender();
-	logo.loadImage("resources/img/logo.bmp", rend.getRenderer());
-	rend.clear();
-	rend.renderImage(logo, 10, 10);
-	rend.present();
-}
-
-void
-Game::mainLoop()
-{
-	isFinished = false;
-
-	while(!isFinished)
-	{
-		updateTime();
-		getInput();	
-		getNetworkMessage();
-		simulateWorld();
-		updateObjects();
-		renderWorld();
-		isFinished = true;
-	}
+	Render * rend = this->window->getRender();
+	logo.loadImage("resources/img/logo.bmp", rend->getRenderer());
+	rend->clear();
+	rend->renderImage(logo, 10, 10);
+	rend->present();
 }
 
 void
@@ -97,12 +76,33 @@ Game::menu()
 		mainLoop();
 }
 
+void updateTime();
+void getInput();	
+void getNetworkMessage();
+void simulateWorld();
+void updateObjects();
+void renderWorld();
+
+void
+Game::mainLoop()
+{
+	bool levelComplete = false;
+
+	while(!levelComplete)
+	{
+		updateTime();
+		getInput();	
+		getNetworkMessage();
+		simulateWorld();
+		updateObjects();
+		renderWorld();
+		levelComplete = true;
+	}
+}
+
 void updateTime()
 {
-	GameTime* time = new GameTime();
-
-	if(time != NULL)
-		cout<<"Update time"<<endl;
+	cout<<"Update time"<<endl;
 }
 
 void getInput()

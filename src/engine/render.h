@@ -17,7 +17,7 @@ public:
 	void clear();
 	void present();
 	
-	static Render& getInstance();
+	static Render * getInstance();
 	
 	SDL_Renderer * getRenderer();
 	

@@ -3,7 +3,16 @@
 #include <iostream>
 using namespace std;
 
-Render *Render::instance = NULL;
+Render * Render::instance = NULL;
+
+Render *
+Render::getInstance()
+{
+	if(instance == NULL)
+		instance = new Render();
+	return instance;
+}
+
 
 Render::Render()
 {
@@ -27,15 +36,6 @@ Render::createRender(SDL_Window * win)
 	return this->renderer;
 }
 
-Render& 
-Render::getInstance()
-{
-	if(instance == NULL)
-		instance = new Render();
-	return *instance;
-}
-
-	
 void 
 Render::renderAll()
 {

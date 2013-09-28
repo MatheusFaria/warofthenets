@@ -18,7 +18,6 @@ public:
 
 private:
 	Window * window;
-	bool isFinished;
 
 };
 

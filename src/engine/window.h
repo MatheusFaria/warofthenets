@@ -11,7 +11,7 @@ public:
 
 	void createWindow();
 	
-	Render getRender();
+	Render * getRender();
 
 private:
 	SDL_Window * window;
@@ -20,7 +20,7 @@ private:
 	int x;
 	int y; 
 	const char * title;
-	Render render;
+	Render * render;
 };
 
 #endif
