@@ -1,6 +1,15 @@
 prog
-NotMakefile
 *.swp
 *.swo
 *~
 warofthenets
+*.o
+*.lo
+*.slo
+*.so
+*.a
+*.la
+*.lai
+*.dylib
+*.Po
+*.Plo
