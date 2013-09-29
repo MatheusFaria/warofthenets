@@ -13,3 +13,5 @@ warofthenets
 *.dylib
 *.Po
 *.Plo
+Makefile
+Makefile.in

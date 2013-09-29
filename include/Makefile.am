@@ -2,7 +2,7 @@
 # Date: 26/11/2010
 
 # Includes dir
-libitemincludedir = $(includedir)/
+libgameincludedir = $(includedir)/
 
 # Include files
 include_HEADERS = window.h render.h image.h game.h 
