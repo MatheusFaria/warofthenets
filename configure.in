@@ -44,8 +44,10 @@ dnl Output files
 AC_OUTPUT(
 Makefile
 include/Makefile
-src/Makefile
 src/engine/Makefile
+src/menus/Makefile
+src/levels/Makefile
+src/Makefile
 )
 
 dnl User info

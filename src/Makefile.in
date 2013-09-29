@@ -79,10 +79,16 @@ am__uninstall_files_from_dir = { \
   }
 am__installdirs = "$(DESTDIR)$(libdir)" "$(DESTDIR)$(bindir)"
 LTLIBRARIES = $(lib_LTLIBRARIES)
+libgame_la_DEPENDENCIES = engine/libengine.la
+am_libgame_la_OBJECTS = game.lo
+libgame_la_OBJECTS = $(am_libgame_la_OBJECTS)
+libgame_la_LINK = $(LIBTOOL) --tag=CXX $(AM_LIBTOOLFLAGS) \
+	$(LIBTOOLFLAGS) --mode=link $(CXXLD) $(AM_CXXFLAGS) \
+	$(CXXFLAGS) $(libgame_la_LDFLAGS) $(LDFLAGS) -o $@
 PROGRAMS = $(bin_PROGRAMS)
 am_warofthenets_OBJECTS = main.$(OBJEXT)
 warofthenets_OBJECTS = $(am_warofthenets_OBJECTS)
-warofthenets_DEPENDENCIES =
+warofthenets_DEPENDENCIES = libgame.la
 DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)/include
 depcomp = $(SHELL) $(top_srcdir)/config/depcomp
 am__depfiles_maybe = depfiles
@@ -96,8 +102,8 @@ CXXLD = $(CXX)
 CXXLINK = $(LIBTOOL) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) \
 	--mode=link $(CXXLD) $(AM_CXXFLAGS) $(CXXFLAGS) $(AM_LDFLAGS) \
 	$(LDFLAGS) -o $@
-SOURCES = $(warofthenets_SOURCES)
-DIST_SOURCES = $(warofthenets_SOURCES)
+SOURCES = $(libgame_la_SOURCES) $(warofthenets_SOURCES)
+DIST_SOURCES = $(libgame_la_SOURCES) $(warofthenets_SOURCES)
 ETAGS = etags
 CTAGS = ctags
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
@@ -229,22 +235,22 @@ top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 
 # Library description
-lib_LTLIBRARIES = 
+lib_LTLIBRARIES = libgame.la
 
 # Library flags
-# libitem_la_LDFLAGS = -static
+libgame_la_LDFLAGS = -static
 
 # Library sources
-# libitem_la_SOURCES = 
+libgame_la_SOURCES = game.cpp
 
 # Libraries needed to build our library
-# libitem_la_LIBADD = -lSDL2
+libgame_la_LIBADD = engine/libengine.la -lSDL2 
 
 # Program description
 warofthenets_SOURCES = main.cpp
 
 # Libraries needed to build program
-warofthenets_LDADD = -lSDL2
+warofthenets_LDADD = libgame.la -lSDL2
 
 # Include flags
 INCLUDES = -I../include -W -Wall -pedantic -ansi -Wno-long-long
@@ -313,6 +319,8 @@ clean-libLTLIBRARIES:
 	  echo "rm -f \"$${dir}/so_locations\""; \
 	  rm -f "$${dir}/so_locations"; \
 	done
+libgame.la: $(libgame_la_OBJECTS) $(libgame_la_DEPENDENCIES) $(EXTRA_libgame_la_DEPENDENCIES) 
+	$(libgame_la_LINK) -rpath $(libdir) $(libgame_la_OBJECTS) $(libgame_la_LIBADD) $(LIBS)
 install-binPROGRAMS: $(bin_PROGRAMS)
 	@$(NORMAL_INSTALL)
 	test -z "$(bindir)" || $(MKDIR_P) "$(DESTDIR)$(bindir)"
@@ -366,6 +374,7 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/game.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/main.Po@am__quote@
 
 .cpp.o:

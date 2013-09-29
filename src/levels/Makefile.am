@@ -2,20 +2,20 @@
 # Date: 26/11/2010
 
 # Library description
-lib_LTLIBRARIES = libengine.la
+lib_LTLIBRARIES = liblevels.la
 
 # Programs excluded from instalation
 #noinst_PROGRAMS = warofthenets
 #bin_PROGRAMS = warofthenets
 
 # Library flags
-libengine_la_LDFLAGS = -static
+liblevels_la_LDFLAGS = -static
 
 # Library sources
-libengine_la_SOURCES = window.cpp render.cpp image.cpp 
+liblevels_la_SOURCES = 
 
 # Libraries needed to build our library
-libengine_la_LIBADD = -lSDL2
+liblevels_la_LIBADD = -lSDL2
 
 # Program description
 #warofthenets_SOURCES =
