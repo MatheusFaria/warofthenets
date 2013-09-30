@@ -1,7 +1,5 @@
 #include "window.h"
-
-#include <iostream>
-using namespace std;
+#include "log.h"
 
 Window::Window(int width, int height, int x, int y, const char * title)
 {
@@ -25,8 +23,11 @@ Window::createWindow()
 {
 	this->window = SDL_CreateWindow(this->title, this->x, this->y,
 									this->width, this->height, SDL_WINDOW_SHOWN);
-	if(!(this->window))
-		cout << "The Window Could Not Be Created: [" << SDL_GetError() << "]" << endl;
+	if(this->window == NULL)
+	{
+		Log::error( "The Window Could Not Be Created");
+		return;
+	}
 		
 	render = Render::getInstance();
 	render->createRender(this->window);

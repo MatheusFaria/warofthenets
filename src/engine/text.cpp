@@ -1,4 +1,5 @@
 #include "text.h"
+#include "log.h"
 
 Text::Text(string value, int size, int style)
 {
@@ -31,7 +32,7 @@ Text::setFont(string fontPath)
 	this->font = TTF_OpenFont(this->fontPath.c_str(), this->size);
 	if(this->font == NULL)
 	{
-		//errorlog
+		Log::warn("Could not open the font " + fontPath);
 		return;
 	}
 	
@@ -51,8 +52,8 @@ Text::generateTexture(SDL_Renderer * render, SDL_Color foregroundColor, SDL_Colo
 {
 	if(this->font == NULL)
 	{
+		Log::warn("Could not genarate texture, because the font still NULL");
 		return NULL;
-		//errorlog
 	}
 
 	if(this->text != NULL)
@@ -65,8 +66,8 @@ Text::generateTexture(SDL_Renderer * render, SDL_Color foregroundColor, SDL_Colo
 	SDL_Surface * textSurface = this->generateSurfaceText(mode);
 	if(textSurface == NULL)
 	{
+		Log::warn("Could not genarate surface to the text font");
 		return NULL;
-		//errorlog
 	}
 	
 	this->text = SDL_CreateTextureFromSurface(render, textSurface);
@@ -74,7 +75,7 @@ Text::generateTexture(SDL_Renderer * render, SDL_Color foregroundColor, SDL_Colo
 	
 	if(this->text == NULL)
 	{
-		//errorlog
+		Log::warn("Could not genarate the texture to the text font");
 	}
 
 	return this->text;

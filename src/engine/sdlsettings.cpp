@@ -1,4 +1,5 @@
 #include "sdlsettings.h"
+#include "log.h"
 
 bool 
 SDLSettings::setUpEnviroment()
@@ -9,6 +10,7 @@ SDLSettings::setUpEnviroment()
 		atexit(SDL_Quit);
 		return true;
 	}
+	Log::error("Could not set up the enviroment.");
 	return false;
 }
 
@@ -21,6 +23,7 @@ SDLSettings::setUpVideo()
 		atexit(SDL_Quit);
 		return true;
 	}
+	Log::error("Could not set up the video.");
 	return false;
 }
 

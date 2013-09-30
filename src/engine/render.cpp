@@ -1,7 +1,5 @@
 #include "render.h"
-
-#include <iostream>
-using namespace std;
+#include "log.h"
 
 Render * Render::instance = NULL;
 
@@ -30,7 +28,7 @@ Render::createRender(SDL_Window * win)
 	this->renderer = SDL_CreateRenderer(win, -1, SDL_RENDERER_ACCELERATED |SDL_RENDERER_PRESENTVSYNC);
 	
 	if(this->renderer == NULL)
-		cout << "Failed to create Render" << endl;
+		Log::warn("Failed to create Render");
 	
 	return this->renderer;
 }
@@ -43,6 +41,11 @@ Render::renderAll()
 void
 Render::renderTexture(SDL_Texture * texture, int x, int y)
 {
+	if(texture == NULL)
+	{
+		Log::warn("Tried to render a NULL Texture");
+		return;
+	}
 	SDL_Rect dst;
 	dst.x = x;
 	dst.y = y;

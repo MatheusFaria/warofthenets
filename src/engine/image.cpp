@@ -1,7 +1,5 @@
 #include "image.h"
-#include <iostream>
-
-using namespace std;
+#include "log.h"
 
 Image::Image()
 {
@@ -23,10 +21,10 @@ Image::loadImage(const char* path, SDL_Renderer * renderer)
 		this->texture = SDL_CreateTextureFromSurface(renderer, imgloaded);
 		SDL_FreeSurface(imgloaded);
 		if(this->texture == NULL)
-			cout << "Could not create the texture from the surface " << path << " :: " << SDL_GetError() << endl;
+			Log::warn("Could not create the texture from the surface");
 	}
 	else
-		cout << "Could not load the image " << path << " :: " << SDL_GetError() << endl;
+		Log::warn("Could not load the image");
 	return texture;
 }	
 
