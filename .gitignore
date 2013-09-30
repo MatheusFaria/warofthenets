@@ -17,3 +17,13 @@ Makefile
 Makefile.in
 test/*.cpp
 test/*.h
+aclocal.m4
+autom4te.cache/
+config.log
+config.status
+config/
+configure
+include/config.h
+include/config.h.in
+include/stamp-h1
+libtool
