@@ -1,22 +1,39 @@
+#Binary Files
 prog
+warofthenets
+
+#Temp Files from Vi
 *.swp
 *.swo
+
+#Temp Files from Gedit
 *~
-warofthenets
+
+#Compiled Object Files
 *.o
 *.lo
 *.slo
+
+#Compiled Portable Object Files
+*.Po
+*.Plo
+
+#Compiled Dynamic Libraries
 *.so
+*.dylib
+
+#Compiled Static Libraries
 *.a
 *.la
 *.lai
-*.dylib
-*.Po
-*.Plo
-Makefile
-Makefile.in
+
+#Source Files from Test Folder
 test/*.cpp
 test/*.h
+
+#Auto Genarated Files from Bootstrap
+Makefile
+Makefile.in
 aclocal.m4
 autom4te.cache/
 config.log
