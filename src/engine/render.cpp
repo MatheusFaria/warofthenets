@@ -41,13 +41,13 @@ Render::renderAll()
 }
 
 void
-Render::renderImage(Image img, int x, int y)
+Render::renderTexture(SDL_Texture * texture, int x, int y)
 {
 	SDL_Rect dst;
 	dst.x = x;
 	dst.y = y;
-	SDL_QueryTexture(img.getTexture(), NULL, NULL, &dst.w, &dst.h);
-	SDL_RenderCopy(this->renderer, img.getTexture(), NULL, &dst);
+	SDL_QueryTexture(texture, NULL, NULL, &dst.w, &dst.h);
+	SDL_RenderCopy(this->renderer, texture, NULL, &dst);
 }
 
 void 

@@ -2,7 +2,6 @@
 #define RENDER_H
 
 #include "SDL2/SDL.h"
-#include "image.h"
 
 class Render{
 public:
@@ -12,7 +11,7 @@ public:
 	SDL_Renderer * createRender(SDL_Window *);
 	
 	void renderAll();
-	void renderImage(Image, int, int);
+	void renderTexture(SDL_Texture *, int, int);
 	
 	void clear();
 	void present();

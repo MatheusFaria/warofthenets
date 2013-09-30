@@ -1,6 +1,7 @@
 #include "game.h"
 #include "image.h"
 #include "render.h"
+#include "text.h"
 
 #include <iostream>
 using namespace std;
@@ -63,7 +64,14 @@ Game::presentation()
 	Render * rend = this->window->getRender();
 	logo.loadImage("resources/img/logo.bmp", rend->getRenderer());
 	rend->clear();
-	rend->renderImage(logo, 10, 10);
+	//rend->renderTexture(logo.getTexture(), 10, 10);
+
+	Text * phrase = new Text("Apresenta: ", 32);
+	phrase->setFont("resources/fonts/Army.ttf");
+	SDL_Color whiteColor = {255, 255, 255, 0};
+	phrase->generateTexture(rend->getRenderer(), whiteColor, whiteColor);
+
+	rend->renderTexture(phrase->getTexture(), 100, 100);
 	rend->present();
 }
 

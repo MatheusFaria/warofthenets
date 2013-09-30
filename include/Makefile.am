@@ -5,4 +5,4 @@
 libgameincludedir = $(includedir)/
 
 # Include files
-include_HEADERS = window.h render.h image.h game.h 
+include_HEADERS = window.h render.h image.h game.h text.h 

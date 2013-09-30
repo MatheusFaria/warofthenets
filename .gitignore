@@ -15,3 +15,5 @@ warofthenets
 *.Plo
 Makefile
 Makefile.in
+test/*.cpp
+test/*.h

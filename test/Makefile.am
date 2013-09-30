@@ -4,14 +4,14 @@
 # Date: 26/11/2010
 
 # Programs excluded from instalation
-noinst_PROGRAMS       =	test
+noinst_PROGRAMS = prog
 
 # Program description
-test_SOURCES  =	
+prog_SOURCES = test.cpp
 
 # Libraries needed to build program
-test_LDADD    =	
+prog_LDADD = -lSDL2 -lSDL2_image -lSDL2_ttf
 
 # Include flags
-INCLUDES = -I../include -Wall -Wno-long-long
+INCLUDES = -I. -Wall -W -pedantic -ansi -Wno-long-long
 

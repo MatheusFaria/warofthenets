@@ -2,5 +2,5 @@
 # Date: 26/11/2010
 
 # Subdirs
-SUBDIRS = src/engine src/menus src/levels src include resources
+SUBDIRS = src/engine src/menus src/levels src include resources test
 ACLOCAL_AMFLAGS = -I m4
