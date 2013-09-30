@@ -8,7 +8,7 @@
 	Lucas Moura (lucasmoura)
 
 - Tools:
-	C++ / SDL 2.0 / SDL Image 2.0
+	C++ / SDL 2.0 / SDL Image 2.0 / SDL TTF 2.0
 	G++ 
 	Vim / Sublime / Gedit
 
@@ -26,3 +26,9 @@
 	make clean
 	./cleanup.sh
 	Then you can commit [git commit -m ""]
+
+- Do just a test:
+	./bootstrap.sh
+	./configure
+	Now run the make command in the folder that you want to test your bin file
+	** The test folder is fully dedicated to this kind of test
