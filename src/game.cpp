@@ -2,6 +2,7 @@
 #include "image.h"
 #include "render.h"
 #include "text.h"
+#include "sdlsettings.h"
 
 #include <iostream>
 using namespace std;
@@ -25,13 +26,10 @@ Game::init()
 {
 	cout << "Intialize" << endl;
 
-	SDL_Init(SDL_INIT_VIDEO);
-	atexit(SDL_Quit);
-
-	if(SDL_WasInit(SDL_INIT_EVERYTHING) & SDL_INIT_VIDEO)
-		cout << "Video Initialized" << endl;
+	if(SDLSettings::setUpEnviroment())
+		cout << "Enviroment Set" << endl;
 	else
-		cout << "ERROR in Video Initialization: [" << SDL_GetError() << "]" << endl;
+		cout << "Could not Set Enviroment" << endl;
 
 	const char * title = "War of The Nets";
 	this->window = new Window(800, 600, 0, 0, title);
