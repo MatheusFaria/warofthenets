@@ -29,7 +29,7 @@ Window::createWindow()
 		return;
 	}
 		
-	render = Render::getInstance();
+	render = new Render();
 	render->createRender(this->window);
 }
 

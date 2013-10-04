@@ -13,5 +13,5 @@ void Log::error(string msg)
 
 void Log::info(string msg)
 {
-	cout << msg << ": [" << SDL_GetError() << "]" << endl;	
+	cout << msg << endl;	
 }

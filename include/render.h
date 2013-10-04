@@ -9,21 +9,19 @@ public:
 	~Render();
 	
 	SDL_Renderer * createRender(SDL_Window *);
-	
-	void renderAll();
+	SDL_Renderer * createRender(SDL_Surface *);
+
 	void renderTexture(SDL_Texture *, int, int);
 	
 	void clear();
 	void present();
 	
-	static Render * getInstance();
-	
+	void setColor(Uint8, Uint8, Uint8, Uint8);
 	SDL_Renderer * getRenderer();
-	
+
 private:
 	SDL_Renderer * renderer;
-	static Render* instance;
-	
+	SDL_Color color;
 };
 
 #endif

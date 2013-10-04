@@ -1,17 +1,6 @@
 #include "render.h"
 #include "log.h"
 
-Render * Render::instance = NULL;
-
-Render *
-Render::getInstance()
-{
-	if(instance == NULL)
-		instance = new Render();
-	return instance;
-}
-
-
 Render::Render()
 {
 }
@@ -33,9 +22,15 @@ Render::createRender(SDL_Window * win)
 	return this->renderer;
 }
 
-void 
-Render::renderAll()
+SDL_Renderer * 
+Render::createRender(SDL_Surface * surface)
 {
+	this->renderer = SDL_CreateSoftwareRenderer(surface);
+
+	if(this->renderer == NULL)
+		Log::warn("Failed to create Render");
+
+	return this->renderer;
 }
 
 void
@@ -69,5 +64,17 @@ SDL_Renderer *
 Render::getRenderer()
 {
 	return this->renderer;
+}
+
+void 
+Render::setColor(Uint8 r, Uint8 g, Uint8 b, Uint8 a)
+{
+	this->color.r = r;
+	this->color.g = g;
+	this->color.b = b;
+	this->color.a = a;
+
+	SDL_SetRenderDrawColor(this->renderer, this->color.r, this->color.g,
+									this->color.b, this->color.a);
 }
 

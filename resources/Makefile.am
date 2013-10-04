@@ -2,6 +2,7 @@
 # Date: 26/11/2010
 
 # Resources
-warofthenetsdir = /opt/$(PACKAGE)/resources
+#warofthenetsdir = /opt/$(PACKAGE)/resources
+warofthenetsdir = ./resources
 
 dist_warofthenets_DATA = img/logo.bmp
