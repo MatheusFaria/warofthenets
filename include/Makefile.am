@@ -6,4 +6,5 @@ libgameincludedir = $(includedir)/
 
 # Include files
 include_HEADERS = 	window.h render.h image.h game.h text.h sdlsettings.h /
-					log.h drawableobject.h rectangle.h pixel.h line.h circle.h
+					log.h drawableobject.h rectangle.h pixel.h line.h circle.h /
+					hexagon.h
