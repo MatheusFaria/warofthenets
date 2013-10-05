@@ -12,7 +12,8 @@ lib_LTLIBRARIES = libengine.la
 libengine_la_LDFLAGS = -static
 
 # Library sources
-libengine_la_SOURCES = window.cpp render.cpp image.cpp text.cpp sdlsettings.cpp log.cpp 
+libengine_la_SOURCES = window.cpp render.cpp image.cpp text.cpp sdlsettings.cpp log.cpp sdlgameobject.cpp /
+						LoaderParams.cpp texturemanager.cpp
 
 # Libraries needed to build our library
 libengine_la_LIBADD = -lSDL2 -lSDL2_image -lSDL2_ttf
