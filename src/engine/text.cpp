@@ -12,6 +12,9 @@ Text::Text(string value, int size, int style)
 		TTF_Init();
 		atexit(TTF_Quit);
 	}
+
+	this->font = NULL;
+	this->text = NULL;
 }
 
 Text::~Text()

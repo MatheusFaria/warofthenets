@@ -12,7 +12,7 @@ lib_LTLIBRARIES = libengine.la
 libengine_la_LDFLAGS = -static
 
 # Library sources
-libengine_la_SOURCES =  window.cpp render.cpp image.cpp text.cpp sdlsettings.cpp log.cpp drawableobject.cpp
+libengine_la_SOURCES =  window.cpp render.cpp image.cpp text.cpp sdlsettings.cpp log.cpp drawableobject.cpp rectangle.cpp
 
 # Libraries needed to build our library
 libengine_la_LIBADD = -lSDL2 -lSDL2_image -lSDL2_ttf
@@ -24,5 +24,5 @@ libengine_la_LIBADD = -lSDL2 -lSDL2_image -lSDL2_ttf
 #warofthenets_LDADD = 
 
 # Include flags
-INCLUDES = -I../../include -W -Wall -pedantic -ansi -Wno-long-long
+INCLUDES = -I../../include -g -W -Wall -pedantic -ansi -std=c++0x -Wno-long-long
 

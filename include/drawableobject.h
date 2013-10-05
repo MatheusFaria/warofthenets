@@ -6,24 +6,30 @@
 
 class DrawableObject{
 public:
-	DrawableObject();
+	DrawableObject(int, int, int = 0, int = 0);
 	~DrawableObject();
+
+	void init();
 
 	SDL_Texture * getTexture();
 	SDL_Texture * generateTexture(SDL_Renderer *);
 	
-	void init();
-	//virtual void draw() = 0;
-
+	void draw();
+	void eraseDraw();
+	void setDrawColor(Uint8, Uint8, Uint8, Uint8=255);
 
 protected:
 	Render * render;
-	SDL_Texture * texture;
 	int width;
 	int height;
+	int x;
+	int y;
+
+	virtual void putObjectInSurface() = 0;
 
 private:
 	SDL_Surface * surface;
+	SDL_Texture * texture;
 	Uint32 rmask;
 	Uint32 gmask;
 	Uint32 bmask;
@@ -33,7 +39,6 @@ private:
 
 	void generateDrawSurface();
 	void generateDrawRender();
-	void paintTransparentSurface();
 };
 
 #endif

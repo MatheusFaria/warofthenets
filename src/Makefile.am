@@ -24,5 +24,5 @@ warofthenets_SOURCES = main.cpp
 warofthenets_LDADD = libgame.la -lSDL2
 
 # Include flags
-INCLUDES = -I../include -g -W -Wall -pedantic -ansi -Wno-long-long
+INCLUDES = -I../include -g -W -Wall -pedantic -ansi -std=c++0x -Wno-long-long
 

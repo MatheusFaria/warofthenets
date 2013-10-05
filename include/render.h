@@ -17,6 +17,7 @@ public:
 	void present();
 	
 	void setColor(Uint8, Uint8, Uint8, Uint8);
+	SDL_Color getColor();
 	SDL_Renderer * getRenderer();
 
 private:

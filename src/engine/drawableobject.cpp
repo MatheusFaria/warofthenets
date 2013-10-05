@@ -1,7 +1,7 @@
 #include "drawableobject.h"
 #include "log.h"
 
-DrawableObject::DrawableObject() 
+DrawableObject::DrawableObject(int w, int h, int posX, int posY) 
 {
 #if SDL_BYTEORDER == SDL_BIG_ENDIAN
 	this->rmask = 0xff000000;
@@ -17,9 +17,33 @@ DrawableObject::DrawableObject()
 
 	this->flags = 0;
 	this->bpp = 32;
+
+	this->surface = NULL;
+	this->texture = NULL;
+	render = NULL;
+
+	width = w;
+	height = h;
+	x = posX;
+	y = posY;
 }
 
-DrawableObject::~DrawableObject() {}
+DrawableObject::~DrawableObject()
+{
+	if(render != NULL)
+		delete render;
+	if(this->surface != NULL)
+		SDL_FreeSurface(this->surface);
+	if(this->texture != NULL)
+		SDL_DestroyTexture(this->texture);
+}
+
+void 
+DrawableObject::init()
+{
+	this->generateDrawSurface();
+	this->generateDrawRender();
+}
 
 SDL_Texture * 
 DrawableObject::getTexture()
@@ -35,11 +59,33 @@ DrawableObject::generateTexture(SDL_Renderer * outsideRender)
 }
 
 void
-DrawableObject::init()
+DrawableObject::draw()
 {
-	this->generateDrawSurface();
-	this->generateDrawRender();
-	this->paintTransparentSurface();
+	eraseDraw();
+	putObjectInSurface();
+	render->present();
+}
+
+void
+DrawableObject::eraseDraw()
+{
+	SDL_Color actualColor = render->getColor();
+	SDL_Color transparentBlack = {0, 0, 0, 0};
+
+	setDrawColor(transparentBlack.r, transparentBlack.g,
+							transparentBlack.b, transparentBlack.a);
+	render->clear();
+	render->present();
+	
+	setDrawColor(actualColor.r, actualColor.g,
+					actualColor.b, actualColor.a);
+}
+
+
+void 
+DrawableObject::setDrawColor(Uint8 r, Uint8 g, Uint8 b, Uint8 a)
+{
+	render->setColor(r, g, b, a);
 }
 
 void
@@ -56,13 +102,3 @@ DrawableObject::generateDrawRender()
 	render->createRender(this->surface);
 }
 
-void
-DrawableObject::paintTransparentSurface()
-{
-	SDL_Color transparentBlack = {0, 0, 0, 0};
-	render->setColor(transparentBlack.r, transparentBlack.g,
-							transparentBlack.b, transparentBlack.a);
-	render->clear();
-	render->present();
-}
-	

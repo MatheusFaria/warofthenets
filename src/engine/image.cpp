@@ -3,6 +3,7 @@
 
 Image::Image()
 {
+	this->texture = NULL;
 }
 
 Image::~Image()
@@ -14,7 +15,7 @@ Image::~Image()
 bool
 Image::loadImage(const char* path, SDL_Renderer * renderer)
 {
-	SDL_Surface * imgloaded = SDL_LoadBMP(path);
+	SDL_Surface * imgloaded = IMG_Load(path);
 
 	if(imgloaded != NULL)
 	{

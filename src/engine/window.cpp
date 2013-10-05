@@ -8,6 +8,9 @@ Window::Window(int width, int height, int x, int y, const char * title)
 	this->x = x;
 	this->y = y;
 	this->title = title;
+
+	this->window = NULL;
+	this->render = NULL;
 }
 
 Window::~Window()

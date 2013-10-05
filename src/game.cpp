@@ -3,6 +3,7 @@
 #include "render.h"
 #include "text.h"
 #include "sdlsettings.h"
+#include "rectangle.h"
 
 #include <iostream>
 using namespace std;
@@ -58,19 +59,28 @@ Game::run()
 void
 Game::presentation()
 {
-	Image logo;
 	Render * rend = this->window->getRender();
-	logo.loadImage("resources/img/logo.bmp", rend->getRenderer());
+
 	rend->clear();
+
+	Image logo;
+	logo.loadImage("resources/img/logo.png", rend->getRenderer());
 	rend->renderTexture(logo.getTexture(), 10, 10);
 
 	Text * phrase = new Text("Apresenta: ", 32);
 	phrase->setFont("resources/fonts/Army.ttf");
 	SDL_Color whiteColor = {255, 255, 255, 0};
 	phrase->generateTexture(rend->getRenderer(), whiteColor, whiteColor);
-
 	rend->renderTexture(phrase->getTexture(), 100, 500);
+
+	Rectangle * rect = new Rectangle(50, 50);
+	rect->init();
+	rect->setDrawColor(255,255,255,255);
+	rect->draw();
+
+	rend->renderTexture(rect->generateTexture(rend->getRenderer()), 400, 10);
 	rend->present();
+	cout << "Renderer" << endl;
 }
 
 void

@@ -3,6 +3,7 @@
 
 Render::Render()
 {
+	this->renderer = NULL;
 }
 
 Render::~Render()
@@ -78,3 +79,8 @@ Render::setColor(Uint8 r, Uint8 g, Uint8 b, Uint8 a)
 									this->color.b, this->color.a);
 }
 
+SDL_Color
+Render::getColor()
+{
+	return this->color;
+}
