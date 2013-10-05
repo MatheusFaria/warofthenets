@@ -4,6 +4,7 @@
 #include "text.h"
 #include "sdlsettings.h"
 #include "rectangle.h"
+#include "pixel.h"
 
 #include <iostream>
 using namespace std;
@@ -68,7 +69,7 @@ Game::presentation()
 	rend->renderTexture(logo.getTexture(), 10, 10);
 
 	Text * phrase = new Text("Apresenta: ", 32);
-	phrase->setFont("resources/fonts/Army.ttf");
+	phrase->setFont("resources/font/Army.ttf");
 	SDL_Color whiteColor = {255, 255, 255, 0};
 	phrase->generateTexture(rend->getRenderer(), whiteColor, whiteColor);
 	rend->renderTexture(phrase->getTexture(), 100, 500);
@@ -79,6 +80,13 @@ Game::presentation()
 	rect->draw();
 
 	rend->renderTexture(rect->generateTexture(rend->getRenderer()), 400, 10);
+
+	Pixel *pix = new Pixel(); 
+	pix->init();
+	pix->setDrawColor(255,0,0,255);
+	pix->draw();
+
+	rend->renderTexture(pix->generateTexture(rend->getRenderer()), 400, 10);
 	rend->present();
 	cout << "Renderer" << endl;
 }
