@@ -12,7 +12,6 @@ Line::Line(int size, int angle)
 	int yFinal = this->getFinalY();
 
 	width = height = size*2;
-	y = x = size;
 }
 
 Line::~Line() {}
@@ -20,7 +19,7 @@ Line::~Line() {}
 void 
 Line::putObjectInSurface()
 {
-	int xInitial = x, yInitial = y;
+	int xInitial = this->size, yInitial = this->size;
 	int xFinal = this->getFinalX() + xInitial;
 	int yFinal = height - (this->getFinalY() + yInitial);
 	

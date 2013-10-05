@@ -6,6 +6,7 @@
 #include "rectangle.h"
 #include "pixel.h"
 #include "line.h"
+#include "circle.h"
 
 #include <iostream>
 using namespace std;
@@ -97,12 +98,12 @@ Game::presentation()
 		rend->renderTexture(line->generateTexture(rend->getRenderer()), 450, 200);
 		delete line;
 	}
-	/*Line *line2 = new Line(200, 0);
-	line2->init();
-	line2->setDrawColor(255, 0, 0, 255);
-	line2->draw();
 	
-	rend->renderTexture(line2->generateTexture(rend->getRenderer()), 450, 200);*/
+	Circle * circ = new Circle(50);
+	circ->init();
+	circ->setDrawColor(150, 0, 255, 255);
+	circ->draw();
+	rend->renderTexture(circ->generateTexture(rend->getRenderer()), 450, 200);
 
 	rend->present();
 	cout << "Renderer" << endl;
