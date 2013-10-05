@@ -4,6 +4,9 @@
 #include "SDL2/SDL.h"
 #include "render.h"
 
+#define MIN_HEIGHT 1
+#define MIN_WIDTH  1
+
 class DrawableObject{
 public:
 	DrawableObject(int, int, int = 0, int = 0);

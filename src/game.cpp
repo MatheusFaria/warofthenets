@@ -5,6 +5,7 @@
 #include "sdlsettings.h"
 #include "rectangle.h"
 #include "pixel.h"
+#include "line.h"
 
 #include <iostream>
 using namespace std;
@@ -87,6 +88,22 @@ Game::presentation()
 	pix->draw();
 
 	rend->renderTexture(pix->generateTexture(rend->getRenderer()), 400, 10);
+	for(int i = 0; i < 180; i+=30)
+	{
+		Line *line = new Line(200, i);
+		line->init();
+		line->setDrawColor(150, 90 + i, 150, 255);
+		line->draw();	
+		rend->renderTexture(line->generateTexture(rend->getRenderer()), 450, 200);
+		delete line;
+	}
+	/*Line *line2 = new Line(200, 0);
+	line2->init();
+	line2->setDrawColor(255, 0, 0, 255);
+	line2->draw();
+	
+	rend->renderTexture(line2->generateTexture(rend->getRenderer()), 450, 200);*/
+
 	rend->present();
 	cout << "Renderer" << endl;
 }
