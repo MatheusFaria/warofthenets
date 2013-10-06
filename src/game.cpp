@@ -1,8 +1,8 @@
 #include "game.h"
-#include "image.h"
 #include "render.h"
 #include "text.h"
 #include "sdlsettings.h"
+#include "texturemanager.h"
 
 #include <iostream>
 using namespace std;
@@ -34,8 +34,20 @@ Game::init()
 	const char * title = "War of The Nets";
 	this->window = new Window(800, 600, 0, 0, title);
 	(this->window)->createWindow();
+
+	this->gameStateMachine = new GameStateMachine();
 }
 
+void
+Game::render()
+{
+	Render * rend = this->window->getRender();
+	rend->clear();
+
+	gameStateMachine->popState();
+
+	rend->present();
+}
 
 void
 Game::run()
@@ -58,14 +70,15 @@ Game::run()
 void
 Game::presentation()
 {
-	Image logo;
 	Render * rend = this->window->getRender();
-	logo.loadImage("resources/img/logo.bmp", rend->getRenderer());
-	rend->clear();
-	rend->renderTexture(logo.getTexture(), 10, 10);
+    TextureManager::Instance()->loadImage("/home/lucas/warofthenets/resources/img/logo.bmp", "logo", rend->getRenderer());
+    rend->clear();
+    TextureManager::Instance()->draw("logo", 0,0, rend->getRenderer());
+    rend->present();
+
 
 	Text * phrase = new Text("Apresenta: ", 32);
-	phrase->setFont("resources/fonts/Army.ttf");
+	phrase->setFont("/home/lucas/warofthenets/resources/fonts/Army.ttf");
 	SDL_Color whiteColor = {255, 255, 255, 0};
 	phrase->generateTexture(rend->getRenderer(), whiteColor, whiteColor);
 

@@ -3,13 +3,14 @@
 
 #include "gameobject.h"
 #include "LoaderParams.h"
+#include "vector2d.h"
 
 class SDLGameObject : public GameObject
 {
 
 public:
 
-	SDLGameObject(LoaderParams* params);
+	
 
 	virtual void draw();
 	virtual void update();
@@ -17,8 +18,9 @@ public:
 
 protected:
 
-	int	x;
-	int y;
+	SDLGameObject(LoaderParams* params);
+
+	Vector2D position;
 	int width;
 	int height;
 	string imageId;

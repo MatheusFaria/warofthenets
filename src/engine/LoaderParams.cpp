@@ -10,31 +10,31 @@ LoaderParams::LoaderParams(int _x, int _y, int _width, int _height, string _imag
 }
 
 int 
-LoaderParams::getX()
+LoaderParams::getX() const
 {
 	return x;
 }
 
 int 
-LoaderParams::getY()
+LoaderParams::getY() const
 {
 	return y;
 }
 
 int 
-LoaderParams::getWidth()
+LoaderParams::getWidth() const
 {
 	return width;
 }
 
 int 
-LoaderParams::getHeight()
+LoaderParams::getHeight() const
 {
 	return height;
 }
 
 string 
-LoaderParams::getImageId()
+LoaderParams::getImageId() const
 {
 	return imageId;
 }
