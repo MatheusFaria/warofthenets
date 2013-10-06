@@ -3,6 +3,7 @@
 #include "text.h"
 #include "sdlsettings.h"
 #include "texturemanager.h"
+#include "menustate.h"
 
 #include <iostream>
 using namespace std;
@@ -36,17 +37,15 @@ Game::init()
 	(this->window)->createWindow();
 
 	this->gameStateMachine = new GameStateMachine();
+	this->gameStateMachine->changeState(new MenuState());
 }
 
 void
 Game::render()
 {
-	Render * rend = this->window->getRender();
-	rend->clear();
-
-	gameStateMachine->popState();
-
-	rend->present();
+	Render::getInstance()->clear();
+	gameStateMachine->render();
+	Render::getInstance()->present();
 }
 
 void
@@ -57,6 +56,9 @@ Game::run()
 	bool quit = false;
 	
 	presentation();
+	SDL_Delay(2000);
+
+	render();
 	
 	SDL_Event event;	
 	while(!quit)
@@ -84,6 +86,8 @@ Game::presentation()
 
 	rend->renderTexture(phrase->getTexture(), 100, 500);
 	rend->present();
+
+	
 }
 
 void

@@ -4,4 +4,4 @@
 # Resources
 warofthenetsdir = /opt/$(PACKAGE)/resources
 
-dist_warofthenets_DATA = img/logo.bmp
+dist_warofthenets_DATA = img/logo.bmp img/button.png img/exit.png

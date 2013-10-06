@@ -34,3 +34,9 @@ MenuButton::update()
 
 	delete mousePosition;
 }
+
+void
+MenuButton::clean()
+{
+	
+}

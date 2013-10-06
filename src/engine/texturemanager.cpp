@@ -69,7 +69,7 @@ TextureManager::draw(string imageId, int x, int y,
 }
 
 void
-TextureManager::drawFrame(std::string imageId, int x, int y,int currentRow, 
+TextureManager::drawFrame(std::string imageId, int x, int y, int width, int height, int currentRow, 
 	int currentFrame, SDL_Renderer *renderer , double angle, SDL_RendererFlip flip)
 {
 	SDL_Rect source;
@@ -82,17 +82,16 @@ TextureManager::drawFrame(std::string imageId, int x, int y,int currentRow,
 		return;
 	}
 
-    SDL_QueryTexture(textureMap[imageId], NULL, NULL, &source.w, &source.h);
+    source.x = width * currentFrame;
+    source.y = height * currentRow;
 
-    source.x = source.w * currentFrame;
-    source.y = source.h * currentRow;
-
-	destination.w=source.w;
-	destination.h=source.h;	
+	destination.w=source.w = width;
+	destination.h=source.h = width;
 
     destination.x = x;
     destination.y = y;
 
+    //SDL_SetTextureAlphaMod(m_textureMap[imageId], alpha);
     SDL_RenderCopyEx(renderer, textureMap[imageId], &source, &destination, angle, 0, flip);
 
 }

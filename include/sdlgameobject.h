@@ -10,8 +10,6 @@ class SDLGameObject : public GameObject
 
 public:
 
-	
-
 	virtual void draw();
 	virtual void update();
 	virtual void clean();

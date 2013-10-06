@@ -9,15 +9,26 @@ SDLGameObject::SDLGameObject(LoaderParams* params):GameObject(params)
 	imageId = params->getImageId();
 	this->position = Vector2D(params->getX(), params->getY());
 
-	currentRow = 1;
-	currentFrame  = 1;
+	currentRow = 0;
+	currentFrame  = 0;
 }
 
 void
 SDLGameObject::draw()
 {
-	TextureManager::Instance()->drawFrame(imageId, position.getX(),position.getY(), currentRow, currentFrame,
-	 Render::getInstance()->getRenderer(), 0);
+	TextureManager::Instance()->drawFrame(imageId, (Uint32)position.getX(),(Uint32)position.getY(),width,
+	 height, currentRow, currentFrame,Render::getInstance()->getRenderer(), 0 );
 }
 
+void
+SDLGameObject::clean()
+{
+
+}
+
+void
+SDLGameObject::update()
+{
+	
+}
 	
