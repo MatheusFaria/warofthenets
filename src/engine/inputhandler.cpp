@@ -34,10 +34,10 @@ InputHandler::onMouseButtonDown(SDL_Event& event)
 	if(event.button.button == SDL_BUTTON_LEFT)
 		mouseButtonStates[LEFT] = true;
 
-	else if(event.button.button == SDL_BUTTON_RIGHT)
+	if(event.button.button == SDL_BUTTON_RIGHT)
 		mouseButtonStates[RIGHT] = true;
 	
-	else
+	if(event.button.button == SDL_BUTTON_MIDDLE)
 		mouseButtonStates[MIDDLE] = true;
 }
 
@@ -47,10 +47,10 @@ InputHandler::onMouseButtonUp(SDL_Event& event)
 	if(event.button.button == SDL_BUTTON_LEFT)
 		mouseButtonStates[LEFT] = false;
 
-	else if(event.button.button == SDL_BUTTON_RIGHT)
+	if(event.button.button == SDL_BUTTON_RIGHT)
 		mouseButtonStates[RIGHT] = false;
 	
-	else
+	if(event.button.button == SDL_BUTTON_MIDDLE)
 		mouseButtonStates[MIDDLE] = false;
 }
 
@@ -77,6 +77,7 @@ InputHandler::update()
 				break;
 
 			case SDL_MOUSEBUTTONDOWN:
+				std::cout<<"Entrou aqui"<<std::endl;
 				onMouseButtonDown(event);
 				break;
 

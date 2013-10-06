@@ -8,7 +8,7 @@ class MenuButton : public SDLGameObject{
 
 public:
 
-	MenuButton(LoaderParams* params);
+	MenuButton(LoaderParams* params, void (*callback)());
 
 	virtual void draw();
 	virtual void update();
@@ -24,6 +24,9 @@ private:
 		CLICKED = 2
 
 	};
+
+	void (*callback)();
+	bool released;
 
 };
 

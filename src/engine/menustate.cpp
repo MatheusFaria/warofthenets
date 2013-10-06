@@ -18,7 +18,7 @@ MenuState::update()
 void
 MenuState::render()
 {
-	std::cout<<"Drawing menu"<<std::endl;
+	//std::cout<<"Drawing menu"<<std::endl;
 
 	for(int i =0; i<(int)menuObjects.size(); i++)
 		menuObjects[i]->draw();
@@ -40,8 +40,8 @@ MenuState::onEnter()
 		return false;
 	}
 
-	GameObject* playButton = new MenuButton(new LoaderParams(100, 100, 200, 100, "playbutton"));	
-	GameObject* exitButton = new MenuButton(new LoaderParams(100, 300, 200, 100, "exitbutton"));
+	GameObject* playButton = new MenuButton(new LoaderParams(100, 100, 200, 100, "playbutton"), menuToPlay);	
+	GameObject* exitButton = new MenuButton(new LoaderParams(100, 300, 200, 100, "exitbutton"), exitFromMenu);
 
 	menuObjects.push_back(playButton);
 	menuObjects.push_back(exitButton);
@@ -69,4 +69,16 @@ std::string
 MenuState::getStateId() const
 {
 	return menuId;
+}
+
+void
+MenuState::menuToPlay()
+{
+	std::cout<<"Played button touched"<<std::cout;
+}
+
+void
+MenuState::exitFromMenu()
+{
+	std::cout<<"Exit button touched"<<std::cout;
 }

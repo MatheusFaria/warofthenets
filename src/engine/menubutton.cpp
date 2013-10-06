@@ -4,9 +4,11 @@
 #include "inputhandler.h"
 #include <iostream>
 
-MenuButton::MenuButton(LoaderParams* params):SDLGameObject(params)
+MenuButton::MenuButton(LoaderParams* params, void (*_callback)()):SDLGameObject(params)
+,callback(_callback)
 {
 	currentFrame = MOUSE_OUT;
+	released = true;
 }
 
 void
@@ -29,15 +31,28 @@ MenuButton::update()
 	{
 			currentFrame = MOUSE_OVER;
 
-			if(InputHandler::Instance()->getMouseButtonState(LEFT))
+			//std::cout<<InputHandler::Instance()->getMouseButtonState(LEFT)<<" "<<released<<std::endl;
+			if(InputHandler::Instance()->getMouseButtonState(LEFT) && released)
 			{	
-				//std::cout<<"Clicou em mim"<<std::endl;
+				
 				currentFrame = CLICKED;
+
+				if(callback != 0)
+					callback();
+
+				released = false;
 			}	
+			else if(!InputHandler::Instance()->getMouseButtonState(LEFT))
+       		{
+            	released = true;
+            	currentFrame = MOUSE_OVER;
+        	}
 	}
 	else
+	{
+		released = true;
 		currentFrame = MOUSE_OUT;
-
+	}	
 }
 
 void

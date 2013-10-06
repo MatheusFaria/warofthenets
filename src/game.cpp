@@ -59,13 +59,14 @@ Game::run()
 	presentation();
 	SDL_Delay(2000);
 
-	render();
+	
 	
 	SDL_Event event;	
 	while(!quit)
 	{
 		InputHandler::Instance()->update();
 		gameStateMachine->update();
+		render();
 
 		SDL_PollEvent(&event);
 		if(event.type == SDL_QUIT)

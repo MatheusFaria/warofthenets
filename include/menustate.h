@@ -19,6 +19,9 @@ public:
 
 private:
 
+	static void menuToPlay();
+	static void exitFromMenu();
+
 	static const std::string menuId;
 	std::vector<GameObject*> menuObjects;
 
