@@ -4,6 +4,7 @@
 #include "sdlsettings.h"
 #include "texturemanager.h"
 #include "menustate.h"
+#include "inputhandler.h"
 
 #include <iostream>
 using namespace std;
@@ -63,6 +64,9 @@ Game::run()
 	SDL_Event event;	
 	while(!quit)
 	{
+		InputHandler::Instance()->update();
+		gameStateMachine->update();
+
 		SDL_PollEvent(&event);
 		if(event.type == SDL_QUIT)
 			quit = true;
@@ -119,7 +123,6 @@ Game::mainLoop()
 		simulateWorld();
 		updateObjects();
 		renderWorld();
-		levelComplete = true;
 	}
 }
 

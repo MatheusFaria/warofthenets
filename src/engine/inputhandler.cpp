@@ -1,6 +1,7 @@
 #include "inputhandler.h"
 #include <cstdlib>
 #include "SDL2/SDL.h"
+#include <iostream>
 
 InputHandler* InputHandler::input = NULL;
 
@@ -9,7 +10,7 @@ InputHandler::InputHandler()
 	for(int i =0; i<3; i++)
 		mouseButtonStates.push_back(false);
 
-	mousePosition = new Vector2D(0, 0);
+	mousePosition = new Vector2D();
 }
 
 InputHandler::~InputHandler()
@@ -65,12 +66,13 @@ InputHandler::update()
 {
 	SDL_Event event;
 
-	switch(SDL_PollEvent(&event))
+	while(SDL_PollEvent(&event))
 	{
 		switch(event.type)
 		{
 
 			case SDL_MOUSEMOTION:
+				//std::cout<<"Entrou aqui"<<std::endl;
 				onMouseMoviment(event);
 				break;
 
@@ -79,6 +81,7 @@ InputHandler::update()
 				break;
 
 			case SDL_MOUSEBUTTONUP:
+				//std::cout<<"Entrou aqui"<<std::endl;
 				onMouseButtonUp(event);
 				break;	
 	

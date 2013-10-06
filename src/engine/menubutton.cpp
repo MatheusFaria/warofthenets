@@ -2,6 +2,7 @@
 #include "sdlgameobject.h"
 #include "LoaderParams.h"
 #include "inputhandler.h"
+#include <iostream>
 
 MenuButton::MenuButton(LoaderParams* params):SDLGameObject(params)
 {
@@ -19,6 +20,8 @@ MenuButton::update()
 {
 	Vector2D* mousePosition = InputHandler::Instance()->getMousePosition();
 
+	//std::cout<<mousePosition->getX()<<" "<<mousePosition->getY()<<std::endl;
+
 	if(mousePosition->getX() < (position.getX() + width) &&
 		mousePosition->getX() > position.getX() &&
 		mousePosition->getY() < (position.getY()+height) &&
@@ -27,12 +30,14 @@ MenuButton::update()
 			currentFrame = MOUSE_OVER;
 
 			if(InputHandler::Instance()->getMouseButtonState(LEFT))
+			{	
+				//std::cout<<"Clicou em mim"<<std::endl;
 				currentFrame = CLICKED;
+			}	
 	}
 	else
 		currentFrame = MOUSE_OUT;
 
-	delete mousePosition;
 }
 
 void
