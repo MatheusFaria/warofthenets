@@ -62,31 +62,25 @@ InputHandler::onMouseMoviment(SDL_Event& event)
 }
 
 void
-InputHandler::update()
+InputHandler::update(SDL_Event event)
 {
-	SDL_Event event;
-
-	while(SDL_PollEvent(&event))
+	switch(event.type)
 	{
-		switch(event.type)
-		{
+		case SDL_MOUSEMOTION:
+			//std::cout<<"Entrou aqui"<<std::endl;
+			onMouseMoviment(event);
+			break;
 
-			case SDL_MOUSEMOTION:
-				//std::cout<<"Entrou aqui"<<std::endl;
-				onMouseMoviment(event);
-				break;
+		case SDL_MOUSEBUTTONDOWN:
+			//std::cout<<"Entrou aqui"<<std::endl;
+			onMouseButtonDown(event);
+			break;
 
-			case SDL_MOUSEBUTTONDOWN:
-				std::cout<<"Entrou aqui"<<std::endl;
-				onMouseButtonDown(event);
-				break;
+		case SDL_MOUSEBUTTONUP:
+			//std::cout<<"Entrou aqui"<<std::endl;
+			onMouseButtonUp(event);
+			break;	
 
-			case SDL_MOUSEBUTTONUP:
-				//std::cout<<"Entrou aqui"<<std::endl;
-				onMouseButtonUp(event);
-				break;	
-	
-		}
 	}
 }
 

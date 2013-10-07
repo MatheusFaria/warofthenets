@@ -64,13 +64,15 @@ Game::run()
 	SDL_Event event;	
 	while(!quit)
 	{
-		InputHandler::Instance()->update();
-		gameStateMachine->update();
-		render();
-
-		SDL_PollEvent(&event);
-		if(event.type == SDL_QUIT)
-			quit = true;
+	    while(SDL_PollEvent(&event))
+	    {
+	        InputHandler::Instance()->update(event);
+		    gameStateMachine->update();
+		    render();
+		    
+		    if(event.type == SDL_QUIT)
+		        quit = true;
+	    }
 	}
 }
 
@@ -78,14 +80,14 @@ void
 Game::presentation()
 {
 	Render * rend = this->window->getRender();
-    TextureManager::Instance()->loadImage("/home/lucas/warofthenets/resources/img/logo.bmp", "logo", rend->getRenderer());
+    TextureManager::Instance()->loadImage("resources/img/logo.bmp", "logo", rend->getRenderer());
     rend->clear();
     TextureManager::Instance()->draw("logo", 0,0, rend->getRenderer());
     rend->present();
 
 
 	Text * phrase = new Text("Apresenta: ", 32);
-	phrase->setFont("/home/lucas/warofthenets/resources/fonts/Army.ttf");
+	phrase->setFont("resources/fonts/Army.ttf");
 	SDL_Color whiteColor = {255, 255, 255, 0};
 	phrase->generateTexture(rend->getRenderer(), whiteColor, whiteColor);
 

@@ -28,20 +28,20 @@ bool
 MenuState::onEnter()
 {
 
-	if(!TextureManager::Instance()->loadImage("/home/lucas/warofthenets/resources/img/button.png", 
+	if(!TextureManager::Instance()->loadImage("resources/img/button.png", 
 		"playbutton", Render::getInstance()->getRenderer()))
 	{
 		return false;	
 	}
 
-	if(!TextureManager::Instance()->loadImage("/home/lucas/warofthenets/resources/img/exit.png",
+	if(!TextureManager::Instance()->loadImage("resources/img/exit.png",
 		"exitbutton", Render::getInstance()->getRenderer()))
 	{
 		return false;
 	}
 
-	GameObject* playButton = new MenuButton(new LoaderParams(100, 100, 200, 100, "playbutton"), menuToPlay);	
-	GameObject* exitButton = new MenuButton(new LoaderParams(100, 300, 200, 100, "exitbutton"), exitFromMenu);
+	GameObject* playButton = new MenuButton(new LoaderParams(100, 100, 200, 200, "playbutton"), menuToPlay);	
+	GameObject* exitButton = new MenuButton(new LoaderParams(100, 300, 200, 200, "exitbutton"), exitFromMenu);
 
 	menuObjects.push_back(playButton);
 	menuObjects.push_back(exitButton);

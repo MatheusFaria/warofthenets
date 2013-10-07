@@ -15,10 +15,10 @@ enum mouse_buttons
 class InputHandler
 {
 public:
-	
+
 	static InputHandler* Instance();
 
-	void update();
+	void update(SDL_Event event);
 	void clean();
 
 	void onMouseButtonDown(SDL_Event&);

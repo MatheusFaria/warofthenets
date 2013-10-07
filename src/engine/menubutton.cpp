@@ -4,6 +4,8 @@
 #include "inputhandler.h"
 #include <iostream>
 
+//using namespace std;
+
 MenuButton::MenuButton(LoaderParams* params, void (*_callback)()):SDLGameObject(params)
 ,callback(_callback)
 {
@@ -23,7 +25,16 @@ MenuButton::update()
 	Vector2D* mousePosition = InputHandler::Instance()->getMousePosition();
 
 	//std::cout<<mousePosition->getX()<<" "<<mousePosition->getY()<<std::endl;
-
+    
+    /*
+    cout << endl;
+    cout << "mousePosition->getX(): " << mousePosition->getX() << endl;
+    cout << "mousePosition->getY(): " << mousePosition->getY() << endl;
+    
+    cout << "position.getX(): " << position.getX() << endl;
+    cout << "position.getY(): " << position.getY() << endl;
+    */
+    
 	if(mousePosition->getX() < (position.getX() + width) &&
 		mousePosition->getX() > position.getX() &&
 		mousePosition->getY() < (position.getY()+height) &&
