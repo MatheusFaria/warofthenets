@@ -7,6 +7,7 @@
 #include "pixel.h"
 #include "line.h"
 #include "circle.h"
+#include "hexagon.h"
 
 #include <iostream>
 using namespace std;
@@ -104,6 +105,12 @@ Game::presentation()
 	circ->setDrawColor(150, 0, 255, 255);
 	circ->draw();
 	rend->renderTexture(circ->generateTexture(rend->getRenderer()), 450, 200);
+
+	Hexagon * hex = new Hexagon(85);
+	hex->init();
+	hex->setDrawColor(150, 0, 255, 255);
+	hex->draw();
+	rend->renderTexture(hex->generateTexture(rend->getRenderer()), 400, 100);
 
 	rend->present();
 	cout << "Renderer" << endl;

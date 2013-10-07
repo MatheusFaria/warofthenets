@@ -9,7 +9,7 @@ public:
 	~Hexagon();
 	
 private:
-	int sideSize;
+	int size;
 
 	void putObjectInSurface();
 };

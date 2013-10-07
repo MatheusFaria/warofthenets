@@ -8,9 +8,6 @@ Line::Line(int size, int angle)
 	this->size = size;
 	this->angle = angle;
 
-	int xFinal = this->getFinalX();
-	int yFinal = this->getFinalY();
-
 	width = height = size*2;
 }
 
@@ -27,12 +24,14 @@ Line::putObjectInSurface()
 											xFinal, yFinal);
 }
 
-int Line::getFinalX()
+int
+Line::getFinalX()
 {
 	return this->size*sin((90 - this->angle)*M_PI/180);
 }
 
-int Line::getFinalY()
+int
+Line::getFinalY()
 {
 	return this->size*sin((this->angle)*M_PI/180);
 }

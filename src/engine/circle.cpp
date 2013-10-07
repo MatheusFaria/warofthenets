@@ -25,12 +25,14 @@ void Circle::putObjectInSurface()
 	}
 }
 
-int Circle::getFinalX(int a, int r)
+int
+Circle::getFinalX(int a, int r)
 {
 	return r*sin((90 - a)*M_PI/180);
 }
 
-int Circle::getFinalY(int a, int r)
+int
+Circle::getFinalY(int a, int r)
 {
 	return r*sin(a*M_PI/180);
 }
