@@ -70,6 +70,8 @@ Game::run()
 		    gameStateMachine->update();
 		    render();
 		    
+		    //cout << "Renderizado" << endl;
+		    
 		    if(event.type == SDL_QUIT)
 		        quit = true;
 	    }

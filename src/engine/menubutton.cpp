@@ -4,7 +4,7 @@
 #include "inputhandler.h"
 #include <iostream>
 
-//using namespace std;
+using namespace std;
 
 MenuButton::MenuButton(LoaderParams* params, void (*_callback)()):SDLGameObject(params)
 ,callback(_callback)

@@ -72,7 +72,7 @@ InputHandler::update(SDL_Event event)
 			break;
 
 		case SDL_MOUSEBUTTONDOWN:
-			//std::cout<<"Entrou aqui"<<std::endl;
+			std::cout<<"Entrou aqui"<<std::endl;
 			onMouseButtonDown(event);
 			break;
 
