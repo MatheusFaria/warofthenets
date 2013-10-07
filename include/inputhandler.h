@@ -15,7 +15,7 @@ enum mouse_buttons
 class InputHandler
 {
 public:
-
+	
 	static InputHandler* Instance();
 
 	void update();
