@@ -12,9 +12,15 @@ public:
 	
 	bool loadImage(const char* path, SDL_Renderer * render);
 	SDL_Texture * getTexture();
+	
+	int getWidth();
+	int getHeight();
 
 private:
 	SDL_Texture * texture;
+	
+	int width;
+	int height;
 };
 
 #endif

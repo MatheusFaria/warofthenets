@@ -68,15 +68,22 @@ Game::presentation()
 	rend->clear();
 
 	Image logo;
+	
 	logo.loadImage("resources/img/logo.png", rend->getRenderer());
-	rend->renderTexture(logo.getTexture(), 10, 10);
+	
+	int logoX = (this->window->getWidth() / 2) - (logo.getWidth() / 2);
+	int logoY = (this->window->getHeight() / 2) - (logo.getHeight() / 2);
+	
+	rend->renderTexture(logo.getTexture(), logoX, logoY);
+	
 
 	Text * phrase = new Text("Apresenta: ", 32);
 	phrase->setFont("resources/font/Army.ttf");
 	SDL_Color whiteColor = {255, 255, 255, 0};
 	phrase->generateTexture(rend->getRenderer(), whiteColor, whiteColor);
-	rend->renderTexture(phrase->getTexture(), 100, 500);
-
+	rend->renderTexture(phrase->getTexture(), logoX, (logoY + logo.getHeight() + 15) );
+    
+    /*
 	Rectangle * rect = new Rectangle(50, 50);
 	rect->init();
 	rect->setDrawColor(255,255,255,255);
@@ -111,7 +118,8 @@ Game::presentation()
 	hex->setDrawColor(150, 0, 255, 255);
 	hex->draw();
 	rend->renderTexture(hex->generateTexture(rend->getRenderer()), 400, 100);
-
+    */
+    
 	rend->present();
 	cout << "Renderer" << endl;
 }

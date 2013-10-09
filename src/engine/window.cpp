@@ -47,3 +47,15 @@ Window::getWindow()
 {
 	return this->window;
 }
+
+int 
+Window::getWidth()
+{
+    return this->width;
+}
+
+int 
+Window::getHeight()
+{
+    return this->height;
+}

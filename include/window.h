@@ -13,6 +13,9 @@ public:
 	
 	Render * getRender();
 	SDL_Window * getWindow();
+	
+	int getWidth();
+	int getHeight();
 
 private:
 	SDL_Window * window;
