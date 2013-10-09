@@ -102,3 +102,27 @@ DrawableObject::generateDrawRender()
 	render->createRender(this->surface);
 }
 
+int
+DrawableObject::getWidth()
+{
+    return this->width;
+}
+
+int
+DrawableObject::getHeight()
+{
+    return this->height;
+}
+
+int
+DrawableObject::getX()
+{
+    return this->x;
+}
+
+int
+DrawableObject::getY()
+{
+    return this->y;
+}
+

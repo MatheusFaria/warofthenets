@@ -20,6 +20,11 @@ public:
 	void draw();
 	void eraseDraw();
 	void setDrawColor(Uint8, Uint8, Uint8, Uint8=255);
+	
+	int getWidth();
+	int getHeight();
+	int getX();
+	int getY();
 
 protected:
 	Render * render;

@@ -114,11 +114,17 @@ Game::presentation()
 	
 	Image torre;
 	torre.loadImage("resources/img/torre.png", rend->getRenderer());
-	rend->renderTexture(torre.getTexture(), 0, 0);
+	rend->renderTexture(torre.getTexture(), 22, 15);
 	
 	Image base;
 	base.loadImage("resources/img/base.png", rend->getRenderer());
 	rend->renderTexture(base.getTexture(), 250, 0);
+	
+	Hexagon * hex = new Hexagon(128);
+	hex->init();
+	hex->setDrawColor(150, 255, 255, 255);
+	hex->draw();
+	rend->renderTexture(hex->generateTexture(rend->getRenderer()), 0, 0);
 	
 	rend->present();
 	
