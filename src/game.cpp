@@ -108,6 +108,20 @@ Game::presentation()
 	rend->present();
 	
 	
+	SDL_Delay(5000);
+	
+	rend->clear();
+	
+	Image torre;
+	torre.loadImage("resources/img/torre.png", rend->getRenderer());
+	rend->renderTexture(torre.getTexture(), 0, 0);
+	
+	Image base;
+	base.loadImage("resources/img/base.png", rend->getRenderer());
+	rend->renderTexture(base.getTexture(), 250, 0);
+	
+	rend->present();
+	
 	cout << "Renderer" << endl;
 }
 
