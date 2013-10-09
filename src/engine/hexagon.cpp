@@ -8,6 +8,7 @@ Hexagon::Hexagon(int size)
 	this->size = size;
 	height = size*2;
 	width = size*2 + 1;
+	//width = (height / sqrt(3)) + (2 * (height/ (2 * sqrt(3))));
 }
 
 Hexagon::~Hexagon() {}

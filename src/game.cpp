@@ -8,6 +8,7 @@
 #include "line.h"
 #include "circle.h"
 #include "hexagon.h"
+#include <cmath>
 
 #include <iostream>
 using namespace std;
@@ -83,14 +84,6 @@ Game::presentation()
 	int phraseY = (logoY + logo.getHeight() + 15);
 	rend->renderTexture(phrase->getTexture(), phraseX, phraseY);
     
-    /*
-	Hexagon * hex = new Hexagon(85);
-	hex->init();
-	hex->setDrawColor(150, 0, 255, 255);
-	hex->draw();
-	rend->renderTexture(hex->generateTexture(rend->getRenderer()), 400, 100);
-    */
-    
 	rend->present();
 	
 	SDL_Delay(5000);
@@ -112,19 +105,41 @@ Game::presentation()
 	
 	rend->clear();
 	
-	Image torre;
-	torre.loadImage("resources/img/torre.png", rend->getRenderer());
-	rend->renderTexture(torre.getTexture(), 22, 15);
 	
-	Image base;
-	base.loadImage("resources/img/base.png", rend->getRenderer());
-	rend->renderTexture(base.getTexture(), 250, 0);
-	
-	Hexagon * hex = new Hexagon(128);
+	Hexagon * hex = new Hexagon(140);
 	hex->init();
 	hex->setDrawColor(150, 255, 255, 255);
 	hex->draw();
 	rend->renderTexture(hex->generateTexture(rend->getRenderer()), 0, 0);
+	
+	Image torre;
+	torre.loadImage("resources/img/torre.png", rend->getRenderer());
+	int torreX = 0 + (hex->getWidth() / 2) - (torre.getWidth() / 2);
+	int torreY = 0 + (hex->getHeight() / 2) - (torre.getHeight() / 2);
+	rend->renderTexture(torre.getTexture(), torreX, torreY);
+	
+	Hexagon * hex2 = new Hexagon(140);
+	hex2->init();
+	hex2->setDrawColor(150, 255, 255, 255);
+	hex2->draw();
+	rend->renderTexture(hex2->generateTexture(rend->getRenderer()), hex->getWidth(), 0);
+	
+	Image base;
+	base.loadImage("resources/img/base.png", rend->getRenderer());
+	int baseX = hex->getWidth() + (hex2->getWidth() / 2) - (base.getWidth() / 2);
+	int baseY = 0 + (hex2->getHeight() / 2) - (base.getHeight() / 2);
+	rend->renderTexture(base.getTexture(), baseX, baseY);
+	
+	Hexagon * hex3 = new Hexagon(140);
+	hex2->init();
+	hex2->setDrawColor(150, 255, 255, 255);
+	hex2->draw();
+	int h = ((hex->getHeight() / (sqrt(3)*2))/2) - 2;
+	rend->renderTexture(hex2->generateTexture(rend->getRenderer()), hex->getWidth(), hex->getHeight() - h);
+	
+	torreX = hex->getWidth() + (hex3->getWidth() / 2) - (torre.getWidth() / 2);
+	torreY = (hex->getHeight() - h) + (hex3->getHeight() / 2) - (torre.getHeight() / 2);
+	rend->renderTexture(torre.getTexture(), torreX, torreY);
 	
 	rend->present();
 	
