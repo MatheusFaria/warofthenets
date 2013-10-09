@@ -70,10 +70,8 @@ Game::presentation()
 	Image logo;
 	
 	logo.loadImage("resources/img/logo.png", rend->getRenderer());
-	
 	int logoX = (this->window->getWidth() / 2) - (logo.getWidth() / 2);
 	int logoY = (this->window->getHeight() / 2) - (logo.getHeight() / 2);
-	
 	rend->renderTexture(logo.getTexture(), logoX, logoY);
 	
 
@@ -81,38 +79,11 @@ Game::presentation()
 	phrase->setFont("resources/font/Army.ttf");
 	SDL_Color whiteColor = {255, 255, 255, 0};
 	phrase->generateTexture(rend->getRenderer(), whiteColor, whiteColor);
-	rend->renderTexture(phrase->getTexture(), logoX, (logoY + logo.getHeight() + 15) );
+	int phraseX = logoX + (phrase->getWidth() / 2);
+	int phraseY = (logoY + logo.getHeight() + 15);
+	rend->renderTexture(phrase->getTexture(), phraseX, phraseY);
     
     /*
-	Rectangle * rect = new Rectangle(50, 50);
-	rect->init();
-	rect->setDrawColor(255,255,255,255);
-	rect->draw();
-
-	rend->renderTexture(rect->generateTexture(rend->getRenderer()), 400, 10);
-
-	Pixel *pix = new Pixel(); 
-	pix->init();
-	pix->setDrawColor(255,0,0,255);
-	pix->draw();
-
-	rend->renderTexture(pix->generateTexture(rend->getRenderer()), 400, 10);
-	for(int i = 0; i < 180; i+=30)
-	{
-		Line *line = new Line(200, i);
-		line->init();
-		line->setDrawColor(150, 90 + i, 150, 255);
-		line->draw();	
-		rend->renderTexture(line->generateTexture(rend->getRenderer()), 450, 200);
-		delete line;
-	}
-	
-	Circle * circ = new Circle(50);
-	circ->init();
-	circ->setDrawColor(150, 0, 255, 255);
-	circ->draw();
-	rend->renderTexture(circ->generateTexture(rend->getRenderer()), 450, 200);
-
 	Hexagon * hex = new Hexagon(85);
 	hex->init();
 	hex->setDrawColor(150, 0, 255, 255);
@@ -121,6 +92,22 @@ Game::presentation()
     */
     
 	rend->present();
+	
+	SDL_Delay(5000);
+	
+	
+	rend->clear();
+	
+	Text * gameName = new Text("WAR OF THE NETS", 64);
+	gameName->setFont("resources/font/Army.ttf");
+	gameName->generateTexture(rend->getRenderer(), whiteColor, whiteColor);
+	int gameNameX = (this->window->getWidth() / 2) - (gameName->getWidth() / 2);
+	int gameNameY = (this->window->getHeight() / 2) - (gameName->getHeight() / 2);
+	rend->renderTexture(gameName->getTexture(), gameNameX, gameNameY);
+	
+	rend->present();
+	
+	
 	cout << "Renderer" << endl;
 }
 

@@ -21,6 +21,9 @@ public:
 	SDL_Texture * generateTexture(SDL_Renderer *, SDL_Color, SDL_Color, int = TTF_SOLID);
 
 	SDL_Texture * getTexture();
+	
+	int getWidth();
+	int getHeight();
 
 private:
 	SDL_Texture * text;
@@ -32,6 +35,9 @@ private:
 	SDL_Color backgroundColor;
 	TTF_Font * font;
 	string fontPath;
+	
+	int width;
+	int height;
 
 	SDL_Surface * generateSurfaceText(int);
 };

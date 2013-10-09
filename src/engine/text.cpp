@@ -74,6 +74,9 @@ Text::generateTexture(SDL_Renderer * render, SDL_Color foregroundColor, SDL_Colo
 	}
 	
 	this->text = SDL_CreateTextureFromSurface(render, textSurface);
+	this->width = textSurface->clip_rect.w;
+	this->height = textSurface->clip_rect.h;
+	
 	SDL_FreeSurface(textSurface);
 	
 	if(this->text == NULL)
@@ -106,5 +109,17 @@ SDL_Texture *
 Text::getTexture()
 {
 	return this->text;	
+}
+
+int 
+Text::getWidth()
+{
+    return this->width;
+}
+
+int 
+Text::getHeight()
+{
+    return this->height;
 }
 

@@ -21,14 +21,8 @@ Image::loadImage(const char* path, SDL_Renderer * renderer)
 	{
 		this->texture = SDL_CreateTextureFromSurface(renderer, imgloaded);
 		
-		cout << "\n imgloaded->clip_rect.w: " << imgloaded->clip_rect.w << endl;
-		cout << " imgloaded->clip_rect.h: " << imgloaded->clip_rect.h << endl;
-		
 		this->width = imgloaded->clip_rect.w;
 		this->height = imgloaded->clip_rect.h;
-		
-		cout << "this->getWidth(): " << this->getWidth() << endl;
-		cout << "this->getHeight(): " << this->getHeight() << endl << endl;
 		
 		SDL_FreeSurface(imgloaded);
 		if(this->texture == NULL)
