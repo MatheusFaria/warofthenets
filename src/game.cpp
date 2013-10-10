@@ -1,5 +1,4 @@
 #include "game.h"
-#include "image.h"
 #include "render.h"
 #include "text.h"
 #include "sdlsettings.h"
@@ -8,12 +7,18 @@
 #include "line.h"
 #include "circle.h"
 #include "hexagon.h"
+#include "image.h"
 #include <cmath>
+#include "texturemanager.h"
+#include "menustate.h"
+#include "inputhandler.h"
 
 #include <iostream>
 using namespace std;
 
 #define PLAY_GAME 1
+#define WIDTH 1280
+#define HEIGHT 700
 
 Game::Game()
 {
@@ -38,10 +43,20 @@ Game::init()
 		cout << "Could not Set Enviroment" << endl;
 
 	const char * title = "War of The Nets";
-	this->window = new Window(800, 600, 0, 0, title);
+	this->window = new Window(WIDTH, HEIGHT, 0, 0, title);
 	(this->window)->createWindow();
+
+	this->gameStateMachine = new GameStateMachine();
+	this->gameStateMachine->changeState(new MenuState());
 }
 
+void
+Game::render()
+{
+	Render::getInstance()->clear();
+	gameStateMachine->render();
+	Render::getInstance()->present();
+}
 
 void
 Game::run()
@@ -51,13 +66,24 @@ Game::run()
 	bool quit = false;
 	
 	presentation();
+	SDL_Delay(2000);
+
+	
 	
 	SDL_Event event;	
 	while(!quit)
 	{
-		SDL_PollEvent(&event);
-		if(event.type == SDL_QUIT)
-			quit = true;
+	    while(SDL_PollEvent(&event))
+	    {
+	        InputHandler::Instance()->update(event);
+		    gameStateMachine->update();
+		    render();
+		    
+		    //cout << "Renderizado" << endl;
+		    
+		    if(event.type == SDL_QUIT)
+		        quit = true;
+	    }
 	}
 }
 
@@ -65,6 +91,7 @@ void
 Game::presentation()
 {
 	Render * rend = this->window->getRender();
+
 
 	rend->clear();
 
@@ -75,6 +102,11 @@ Game::presentation()
 	int logoY = (this->window->getHeight() / 2) - (logo.getHeight() / 2);
 	rend->renderTexture(logo.getTexture(), logoX, logoY);
 	
+
+    /*TextureManager::Instance()->loadImage("resources/img/logo.bmp", "logo", rend->getRenderer());
+    rend->clear();
+    TextureManager::Instance()->draw("logo", 0,0, rend->getRenderer());
+    rend->present();*/
 
 	Text * phrase = new Text("Apresenta: ", 32);
 	phrase->setFont("resources/font/Army.ttf");
@@ -100,13 +132,12 @@ Game::presentation()
 	
 	rend->present();
 	
+	//SDL_Delay(5000);
 	
-	SDL_Delay(5000);
-	
-	rend->clear();
+	/*rend->clear();
 	
 	
-	Hexagon * hex = new Hexagon(140);
+	/*Hexagon * hex = new Hexagon(140);
 	hex->init();
 	hex->setDrawColor(150, 255, 255, 255);
 	hex->draw();
@@ -141,9 +172,7 @@ Game::presentation()
 	torreY = (hex->getHeight() - h) + (hex3->getHeight() / 2) - (torre.getHeight() / 2);
 	rend->renderTexture(torre.getTexture(), torreX, torreY);
 	
-	rend->present();
-	
-	cout << "Renderer" << endl;
+	rend->present();*/
 }
 
 void
@@ -175,7 +204,6 @@ Game::mainLoop()
 		simulateWorld();
 		updateObjects();
 		renderWorld();
-		levelComplete = true;
 	}
 }
 

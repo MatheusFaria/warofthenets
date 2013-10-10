@@ -3,6 +3,7 @@
 
 #include "SDL2/SDL.h"
 #include "window.h"
+#include "gamestatemachine.h"
 
 class Game{
 
@@ -12,12 +13,14 @@ public:
 
 	void init();
 	void run();
+	void render();
 	void presentation();
 	void mainLoop();
 	void menu();
 
 private:
 	Window * window;
+	GameStateMachine* gameStateMachine;
 
 };
 

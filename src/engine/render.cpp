@@ -1,9 +1,15 @@
 #include "render.h"
 #include "log.h"
 
-Render::Render()
+Render *Render::instance = NULL;
+
+Render *
+Render::getInstance()
 {
-	this->renderer = NULL;
+	if(Render::instance == NULL)
+		instance = new Render();
+	
+	return instance;
 }
 
 Render::~Render()

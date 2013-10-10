@@ -98,8 +98,8 @@ DrawableObject::generateDrawSurface()
 void
 DrawableObject::generateDrawRender()
 {
-	render = new Render(); 
-	render->createRender(this->surface);
+	//render = new Render(); 
+	//render->createRender(this->surface);
 }
 
 int

@@ -5,7 +5,7 @@
 
 class Render{
 public:
-	Render();
+	static Render * getInstance();
 	~Render();
 	
 	SDL_Renderer * createRender(SDL_Window *);
@@ -21,6 +21,9 @@ public:
 	SDL_Renderer * getRenderer();
 
 private:
+	
+	Render(){};
+	static Render * instance;
 	SDL_Renderer * renderer;
 	SDL_Color color;
 };
