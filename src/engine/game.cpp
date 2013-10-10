@@ -11,7 +11,7 @@ Game::Game()
 
 void Game::init()
 {
-	cout << "Intialize" << endl;
+	cout << "Initialize" << endl;
 
 	SDL_Init(SDL_INIT_VIDEO);
 	atexit(SDL_Quit);
@@ -83,7 +83,7 @@ void simulateWorld()
 
 void updateObjects()
 {
-	cout<<"Onjects atualized"<<endl;
+	cout<<"Objects atualized"<<endl;
 }
 
 void renderWorld()
