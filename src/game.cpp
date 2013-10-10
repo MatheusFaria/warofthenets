@@ -10,6 +10,8 @@
 using namespace std;
 
 #define PLAY_GAME 1
+#define WIDTH 1280
+#define HEIGHT 700
 
 Game::Game()
 {
@@ -34,7 +36,7 @@ Game::init()
 		cout << "Could not Set Enviroment" << endl;
 
 	const char * title = "War of The Nets";
-	this->window = new Window(800, 600, 0, 0, title);
+	this->window = new Window(WIDTH, HEIGHT, 0, 0, title);
 	(this->window)->createWindow();
 
 	this->gameStateMachine = new GameStateMachine();
