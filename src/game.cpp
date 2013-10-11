@@ -94,7 +94,8 @@ Game::presentation()
 	rend->renderTexture(gameName->getTexture(), gameNameX, gameNameY);
 	
 	rend->present();
-	SDL_Delay(5000);
+	
+	//SDL_Delay(5000);
 	
 	
 	SDL_SetRenderDrawColor(rend->getRenderer(), 255, 255, 255, 255);
@@ -115,8 +116,75 @@ Game::presentation()
 		{
 			rend->renderTexture(hex->generateTexture(rend->getRenderer()), i, j);
 		}
-	}
-
+	
+	}	
+    int eixoX, eixoY;
+    
+    Image torreUm;
+	torreUm.loadImage("resources/img/torre01.png", rend->getRenderer());
+	
+	Image torreDois;
+	torreDois.loadImage("resources/img/torre02.png", rend->getRenderer());
+	
+	Image torreTres;
+	torreTres.loadImage("resources/img/torre03.png", rend->getRenderer());
+	
+	Image spyUnit;
+	spyUnit.loadImage("resources/img/spyunit01.png", rend->getRenderer());
+	
+	Image base;
+	base.loadImage("resources/img/base.png", rend->getRenderer());
+		
+	
+	eixoX = 1 * (hex->getWidth() - (hex->getWidth()/4) - 2);
+	eixoY = 1 * (hex->getHeight() -1);	
+	rend->renderTexture(torreUm.getTexture(), eixoX, eixoY);
+	
+	eixoX = 3 * (hex->getWidth() - (hex->getWidth()/4) - 2);
+	eixoY = 0 * (hex->getHeight() -1);	
+	rend->renderTexture(torreUm.getTexture(), eixoX, eixoY);
+	
+	eixoX = 4 * (hex->getWidth() - (hex->getWidth()/4) - 2);
+	eixoY = (2 * (hex->getHeight() -1)) - (hex->getHeight()/2);	
+	rend->renderTexture(torreUm.getTexture(), eixoX, eixoY);
+	
+	eixoX = 5 * (hex->getWidth() - (hex->getWidth()/4) - 2);
+	eixoY = 0 * (hex->getHeight() -1);	
+	rend->renderTexture(torreDois.getTexture(), eixoX, eixoY);
+	
+	eixoX = 1 * (hex->getWidth() - (hex->getWidth()/4) - 2);
+	eixoY = (3 * (hex->getHeight() -1));
+	rend->renderTexture(torreDois.getTexture(), eixoX, eixoY);
+	
+	eixoX = 6 * (hex->getWidth() - (hex->getWidth()/4) - 2);
+	eixoY = (2 * (hex->getHeight() -1)) - (hex->getHeight()/2);	
+	rend->renderTexture(torreDois.getTexture(), eixoX, eixoY);
+	
+	eixoX = 3 * (hex->getWidth() - (hex->getWidth()/4) - 2);
+	eixoY = (3 * (hex->getHeight() -1));
+	rend->renderTexture(torreTres.getTexture(), eixoX, eixoY);
+    
+    eixoX = 2 * (hex->getWidth() - (hex->getWidth()/4) - 2);
+	eixoY = (2 * (hex->getHeight() -1)) - (hex->getHeight()/2);
+	rend->renderTexture(torreTres.getTexture(), eixoX, eixoY);
+	
+	eixoX = 0 * (hex->getWidth() - (hex->getWidth()/4) - 2);
+	eixoY = (1 * (hex->getHeight() -1)) - (hex->getHeight()/2);
+	rend->renderTexture(torreTres.getTexture(), eixoX, eixoY);
+	
+	eixoX = 4 * (hex->getWidth() - (hex->getWidth()/4) - 2);
+	eixoY = (4 * (hex->getHeight() -1));
+	rend->renderTexture(spyUnit.getTexture(), eixoX, eixoY);
+	
+	eixoX = 7 * (hex->getWidth() - (hex->getWidth()/4) - 2);
+	eixoY = 0 * (hex->getHeight() -1) + (hex->getHeight()/2);	
+	rend->renderTexture(spyUnit.getTexture(), eixoX, eixoY);
+	
+	eixoX = 0 * (hex->getWidth() - (hex->getWidth()/4) - 2) + (hex->getWidth()/4);
+	eixoY = (4 * (hex->getHeight() -1)) + (hex->getHeight()/4) + (hex->getHeight()/2);
+	rend->renderTexture(base.getTexture(), eixoX, eixoY);
+	
+    
 	rend->present();
 	
 	
