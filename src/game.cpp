@@ -95,7 +95,7 @@ Game::presentation()
 	
 	rend->present();
 	
-	//SDL_Delay(5000);
+	SDL_Delay(5000);
 	
 	
 	SDL_SetRenderDrawColor(rend->getRenderer(), 255, 255, 255, 255);
