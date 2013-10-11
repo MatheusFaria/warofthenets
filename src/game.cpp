@@ -190,6 +190,12 @@ Game::presentation()
 	int spySymbolY = bombY - spySymbol.getHeight() - espacamento;
 	rend->renderTexture(spySymbol.getTexture(), spySymbolX, spySymbolY);
 	
+	Image tecnologiSymbol;
+	tecnologiSymbol.loadImage("resources/img/tecnologisymbol.png", rend->getRenderer());
+	int tecnologiSymbolX = this->window->getWidth() - tecnologiSymbol.getWidth();
+	int tecnologiSymbolY = spySymbolY - tecnologiSymbol.getHeight() - espacamento;
+	rend->renderTexture(tecnologiSymbol.getTexture(), tecnologiSymbolX, tecnologiSymbolY);
+	
 	
 	//hexX = hexX - hex->getWidth() * 2;
 	hexY = hexY + hex->getHeight();
