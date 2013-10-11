@@ -86,7 +86,7 @@ Game::presentation()
     
 	rend->present();
 	
-	SDL_Delay(5000);
+	//SDL_Delay(5000);
 	
 	
 	rend->clear();
@@ -101,7 +101,7 @@ Game::presentation()
 	rend->present();
 	
 	
-	SDL_Delay(5000);
+	//SDL_Delay(5000);
 	
 	rend->clear();
 	
@@ -135,20 +135,73 @@ Game::presentation()
 	//SDL_Delay(5000);
 	
 	
-	/*
+	
 	rend->clear();
 	
-	Hexagon * hex = new Hexagon(140);
+	Hexagon * hex = new Hexagon(80);
+	int hexX = 10;
+	int hexY = 10;
 	hex->init();
 	hex->setDrawColor(150, 255, 255, 255);
 	hex->draw();
-	rend->renderTexture(hex->generateTexture(rend->getRenderer()), 0, 0);
+	rend->renderTexture(hex->generateTexture(rend->getRenderer()), hexX, hexY);
 	
 	Image torre;
 	torre.loadImage("resources/img/torre.png", rend->getRenderer());
-	int torreX = 0 + (hex->getWidth() / 2) - (torre.getWidth() / 2);
-	int torreY = 0 + (hex->getHeight() / 2) - (torre.getHeight() / 2);
+	int torreX = hexX + (hex->getWidth() / 2) - (torre.getWidth() / 2);
+	int torreY = hexY + (hex->getHeight() / 2) - (torre.getHeight() / 1) + (torre.getHeight() / 4);
 	rend->renderTexture(torre.getTexture(), torreX, torreY);
+	
+	
+	hexX = hexX + hex->getWidth() * 2;
+	hexY = hexY + hex->getHeight();
+	rend->renderTexture(hex->generateTexture(rend->getRenderer()), hexX, hexY);
+	
+	torreX = hexX + (hex->getWidth() / 2) - (torre.getWidth() / 2);
+	torreY = hexY + (hex->getHeight() / 2) - (torre.getHeight() / 1) + (torre.getHeight() / 4);
+	rend->renderTexture(torre.getTexture(), torreX, torreY);
+	
+	hexX = hexX - hex->getWidth() * 2;
+	//hexY = hexY + hex->getHeight();
+	rend->renderTexture(hex->generateTexture(rend->getRenderer()), hexX, hexY);
+	
+	Image base;
+	base.loadImage("resources/img/base.png", rend->getRenderer());
+	int baseX = hexX + (hex->getWidth() / 2) - (torre.getWidth() / 2);
+	int baseY = hexY + (hex->getHeight() / 2) - (torre.getHeight() / 1) + (torre.getHeight() / 4);
+	rend->renderTexture(base.getTexture(), baseX, baseY);
+		
+	
+	Image settingsButton;
+	settingsButton.loadImage("resources/img/settingsbutton.png", rend->getRenderer());
+	int settingsButtonX = this->window->getWidth() - settingsButton.getWidth();
+	int settingsButtonY = this->window->getHeight() - settingsButton.getHeight();
+	rend->renderTexture(settingsButton.getTexture(), settingsButtonX, settingsButtonY);
+		
+	Image bomb;
+	bomb.loadImage("resources/img/bomb.png", rend->getRenderer());
+	int bombX = this->window->getWidth() - bomb.getWidth();
+	int bombY = settingsButtonY - bomb.getHeight() - espacamento;
+	rend->renderTexture(bomb.getTexture(), bombX, bombY);
+	
+	Image spySymbol;
+	spySymbol.loadImage("resources/img/spysymbol.png", rend->getRenderer());
+	int spySymbolX = this->window->getWidth() - spySymbol.getWidth();
+	int spySymbolY = bombY - spySymbol.getHeight() - espacamento;
+	rend->renderTexture(spySymbol.getTexture(), spySymbolX, spySymbolY);
+	
+	
+	//hexX = hexX - hex->getWidth() * 2;
+	hexY = hexY + hex->getHeight();
+	rend->renderTexture(hex->generateTexture(rend->getRenderer()), hexX, hexY);
+	
+	Image spyUnit;
+	spyUnit.loadImage("resources/img/spyunit.png", rend->getRenderer());
+	int spyUnitX = hexX + (hex->getWidth() / 2) - (spyUnit.getWidth() / 2);
+	int spyUnitY = hexY + (hex->getHeight() / 2) - (spyUnit.getHeight() / 1) + (spyUnit.getHeight() / 4);
+	rend->renderTexture(spyUnit.getTexture(), spyUnitX, spyUnitY);
+	
+	/*
 	
 	Hexagon * hex2 = new Hexagon(140);
 	hex2->init();
@@ -172,9 +225,10 @@ Game::presentation()
 	torreX = hex->getWidth() + (hex3->getWidth() / 2) - (torre.getWidth() / 2);
 	torreY = (hex->getHeight() - h) + (hex3->getHeight() / 2) - (torre.getHeight() / 2);
 	rend->renderTexture(torre.getTexture(), torreX, torreY);
+	*/
 	
 	rend->present();
-	*/
+	
 	
 	cout << "Renderer" << endl;
 }
