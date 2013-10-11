@@ -66,6 +66,7 @@ Game::presentation()
 {
 	Render * rend = this->window->getRender();
 
+    /*
 	rend->clear();
 
 	Image logo;
@@ -86,7 +87,7 @@ Game::presentation()
     
 	rend->present();
 	
-	SDL_Delay(5000);
+	//SDL_Delay(5000);
 	
 	
 	rend->clear();
@@ -101,10 +102,46 @@ Game::presentation()
 	rend->present();
 	
 	
-	SDL_Delay(5000);
+	//SDL_Delay(5000);
+	
+	*/
 	
 	rend->clear();
 	
+	int espacamento = 15;
+	
+	Text * gameName = new Text("WAR OF THE NETS", 92);
+	SDL_Color whiteColor = {255, 255, 255, 0};
+	
+	gameName->setFont("resources/font/Army.ttf");
+	gameName->generateTexture(rend->getRenderer(), whiteColor, whiteColor);
+	int gameNameX = (this->window->getWidth() / 2) - (gameName->getWidth() / 2);
+	int gameNameY = espacamento * 5;
+	rend->renderTexture(gameName->getTexture(), gameNameX, gameNameY);
+	
+	Image aboutButton;
+	aboutButton.loadImage("resources/img/aboutbutton.png", rend->getRenderer());
+	int aboutButtonX = espacamento;
+	int aboutButtonY = this->window->getHeight() - aboutButton.getHeight() - espacamento;
+	rend->renderTexture(aboutButton.getTexture(), aboutButtonX, aboutButtonY);
+	
+	Image playButton;
+	playButton.loadImage("resources/img/playbutton.png", rend->getRenderer());
+	int playButtonX = espacamento;
+	int playButtonY = aboutButtonY - playButton.getHeight() - espacamento;
+	rend->renderTexture(playButton.getTexture(), playButtonX, playButtonY);
+	
+	Image exitButton;
+	exitButton.loadImage("resources/img/exitbutton.png", rend->getRenderer());
+	int exitButtonX = this->window->getWidth() - exitButton.getWidth() - espacamento;
+	int exitButtonY = this->window->getHeight() - exitButton.getHeight() - espacamento;
+	rend->renderTexture(exitButton.getTexture(), exitButtonX, exitButtonY);
+	
+	rend->present();
+	
+	
+	/*
+	rend->clear();
 	
 	Hexagon * hex = new Hexagon(140);
 	hex->init();
@@ -142,6 +179,7 @@ Game::presentation()
 	rend->renderTexture(torre.getTexture(), torreX, torreY);
 	
 	rend->present();
+	*/
 	
 	cout << "Renderer" << endl;
 }
