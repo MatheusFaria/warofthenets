@@ -6,7 +6,7 @@ Hexagon::Hexagon(int size)
 :DrawableObject(MIN_WIDTH, MIN_HEIGHT)
 {
 	this->size = size;
-	height = size*2;
+	height = size*sin(60*M_PI/180)*2 + 1;
 	width = size*2 + 1;
 	//width = (height / sqrt(3)) + (2 * (height/ (2 * sqrt(3))));
 }
@@ -27,11 +27,11 @@ getFinalY(int a, int r)
 void 
 Hexagon::putObjectInSurface()
 {
-	int xInitial = this->size, yInitial = this->size;
+	int xInitial = this->size, yInitial = this->size*sin(60*M_PI/180);
 	for(int i = 0, oldX = 0, oldY = 0; i <= 360; i+=60)
 	{
 		int newX = getFinalX(i, this->size) + xInitial;
-		int newY = height - (getFinalY(i, this->size) + yInitial);
+		int newY = (getFinalY(i, this->size) + yInitial);
 		if(i)
 			SDL_RenderDrawLine(render->getRenderer(), oldX, oldY, newX, newY);
 		oldX = newX;

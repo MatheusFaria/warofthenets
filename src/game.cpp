@@ -70,26 +70,7 @@ Game::presentation()
 
 	Image logo;
 	
-	logo.loadImage("resources/img/logo.png", rend->getRenderer());
-	int logoX = (this->window->getWidth() / 2) - (logo.getWidth() / 2);
-	int logoY = (this->window->getHeight() / 2) - (logo.getHeight() / 2);
-	rend->renderTexture(logo.getTexture(), logoX, logoY);
-	
-
-	Text * phrase = new Text("Apresenta: ", 32);
-	phrase->setFont("resources/font/Army.ttf");
-	SDL_Color whiteColor = {255, 255, 255, 0};
-	phrase->generateTexture(rend->getRenderer(), whiteColor, whiteColor);
-	int phraseX = logoX + (phrase->getWidth() / 2);
-	int phraseY = (logoY + logo.getHeight() + 15);
-	rend->renderTexture(phrase->getTexture(), phraseX, phraseY);
-    
-	rend->present();
-	
-	SDL_Delay(5000);
-	
-	
-	rend->clear();
+	SDL_Color whiteColor = {255, 255, 255, 255};
 	
 	Text * gameName = new Text("WAR OF THE NETS", 64);
 	gameName->setFont("resources/font/Army.ttf");
@@ -98,49 +79,37 @@ Game::presentation()
 	int gameNameY = (this->window->getHeight() / 2) - (gameName->getHeight() / 2);
 	rend->renderTexture(gameName->getTexture(), gameNameX, gameNameY);
 	
-	rend->present();
-	
-	
-	SDL_Delay(5000);
-	
-	rend->clear();
-	
-	
-	Hexagon * hex = new Hexagon(140);
+	Hexagon * hex = new Hexagon(50);
 	hex->init();
 	hex->setDrawColor(150, 255, 255, 255);
 	hex->draw();
-	rend->renderTexture(hex->generateTexture(rend->getRenderer()), 0, 0);
+
+	for(int i = 0, j = 0, ind = 0; i < this->window->getWidth(); i+= hex->getWidth() - hex->getWidth()/4 - 2, ind++)
+	{
+		if(ind % 2)
+			j = hex->getHeight()/2;
+		else
+			j = 0;
+		for(; j < this->window->getHeight(); j+= hex->getHeight() -1)
+		{
+			rend->renderTexture(hex->generateTexture(rend->getRenderer()), i, j);
+		}
+	}
 	
-	Image torre;
-	torre.loadImage("resources/img/torre.png", rend->getRenderer());
-	int torreX = 0 + (hex->getWidth() / 2) - (torre.getWidth() / 2);
-	int torreY = 0 + (hex->getHeight() / 2) - (torre.getHeight() / 2);
-	rend->renderTexture(torre.getTexture(), torreX, torreY);
+	Rectangle * rect = new Rectangle(570, 70);
+	rect->init();
+	rect->setDrawColor(255, 255, 255, 255);
+	rect->draw();
+
+	rend->renderTexture(rect->generateTexture(rend->getRenderer()), gameNameX - 10, gameNameY - 10);
+
+	Circle * circ = new Circle(70);
+	circ->init();
+	circ->setDrawColor(255, 255, 255, 255);
+	circ->draw();
 	
-	Hexagon * hex2 = new Hexagon(140);
-	hex2->init();
-	hex2->setDrawColor(150, 255, 255, 255);
-	hex2->draw();
-	rend->renderTexture(hex2->generateTexture(rend->getRenderer()), hex->getWidth(), 0);
-	
-	Image base;
-	base.loadImage("resources/img/base.png", rend->getRenderer());
-	int baseX = hex->getWidth() + (hex2->getWidth() / 2) - (base.getWidth() / 2);
-	int baseY = 0 + (hex2->getHeight() / 2) - (base.getHeight() / 2);
-	rend->renderTexture(base.getTexture(), baseX, baseY);
-	
-	Hexagon * hex3 = new Hexagon(140);
-	hex2->init();
-	hex2->setDrawColor(150, 255, 255, 255);
-	hex2->draw();
-	int h = ((hex->getHeight() / (sqrt(3)*2))/2) - 2;
-	rend->renderTexture(hex2->generateTexture(rend->getRenderer()), hex->getWidth(), hex->getHeight() - h);
-	
-	torreX = hex->getWidth() + (hex3->getWidth() / 2) - (torre.getWidth() / 2);
-	torreY = (hex->getHeight() - h) + (hex3->getHeight() / 2) - (torre.getHeight() / 2);
-	rend->renderTexture(torre.getTexture(), torreX, torreY);
-	
+	rend->renderTexture(circ->generateTexture(rend->getRenderer()), gameNameX - 5, gameNameY - 50);
+
 	rend->present();
 	
 	cout << "Renderer" << endl;
