@@ -66,32 +66,27 @@ Game::presentation()
 {
 	Render * rend = this->window->getRender();
 	
+	SDL_Color whiteColor = {255, 255, 255, 255};
 	rend->clear();
+
+	Image background;
+	background.loadImage("resources/img/armybackground.png", rend->getRenderer());
+	rend->renderTexture(background.getTexture(), 0, 0);
+
+
+	Image ageClass;
+	ageClass.loadImage("resources/img/ageclassification.png", rend->getRenderer());
+	rend->renderTexture(ageClass.getTexture(), 600, 450);
 
 	Image logo;
-	
-	logo.loadImage("resources/img/logo.png", rend->getRenderer());
-	int logoX = (this->window->getWidth() / 2) - (logo.getWidth() / 2);
-	int logoY = (this->window->getHeight() / 2) - (logo.getHeight() / 2);
-	rend->renderTexture(logo.getTexture(), logoX, logoY);
-	
+	logo.loadImage("resources/img/logomini.png", rend->getRenderer());
+	rend->renderTexture(logo.getTexture(), 350, 400);
 
-	Text * phrase = new Text("Apresenta: ", 32);
-	phrase->setFont("resources/font/Army.ttf");
-	SDL_Color whiteColor = {255, 255, 255, 0};
-	phrase->generateTexture(rend->getRenderer(), whiteColor, whiteColor);
-	int phraseX = logoX + (phrase->getWidth() / 2);
-	int phraseY = (logoY + logo.getHeight() + 15);
-	rend->renderTexture(phrase->getTexture(), phraseX, phraseY);
-    
-	rend->present();
+	Image mitLicense;
+	mitLicense.loadImage("resources/img/mitlicense.png", rend->getRenderer());
+	rend->renderTexture(mitLicense.getTexture(), 10, 400);
 	
-	//SDL_Delay(5000);
-	
-	
-	rend->clear();
-	
-	Text * gameName = new Text("WAR OF THE NETS", 92);
+	Text * gameName = new Text("WAR OF THE NETS", 80);
 	gameName->setFont("resources/font/Army.ttf");
 	gameName->generateTexture(rend->getRenderer(), whiteColor, whiteColor);
 	int gameNameX = (this->window->getWidth() / 2) - (gameName->getWidth() / 2);
@@ -99,140 +94,29 @@ Game::presentation()
 	rend->renderTexture(gameName->getTexture(), gameNameX, gameNameY);
 	
 	rend->present();
+	SDL_Delay(5000);
 	
 	
-	//SDL_Delay(5000);
-	
+	SDL_SetRenderDrawColor(rend->getRenderer(), 255, 255, 255, 255);
 	rend->clear();
-	
-	int espacamento = 15;
-	
-	gameNameX = (this->window->getWidth() / 2) - (gameName->getWidth() / 2);
-	gameNameY = espacamento * 5;
-	rend->renderTexture(gameName->getTexture(), gameNameX, gameNameY);
-	
-	Image aboutButton;
-	aboutButton.loadImage("resources/img/aboutbutton.png", rend->getRenderer());
-	int aboutButtonX = espacamento;
-	int aboutButtonY = this->window->getHeight() - aboutButton.getHeight() - espacamento;
-	rend->renderTexture(aboutButton.getTexture(), aboutButtonX, aboutButtonY);
-	
-	Image playButton;
-	playButton.loadImage("resources/img/playbutton.png", rend->getRenderer());
-	int playButtonX = espacamento;
-	int playButtonY = aboutButtonY - playButton.getHeight() - espacamento;
-	rend->renderTexture(playButton.getTexture(), playButtonX, playButtonY);
-	
-	Image exitButton;
-	exitButton.loadImage("resources/img/exitbutton.png", rend->getRenderer());
-	int exitButtonX = this->window->getWidth() - exitButton.getWidth() - espacamento;
-	int exitButtonY = this->window->getHeight() - exitButton.getHeight() - espacamento;
-	rend->renderTexture(exitButton.getTexture(), exitButtonX, exitButtonY);
-	
-	rend->present();
-	
-	
-	//SDL_Delay(5000);
-	
-	
-	
-	rend->clear();
-	
-	Hexagon * hex = new Hexagon(80);
-	int hexX = 10;
-	int hexY = 10;
+
+	Hexagon * hex = new Hexagon(50);
 	hex->init();
-	hex->setDrawColor(150, 255, 255, 255);
+	hex->setDrawColor(0, 0, 0, 255);
 	hex->draw();
-	rend->renderTexture(hex->generateTexture(rend->getRenderer()), hexX, hexY);
-	
-	Image torre;
-	torre.loadImage("resources/img/torre.png", rend->getRenderer());
-	int torreX = hexX + (hex->getWidth() / 2) - (torre.getWidth() / 2);
-	int torreY = hexY + (hex->getHeight() / 2) - (torre.getHeight() / 1) + (torre.getHeight() / 4);
-	rend->renderTexture(torre.getTexture(), torreX, torreY);
-	
-	
-	hexX = hexX + hex->getWidth() * 2;
-	hexY = hexY + hex->getHeight();
-	rend->renderTexture(hex->generateTexture(rend->getRenderer()), hexX, hexY);
-	
-	torreX = hexX + (hex->getWidth() / 2) - (torre.getWidth() / 2);
-	torreY = hexY + (hex->getHeight() / 2) - (torre.getHeight() / 1) + (torre.getHeight() / 4);
-	rend->renderTexture(torre.getTexture(), torreX, torreY);
-	
-	hexX = hexX - hex->getWidth() * 2;
-	//hexY = hexY + hex->getHeight();
-	rend->renderTexture(hex->generateTexture(rend->getRenderer()), hexX, hexY);
-	
-	Image base;
-	base.loadImage("resources/img/base.png", rend->getRenderer());
-	int baseX = hexX + (hex->getWidth() / 2) - (torre.getWidth() / 2);
-	int baseY = hexY + (hex->getHeight() / 2) - (torre.getHeight() / 1) + (torre.getHeight() / 4);
-	rend->renderTexture(base.getTexture(), baseX, baseY);
-		
-	
-	Image settingsButton;
-	settingsButton.loadImage("resources/img/settingsbutton.png", rend->getRenderer());
-	int settingsButtonX = this->window->getWidth() - settingsButton.getWidth();
-	int settingsButtonY = this->window->getHeight() - settingsButton.getHeight();
-	rend->renderTexture(settingsButton.getTexture(), settingsButtonX, settingsButtonY);
-		
-	Image bomb;
-	bomb.loadImage("resources/img/bomb.png", rend->getRenderer());
-	int bombX = this->window->getWidth() - bomb.getWidth();
-	int bombY = settingsButtonY - bomb.getHeight() - espacamento;
-	rend->renderTexture(bomb.getTexture(), bombX, bombY);
-	
-	Image spySymbol;
-	spySymbol.loadImage("resources/img/spysymbol.png", rend->getRenderer());
-	int spySymbolX = this->window->getWidth() - spySymbol.getWidth();
-	int spySymbolY = bombY - spySymbol.getHeight() - espacamento;
-	rend->renderTexture(spySymbol.getTexture(), spySymbolX, spySymbolY);
-	
-	Image tecnologiSymbol;
-	tecnologiSymbol.loadImage("resources/img/tecnologisymbol.png", rend->getRenderer());
-	int tecnologiSymbolX = this->window->getWidth() - tecnologiSymbol.getWidth();
-	int tecnologiSymbolY = spySymbolY - tecnologiSymbol.getHeight() - espacamento;
-	rend->renderTexture(tecnologiSymbol.getTexture(), tecnologiSymbolX, tecnologiSymbolY);
-	
-	
-	//hexX = hexX - hex->getWidth() * 2;
-	hexY = hexY + hex->getHeight();
-	rend->renderTexture(hex->generateTexture(rend->getRenderer()), hexX, hexY);
-	
-	Image spyUnit;
-	spyUnit.loadImage("resources/img/spyunit.png", rend->getRenderer());
-	int spyUnitX = hexX + (hex->getWidth() / 2) - (spyUnit.getWidth() / 2);
-	int spyUnitY = hexY + (hex->getHeight() / 2) - (spyUnit.getHeight() / 1) + (spyUnit.getHeight() / 4);
-	rend->renderTexture(spyUnit.getTexture(), spyUnitX, spyUnitY);
-	
-	/*
-	
-	Hexagon * hex2 = new Hexagon(140);
-	hex2->init();
-	hex2->setDrawColor(150, 255, 255, 255);
-	hex2->draw();
-	rend->renderTexture(hex2->generateTexture(rend->getRenderer()), hex->getWidth(), 0);
-	
-	Image base;
-	base.loadImage("resources/img/base.png", rend->getRenderer());
-	int baseX = hex->getWidth() + (hex2->getWidth() / 2) - (base.getWidth() / 2);
-	int baseY = 0 + (hex2->getHeight() / 2) - (base.getHeight() / 2);
-	rend->renderTexture(base.getTexture(), baseX, baseY);
-	
-	Hexagon * hex3 = new Hexagon(140);
-	hex2->init();
-	hex2->setDrawColor(150, 255, 255, 255);
-	hex2->draw();
-	int h = ((hex->getHeight() / (sqrt(3)*2))/2) - 2;
-	rend->renderTexture(hex2->generateTexture(rend->getRenderer()), hex->getWidth(), hex->getHeight() - h);
-	
-	torreX = hex->getWidth() + (hex3->getWidth() / 2) - (torre.getWidth() / 2);
-	torreY = (hex->getHeight() - h) + (hex3->getHeight() / 2) - (torre.getHeight() / 2);
-	rend->renderTexture(torre.getTexture(), torreX, torreY);
-	*/
-	
+
+	for(int i = 0, j = 0, ind = 0; i < this->window->getWidth(); i+= hex->getWidth() - hex->getWidth()/4 - 2, ind++)
+	{
+		if(ind % 2)
+			j = hex->getHeight()/2;
+		else
+			j = 0;
+		for(; j < this->window->getHeight(); j+= hex->getHeight() -1)
+		{
+			rend->renderTexture(hex->generateTexture(rend->getRenderer()), i, j);
+		}
+	}
+
 	rend->present();
 	
 	
