@@ -65,8 +65,7 @@ void
 Game::presentation()
 {
 	Render * rend = this->window->getRender();
-
-    /*
+	
 	rend->clear();
 
 	Image logo;
@@ -87,12 +86,12 @@ Game::presentation()
     
 	rend->present();
 	
-	//SDL_Delay(5000);
+	SDL_Delay(5000);
 	
 	
 	rend->clear();
 	
-	Text * gameName = new Text("WAR OF THE NETS", 64);
+	Text * gameName = new Text("WAR OF THE NETS", 92);
 	gameName->setFont("resources/font/Army.ttf");
 	gameName->generateTexture(rend->getRenderer(), whiteColor, whiteColor);
 	int gameNameX = (this->window->getWidth() / 2) - (gameName->getWidth() / 2);
@@ -102,21 +101,14 @@ Game::presentation()
 	rend->present();
 	
 	
-	//SDL_Delay(5000);
-	
-	*/
+	SDL_Delay(5000);
 	
 	rend->clear();
 	
 	int espacamento = 15;
 	
-	Text * gameName = new Text("WAR OF THE NETS", 92);
-	SDL_Color whiteColor = {255, 255, 255, 0};
-	
-	gameName->setFont("resources/font/Army.ttf");
-	gameName->generateTexture(rend->getRenderer(), whiteColor, whiteColor);
-	int gameNameX = (this->window->getWidth() / 2) - (gameName->getWidth() / 2);
-	int gameNameY = espacamento * 5;
+	gameNameX = (this->window->getWidth() / 2) - (gameName->getWidth() / 2);
+	gameNameY = espacamento * 5;
 	rend->renderTexture(gameName->getTexture(), gameNameX, gameNameY);
 	
 	Image aboutButton;
@@ -138,6 +130,9 @@ Game::presentation()
 	rend->renderTexture(exitButton.getTexture(), exitButtonX, exitButtonY);
 	
 	rend->present();
+	
+	
+	//SDL_Delay(5000);
 	
 	
 	/*
