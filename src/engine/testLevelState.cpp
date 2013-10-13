@@ -60,21 +60,18 @@ TestLevelState::render()
     }
     
 	
-    /*
-    int logoX = (windowWidth / 2) - (logo->getWidth() / 2);
-	int logoY = (windowHeight / 2) - (logo->getHeight() / 2);
-	rend->renderTexture(logo->getTexture(), logoX, logoY);
-	
-	int phraseX = logoX + (phrase->getWidth() / 2);
-	int phraseY = (logoY + logo->getHeight() + 15);
-	rend->renderTexture(phrase->getTexture(), phraseX, phraseY);
-	*/
-	
 }
 
 bool
 TestLevelState::onEnter()
 {
+    cout << endl;
+    cout << "Pressione '1' para modo Torre" << endl;
+    cout << "Pressione '2' para modo Bomba" << endl;
+    cout << "Pressione '3' para modo Espiao" << endl;
+    cout << endl;    
+    
+    
     keyboardNum = new KeyboardNum();
     keyboardNum->setEventListener(this);
     
@@ -88,16 +85,6 @@ TestLevelState::onEnter()
     
     this->listImage = new list<Image *>();
     
-    /*
-    this->logo = new Image();
-    this->phrase = new Text("Apresenta: ", 32);
-    
-    logo->loadImage("resources/img/logo.png", rend->getRenderer());
-    
-    phrase->setFont("resources/font/Army.ttf");
-	SDL_Color whiteColor = {255, 255, 255, 0};
-	phrase->generateTexture(rend->getRenderer(), whiteColor, whiteColor);
-	*/
 	
 	return true;
 }
