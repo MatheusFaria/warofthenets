@@ -15,6 +15,17 @@ GameStateMachine::render()
 }
 
 void
+GameStateMachine::clean()
+{
+	if(!gameStates.empty())
+	{
+		gameStates.back()->onExit();
+		delete gameStates.back();
+		gameStates.clear();
+	}
+}
+
+void
 GameStateMachine::pushState(GameState* state)
 {
 	if(state != NULL)

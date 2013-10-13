@@ -2,12 +2,10 @@
 
 int main()
 {
-	Game * game = new Game();
 
-	game->init();
-	game->run();
-
-	delete game;
+	Game::Instance()->init();
+	Game::Instance()->run();
+	Game::Instance()->clean();
 
 	return 0;
 }

@@ -8,8 +8,10 @@
 class Game{
 
 public:
+
 	Game();
 	~Game();
+	static Game* Instance();
 
 	void init();
 	void run();
@@ -17,8 +19,14 @@ public:
 	void presentation();
 	void mainLoop();
 	void menu();
+	void clean();
+
+	GameStateMachine* getStateMachine();
+	Window* getWindow();
 
 private:
+
+	static Game* instance;
 	Window * window;
 	GameStateMachine* gameStateMachine;
 

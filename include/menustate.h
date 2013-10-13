@@ -17,6 +17,8 @@ public:
 
 	virtual std::string getStateId() const;
 
+	void createMenu();
+
 private:
 
 	static void menuToPlay();

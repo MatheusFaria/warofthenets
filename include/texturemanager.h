@@ -17,6 +17,7 @@ public:
 	void draw(string, int, int, SDL_Renderer*, SDL_RendererFlip=SDL_FLIP_NONE);
 	void drawFrame(string, int, int,int, int, int, int, SDL_Renderer *, double, SDL_RendererFlip=SDL_FLIP_NONE);
 
+	SDL_Texture* getTexture(string);
 	void clearTextureMap();
     void clearFromTextureMap(string imageId);
 

@@ -20,10 +20,25 @@ using namespace std;
 #define WIDTH 1280
 #define HEIGHT 700
 
+Game* Game::instance = NULL;
+
 Game::Game()
 {
 	cout << "Creating War of the Nets" << endl;
 }
+
+Game* 
+Game::Instance()
+{
+	if(Game::instance == NULL)
+	{
+		instance = new Game();
+		return instance;
+	}
+		
+	return instance;
+}
+
 
 Game::~Game()
 {
@@ -50,6 +65,18 @@ Game::init()
 	this->gameStateMachine->changeState(new MenuState());
 }
 
+GameStateMachine*
+Game::getStateMachine()
+{
+	return gameStateMachine;
+}
+
+Window*
+Game::getWindow()
+{
+	return this->window;
+}
+
 void
 Game::render()
 {
@@ -67,7 +94,6 @@ Game::run()
 	
 	presentation();
 	SDL_Delay(2000);
-
 	
 	
 	SDL_Event event;	
@@ -86,6 +112,7 @@ Game::run()
 	    }
 	}
 }
+
 
 void
 Game::presentation()
@@ -175,13 +202,20 @@ Game::presentation()
 	rend->present();*/
 }
 
-void
-Game::menu()
+void 
+Game::clean()
 {
-	int choice = 0;
-	
-	if(choice == PLAY_GAME)
-		mainLoop();
+    cout << "cleaning game"<<endl;
+    
+    gameStateMachine->clean();
+    
+    gameStateMachine = 0;
+    delete gameStateMachine;
+    
+    TextureManager::Instance()->clearTextureMap();
+    
+    SDL_DestroyRenderer(Render::getInstance()->getRenderer());
+    SDL_Quit();
 }
 
 void updateTime();
@@ -190,22 +224,6 @@ void getNetworkMessage();
 void simulateWorld();
 void updateObjects();
 void renderWorld();
-
-void
-Game::mainLoop()
-{
-	bool levelComplete = false;
-
-	while(!levelComplete)
-	{
-		updateTime();
-		getInput();	
-		getNetworkMessage();
-		simulateWorld();
-		updateObjects();
-		renderWorld();
-	}
-}
 
 void updateTime()
 {
