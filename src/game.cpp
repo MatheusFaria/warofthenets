@@ -80,13 +80,13 @@ Game::run()
 	SDL_Event event;	
 	while(!quit)
 	{
-        SDL_PollEvent(&event);
-        
-	    if(event.type == SDL_QUIT)
-		    quit = true;
-		else
-		    inputHandler->sendSdlEvent(event);
-        
+        while(SDL_PollEvent(&event))
+        {
+	        if(event.type == SDL_QUIT)
+		        quit = true;
+		    else
+		        inputHandler->sendSdlEvent(event);
+        }
 		
 		
 	    gameStateMachine->update();
