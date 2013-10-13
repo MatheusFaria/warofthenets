@@ -4,6 +4,8 @@
 Image::Image()
 {
 	this->texture = NULL;
+	this->x = 0;
+	this->y = 0;
 }
 
 Image::~Image()
@@ -49,5 +51,29 @@ int
 Image::getHeight()
 {
     return this->height;
+}
+
+int
+Image::getX()
+{
+    return this->x;
+}
+
+void
+Image::setX(int x)
+{
+    this->x = x;
+}
+
+int
+Image::getY()
+{
+    return this->y;
+}
+
+void
+Image::setY(int y)
+{
+    this->y = y;
 }
 	

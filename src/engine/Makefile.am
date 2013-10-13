@@ -12,8 +12,7 @@ lib_LTLIBRARIES = libengine.la
 libengine_la_LDFLAGS = -static
 
 # Library sources
-libengine_la_SOURCES =  window.cpp render.cpp image.cpp text.cpp sdlsettings.cpp log.cpp drawableobject.cpp rectangle.cpp pixel.cpp line.cpp circle.cpp hexagon.cpp
-
+libengine_la_SOURCES =  window.cpp render.cpp image.cpp text.cpp sdlsettings.cpp log.cpp drawableobject.cpp rectangle.cpp pixel.cpp line.cpp circle.cpp hexagon.cpp testLevelState.cpp gamestatemachine.cpp event.cpp keyboard_event.cpp mouse_click.cpp mouse_event.cpp mouse_motion.cpp input_handler.cpp
 # Libraries needed to build our library
 libengine_la_LIBADD = -lSDL2 -lSDL2_image -lSDL2_ttf -lm
 

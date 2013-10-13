@@ -15,12 +15,20 @@ public:
 	
 	int getWidth();
 	int getHeight();
+	
+	int getX();
+	void setX(int x);
+	int getY();
+	void setY(int y);
 
 private:
 	SDL_Texture * texture;
 	
 	int width;
 	int height;
+	
+	int x;
+	int y;
 };
 
 #endif
