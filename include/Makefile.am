@@ -9,5 +9,6 @@ include_HEADERS = 	window.h render.h image.h game.h text.h sdlsettings.h /
 					log.h drawableobject.h rectangle.h pixel.h line.h circle.h /
 					hexagon.h texturemanager.h menustate.h sdlgameobject.h /
 					gameestate.h menustate.h LoaderParams.h gamestatemachine.h /
-					menustate.h playstate.h vector2d.h menubutton.h inputhandler.h
+					menustate.h playstate.h vector2d.h menubutton.h inputhandler.h /
+					soundmanager.h
 

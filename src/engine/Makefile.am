@@ -15,11 +15,11 @@ libengine_la_LDFLAGS = -static
 
 libengine_la_SOURCES = window.cpp render.cpp log.cpp text.cpp sdlsettings.cpp gamestatemachine.cpp \
 					texturemanager.cpp menustate.cpp sdlgameobject.cpp LoaderParams.cpp playstate.cpp \ 					vector2d.cpp menubutton.cpp inputhandler.cpp image.cpp drawableobject.cpp \
-					rectangle.cpp pixel.cpp line.cpp circle.cpp hexagon.cpp
+					rectangle.cpp pixel.cpp line.cpp circle.cpp hexagon.cpp soundmanager.cpp
 					
 
 # Libraries needed to build our library
-libengine_la_LIBADD = -lSDL2 -lSDL2_image -lSDL2_ttf -lm
+libengine_la_LIBADD = -lSDL2 -lSDL2_image -lSDL2_ttf -lSDL2_mixer -lm
 
 # Program description
 #warofthenets_SOURCES =
