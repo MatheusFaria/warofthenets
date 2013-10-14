@@ -63,6 +63,7 @@ private:
     KeyboardNum *keyboardNum;
     
     Hexagon *hex;
+    SDL_Texture *hexTexture;
     
     int windowWidth;
     int windowHeight;

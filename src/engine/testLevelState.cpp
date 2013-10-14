@@ -33,12 +33,7 @@ void
 TestLevelState::render()
 {
     SDL_SetRenderDrawColor(rend->getRenderer(), 255, 255, 255, 255);
-
-	hex = new Hexagon(50);
-	hex->init();
-	hex->setDrawColor(0, 0, 0, 255);
-	hex->draw();
-
+    
 	for(int i = 0, j = 0, ind = 0; i < windowWidth; i+= hex->getWidth() - hex->getWidth()/4 - 2, ind++)
 	{
 		if(ind % 2 != 0)
@@ -47,10 +42,12 @@ TestLevelState::render()
 			j = 0;
 		for(; j < windowHeight; j+= hex->getHeight() -1)
 		{
-			rend->renderTexture(hex->generateTexture(rend->getRenderer()), i, j);
+		    //SDL_Texture *hexTexture = hex->generateTexture(rend->getRenderer());
+			rend->renderTexture(hexTexture, i, j);
 		}
 	
 	}
+	
 	
 	list<Image *>::iterator it;
 		
@@ -71,7 +68,13 @@ TestLevelState::onEnter()
     cout << "Pressione '3' para modo Espiao" << endl;
     cout << endl;    
     
-    
+    hex = new Hexagon(50);
+	hex->init();
+	hex->setDrawColor(0, 0, 0, 255);
+	hex->draw();
+	
+	hexTexture = hex->generateTexture(rend->getRenderer());
+	
     keyboardNum = new KeyboardNum();
     keyboardNum->setEventListener(this);
     
@@ -94,6 +97,14 @@ TestLevelState::onExit()
 {
     inputHandler->removeMouseClick(this);
     inputHandler->removeKeyboardEvent(keyboardNum);
+    
+    list<Image *>::iterator it;
+		
+	for(it = listImage->begin(); it != listImage->end(); it++)
+	{
+	    delete (*it);
+    }
+        
     delete listImage;
     delete hex;
     
@@ -171,15 +182,33 @@ TestLevelState::onEvent(Event *event, SDL_Event sdlEvent)
         
         Image *image = new Image();
         image->loadImage(adressImage.c_str(), rend->getRenderer());
-
+        
+        /*
         if(adressImage == "resources/img/torre02.png")
             tY -= hex->getHeight()/2;
+        */
         
 	    image->setX(tX);
 	    image->setY(tY);
 	    
+	    bool existeImagem = false;
 	    
-        listImage->push_back(image);
+	    //cout << "X: " << x << endl;
+	    //cout << "Y: " << y << endl;
+	    
+	    list<Image *>::iterator it;
+	    for(it = listImage->begin(); it != listImage->end(); it++)
+	    {
+	        if( ((*it)->getX() == tX) && ((*it)->getY() == tY) )
+	        {
+	            cout << "\nJa existe algo aí!" << endl;
+	            //cout << "listImage->size(): " << listImage->size() << endl;
+	            existeImagem = true;
+	        }
+        }
+	    
+	    if(!existeImagem)
+            listImage->push_back(image);
         
     }
     
