@@ -15,13 +15,13 @@ libgame_la_LDFLAGS = -static
 libgame_la_SOURCES = game.cpp
 
 # Libraries needed to build our library
-libgame_la_LIBADD = engine/libengine.la -lSDL2 
+libgame_la_LIBADD = engine/libengine.la -lSDL2 -lSDL2_mixer
 
 # Program description
 warofthenets_SOURCES = main.cpp
 
 # Libraries needed to build program
-warofthenets_LDADD = libgame.la -lSDL2
+warofthenets_LDADD = libgame.la -lSDL2 -lSDL2_mixer
 
 # Include flags
 INCLUDES = -I../include -g -W -Wall -pedantic -ansi -std=c++0x -Wno-long-long

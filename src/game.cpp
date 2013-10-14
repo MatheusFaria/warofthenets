@@ -12,6 +12,7 @@
 #include "texturemanager.h"
 #include "menustate.h"
 #include "inputhandler.h"
+#include "soundmanager.h"
 
 #include <iostream>
 using namespace std;
@@ -48,6 +49,9 @@ Game::init()
 
 	this->gameStateMachine = new GameStateMachine();
 	this->gameStateMachine->changeState(new MenuState());
+
+	SoundManager::Instance()->loadSound("resources/audio/Black_Vortex.ogg", "theme", MUSIC);
+	SoundManager::Instance()->playMusic("theme", 1);
 }
 
 void

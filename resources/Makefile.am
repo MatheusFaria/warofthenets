@@ -6,6 +6,6 @@
 warofthenetsdir = ./resources
 
 dist_warofthenets_DATA = img/logo.png font/Army.ttf font/BarcodeFont.ttf font/Base_02.ttf \
-							img/play.png img/exit.png img/fundo.jpg
+							img/play.png img/exit.png img/fundo.jpg audio/Black_Vortex.ogg
 
 
