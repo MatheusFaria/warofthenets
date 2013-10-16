@@ -1,5 +1,5 @@
 #include "testLevelState.h"
-#include "hexagon.h"
+#include "text.h"
 
 #include <iostream>
 
@@ -48,6 +48,8 @@ TestLevelState::render()
 	
 	}
 	
+	rend->renderTexture(instructionsTexture2, 10, 500);
+	rend->renderTexture(instructionsTexture, 10, 550);
 	
 	list<Image *>::iterator it;
 		
@@ -75,6 +77,16 @@ TestLevelState::onEnter()
 	
 	hexTexture = hex->generateTexture(rend->getRenderer());
 	
+	SDL_Color redColor = {225, 0, 0, 255};
+
+	Text * instructions = new Text("1: Tower -- 2: Bomb -- 3: Spy", 30);
+	instructions->setFont("resources/font/Army.ttf");
+	instructionsTexture = instructions->generateTexture(rend->getRenderer(), redColor, redColor);
+
+	Text * instructions2 = new Text("Click on the screen or select your units: ", 30);
+	instructions2->setFont("resources/font/Army.ttf");
+	instructionsTexture2 = instructions2->generateTexture(rend->getRenderer(), redColor, redColor);
+
     keyboardNum = new KeyboardNum();
     keyboardNum->setEventListener(this);
     
@@ -87,7 +99,8 @@ TestLevelState::onEnter()
     adressImage = "resources/img/torre02.png";
     
     this->listImage = new list<Image *>();
-    
+	
+
 	
 	return true;
 }

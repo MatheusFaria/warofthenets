@@ -64,6 +64,8 @@ private:
     
     Hexagon *hex;
     SDL_Texture *hexTexture;
+	SDL_Texture *instructionsTexture;
+	SDL_Texture *instructionsTexture2;
     
     int windowWidth;
     int windowHeight;
