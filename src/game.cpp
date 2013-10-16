@@ -114,6 +114,60 @@ Game::presentation()
 {
     //cout << "\n\nPRESENTATION\n" << endl;
     
+    
+    
+    Render * rend = this->window->getRender();
+	
+	SDL_Color whiteColor = {255, 255, 255, 255};
+	
+	rend->clear();
+	
+	Image logo;
+	logo.loadImage("resources/img/logo.png", rend->getRenderer());
+	int logoX = (this->window->getWidth() / 2) - (logo.getWidth() / 2);
+	int logoY = (this->window->getHeight() / 2) - (logo.getHeight() / 2);
+	rend->renderTexture(logo.getTexture(), logoX, logoY);
+	
+	Text *phrase = new Text("Apresenta:", 30);
+	phrase->setFont("resources/font/Army.ttf");
+	phrase->generateTexture(rend->getRenderer(), whiteColor, whiteColor);
+	int phraseX = (this->window->getWidth() / 2) - (phrase->getWidth() / 2);
+	int phraseY = logoY + logo.getHeight() + 10;
+	rend->renderTexture(phrase->getTexture(), phraseX, phraseY);
+	
+	rend->present();
+	
+	SDL_Delay(2000);
+	
+	rend->clear();
+
+	Image background;
+	background.loadImage("resources/img/armybackground.png", rend->getRenderer());
+	rend->renderTexture(background.getTexture(), 0, 0);
+
+
+	Image ageClass;
+	ageClass.loadImage("resources/img/ageclassification.png", rend->getRenderer());
+	rend->renderTexture(ageClass.getTexture(), 600, 450);
+
+	Image logoMini;
+	logoMini.loadImage("resources/img/logomini.png", rend->getRenderer());
+	rend->renderTexture(logoMini.getTexture(), 350, 400);
+
+	Image mitLicense;
+	mitLicense.loadImage("resources/img/mitlicense.png", rend->getRenderer());
+	rend->renderTexture(mitLicense.getTexture(), 10, 400);
+	
+	Text * gameName = new Text("WAR OF THE NETS", 80);
+	gameName->setFont("resources/font/Army.ttf");
+	gameName->generateTexture(rend->getRenderer(), whiteColor, whiteColor);
+	int gameNameX = (this->window->getWidth() / 2) - (gameName->getWidth() / 2);
+	int gameNameY = (this->window->getHeight() / 2) - (gameName->getHeight() / 2);
+	rend->renderTexture(gameName->getTexture(), gameNameX, gameNameY);
+	
+	rend->present();
+	SDL_Delay(2000);
+    
 }
 
 void
