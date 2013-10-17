@@ -2,8 +2,10 @@
 #define SDL_GAME_OBJECT_H
 
 #include "gameobject.h"
-#include "LoaderParams.h"
 #include "vector2d.h"
+#include <string>
+
+using namespace std;
 
 class SDLGameObject : public GameObject
 {
@@ -16,7 +18,7 @@ public:
 
 protected:
 
-	SDLGameObject(LoaderParams* params);
+	SDLGameObject(int, int, int, int, string);
 
 	Vector2D position;
 	int width;

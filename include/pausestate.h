@@ -23,7 +23,7 @@ private:
 	static void toMenu();
 	static void backToGame();
 
-	vector<GameObject*> pauseObjects;
+	std::vector<GameObject*> pauseObjects;
 	static const std::string pauseId;
 };
 

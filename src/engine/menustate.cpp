@@ -3,7 +3,6 @@
 #include "inputhandler.h"
 #include "render.h"
 #include "texturemanager.h"
-#include "LoaderParams.h"
 #include "menubutton.h"
 #include "game.h"
 #include "text.h"
@@ -83,8 +82,7 @@ MenuState::createMenu()
 	int playx = (Game::Instance()->getWindow()->getWidth() / 2) - (width / 2);
 	int playy= (Game::Instance()->getWindow()->getHeight() / 2) - (height / 2);
 
-	GameObject* playButton = new MenuButton(new LoaderParams(playx, playy, 321, 179, "playbutton"), 
-		menuToPlay);
+	GameObject* playButton = new MenuButton(playx, playy, 321, 179, "playbutton", menuToPlay);
 
 	SDL_QueryTexture(TextureManager::Instance()->getTexture("aboutbutton"), NULL, NULL,
 		 &width, &height);
@@ -92,7 +90,7 @@ MenuState::createMenu()
 	int aboutx = playx;
 	int abouty= playy + (Game::Instance()->getWindow()->getHeight() / 2)-playy + (height / 2);
 
-	GameObject* aboutButton = new MenuButton(new LoaderParams(aboutx, abouty, 325, 191, "aboutbutton"), exitFromMenu);
+	GameObject* aboutButton = new MenuButton(aboutx, abouty, 325, 191, "aboutbutton", exitFromMenu);
 
 	SDL_QueryTexture(TextureManager::Instance()->getTexture("exitbutton"), NULL, NULL, 
 		&width, &height);
@@ -102,7 +100,7 @@ MenuState::createMenu()
 
 	std::cout<<Game::Instance()->getWindow()->getHeight()<<std::endl;
 
-	GameObject* exitButton = new MenuButton(new LoaderParams(exitx, exity, 307, 184, "exitbutton"), exitFromMenu);
+	GameObject* exitButton = new MenuButton(exitx, exity, 307, 184, "exitbutton", exitFromMenu);
 
 	menuObjects.push_back(playButton);
 	menuObjects.push_back(aboutButton);

@@ -19,7 +19,7 @@ public:
 
 private:
 
-	vector<GameObject*> gameOverObjects;
+	std::vector<GameObject*> gameOverObjects;
 	static const std::string gameOverId;	
 
 };

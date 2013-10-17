@@ -2,12 +2,12 @@
 #include "texturemanager.h"
 #include "render.h"
 
-SDLGameObject::SDLGameObject(LoaderParams* params):GameObject(params) 
+SDLGameObject::SDLGameObject(int _x, int _y, int _width, int _height, string _imageId):GameObject() 
 {
-	width = params->getWidth();
-	height = params->getHeight();
-	imageId = params->getImageId();
-	this->position = Vector2D(params->getX(), params->getY());
+	this->position = Vector2D(_x, _y);
+	width = _width;
+	height=_height;
+	imageId = _imageId;
 
 	currentRow = 0;
 	currentFrame  = 0;

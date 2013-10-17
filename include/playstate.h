@@ -20,7 +20,7 @@ public:
 private:
 
 	static const std::string playId;
-	vector<GameObject*> playObjects;
+	std::vector<GameObject*> playObjects;
 
 };
 
