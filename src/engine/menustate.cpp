@@ -8,6 +8,7 @@
 #include "game.h"
 #include "text.h"
 #include "SDL2/SDL.h"
+#include "soundmanager.h"
 #include <iostream>
 
 const std::string MenuState::menuId = "MENU";
@@ -120,6 +121,7 @@ MenuState::onExit()
 	TextureManager::Instance()->clearFromTextureMap("playbutton");
 	TextureManager::Instance()->clearFromTextureMap("exitbutton");
 	TextureManager::Instance()->clearFromTextureMap("fundo");
+	SoundManager::Instance()->clearFromSoundManager("theme", MUSIC);
 
 	return true;
 }
