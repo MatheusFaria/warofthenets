@@ -92,8 +92,8 @@ Game::run()
 
 	bool quit = false;
 	
-	presentation();
-	SDL_Delay(2000);
+	//presentation();
+	//SDL_Delay(2000);
 	
 	
 	SDL_Event event;	
