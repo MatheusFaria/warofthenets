@@ -16,14 +16,19 @@ public:
 	virtual void update();
 	virtual void clean();
 
+	void setPosition(int, int);
+	int getWidth();
+	int getHeight();
+
 protected:
 
-	SDLGameObject(int, int, int, int, string);
+	SDLGameObject(int, int, int, int, string, string);
 
 	Vector2D position;
 	int width;
 	int height;
 	string imageId;
+	string imagePath;
 	int currentRow;
 	int currentFrame;
 

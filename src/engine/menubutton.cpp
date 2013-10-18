@@ -5,8 +5,8 @@
 
 using namespace std;
 
-MenuButton::MenuButton(int _x, int _y, int _width, int _height, string _imageId, void (*_callback)())
-: SDLGameObject(_x, _y, _width, _height, _imageId), callback(_callback)
+MenuButton::MenuButton(int _x, int _y, string _imagePath, string _imageId, void (*_callback)())
+: SDLGameObject(_x, _y, 0, 0, _imageId, _imagePath), callback(_callback)
 {
 	currentFrame = MOUSE_OUT;
 	released = true;

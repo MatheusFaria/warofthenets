@@ -37,7 +37,7 @@ MenuState::render()
 bool
 MenuState::onEnter()
 {
-
+	/*
 	if(!TextureManager::Instance()->loadImage("resources/img/play.png", 
 		"playbutton", Render::getInstance()->getRenderer()))
 	{
@@ -55,13 +55,14 @@ MenuState::onEnter()
 	{
 		return false;
 	}
-
+	*/
 	if(!TextureManager::Instance()->loadImage("resources/img/fundo.png",
 		"fundo", Render::getInstance()->getRenderer()))
 	{
 		std::cout<<"Error"<<std::endl;
 		return false;
 	}
+	
 	
 	createMenu();
 	
@@ -73,34 +74,43 @@ MenuState::onEnter()
 void 
 MenuState::createMenu()
 {
+	/*
 	int width, height;
 
 	SDL_QueryTexture(TextureManager::Instance()->getTexture("playbutton"), NULL, NULL,
 		 &width, &height);
+	*/
 
+	
 
-	int playx = (Game::Instance()->getWindow()->getWidth() / 2) - (width / 2);
-	int playy= (Game::Instance()->getWindow()->getHeight() / 2) - (height / 2);
+	MenuButton* playButton = new MenuButton(0, 0, "resources/img/play.png", "playbutton", menuToPlay);
+	int playx = (Game::Instance()->getWindow()->getWidth() / 2) - (playButton->getWidth() / 2);
+	int playy= (Game::Instance()->getWindow()->getHeight() / 2) - (playButton->getHeight() / 2);
+	playButton->setPosition(playx, playy);
 
-	GameObject* playButton = new MenuButton(playx, playy, 321, 179, "playbutton", menuToPlay);
-
+	/*
 	SDL_QueryTexture(TextureManager::Instance()->getTexture("aboutbutton"), NULL, NULL,
 		 &width, &height);
+	*/
 
+	
+	MenuButton* aboutButton = new MenuButton(0, 0, "resources/img/about.png", "aboutbutton", exitFromMenu);
 	int aboutx = playx;
-	int abouty= playy + (Game::Instance()->getWindow()->getHeight() / 2)-playy + (height / 2);
-
-	GameObject* aboutButton = new MenuButton(aboutx, abouty, 325, 191, "aboutbutton", exitFromMenu);
-
+	int abouty= playy + (Game::Instance()->getWindow()->getHeight() / 2)-playy + (aboutButton->getHeight() / 2);
+	aboutButton->setPosition(aboutx, abouty);
+	/*
 	SDL_QueryTexture(TextureManager::Instance()->getTexture("exitbutton"), NULL, NULL, 
 		&width, &height);
+	*/
 
-	int exitx = (Game::Instance()->getWindow()->getWidth() / 4) - (width);
-	int exity = (Game::Instance()->getWindow()->getHeight()) - height - 10;
+	
 
-	std::cout<<Game::Instance()->getWindow()->getHeight()<<std::endl;
+	//std::cout<<Game::Instance()->getWindow()->getHeight()<<std::endl;
 
-	GameObject* exitButton = new MenuButton(exitx, exity, 307, 184, "exitbutton", exitFromMenu);
+	MenuButton* exitButton = new MenuButton(0, 0, "resources/img/exit.png", "exitbutton", exitFromMenu);
+	int exitx = (Game::Instance()->getWindow()->getWidth() / 4) - (exitButton->getWidth());
+	int exity = (Game::Instance()->getWindow()->getHeight()) - exitButton->getHeight() - 10;
+	exitButton->setPosition(exitx, exity);
 
 	menuObjects.push_back(playButton);
 	menuObjects.push_back(aboutButton);
@@ -116,9 +126,11 @@ MenuState::onExit()
 
 	menuObjects.clear();
 
+	/*
 	TextureManager::Instance()->clearFromTextureMap("playbutton");
 	TextureManager::Instance()->clearFromTextureMap("exitbutton");
 	TextureManager::Instance()->clearFromTextureMap("fundo");
+	*/
 	SoundManager::Instance()->clearFromSoundManager("theme", MUSIC);
 
 	return true;

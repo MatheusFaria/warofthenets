@@ -6,7 +6,7 @@
 class MenuButton : public SDLGameObject{
 
 public:
-	MenuButton(int, int, int, int, string, void (*callback)());
+	MenuButton(int, int, string, string, void (*callback)());
 
 	virtual void draw();
 	virtual void update();
