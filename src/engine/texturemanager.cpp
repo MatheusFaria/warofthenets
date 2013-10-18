@@ -105,12 +105,19 @@ TextureManager::drawFrame(std::string imageId, int x, int y, int width, int heig
 void 
 TextureManager::clearTextureMap()
 {
+	map<string, SDL_Texture*>::iterator it;
+
+
+	for(it = textureMap.begin(); it != textureMap.end() ;it++)
+		SDL_DestroyTexture(it->second);
+
 	textureMap.clear();
 }
 
 void 
 TextureManager::clearFromTextureMap(string imageId)
 {
+	SDL_DestroyTexture(textureMap[imageId]);
 	textureMap.erase(imageId);
 }
 
