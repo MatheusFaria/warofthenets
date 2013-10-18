@@ -2,21 +2,21 @@
 # Date: 26/11/2010
 
 # Library description
-lib_LTLIBRARIES = libengine.la
+lib_LTLIBRARIES = libengineaudio.la
 
 # Programs excluded from instalation
 #noinst_PROGRAMS = warofthenets
 #bin_PROGRAMS = warofthenets
 
 # Library flags
-libengine_la_LDFLAGS = -static
+libengineaudio_la_LDFLAGS = -static
 
 # Library sources
 
-libengine_la_SOURCES = gamestatemachine.cpp log.cpp sdlgameobject.cpp sdlsettings.cpp vector2d.cpp window.cpp
+libengineaudio_la_SOURCES = soundmanager.cpp
 
 # Libraries needed to build our library
-libengine_la_LIBADD = -lSDL2 -lm audio/libengineaudio.la io/libengineio.la network/libenginenetwork.la render/libenginerender.la 
+libengineaudio_la_LIBADD = -lSDL2_mixer -lSDL2
 
 # Program description
 #warofthenets_SOURCES =

@@ -2,21 +2,20 @@
 # Date: 26/11/2010
 
 # Library description
-lib_LTLIBRARIES = libengine.la
+lib_LTLIBRARIES = libgamestates.la
 
 # Programs excluded from instalation
 #noinst_PROGRAMS = warofthenets
 #bin_PROGRAMS = warofthenets
 
 # Library flags
-libengine_la_LDFLAGS = -static
+libgamestates_la_LDFLAGS = -static
 
 # Library sources
-
-libengine_la_SOURCES = gamestatemachine.cpp log.cpp sdlgameobject.cpp sdlsettings.cpp vector2d.cpp window.cpp
+libgamestates_la_SOURCES = gameoverstate.cpp menubutton.cpp menustate.cpp pausestate.cpp playstate.cpp
 
 # Libraries needed to build our library
-libengine_la_LIBADD = -lSDL2 -lm audio/libengineaudio.la io/libengineio.la network/libenginenetwork.la render/libenginerender.la 
+libgamestates_la_LIBADD = -lSDL2 ../../engine/libengine.la
 
 # Program description
 #warofthenets_SOURCES =
@@ -25,5 +24,5 @@ libengine_la_LIBADD = -lSDL2 -lm audio/libengineaudio.la io/libengineio.la netwo
 #warofthenets_LDADD = 
 
 # Include flags
-INCLUDES = -I../../include -g -W -Wall -pedantic -ansi -std=c++0x -Wno-long-long
+INCLUDES = -I../../include -W -Wall -pedantic -ansi -Wno-long-long
 

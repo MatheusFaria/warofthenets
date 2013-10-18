@@ -43,12 +43,16 @@ AC_PROG_INSTALL
 dnl Output files
 AC_OUTPUT(
 Makefile
-test/Makefile
 include/Makefile
 resources/Makefile
+src/engine/render/Makefile
+src/engine/io/Makefile
+src/engine/network/Makefile
+src/engine/audio/Makefile
 src/engine/Makefile
-src/menus/Makefile
-src/levels/Makefile
+src/game/states/Makefile
+src/game/levels/Makefile
+src/game/Makefile
 src/Makefile
 )
 

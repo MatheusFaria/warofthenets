@@ -2,21 +2,22 @@
 # Date: 26/11/2010
 
 # Library description
-lib_LTLIBRARIES = libengine.la
+lib_LTLIBRARIES = libenginerender.la
 
 # Programs excluded from instalation
 #noinst_PROGRAMS = warofthenets
 #bin_PROGRAMS = warofthenets
 
 # Library flags
-libengine_la_LDFLAGS = -static
+libenginerender_la_LDFLAGS = -static
 
 # Library sources
 
-libengine_la_SOURCES = gamestatemachine.cpp log.cpp sdlgameobject.cpp sdlsettings.cpp vector2d.cpp window.cpp
+libenginerender_la_SOURCES = circle.cpp drawableobject.cpp hexagon.cpp image.cpp line.cpp pixel.cpp rectangle.cpp \
+						render.cpp text.cpp texturemanager.cpp
 
 # Libraries needed to build our library
-libengine_la_LIBADD = -lSDL2 -lm audio/libengineaudio.la io/libengineio.la network/libenginenetwork.la render/libenginerender.la 
+libenginerender_la_LIBADD = -lSDL2 -lm -lSDL2_image -lSDL2_ttf
 
 # Program description
 #warofthenets_SOURCES =
