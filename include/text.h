@@ -12,7 +12,7 @@ using namespace std;
 #define TTF_BLENDED 1
 #define TTF_SHADED 2
 
-class Text{
+class Text: public SDLGameObject {
 public:
 	Text(string, int, int = TTF_STYLE_NORMAL);
 	~Text();
@@ -26,6 +26,8 @@ public:
 	int getWidth();
 	int getHeight();
 
+	string getValue();
+
 private:
 	SDL_Texture * text;
 	string value;
@@ -36,9 +38,6 @@ private:
 	SDL_Color backgroundColor;
 	TTF_Font * font;
 	string fontPath;
-	
-	int width;
-	int height;
 
 	SDL_Surface * generateSurfaceText(int);
 };

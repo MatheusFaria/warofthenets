@@ -27,7 +27,6 @@ TextureManager::loadImage(string imagePath,  string imageId, SDL_Renderer* rende
 	if(!surface)
 	{
 		cout<<"Error:"<<endl;
-		//cout<<"Error: "<<SDL_GetError()<<endl;
 		return false;
 	}
 
@@ -44,9 +43,12 @@ TextureManager::loadImage(string imagePath,  string imageId, SDL_Renderer* rende
 		cout<<"Error:"<<endl;
 		return false;
 	}
+}
 
-	
-
+void
+TextureManager::addText(Text * text)
+{
+	textureMap[text->getValue()] = text->getTexture();
 }
 
 void

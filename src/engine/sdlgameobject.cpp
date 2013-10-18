@@ -32,3 +32,21 @@ SDLGameObject::update()
 	
 }
 	
+void
+SDLGameObject::setWidth(int width)
+{
+	this->width = width;
+}
+
+void
+SDLGameObject::setHeight(int height)
+{
+	this->height = height;
+}
+
+void
+SDLGameObject::setPosition(int x, int y)
+{
+	this->position.setX(x);
+	this->position.setY(y);
+}

@@ -11,6 +11,9 @@ class SDLGameObject : public GameObject
 {
 
 public:
+	void setWidth(int);
+	void setHeight(int);
+	void setPosition(int, int);
 
 	virtual void draw();
 	virtual void update();

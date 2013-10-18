@@ -2,6 +2,7 @@
 #include "log.h"
 
 Text::Text(string value, int size, int style)
+:SDLGameObject(0, 0, 0, 0, value)
 {
 	this->value = value;
 	this->size = size;
@@ -74,8 +75,8 @@ Text::generateTexture(SDL_Renderer * render, SDL_Color foregroundColor, SDL_Colo
 	}
 	
 	this->text = SDL_CreateTextureFromSurface(render, textSurface);
-	this->width = textSurface->clip_rect.w;
-	this->height = textSurface->clip_rect.h;
+	setWidth(textSurface->clip_rect.w);
+	setHeight(textSurface->clip_rect.h);
 	
 	SDL_FreeSurface(textSurface);
 	
@@ -123,3 +124,8 @@ Text::getHeight()
     return this->height;
 }
 
+string
+Text::getValue()
+{
+	return this->value;
+}
