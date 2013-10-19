@@ -1,45 +1,52 @@
 #ifndef TEXT_H
 #define TEXT_H
 
-#include "SDL2/SDL.h"
 #include "SDL2/SDL_ttf.h"
-#include "sdlgameobject.h"
-
+#include "renderableobject.h"
 #include <string>
-using namespace std;
 
-#define TTF_SOLID 0
-#define TTF_BLENDED 1
-#define TTF_SHADED 2
-
-class Text: public SDLGameObject {
+class Text: public RenderableObject{
 public:
-	Text(string, int, int = TTF_STYLE_NORMAL);
+	Text(std::string, int, std::string, SDL_Color, Render *, int = SOLID, int = TTF_STYLE_NORMAL);
+	Text(std::string, int, std::string, SDL_Color, SDL_Color, Render *, int = TTF_STYLE_NORMAL);
 	~Text();
 
-	void setFont(string);
 	void setStyle(int);
-	SDL_Texture * generateTexture(SDL_Renderer *, SDL_Color, SDL_Color, int = TTF_SOLID);
-
-	SDL_Texture * getTexture();
+	void setSize(int);
+	void setBackgroundColor(SDL_Color);
+	void setForegroundColor(SDL_Color);
+	void setValue(std::string);
+	void setFont(std::string);
 	
-	int getWidth();
-	int getHeight();
+	std::string getValue() const;
 
-	string getValue();
+	static const int NORMAL;
+	static const int BOLD;
+	static const int ITALIC;
+	static const int UNDERLINE;
+	static const int STRIKETHROUGH;
 
 private:
-	SDL_Texture * text;
-	string value;
-	int mode;
-	int size;
-	int style;
 	SDL_Color foregroundColor;
 	SDL_Color backgroundColor;
 	TTF_Font * font;
-	string fontPath;
 
-	SDL_Surface * generateSurfaceText(int);
+	std::string value;
+	std::string fontPath;
+
+	int mode;
+	int size;
+	int style;
+
+	SDL_Surface * generateSurfaceText();
+	SDL_Texture * generateTexture();
+	void openFont();
+	void updateText();
+
+	static const int SOLID;
+	static const int BLENDED;
+	static const int SHADED;
+	static const SDL_Color whiteTransparent;
 };
 
 #endif

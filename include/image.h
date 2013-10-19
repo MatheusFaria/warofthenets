@@ -1,26 +1,28 @@
 #ifndef IMAGE_H
 #define IMAGE_H
 
-#include "SDL2/SDL.h"
 #include "SDL2/SDL_image.h"
+#include "renderableobject.h"
+#include <string>
 
-class Image{
-
+class Image: virtual public RenderableObject{
 public:
-	Image();
+	Image(std::string, int, int, int, Render *);
 	~Image();
 	
-	bool loadImage(const char* path, SDL_Renderer * render);
-	SDL_Texture * getTexture();
-	
-	int getWidth();
-	int getHeight();
+	std::string getImageId() const;
+	int getNumberSprites() const;
+	int getSpritesLines() const;
+	int getSpritesColumns() const;
 
 private:
-	SDL_Texture * texture;
-	
-	int width;
-	int height;
+	std::string imageId;
+	int sprites;
+	int spritesLines;
+	int spritesCols;
+
+	SDL_Texture * generateTexture();
+	SDL_Surface * loadImage();
 };
 
 #endif

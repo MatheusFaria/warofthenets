@@ -1,53 +1,61 @@
 #include "image.h"
 #include "log.h"
 
-Image::Image()
+using namespace std;
+
+Image::Image(string path, int sprites, int spritesLines, int spritesCols, Render * render)
+:RenderableObject(render)
 {
-	this->texture = NULL;
+	this->imageId = path;
+	this->sprites = sprites;
+	this->spritesLines = spritesLines;
+	this->spritesCols = spritesCols;
 }
 
-Image::~Image()
-{
-	if(this->texture != NULL)
-		SDL_DestroyTexture(texture);
-}
+Image::~Image() {}
 
-bool
-Image::loadImage(const char* path, SDL_Renderer * renderer)
+SDL_Surface *
+Image::loadImage()
 {
-	SDL_Surface * imgloaded = IMG_Load(path);
-
-	if(imgloaded != NULL)
-	{
-		this->texture = SDL_CreateTextureFromSurface(renderer, imgloaded);
-		
-		this->width = imgloaded->clip_rect.w;
-		this->height = imgloaded->clip_rect.h;
-		
-		SDL_FreeSurface(imgloaded);
-		if(this->texture == NULL)
-			Log::warn("Could not create the texture from the surface");
-	}
-	else
-		Log::warn("Could not load the image");
-	return texture;
+	return IMG_Load(this->imageId.c_str());
 }	
 
-SDL_Texture *
-Image::getTexture()
-{
-	return this->texture;
+SDL_Texture * 
+Image::generateTexture()
+{	
+	SDL_Texture * imgTexture = NULL;
+	SDL_Surface * imgSurface = this->loadImage();
+
+	if(imgSurface != NULL)
+	{
+		imgTexture = SDL_CreateTextureFromSurface(getRenderer(), imgSurface);
+		SDL_FreeSurface(imgSurface);
+	}
+
+	return imgTexture;
 }
 
-int
-Image::getWidth()
+string 
+Image::getImageId() const
 {
-    return this->width;
+	return this->imageId;
 }
 
-int
-Image::getHeight()
+int 
+Image::getNumberSprites() const
 {
-    return this->height;
+	return this->sprites;
 }
-	
+
+int 
+Image::getSpritesLines() const
+{
+	return this->spritesLines;
+}
+
+int 
+Image::getSpritesColumns() const
+{
+	return this->spritesCols;
+}
+
