@@ -14,7 +14,7 @@ libenginerender_la_LDFLAGS = -static
 # Library sources
 
 libenginerender_la_SOURCES = circle.cpp drawableobject.cpp hexagon.cpp image.cpp line.cpp pixel.cpp rectangle.cpp \
-						render.cpp text.cpp texturemanager.cpp renderableobject.cpp
+						render.cpp text.cpp texturemanager.cpp renderableobject.cpp texture.cpp
 
 # Libraries needed to build our library
 libenginerender_la_LIBADD = -lSDL2 -lm -lSDL2_image -lSDL2_ttf

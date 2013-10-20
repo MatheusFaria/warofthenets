@@ -6,7 +6,7 @@
 
 class RenderableObject{
 public:
-	RenderableObject(Render *);
+	RenderableObject(Render *, int = 1, int = 1, int = 1);
 	~RenderableObject();
 
 	SDL_Texture * getTexture();
@@ -14,10 +14,14 @@ public:
 	int getHeight();
 	void setRender(Render *);
 
+	int getNumberSprites() const;
+	int getSpritesLines() const;
+	int getSpritesColumns() const;
+	SDL_Renderer * getRenderer() const;
+
 	void update();
 
 protected:
-	SDL_Renderer * getRenderer() const;
 	virtual SDL_Texture * generateTexture() = 0;
 
 private:
@@ -25,6 +29,9 @@ private:
 	SDL_Texture * texture;
 	int width;
 	int height;
+	int sprites;
+	int spritesLines;
+	int spritesCols;
 	
 	static const int UNDEFINED_WIDTH_VALUE;
 	static const int UNDEFINED_HEIGHT_VALUE;

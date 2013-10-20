@@ -3,13 +3,10 @@
 
 using namespace std;
 
-Image::Image(string path, int sprites, int spritesLines, int spritesCols, Render * render)
-:RenderableObject(render)
+Image::Image(string path, Render * render, int sprites, int spritesLines, int spritesCols)
+:RenderableObject(render, sprites, spritesLines, spritesCols)
 {
 	this->imageId = path;
-	this->sprites = sprites;
-	this->spritesLines = spritesLines;
-	this->spritesCols = spritesCols;
 }
 
 Image::~Image() {}
@@ -39,23 +36,5 @@ string
 Image::getImageId() const
 {
 	return this->imageId;
-}
-
-int 
-Image::getNumberSprites() const
-{
-	return this->sprites;
-}
-
-int 
-Image::getSpritesLines() const
-{
-	return this->spritesLines;
-}
-
-int 
-Image::getSpritesColumns() const
-{
-	return this->spritesCols;
 }
 

@@ -13,6 +13,7 @@
 #include "menustate.h"
 #include "inputhandler.h"
 #include "soundmanager.h"
+#include "texture.h"
 
 #include <iostream>
 using namespace std;
@@ -65,8 +66,8 @@ Game::init()
 	this->gameStateMachine = new GameStateMachine();
 	this->gameStateMachine->changeState(new MenuState());
 
-	SoundManager::Instance()->loadSound("resources/audio/Black_Vortex.ogg", "theme", MUSIC);
-	SoundManager::Instance()->playMusic("theme", 1);
+	//SoundManager::Instance()->loadSound("resources/audio/Black_Vortex.ogg", "theme", MUSIC);
+	//SoundManager::Instance()->playMusic("theme", 1);
 }
 
 GameStateMachine*
@@ -98,18 +99,32 @@ Game::run()
 	
 	presentation();
 
+	Render * rend = this->window->getRender();
+
+
+	Image * logo = new Image("resources/img/spritedimg2.png", rend, 4, 1, 4);
+	Texture * logoTex = new Texture(logo, 10, 10);
+
+
 	SDL_Event event;	
 	while(!quit)
 	{
+	rend->clear();
 	    while(SDL_PollEvent(&event))
 	    {
 	        InputHandler::Instance()->update(event);
-		    gameStateMachine->update();
-		    render();
+		    //gameStateMachine->update();
+		    //render();
 		    
 		    if(event.type == SDL_QUIT)
 		        quit = true;
+			else if(event.type == SDL_KEYDOWN)
+			{
+				logoTex->decSprite();
+			}
 	    }
+	logoTex->render();
+	rend->present();
 	}
 }
 
@@ -117,10 +132,8 @@ Game::run()
 void
 Game::presentation()
 {
-	Render * rend = this->window->getRender();
 
-	rend->clear();
-
+/*
 	Image logo;
 	
 	logo.loadImage("resources/img/logo.png", rend->getRenderer());
@@ -152,7 +165,7 @@ Game::presentation()
 	rend->renderTexture(gameName->getTexture(), gameNameX, gameNameY);
 	
 	rend->present();
-	
+*/
 }
 
 void 

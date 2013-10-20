@@ -7,19 +7,13 @@
 
 class Image: virtual public RenderableObject{
 public:
-	Image(std::string, int, int, int, Render *);
+	Image(std::string, Render *, int = 1, int = 1, int = 1);
 	~Image();
 	
 	std::string getImageId() const;
-	int getNumberSprites() const;
-	int getSpritesLines() const;
-	int getSpritesColumns() const;
 
 private:
 	std::string imageId;
-	int sprites;
-	int spritesLines;
-	int spritesCols;
 
 	SDL_Texture * generateTexture();
 	SDL_Surface * loadImage();

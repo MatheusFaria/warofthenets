@@ -3,10 +3,13 @@
 const int RenderableObject::UNDEFINED_WIDTH_VALUE = -1;
 const int RenderableObject::UNDEFINED_HEIGHT_VALUE = -1;
 
-RenderableObject::RenderableObject(Render * render)
+RenderableObject::RenderableObject(Render * render, int sprites, int spritesLines, int spritesCols)
 {
 	this->render = render;
 	this->texture = NULL;
+	this->sprites = sprites;
+	this->spritesLines = spritesLines;
+	this->spritesCols = spritesCols;
 	this->width = UNDEFINED_WIDTH_VALUE;
 	this->height = UNDEFINED_HEIGHT_VALUE;
 }
@@ -60,3 +63,22 @@ RenderableObject::getRenderer() const
 		return NULL;
 	return this->render->getRenderer();
 }
+
+int 
+RenderableObject::getNumberSprites() const
+{
+	return this->sprites;
+}
+
+int 
+RenderableObject::getSpritesLines() const
+{
+	return this->spritesLines;
+}
+
+int 
+RenderableObject::getSpritesColumns() const
+{
+	return this->spritesCols;
+}
+
