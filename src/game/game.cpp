@@ -63,11 +63,11 @@ Game::init()
 	this->window = new Window(WIDTH, HEIGHT, 0, 0, title);
 	(this->window)->createWindow();
 
-	this->gameStateMachine = new GameStateMachine();
+/*	this->gameStateMachine = new GameStateMachine();
 	this->gameStateMachine->changeState(new MenuState());
 
-	//SoundManager::Instance()->loadSound("resources/audio/Black_Vortex.ogg", "theme", MUSIC);
-	//SoundManager::Instance()->playMusic("theme", 1);
+	SoundManager::Instance()->loadSound("resources/audio/Black_Vortex.ogg", "theme", MUSIC);
+	SoundManager::Instance()->playMusic("theme", 1);*/
 }
 
 GameStateMachine*
@@ -100,11 +100,15 @@ Game::run()
 	presentation();
 
 	Render * rend = this->window->getRender();
-
+	
+	TextureManager * manager = new TextureManager();
 
 	Image * logo = new Image("resources/img/spritedimg2.png", rend, 4, 1, 4);
-	Texture * logoTex = new Texture(logo, 10, 10);
-
+	Texture * logoTex = new Texture(logo, 10, 10, true);
+	Texture * logoTex2 = new Texture(logo, 100, 100);
+	
+	manager->addTexture("logo1", logoTex);
+	manager->addTexture("logo2", logoTex2);
 
 	SDL_Event event;	
 	while(!quit)
@@ -112,7 +116,7 @@ Game::run()
 	rend->clear();
 	    while(SDL_PollEvent(&event))
 	    {
-	        InputHandler::Instance()->update(event);
+	        //InputHandler::Instance()->update(event);
 		    //gameStateMachine->update();
 		    //render();
 		    
@@ -120,11 +124,12 @@ Game::run()
 		        quit = true;
 			else if(event.type == SDL_KEYDOWN)
 			{
-				logoTex->decSprite();
+				logoTex2->incSprite();
 			}
 	    }
-	logoTex->render();
+	manager->renderAll();
 	rend->present();
+	SDL_Delay(330);
 	}
 }
 
@@ -173,50 +178,13 @@ Game::clean()
 {
     cout << "cleaning game"<<endl;
     
-    gameStateMachine->clean();
+   /* gameStateMachine->clean();
     
     gameStateMachine = 0;
     delete gameStateMachine;
     
-    TextureManager::Instance()->clearTextureMap();
+    TextureManager::Instance()->clearTextureMap();*/
     
     SDL_DestroyRenderer(Render::getInstance()->getRenderer());
     SDL_Quit();
-}
-
-void updateTime();
-void getInput();	
-void getNetworkMessage();
-void simulateWorld();
-void updateObjects();
-void renderWorld();
-
-void updateTime()
-{
-	cout<<"Update time"<<endl;
-}
-
-void getInput()
-{
-	cout<<"Inputs received"<<endl;
-}
-
-void getNetworkMessage()
-{
-	cout<<"Getting Network Message"<<endl;
-}
-
-void simulateWorld()
-{
-	cout<<"Simulating world units"<<endl;
-}
-
-void updateObjects()
-{
-	cout<<"Onjects atualized"<<endl;
-}
-
-void renderWorld()
-{
-	cout<<"World Screen Atualized"<<endl;
 }

@@ -2,35 +2,32 @@
 #define TEXTURE_MANAGER_H
 
 #include <map>
+#include <vector>
 #include <string>
-#include "SDL2/SDL.h"
-#include "text.h"
-
-using namespace std;
+#include "texture.h"
 
 class TextureManager{
 
 public:
+	TextureManager();
+	~TextureManager();
 
-	static TextureManager* Instance();
+	void addTexture(std::string, Texture *);
+	void removeTexture(std::string);
+	Texture * getTexture(std::string);
 
-	bool loadImage(string, string, SDL_Renderer*);
-	void addText(Text *);
-
-	void draw(string, int, int, SDL_Renderer*, SDL_RendererFlip=SDL_FLIP_NONE);
-	void drawFrame(string, int, int,int, int, int, int, SDL_Renderer *, double, SDL_RendererFlip=SDL_FLIP_NONE);
-
-	SDL_Texture* getTexture(string);
-	void clearTextureMap();
-    void clearFromTextureMap(string imageId);
-
-private:
+	void renderAll() const;
+	void renderRange(int, int) const;
+	void renderTexture(std::string);
 	
-	TextureManager(){};
+	void setPriority(std::string, int);
 
-	map<std::string, SDL_Texture*>	textureMap;
-	static TextureManager* instance;
-
+	int getMaxPriority() const;
+private:
+	std::map<std::string, Texture *> textureMap;
+	std::vector<Texture *> priorityOrder;
+	
+ 	void eraseTextureFromPriorityOrder(std::string);
 };
 
 

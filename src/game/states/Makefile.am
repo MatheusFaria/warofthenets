@@ -12,7 +12,7 @@ lib_LTLIBRARIES = libgamestates.la
 libgamestates_la_LDFLAGS = -static
 
 # Library sources
-libgamestates_la_SOURCES = gameoverstate.cpp menubutton.cpp menustate.cpp pausestate.cpp playstate.cpp
+libgamestates_la_SOURCES = gameoverstate.cpp menubutton.cpp pausestate.cpp playstate.cpp
 
 # Libraries needed to build our library
 libgamestates_la_LIBADD = -lSDL2 ../../engine/libengine.la

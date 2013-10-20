@@ -6,7 +6,7 @@
 
 class Texture{
 public:
-	Texture(RenderableObject *, int, int);
+	Texture(RenderableObject *, int, int, bool = false);
 	~Texture();
 
 	RenderableObject * getObject() const;
@@ -23,11 +23,15 @@ public:
 	void decSprite();
 
 	void render();
+	void enableAutomaticAnimation(int = 1);
+	void disableAutomaticAnimation();
 
 private:
 	RenderableObject * object;
 	int currentSprite;
 	int x, y;
+	bool automaticAnimation;
+	int spriteSkip;
 };
 
 #endif
