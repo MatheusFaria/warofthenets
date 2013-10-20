@@ -105,15 +105,16 @@ Game::run()
 	{
 	    while(SDL_PollEvent(&event))
 	    {
-	        InputHandler::Instance()->update(event);
-		    gameStateMachine->update();
-		    render();
+	        InputHandler::getInstance()->sendSdlEvent(event);
 		    
-		    //cout << "Renderizado" << endl;
 		    
 		    if(event.type == SDL_QUIT)
 		        quit = true;
 	    }
+	    gameStateMachine->update();
+	    render();
+	    
+	    SDL_Delay(1);
 	}
 }
 

@@ -3,7 +3,6 @@
 #include "inputhandler.h"
 #include "render.h"
 #include "texturemanager.h"
-#include "menubutton.h"
 #include "game.h"
 #include "text.h"
 #include "SDL2/SDL.h"
@@ -83,21 +82,26 @@ MenuState::createMenu()
 
 	
 
-	MenuButton* playButton = new MenuButton(0, 0, "resources/img/play.png", "playbutton", menuToPlay);
+	playButton = new MenuButton(0, 0, "resources/img/play.png", "playbutton");
 	int playx = (Game::Instance()->getWindow()->getWidth() / 2) - (playButton->getWidth() / 2);
 	int playy= (Game::Instance()->getWindow()->getHeight() / 2) - (playButton->getHeight() / 2);
 	playButton->setPosition(playx, playy);
-
+	playButton->setEventListener(this);
+	InputHandler::getInstance()->addMouseClick(playButton);
+	
 	/*
 	SDL_QueryTexture(TextureManager::Instance()->getTexture("aboutbutton"), NULL, NULL,
 		 &width, &height);
 	*/
 
 	
-	MenuButton* aboutButton = new MenuButton(0, 0, "resources/img/about.png", "aboutbutton", exitFromMenu);
+	aboutButton = new MenuButton(0, 0, "resources/img/about.png", "aboutbutton");
 	int aboutx = playx;
 	int abouty= playy + (Game::Instance()->getWindow()->getHeight() / 2)-playy + (aboutButton->getHeight() / 2);
 	aboutButton->setPosition(aboutx, abouty);
+	aboutButton->setEventListener(this);
+	InputHandler::getInstance()->addMouseClick(aboutButton);
+	
 	/*
 	SDL_QueryTexture(TextureManager::Instance()->getTexture("exitbutton"), NULL, NULL, 
 		&width, &height);
@@ -107,10 +111,12 @@ MenuState::createMenu()
 
 	//std::cout<<Game::Instance()->getWindow()->getHeight()<<std::endl;
 
-	MenuButton* exitButton = new MenuButton(0, 0, "resources/img/exit.png", "exitbutton", exitFromMenu);
+	exitButton = new MenuButton(0, 0, "resources/img/exit.png", "exitbutton");
 	int exitx = (Game::Instance()->getWindow()->getWidth() / 4) - (exitButton->getWidth());
 	int exity = (Game::Instance()->getWindow()->getHeight()) - exitButton->getHeight() - 10;
 	exitButton->setPosition(exitx, exity);
+	exitButton->setEventListener(this);
+	InputHandler::getInstance()->addMouseClick(exitButton);
 
 	menuObjects.push_back(playButton);
 	menuObjects.push_back(aboutButton);
@@ -132,6 +138,10 @@ MenuState::onExit()
 	TextureManager::Instance()->clearFromTextureMap("fundo");
 	*/
 	SoundManager::Instance()->clearFromSoundManager("theme", MUSIC);
+	
+	InputHandler::getInstance()->removeMouseClick(playButton);
+	InputHandler::getInstance()->removeMouseClick(aboutButton);
+	InputHandler::getInstance()->removeMouseClick(exitButton);
 
 	return true;
 }
@@ -153,3 +163,44 @@ MenuState::exitFromMenu()
 {
 	std::cout<<"Exit button touched"<<std::endl;
 }
+
+void
+MenuState::onMouseClick(MouseClick *mouseClick)
+{
+    
+    if(mouseClick == playButton)
+        menuToPlay();
+    
+    if(mouseClick == aboutButton)
+        std::cout<<"About button touched"<<std::endl;
+        
+    if(mouseClick == exitButton)
+        exitFromMenu();
+    
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

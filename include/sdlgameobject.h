@@ -16,9 +16,15 @@ public:
 	virtual void update();
 	virtual void clean();
 
+    Vector2D getPosition();
 	void setPosition(int, int);
+	
 	int getWidth();
 	int getHeight();
+	
+	int getX();
+	int getY();
+	
 
 protected:
 

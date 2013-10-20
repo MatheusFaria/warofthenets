@@ -3,9 +3,11 @@
 
 #include "gameestate.h"
 #include "gameobject.h"
+#include "mouseclick.h"
+#include "menubutton.h"
 #include <vector>
 
-class MenuState : public GameState{
+class MenuState : public GameState, MouseClick::MouseClickListener{
 
 public:
 
@@ -16,6 +18,8 @@ public:
 	virtual bool onExit();
 
 	virtual std::string getStateId() const;
+	
+	virtual void onMouseClick(MouseClick *mouseClick);
 
 	void createMenu();
 
@@ -26,6 +30,10 @@ private:
 
 	static const std::string menuId;
 	std::vector<GameObject*> menuObjects;
+	
+	MenuButton *playButton;
+	MenuButton *aboutButton;
+	MenuButton *exitButton;
 
 };
 

@@ -57,9 +57,24 @@ SDLGameObject::getHeight()
 	return height;
 }
 
+Vector2D
+SDLGameObject::getPosition()
+{
+    return position;
+}
 
 
+int
+SDLGameObject::getX()
+{
+    return position.getX();
+}
 
+int
+SDLGameObject::getY()
+{
+    return position.getY();
+}
 
 
 
