@@ -14,6 +14,7 @@
 #include "inputhandler.h"
 #include "soundmanager.h"
 #include "texture.h"
+#include "imagemanager.h"
 
 #include <iostream>
 using namespace std;
@@ -102,8 +103,12 @@ Game::run()
 	Render * rend = this->window->getRender();
 	
 	TextureManager * manager = new TextureManager();
+	ImageManager * imanager = new ImageManager();
 
-	Image * logo = new Image("resources/img/spritedimg2.png", rend, 4, 1, 4);
+	Image * logo;
+	imanager->addImage("resources/img/spritedimg2.png", rend, 4, 1, 4);
+	logo = imanager->getImage("resources/img/spritedimg2.png");
+
 	Texture * logoTex = new Texture(logo, 10, 10, true);
 	Texture * logoTex2 = new Texture(logo, 100, 100);
 	
@@ -131,6 +136,9 @@ Game::run()
 	rend->present();
 	SDL_Delay(330);
 	}
+
+	imanager->releaseImage("resources/img/spritedimg2.png");
+	imanager->removeImage("resources/img/spritedimg2.png");
 }
 
 
