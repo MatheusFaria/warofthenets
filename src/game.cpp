@@ -84,7 +84,7 @@ Game::presentation()
 	
 	rend->present();
 	
-	//SDL_Delay(5000);
+	SDL_Delay(5000);
 	
 	rend->clear();
 
