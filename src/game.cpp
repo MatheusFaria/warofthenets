@@ -38,7 +38,7 @@ Game::init()
 		cout << "Could not Set Enviroment" << endl;
 
 	const char * title = "War of The Nets";
-	this->window = new Window(800, 600, 0, 0, title);
+	this->window = new Window(1280, 700, 0, 0, title);
 	(this->window)->createWindow();
 }
 
@@ -84,7 +84,7 @@ Game::presentation()
 	
 	rend->present();
 	
-	SDL_Delay(5000);
+	//SDL_Delay(5000);
 	
 	rend->clear();
 
@@ -95,15 +95,21 @@ Game::presentation()
 
 	Image ageClass;
 	ageClass.loadImage("resources/img/ageclassification.png", rend->getRenderer());
-	rend->renderTexture(ageClass.getTexture(), 600, 450);
+	int ageClassX = this->window->getWidth() - ageClass.getWidth() - 10;
+	int ageClassY = this->window->getHeight() - ageClass.getHeight() - 10;
+	rend->renderTexture(ageClass.getTexture(), ageClassX, ageClassY);
 
 	Image logoMini;
 	logoMini.loadImage("resources/img/logomini.png", rend->getRenderer());
-	rend->renderTexture(logoMini.getTexture(), 350, 400);
+	int logoMiniX = (this->window->getWidth() / 2) - (logoMini.getWidth() / 2);
+	int logoMiniY = this->window->getHeight() - logoMini.getHeight() - 10;
+	rend->renderTexture(logoMini.getTexture(), logoMiniX, logoMiniY);
 
 	Image mitLicense;
 	mitLicense.loadImage("resources/img/mitlicense.png", rend->getRenderer());
-	rend->renderTexture(mitLicense.getTexture(), 10, 400);
+	int mitLicenseX = 10;
+	int mitLicenseY = this->window->getHeight() - mitLicense.getHeight() - 10;
+	rend->renderTexture(mitLicense.getTexture(), mitLicenseX, mitLicenseY);
 	
 	Text * gameName = new Text("WAR OF THE NETS", 80);
 	gameName->setFont("resources/font/Army.ttf");
