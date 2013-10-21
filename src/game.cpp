@@ -68,6 +68,25 @@ Game::presentation()
 	
 	SDL_Color whiteColor = {255, 255, 255, 255};
 	rend->clear();
+	
+	Image logo;
+	logo.loadImage("resources/img/logo.png", rend->getRenderer());
+	int logoX = (this->window->getWidth() / 2) - (logo.getWidth() / 2);
+	int logoY = (this->window->getHeight() / 2) - (logo.getHeight() / 2);
+	rend->renderTexture(logo.getTexture(), logoX, logoY);
+	
+	Text presents("APRESENTA:", 32);
+	presents.setFont("resources/font/Army.ttf");
+	presents.generateTexture(rend->getRenderer(), whiteColor, whiteColor);
+	int presentsX = (this->window->getWidth() / 2) - (presents.getWidth() / 2);
+	int presentsY = logoY + logo.getHeight() + 20;
+	rend->renderTexture(presents.getTexture(), presentsX, presentsY);
+	
+	rend->present();
+	
+	SDL_Delay(5000);
+	
+	rend->clear();
 
 	Image background;
 	background.loadImage("resources/img/armybackground.png", rend->getRenderer());
@@ -78,9 +97,9 @@ Game::presentation()
 	ageClass.loadImage("resources/img/ageclassification.png", rend->getRenderer());
 	rend->renderTexture(ageClass.getTexture(), 600, 450);
 
-	Image logo;
-	logo.loadImage("resources/img/logomini.png", rend->getRenderer());
-	rend->renderTexture(logo.getTexture(), 350, 400);
+	Image logoMini;
+	logoMini.loadImage("resources/img/logomini.png", rend->getRenderer());
+	rend->renderTexture(logoMini.getTexture(), 350, 400);
 
 	Image mitLicense;
 	mitLicense.loadImage("resources/img/mitlicense.png", rend->getRenderer());
