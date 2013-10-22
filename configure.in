@@ -43,7 +43,6 @@ AC_PROG_INSTALL
 dnl Output files
 AC_OUTPUT(
 Makefile
-test/Makefile
 include/Makefile
 resources/Makefile
 src/engine/Makefile
