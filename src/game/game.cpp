@@ -112,6 +112,17 @@ Game::run()
 	Texture * logoTex = new Texture(logo, 10, 10, true);
 	Texture * logoTex2 = new Texture(logo, 100, 100);
 	
+	SDL_Color white = {255, 255, 255, 255};
+
+	Text * texto = new Text("WAR OF THE NETS", 30, "resources/font/Army.ttf", white, rend);
+	Texture * textoTex = new Texture(texto, 300, 10);
+
+	Hexagon * hex = new Hexagon(50, rend);
+	hex->draw();
+	Texture * hexTex = new Texture(hex, 300, 50);
+
+	manager->addTexture("hex", hexTex);
+	manager->addTexture("texto", textoTex);
 	manager->addTexture("logo1", logoTex);
 	manager->addTexture("logo2", logoTex2);
 

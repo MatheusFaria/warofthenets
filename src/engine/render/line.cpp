@@ -2,37 +2,38 @@
 #include <cmath>
 #include "log.h"
 
-Line::Line(int size, int angle)
-:DrawableObject(MIN_WIDTH, MIN_HEIGHT)
+Line::Line(int size, int angle, Render * render)
+:DrawableObject(render)
 {
 	this->size = size;
 	this->angle = angle;
 
-	width = height = size*2;
+	setSurfaceHeight(size*2);
+	setSurfaceWidth(size*2);
 }
 
 Line::~Line() {}
+
+int
+getFinalX(int a, int r)
+{
+	return r*sin((90 - a)*M_PI/180);
+}
+
+int
+getFinalY(int a, int r)
+{
+	return r*sin(a*M_PI/180);
+}
 
 void 
 Line::putObjectInSurface()
 {
 	int xInitial = this->size, yInitial = this->size;
-	int xFinal = this->getFinalX() + xInitial;
-	int yFinal = height - (this->getFinalY() + yInitial);
+	int xFinal = getFinalX(this->size, this->angle) + xInitial;
+	int yFinal = getSurfaceHeight() - (getFinalY(this->size, this->angle) + yInitial);
 	
-	SDL_RenderDrawLine(render->getRenderer(), xInitial, yInitial,
+	SDL_RenderDrawLine(getInternalRenderer(), xInitial, yInitial,
 											xFinal, yFinal);
-}
-
-int
-Line::getFinalX()
-{
-	return this->size*sin((90 - this->angle)*M_PI/180);
-}
-
-int
-Line::getFinalY()
-{
-	return this->size*sin((this->angle)*M_PI/180);
 }
 

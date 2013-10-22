@@ -5,7 +5,7 @@
 
 class Line: virtual public DrawableObject {
 public:
-	Line(int, int);
+	Line(int, int, Render *);
 	~Line();
 
 private:
@@ -13,8 +13,6 @@ private:
 	int angle;
 
 	void putObjectInSurface();
-	int getFinalX();
-	int getFinalY();
 };
 
 #endif

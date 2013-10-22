@@ -14,6 +14,17 @@ RenderableObject::RenderableObject(Render * render, int sprites, int spritesLine
 	this->height = UNDEFINED_HEIGHT_VALUE;
 }
 
+RenderableObject::RenderableObject(Render * render)
+{
+	this->render = render;
+	this->texture = NULL;
+	this->sprites = 1;
+	this->spritesLines = 1;
+	this->spritesCols = 1;
+	this->width = UNDEFINED_WIDTH_VALUE;
+	this->height = UNDEFINED_HEIGHT_VALUE;
+}
+
 RenderableObject::~RenderableObject()
 {
 	if(this->texture != NULL)

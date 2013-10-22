@@ -5,7 +5,7 @@
 
 class Hexagon: virtual public DrawableObject{
 public:
-	Hexagon(int);
+	Hexagon(int, Render *);
 	~Hexagon();
 	
 private:

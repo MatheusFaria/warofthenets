@@ -5,7 +5,7 @@
 
 class Pixel: virtual public DrawableObject{
 public:
-	Pixel();
+	Pixel(Render * render);
 	~Pixel();
 	
 private:

@@ -6,7 +6,8 @@
 
 class RenderableObject{
 public:
-	RenderableObject(Render *, int = 1, int = 1, int = 1);
+	RenderableObject(Render *);
+	RenderableObject(Render *, int, int, int);
 	~RenderableObject();
 
 	SDL_Texture * getTexture();
