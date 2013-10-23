@@ -118,8 +118,8 @@ Game::run()
 	Texture * textoTex = new Texture(texto, 300, 10);
 
 	Hexagon * hex = new Hexagon(50, rend);
-	hex->draw();
-	Texture * hexTex = new Texture(hex, 300, 50);
+	hex->setDrawColor(255,255,255,255);
+	Texture * hexTex = new Texture(hex, 300, 300);
 
 	manager->addTexture("hex", hexTex);
 	manager->addTexture("texto", textoTex);

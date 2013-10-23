@@ -68,6 +68,7 @@ DrawableObject::~DrawableObject()
 SDL_Texture * 
 DrawableObject::generateTexture()
 {
+	draw();
 	return SDL_CreateTextureFromSurface(getRenderer(), this->surface);
 }
 
@@ -75,9 +76,9 @@ void
 DrawableObject::draw()
 {
 
-	if(this->surface != NULL)
+	if(this->surface == NULL)
 		this->generateDrawSurface();
-	if(this->internalRenderer != NULL)
+	if(this->internalRenderer == NULL)
 		this->generateDrawRender();
 	eraseDraw();
 	putObjectInSurface();
