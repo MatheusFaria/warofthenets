@@ -126,11 +126,9 @@ Game::presentation()
     x = getRectX(4, hex, rect);
     y = getRectY(4, 2, hex, rect);
     rend->renderTexture(rect->generateTexture(rend->getRenderer()), x , y);
-
     
     rect->setDrawColor(255, 0, 0, 255);
 	rect->draw();
-	
 	
 	x = getRectX(5, hex, rect);
     y = getRectY(5, 2, hex, rect);
@@ -148,6 +146,23 @@ Game::presentation()
     y = getRectY(7, 3, hex, rect);
     rend->renderTexture(rect->generateTexture(rend->getRenderer()), x , y);
     
+    delete rect;
+    
+    rect = new Rectangle(190, 140);
+	rect->init();
+	rect->setDrawColor(0, 0, 255, 255);
+	rect->draw();
+	
+	x = getRectX(1, hex, rect);
+    y = getRectY(1, 5, hex, rect);
+    rend->renderTexture(rect->generateTexture(rend->getRenderer()), x , y);
+    
+    rect->setDrawColor(255, 0, 0, 255);
+	rect->draw();
+	
+	x = getRectX(8, hex, rect);
+    y = getRectY(8, 5, hex, rect);
+    rend->renderTexture(rect->generateTexture(rend->getRenderer()), x , y);
     
 	rend->present();
 	
