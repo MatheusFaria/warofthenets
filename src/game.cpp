@@ -67,49 +67,44 @@ Game::presentation()
 	Render * rend = this->window->getRender();
 	
 	SDL_Color whiteColor = {255, 255, 255, 255};
+	SDL_SetRenderDrawColor(rend->getRenderer(), 255, 255, 255, 255);
 	rend->clear();
 	
+	int xcenter = 250, ycenter = 100;
+
 	Image logo;
-	logo.loadImage("resources/img/logo.png", rend->getRenderer());
-	int logoX = (this->window->getWidth() / 2) - (logo.getWidth() / 2);
-	int logoY = (this->window->getHeight() / 2) - (logo.getHeight() / 2);
-	rend->renderTexture(logo.getTexture(), logoX, logoY);
-	
-	Text presents("APRESENTA:", 32);
-	presents.setFont("resources/font/Army.ttf");
-	presents.generateTexture(rend->getRenderer(), whiteColor, whiteColor);
-	int presentsX = (this->window->getWidth() / 2) - (presents.getWidth() / 2);
-	int presentsY = logoY + logo.getHeight() + 20;
-	rend->renderTexture(presents.getTexture(), presentsX, presentsY);
+	logo.loadImage("resources/img/apresentacao.png", rend->getRenderer());
+	rend->renderTexture(logo.getTexture(), xcenter, ycenter);
 	
 	rend->present();
 	
-	SDL_Delay(5000);
+	SDL_Delay(3000);
+	
+	rend->clear();
+
+	Image tecs;
+	tecs.loadImage("resources/img/tecnologias.png", rend->getRenderer());
+	rend->renderTexture(tecs.getTexture(), xcenter, ycenter);
+	
+	rend->present();
+	
+	SDL_Delay(3000);
+	
+	rend->clear();
+
+	Image requisitos;
+	requisitos.loadImage("resources/img/requisitoslegais.png", rend->getRenderer());
+	rend->renderTexture(requisitos.getTexture(), xcenter, ycenter);
+	
+	rend->present();
+	
+	SDL_Delay(3000);
 	
 	rend->clear();
 
 	Image background;
 	background.loadImage("resources/img/armybackground.png", rend->getRenderer());
 	rend->renderTexture(background.getTexture(), 0, 0);
-
-
-	Image ageClass;
-	ageClass.loadImage("resources/img/ageclassification.png", rend->getRenderer());
-	int ageClassX = this->window->getWidth() - ageClass.getWidth() - 10;
-	int ageClassY = this->window->getHeight() - ageClass.getHeight() - 10;
-	rend->renderTexture(ageClass.getTexture(), ageClassX, ageClassY);
-
-	Image logoMini;
-	logoMini.loadImage("resources/img/logomini.png", rend->getRenderer());
-	int logoMiniX = (this->window->getWidth() / 2) - (logoMini.getWidth() / 2);
-	int logoMiniY = this->window->getHeight() - logoMini.getHeight() - 10;
-	rend->renderTexture(logoMini.getTexture(), logoMiniX, logoMiniY);
-
-	Image mitLicense;
-	mitLicense.loadImage("resources/img/mitlicense.png", rend->getRenderer());
-	int mitLicenseX = 10;
-	int mitLicenseY = this->window->getHeight() - mitLicense.getHeight() - 10;
-	rend->renderTexture(mitLicense.getTexture(), mitLicenseX, mitLicenseY);
 	
 	Text * gameName = new Text("WAR OF THE NETS", 80);
 	gameName->setFont("resources/font/Army.ttf");
@@ -123,7 +118,6 @@ Game::presentation()
 	SDL_Delay(5000);
 	
 	
-	SDL_SetRenderDrawColor(rend->getRenderer(), 255, 255, 255, 255);
 	rend->clear();
 
 	Hexagon * hex = new Hexagon(50);
