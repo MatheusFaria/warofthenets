@@ -61,6 +61,22 @@ Game::run()
 	}
 }
 
+int getRectX(int posX, Hexagon *hex, Rectangle *rect)
+{
+    int x = (posX * hex->getWidth()) - (posX + ((posX-1) - ((posX-1)/4))) - ((posX * hex->getWidth()) / 4) + (hex->getWidth() / 2) - (rect->getWidth() / 2);
+    return x;
+}
+
+int getRectY(int posX, int posY, Hexagon *hex, Rectangle *rect)
+{
+    int y = (posY * hex->getHeight()) + (hex->getHeight() / 2) - (rect->getHeight() / 2);
+    
+    if(posX % 2 != 0)
+        y += hex->getHeight() / 2;
+    
+    return y;
+}
+
 void
 Game::presentation()
 {
@@ -71,14 +87,7 @@ Game::presentation()
 	Image logo;
 	
 	SDL_Color whiteColor = {255, 255, 255, 255};
-	
-	Text * gameName = new Text("WAR OF THE NETS", 64);
-	gameName->setFont("resources/font/Army.ttf");
-	gameName->generateTexture(rend->getRenderer(), whiteColor, whiteColor);
-	int gameNameX = (this->window->getWidth() / 2) - (gameName->getWidth() / 2);
-	int gameNameY = (this->window->getHeight() / 2) - (gameName->getHeight() / 2);
-	rend->renderTexture(gameName->getTexture(), gameNameX, gameNameY);
-	
+		
 	Hexagon * hex = new Hexagon(50);
 	hex->init();
 	hex->setDrawColor(150, 255, 255, 255);
@@ -96,20 +105,50 @@ Game::presentation()
 		}
 	}
 	
-	Rectangle * rect = new Rectangle(570, 70);
+	Rectangle * rect = new Rectangle(50, 70);
 	rect->init();
-	rect->setDrawColor(255, 255, 255, 255);
+	rect->setDrawColor(0, 0, 255, 255);
 	rect->draw();
 
-	rend->renderTexture(rect->generateTexture(rend->getRenderer()), gameNameX - 10, gameNameY - 10);
-
-	Circle * circ = new Circle(70);
-	circ->init();
-	circ->setDrawColor(255, 255, 255, 255);
-	circ->draw();
+	    
+    int x = getRectX(3, hex, rect);
+    int y = getRectY(3, 4, hex, rect);
+	rend->renderTexture(rect->generateTexture(rend->getRenderer()), x , y);
 	
-	rend->renderTexture(circ->generateTexture(rend->getRenderer()), gameNameX - 5, gameNameY - 50);
+	x = getRectX(0, hex, rect);
+    y = getRectY(0, 4, hex, rect);
+    rend->renderTexture(rect->generateTexture(rend->getRenderer()), x , y);
+    
+    x = getRectX(1, hex, rect);
+    y = getRectY(1, 2, hex, rect);
+    rend->renderTexture(rect->generateTexture(rend->getRenderer()), x , y);
+    
+    x = getRectX(4, hex, rect);
+    y = getRectY(4, 2, hex, rect);
+    rend->renderTexture(rect->generateTexture(rend->getRenderer()), x , y);
 
+    
+    rect->setDrawColor(255, 0, 0, 255);
+	rect->draw();
+	
+	
+	x = getRectX(5, hex, rect);
+    y = getRectY(5, 2, hex, rect);
+    rend->renderTexture(rect->generateTexture(rend->getRenderer()), x , y);
+    
+	x = getRectX(9, hex, rect);
+    y = getRectY(9, 0, hex, rect);
+    rend->renderTexture(rect->generateTexture(rend->getRenderer()), x , y);
+    
+	x = getRectX(8, hex, rect);
+    y = getRectY(8, 2, hex, rect);
+    rend->renderTexture(rect->generateTexture(rend->getRenderer()), x , y);
+    
+	x = getRectX(7, hex, rect);
+    y = getRectY(7, 3, hex, rect);
+    rend->renderTexture(rect->generateTexture(rend->getRenderer()), x , y);
+    
+    
 	rend->present();
 	
 	cout << "Renderer" << endl;
