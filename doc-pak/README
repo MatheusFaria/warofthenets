@@ -1,0 +1,34 @@
+- Description:
+	War of the Nets is a TBS Game in development by the team Heads or Tails.
+
+- Authors:
+	Matheus Faira (MatheusFaria)
+	Lucas Kanashiro (lucaskanashiro)
+	Luciano Prestes (LucianoPC)
+	Lucas Moura (lucasmoura)
+
+- Tools:
+	C++ / SDL 2.0 / SDL Image 2.0 / SDL TTF 2.0
+	G++ 
+	Vim / Sublime / Gedit
+
+- Intalation:
+	Give permission to bootstrap.sh execute [chmod u+x bootstrap.sh]
+	./bootstrap.sh
+	./configure --prefix=/usr/local
+	make
+	sudo make install
+
+- Uninstall:
+	sudo make uninstall
+
+- Commit:
+	make clean
+	./cleanup.sh
+	Then you can commit [git commit -m ""]
+
+- Do just a test:
+	./bootstrap.sh
+	./configure
+	Now run the make command in the folder that you want to test your bin file
+	** The test folder is fully dedicated to this kind of test
