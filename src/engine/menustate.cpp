@@ -118,6 +118,16 @@ MenuState::createMenu()
 	exitButton->setEventListener(this);
 	InputHandler::getInstance()->addMouseClick(exitButton);
 
+	audioButton = new MenuButton(0, 0, "resources/img/settingsbutton.png", "audiobutton");
+	int audiox = (Game::Instance()->getWindow()->getWidth()) - exitx - audioButton->getWidth();
+	int audioy = exity;
+	audioButton->setPosition(audiox, audioy);
+	audioButton->setEventListener(this);
+	InputHandler::getInstance()->addMouseClick(audioButton);
+
+
+
+	menuObjects.push_back(audioButton);
 	menuObjects.push_back(playButton);
 	menuObjects.push_back(aboutButton);
 	menuObjects.push_back(exitButton);

@@ -34,6 +34,7 @@ private:
 	MenuButton *playButton;
 	MenuButton *aboutButton;
 	MenuButton *exitButton;
+	MenuButton *audioButton;
 
 };
 
