@@ -1,6 +1,6 @@
 #include "line.h"
-#include <cmath>
 #include "log.h"
+#include "geometry.cpp"
 
 Line::Line(int size, int angle, Render * render)
 :DrawableObject(render)
@@ -14,24 +14,12 @@ Line::Line(int size, int angle, Render * render)
 
 Line::~Line() {}
 
-int
-getFinalX(int a, int r)
-{
-	return r*sin((90 - a)*M_PI/180);
-}
-
-int
-getFinalY(int a, int r)
-{
-	return r*sin(a*M_PI/180);
-}
-
 void 
 Line::putObjectInSurface()
 {
 	int xInitial = this->size, yInitial = this->size;
-	int xFinal = getFinalX(this->size, this->angle) + xInitial;
-	int yFinal = getSurfaceHeight() - (getFinalY(this->size, this->angle) + yInitial);
+	int xFinal = Geometry::getLineEndX(this->size, this->angle) + xInitial;
+	int yFinal = getSurfaceHeight() - (Geometry::getLineEndY(this->size, this->angle) + yInitial);
 	
 	SDL_RenderDrawLine(getInternalRenderer(), xInitial, yInitial,
 											xFinal, yFinal);

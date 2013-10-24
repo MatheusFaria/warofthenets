@@ -1,6 +1,7 @@
 #include "hexagon.h"
 #include "log.h"
 #include <cmath>
+#include "geometry.h"
 
 Hexagon::Hexagon(int size, Render * render)
 :DrawableObject(render)
@@ -12,25 +13,14 @@ Hexagon::Hexagon(int size, Render * render)
 
 Hexagon::~Hexagon() {}
 
-int 
-getFinalX(int a, int r)
-{
-	return r*sin((90 - a)*M_PI/180);
-}
-
-int
-getFinalY(int a, int r)
-{
-	return r*sin(a*M_PI/180);
-}
 void 
 Hexagon::putObjectInSurface()
 {
 	int xInitial = this->size, yInitial = this->size*sin(60*M_PI/180);
 	for(int i = 0, oldX = 0, oldY = 0; i <= 360; i+=60)
 	{
-		int newX = getFinalX(i, this->size) + xInitial;
-		int newY = (getFinalY(i, this->size) + yInitial);
+		int newX = Geometry::getLineEndX(i, this->size) + xInitial;
+		int newY = Geometry::getLineEndY(i, this->size) + yInitial;
 		if(i)
 			SDL_RenderDrawLine(getInternalRenderer(), oldX, oldY, newX, newY);
 		oldX = newX;

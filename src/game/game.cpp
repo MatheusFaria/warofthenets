@@ -121,6 +121,11 @@ Game::run()
 	hex->setDrawColor(255,255,255,255);
 	Texture * hexTex = new Texture(hex, 300, 300);
 
+	Circle * rect = new Circle(30, rend);
+	rect->setDrawColor(255,255,255,255);
+	Texture * rectTex = new Texture(rect, 300, 400);
+
+	manager->addTexture("rect", rectTex);
 	manager->addTexture("hex", hexTex);
 	manager->addTexture("texto", textoTex);
 	manager->addTexture("logo1", logoTex);

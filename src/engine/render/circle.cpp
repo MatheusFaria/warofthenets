@@ -1,6 +1,6 @@
 #include "circle.h"
-#include <cmath>
 #include "log.h"
+#include "geometry.h"
 
 Circle::Circle(int radius, Render * render)
 :DrawableObject(render)
@@ -13,17 +13,6 @@ Circle::Circle(int radius, Render * render)
 
 Circle::~Circle() {}
 
-int
-getFinalX(int a, int r)
-{
-	return r*sin((90 - a)*M_PI/180);
-}
-
-int
-getFinalY(int a, int r)
-{
-	return r*sin(a*M_PI/180);
-}
 
 void Circle::putObjectInSurface()
 {
@@ -31,8 +20,8 @@ void Circle::putObjectInSurface()
 	int h = getSurfaceHeight();
 	for(int i = 0; i < 360; i++)
 	{
-		int xFinal = getFinalX(i, this->radius) + xInitial;
-		int yFinal = h - (getFinalY(i, this->radius) + yInitial);
+		int xFinal = Geometry::getLineEndX(i, this->radius) + xInitial;
+		int yFinal = h - (Geometry::getLineEndY(i, this->radius) + yInitial);
 		SDL_RenderDrawPoint(getInternalRenderer(), xFinal, yFinal);
 	}
 }

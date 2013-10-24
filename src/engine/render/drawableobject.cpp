@@ -154,3 +154,4 @@ DrawableObject::getInternalRenderer()
 {
 	return this->internalRenderer;
 }
+
