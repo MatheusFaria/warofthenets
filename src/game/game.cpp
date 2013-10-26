@@ -51,9 +51,21 @@ Game::~Game()
 }
 
 void
-Game::init()
+Game::init(int qtd, char * dataServer)
 {
 	cout << "Intialize" << endl;
+
+	if(qtd == 1)
+	{
+		cout << "This is a server" << endl;
+		this->server = new Server("10.1.1.1", "9000");
+	}
+	else
+	{
+		cout << "This is a Client\nIP Server: " << dataServer[1] << "\nPort Server: " << dataServer[2] << endl;
+		this->server = new Server(dataServer[1], dataServer[2]);
+		this->client = new Client("10.1.1.2", "9000", server);
+	}
 
 	if(SDLSettings::setUpEnviroment())
 		cout << "Enviroment Set" << endl;
