@@ -21,7 +21,7 @@ using namespace std;
 #define WIDTH 1280
 #define HEIGHT 700
 
-const int FPS = 60;
+const int FPS = 30;
 const int DELAY = 1000.0f / FPS;
 
 Game* Game::instance = NULL;
@@ -106,24 +106,27 @@ Game::run()
 	SDL_Event event;	
 	while(!quit)
 	{
+
+		frameStart = SDL_GetTicks();
+
 	    while(SDL_PollEvent(&event))
 	    {
-	    	frameStart = SDL_GetTicks();
-
 
 	        InputHandler::Instance()->update(event);
 		    gameStateMachine->update();
-		    render();
-		    
-		    frameTime = SDL_GetTicks() - frameStart;	
-
-		    if(frameTime<(Uint32) DELAY)
-		    	SDL_Delay((int)(DELAY-frameTime));
+		    render();	
 
 		    if(event.type == SDL_QUIT)
 		        quit = true;
 		    
 	    }
+
+	    frameTime = SDL_GetTicks() - frameStart;
+
+	    if(frameTime < DELAY)
+        {
+               SDL_Delay((int)(DELAY - frameTime));
+        }
 	}
 }
 
