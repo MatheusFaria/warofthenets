@@ -1,5 +1,6 @@
 #include "menustate.h"
 #include "playstate.h"
+#include "creditstate.h"
 #include "inputhandler.h"
 #include "render.h"
 #include "texturemanager.h"
@@ -14,8 +15,6 @@ const std::string MenuState::menuId = "MENU";
 void
 MenuState::update()
 {
-	TextureManager::Instance()->drawFrame("fundo", 0, 0, 1280,
-	 700, 0, 0, Render::getInstance()->getRenderer(), 0);
 
 	for(int i =0; i<(int)menuObjects.size(); i++)
 		menuObjects[i]->update();
@@ -29,6 +28,9 @@ MenuState::render()
 	TextureManager::Instance()->drawFrame("fundo", 0, 0, 1280,
 	 700, 0, 0, Render::getInstance()->getRenderer(), 0);
 
+	TextureManager::Instance()->draw("title", Game::Instance()->getWindow()->getWidth()/2 - 372, 50, 
+		Render::getInstance()->getRenderer());
+
 	for(int i =0; i<(int)menuObjects.size(); i++)
 		menuObjects[i]->draw();
 }
@@ -36,32 +38,20 @@ MenuState::render()
 bool
 MenuState::onEnter()
 {
-	/*
-	if(!TextureManager::Instance()->loadImage("resources/img/play.png", 
-		"playbutton", Render::getInstance()->getRenderer()))
-	{
-		return false;	
-	}
-
-	if(!TextureManager::Instance()->loadImage("resources/img/about.png",
-		"aboutbutton", Render::getInstance()->getRenderer()))
-	{
-		return false;
-	}
-
-	if(!TextureManager::Instance()->loadImage("resources/img/exit.png",
-		"exitbutton", Render::getInstance()->getRenderer()))
-	{
-		return false;
-	}
-	*/
+	
 	if(!TextureManager::Instance()->loadImage("resources/img/fundo.png",
 		"fundo", Render::getInstance()->getRenderer()))
 	{
 		std::cout<<"Error"<<std::endl;
 		return false;
 	}
+
 	
+	if(!TextureManager::Instance()->loadImage("resources/img/title.png",
+	 "title", Render::getInstance()->getRenderer()))
+	{
+		return false;
+	}
 	
 	createMenu();
 	
@@ -73,14 +63,6 @@ MenuState::onEnter()
 void 
 MenuState::createMenu()
 {
-	/*
-	int width, height;
-
-	SDL_QueryTexture(TextureManager::Instance()->getTexture("playbutton"), NULL, NULL,
-		 &width, &height);
-	*/
-
-	
 
 	playButton = new MenuButton(0, 0, "resources/img/play.png", "playbutton");
 	int playx = (Game::Instance()->getWindow()->getWidth() / 2) - (playButton->getWidth() / 2);
@@ -88,11 +70,6 @@ MenuState::createMenu()
 	playButton->setPosition(playx, playy);
 	playButton->setEventListener(this);
 	InputHandler::getInstance()->addMouseClick(playButton);
-	
-	/*
-	SDL_QueryTexture(TextureManager::Instance()->getTexture("aboutbutton"), NULL, NULL,
-		 &width, &height);
-	*/
 
 	
 	aboutButton = new MenuButton(0, 0, "resources/img/about.png", "aboutbutton");
@@ -101,15 +78,6 @@ MenuState::createMenu()
 	aboutButton->setPosition(aboutx, abouty);
 	aboutButton->setEventListener(this);
 	InputHandler::getInstance()->addMouseClick(aboutButton);
-	
-	/*
-	SDL_QueryTexture(TextureManager::Instance()->getTexture("exitbutton"), NULL, NULL, 
-		&width, &height);
-	*/
-
-	
-
-	//std::cout<<Game::Instance()->getWindow()->getHeight()<<std::endl;
 
 	exitButton = new MenuButton(0, 0, "resources/img/exit.png", "exitbutton");
 	int exitx = (Game::Instance()->getWindow()->getWidth() / 4) - (exitButton->getWidth());
@@ -142,11 +110,11 @@ MenuState::onExit()
 
 	menuObjects.clear();
 
-	/*
+	
 	TextureManager::Instance()->clearFromTextureMap("playbutton");
 	TextureManager::Instance()->clearFromTextureMap("exitbutton");
 	TextureManager::Instance()->clearFromTextureMap("fundo");
-	*/
+
 	SoundManager::Instance()->clearFromSoundManager("theme", MUSIC);
 	
 	InputHandler::getInstance()->removeMouseClick(playButton);
@@ -169,6 +137,12 @@ MenuState::menuToPlay()
 }
 
 void
+MenuState::menuToCredit()
+{
+	Game::Instance()->getStateMachine()->pushState(new CreditState());
+}
+
+void
 MenuState::exitFromMenu()
 {
 	std::cout<<"Exit button touched"<<std::endl;
@@ -182,7 +156,7 @@ MenuState::onMouseClick(MouseClick *mouseClick)
         menuToPlay();
     
     if(mouseClick == aboutButton)
-        std::cout<<"About button touched"<<std::endl;
+        menuToCredit();
         
     if(mouseClick == exitButton)
         exitFromMenu();

@@ -120,14 +120,14 @@ Game::run()
 	    
 	    frameTime = SDL_GetTicks() - frameStart;
 	    
-	    if(frameTime < DELAY)
+	    if(frameTime < (Uint32) DELAY)
 	    {
 	        render();
 	    }
 	    
 	    frameTime = SDL_GetTicks() - frameStart;
 	    
-	    if(frameTime < DELAY)
+	    if(frameTime < (Uint32) DELAY)
         {
                SDL_Delay((int)(DELAY - frameTime));
         }

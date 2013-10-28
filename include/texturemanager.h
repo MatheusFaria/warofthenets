@@ -29,6 +29,7 @@ private:
 	TextureManager(){};
 
 	map<std::string, SDL_Texture*>	textureMap;
+	map<std::string, int> textureCount;
 	static TextureManager* instance;
 
 };

@@ -1,4 +1,5 @@
 #include "gamestatemachine.h"
+#include <iostream>
 
 void
 GameStateMachine::update()
@@ -42,8 +43,9 @@ GameStateMachine::popState()
 	{
 		if(gameStates.back()->onExit())
 		{
-			delete gameStates.back();
 			gameStates.pop_back();
+			//delete *state;
+
 		}
 	}
 }

@@ -18,7 +18,7 @@ libengine_la_SOURCES = window.cpp render.cpp log.cpp text.cpp sdlsettings.cpp ga
 					vector2d.cpp menubutton.cpp inputhandler.cpp image.cpp drawableobject.cpp \
 					rectangle.cpp pixel.cpp line.cpp circle.cpp hexagon.cpp pausestate.cpp gameoverstate.cpp \
 					soundmanager.cpp event.cpp keyboardevent.cpp mouseclick.cpp mouseevent.cpp \
-					mousemotion.cpp inputhandler.cpp
+					mousemotion.cpp inputhandler.cpp creditstate.cpp
 					
 
 # Libraries needed to build our library

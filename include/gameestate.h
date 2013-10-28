@@ -14,6 +14,7 @@ public:
 	virtual bool onExit() = 0;
 
 	virtual std::string getStateId() const = 0;
+	virtual ~GameState(){};
 
 };
 
