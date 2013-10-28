@@ -84,7 +84,9 @@ MenuButton::eventInMe(SDL_Event sdlEvent)
         (sdlEvent.button.y > this->getY()) && 
         (sdlEvent.button.y < (this->getY() + this->getHeight())))
     {
-        if(sdlEvent.button.state == SDL_RELEASED && !released)
+        if( (sdlEvent.button.button == SDL_BUTTON_LEFT) &&
+            (sdlEvent.button.state == SDL_RELEASED) &&
+            !released)
             return true;
     }
     
