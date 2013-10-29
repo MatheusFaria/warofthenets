@@ -43,8 +43,9 @@ GameStateMachine::popState()
 	{
 		if(gameStates.back()->onExit())
 		{
+		    GameState *temp = gameStates.back();
 			gameStates.pop_back();
-			//delete *state;
+			delete temp;
 
 		}
 	}

@@ -28,6 +28,7 @@ private:
 	int imageY;
 
 	float velocity;
+	float previousTime;
 };
 
 #endif

@@ -3,16 +3,22 @@
 #include "texturemanager.h"
 #include "SDL2/SDL.h"
 #include "inputhandler.h"
-#include <iostream>
 
 
 const std::string CreditState::creditId = "CREDIT";
 
+
 void 
 CreditState::update()
 {
-	if(imageY>0)
-		imageY -= ((SDL_GetTicks() / 100) % Game::Instance()->getWindow()->getHeight()/4);
+	if(imageY - 50 > 0)
+	    velocity = -0.325;
+    else
+        velocity = 0;
+    
+    imageY += (SDL_GetTicks() - previousTime) * velocity;
+    
+    previousTime = SDL_GetTicks();
 
 }
 
@@ -36,9 +42,9 @@ CreditState::onEnter()
 
 	imageX = (Game::Instance()->getWindow()->getWidth() / 2) - 400;
 	imageY = Game::Instance()->getWindow()->getHeight(); 
-
-	velocity = 0.1;
-
+    
+    previousTime = SDL_GetTicks();
+    
 	InputHandler::getInstance()->addKeyboardEvent(this);
 
 	return true;
@@ -48,6 +54,8 @@ bool
 CreditState::onExit()
 {
 	TextureManager::Instance()->clearFromTextureMap(imageId);
+    
+    InputHandler::getInstance()->removeKeyboardEvent(this);
 
 	return true;
 }
