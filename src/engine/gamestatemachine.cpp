@@ -29,7 +29,7 @@ GameStateMachine::clean()
 void
 GameStateMachine::pushState(GameState* state)
 {
-	if(state != NULL)
+	if( (state != NULL) && (state->getStateId() != gameStates.back()->getStateId()))
 	{
 		gameStates.push_back(state);
 		gameStates.back()->onEnter();
