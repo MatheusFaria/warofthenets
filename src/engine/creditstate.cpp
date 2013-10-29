@@ -12,11 +12,13 @@ void
 CreditState::update()
 {
 	if(imageY - 50 > 0)
-	    velocity = -0.325;
+	    //velocity = -0.325;
+	    velocity = -3.25;
+	    //velocity = -0.1625;
     else
         velocity = 0;
     
-    imageY += (SDL_GetTicks() - previousTime) * velocity;
+    imageY += ((SDL_GetTicks() - previousTime) / 100) * velocity;
     
     previousTime = SDL_GetTicks();
 
