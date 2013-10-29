@@ -153,36 +153,65 @@ Game::presentation()
 	int logoY = (this->window->getHeight() / 2) - (logo.getHeight() / 2);
     logo.setPosition(logoX, logoY);
     
-    SDL_Color whiteColor = {255, 255, 255, 0};
+    SDL_Color blackColor = {0, 0, 0, 0};
     
     Text phrase("Apresenta: ", 32);
     phrase.setFont("resources/font/Army.ttf");
-    phrase.setColor(whiteColor);
+    phrase.setColor(blackColor);
     int phraseX = logoX + (phrase.getWidth() / 2);
 	int phraseY = (logoY + logo.getHeight() + 15);
 	phrase.setPosition(phraseX, phraseY);
     
     SDL_Renderer *rend = this->window->getRender()->getRenderer();
-    SDL_Rect rect = {0, 0, WIDTH, HEIGHT};
+    SDL_Rect rectBackground = {0, 0, WIDTH, HEIGHT};
     SDL_SetRenderDrawBlendMode(rend, SDL_BLENDMODE_BLEND);
     
+    Image sdl("resources/img/sdl.png");
+    int sdlX = (this->window->getWidth() / 2) - (sdl.getWidth() / 2);
+	int sdlY = (this->window->getHeight() / 2) - (sdl.getHeight() / 2);
+    sdl.setPosition(sdlX, sdlY);
     
+    Image mit("resources/img/mit.png");
+    int mitX = (this->window->getWidth() / 2) - (mit.getWidth() / 2);
+	int mitY = (this->window->getHeight() / 2) - (mit.getHeight() / 2);
+    mit.setPosition(mitX, mitY);
+        
     for(int i = 255; i >= 0; i--)
     {
-        SDL_SetRenderDrawColor(rend, 0, 0, 0, i);
-        
         Render::getInstance()->clear();
         
         logo.draw();
-        phrase.draw();        
-        SDL_RenderFillRect(rend, &rect);
+        phrase.draw();
+        
+        SDL_SetRenderDrawColor(rend, 255, 255, 255, i);
+        SDL_RenderFillRect(rend, &rectBackground);
         
         Render::getInstance()->present();
+    }
         
-        SDL_Delay(10);
+    for(int i = 255; i >= 0; i--)
+    {
+        Render::getInstance()->clear();
+        
+        sdl.draw();
+        
+        SDL_SetRenderDrawColor(rend, 255, 255, 255, i);
+        SDL_RenderFillRect(rend, &rectBackground);
+        
+        Render::getInstance()->present();
     }
     
-    SDL_Delay(2450);
+    for(int i = 255; i >= 0; i--)
+    {
+        Render::getInstance()->clear();
+        
+        mit.draw();
+        
+        SDL_SetRenderDrawColor(rend, 255, 255, 255, i);
+        SDL_RenderFillRect(rend, &rectBackground);
+        
+        Render::getInstance()->present();
+    }
     
 }
 
