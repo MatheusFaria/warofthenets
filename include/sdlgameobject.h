@@ -23,8 +23,10 @@ public:
 	int getHeight();
 	
 	int getX();
-	int getY();
+	void setX(int x);
 	
+	int getY();
+	void setY(int y);
 
 protected:
 

@@ -3,6 +3,7 @@
 
 #include "SDL2/SDL.h"
 #include "SDL2/SDL_ttf.h"
+#include "vector2d.h"
 #include "sdlgameobject.h"
 
 #include <string>
@@ -19,9 +20,21 @@ public:
 
 	void setFont(string);
 	void setStyle(int);
+	void setColor(SDL_Color color);
 	SDL_Texture * generateTexture(SDL_Renderer *, SDL_Color, SDL_Color, int = TTF_SOLID);
 
 	SDL_Texture * getTexture();
+	
+	void draw();
+	
+	Vector2D getPosition();
+	void setPosition(int, int);
+	
+	int getX();
+	void setX(int x);
+	
+	int getY();
+	void setY(int y);
 	
 	int getWidth();
 	int getHeight();
@@ -39,6 +52,8 @@ private:
 	
 	int width;
 	int height;
+		
+	Vector2D position;
 
 	SDL_Surface * generateSurfaceText(int);
 };

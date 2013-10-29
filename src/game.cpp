@@ -99,7 +99,7 @@ Game::run()
 
 	bool quit = false;
 	
-	//presentation();
+	presentation();
 	//SDL_Delay(2000);
 	
 	Uint32 frameStart, frameTime;
@@ -148,89 +148,42 @@ Game::run()
 void
 Game::presentation()
 {
-	Render * rend = this->window->getRender();
-
-
-	rend->clear();
-
-	Image logo;
-	
-	logo.loadImage("resources/img/logo.png", rend->getRenderer());
-	int logoX = (this->window->getWidth() / 2) - (logo.getWidth() / 2);
+    Image logo("resources/img/logo.png");
+    int logoX = (this->window->getWidth() / 2) - (logo.getWidth() / 2);
 	int logoY = (this->window->getHeight() / 2) - (logo.getHeight() / 2);
-	rend->renderTexture(logo.getTexture(), logoX, logoY);
-	
-
-    /*TextureManager::Instance()->loadImage("resources/img/logo.bmp", "logo", rend->getRenderer());
-    rend->clear();
-    TextureManager::Instance()->draw("logo", 0,0, rend->getRenderer());
-    rend->present();*/
-
-	Text * phrase = new Text("Apresenta: ", 32);
-	phrase->setFont("resources/font/Army.ttf");
-	SDL_Color whiteColor = {255, 255, 255, 0};
-	phrase->generateTexture(rend->getRenderer(), whiteColor, whiteColor);
-	int phraseX = logoX + (phrase->getWidth() / 2);
-	int phraseY = (logoY + logo.getHeight() + 15);
-	rend->renderTexture(phrase->getTexture(), phraseX, phraseY);
+    logo.setPosition(logoX, logoY);
     
-	rend->present();
-	
-	SDL_Delay(5000);
-	
-	
-	rend->clear();
-	
-	Text * gameName = new Text("WAR OF THE NETS", 64);
-	gameName->setFont("resources/font/Army.ttf");
-	gameName->generateTexture(rend->getRenderer(), whiteColor, whiteColor);
-	int gameNameX = (this->window->getWidth() / 2) - (gameName->getWidth() / 2);
-	int gameNameY = (this->window->getHeight() / 2) - (gameName->getHeight() / 2);
-	rend->renderTexture(gameName->getTexture(), gameNameX, gameNameY);
-	
-	rend->present();
-	
-	//SDL_Delay(5000);
-	
-	/*rend->clear();
-	
-	
-	/*Hexagon * hex = new Hexagon(140);
-	hex->init();
-	hex->setDrawColor(150, 255, 255, 255);
-	hex->draw();
-	rend->renderTexture(hex->generateTexture(rend->getRenderer()), 0, 0);
-	
-	Image torre;
-	torre.loadImage("resources/img/torre.png", rend->getRenderer());
-	int torreX = 0 + (hex->getWidth() / 2) - (torre.getWidth() / 2);
-	int torreY = 0 + (hex->getHeight() / 2) - (torre.getHeight() / 2);
-	rend->renderTexture(torre.getTexture(), torreX, torreY);
-	
-	Hexagon * hex2 = new Hexagon(140);
-	hex2->init();
-	hex2->setDrawColor(150, 255, 255, 255);
-	hex2->draw();
-	rend->renderTexture(hex2->generateTexture(rend->getRenderer()), hex->getWidth(), 0);
-	
-	Image base;
-	base.loadImage("resources/img/base.png", rend->getRenderer());
-	int baseX = hex->getWidth() + (hex2->getWidth() / 2) - (base.getWidth() / 2);
-	int baseY = 0 + (hex2->getHeight() / 2) - (base.getHeight() / 2);
-	rend->renderTexture(base.getTexture(), baseX, baseY);
-	
-	Hexagon * hex3 = new Hexagon(140);
-	hex2->init();
-	hex2->setDrawColor(150, 255, 255, 255);
-	hex2->draw();
-	int h = ((hex->getHeight() / (sqrt(3)*2))/2) - 2;
-	rend->renderTexture(hex2->generateTexture(rend->getRenderer()), hex->getWidth(), hex->getHeight() - h);
-	
-	torreX = hex->getWidth() + (hex3->getWidth() / 2) - (torre.getWidth() / 2);
-	torreY = (hex->getHeight() - h) + (hex3->getHeight() / 2) - (torre.getHeight() / 2);
-	rend->renderTexture(torre.getTexture(), torreX, torreY);
-	
-	rend->present();*/
+    SDL_Color whiteColor = {255, 255, 255, 0};
+    
+    Text phrase("Apresenta: ", 32);
+    phrase.setFont("resources/font/Army.ttf");
+    phrase.setColor(whiteColor);
+    int phraseX = logoX + (phrase.getWidth() / 2);
+	int phraseY = (logoY + logo.getHeight() + 15);
+	phrase.setPosition(phraseX, phraseY);
+    
+    SDL_Renderer *rend = this->window->getRender()->getRenderer();
+    SDL_Rect rect = {0, 0, WIDTH, HEIGHT};
+    SDL_SetRenderDrawBlendMode(rend, SDL_BLENDMODE_BLEND);
+    
+    
+    for(int i = 255; i >= 0; i--)
+    {
+        SDL_SetRenderDrawColor(rend, 0, 0, 0, i);
+        
+        Render::getInstance()->clear();
+        
+        logo.draw();
+        phrase.draw();        
+        SDL_RenderFillRect(rend, &rect);
+        
+        Render::getInstance()->present();
+        
+        SDL_Delay(10);
+    }
+    
+    SDL_Delay(2450);
+    
 }
 
 void 

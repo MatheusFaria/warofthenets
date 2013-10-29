@@ -70,13 +70,23 @@ SDLGameObject::getX()
     return position.getX();
 }
 
+void
+SDLGameObject::setX(int x)
+{
+    this->position = Vector2D(x, position.getY());
+}
+
 int
 SDLGameObject::getY()
 {
     return position.getY();
 }
 
-
+void
+SDLGameObject::setY(int y)
+{
+    this->position = Vector2D(position.getX(), y);
+}
 
 
 
