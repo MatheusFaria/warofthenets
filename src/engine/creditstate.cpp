@@ -29,6 +29,8 @@ CreditState::render()
 {
 	TextureManager::Instance()->draw(imageId, imageX, imageY, 
 		Render::getInstance()->getRenderer());
+	
+	SDL_SetRenderDrawColor(Game::Instance()->getWindow()->getRender()->getRenderer(), 0, 0, 0, 0);
 }
 
 bool

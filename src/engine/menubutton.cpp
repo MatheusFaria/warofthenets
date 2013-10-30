@@ -36,7 +36,7 @@ MenuButton::update()
 		//if(InputHandler::Instance()->getMouseButtonState(LEFT) && released)
 		{	
 			
-			currentFrame = CLICKED;
+			//currentFrame = CLICKED;
 
 			released = false;
 		}

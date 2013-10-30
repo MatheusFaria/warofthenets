@@ -144,6 +144,7 @@ MenuState::menuToCredit()
 void
 MenuState::exitFromMenu()
 {
+    //Game::Instance()->getStateMachine()->popState();
 	Game::Instance()->finishGame();
 }
 
