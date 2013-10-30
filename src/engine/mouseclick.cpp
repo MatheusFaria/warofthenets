@@ -13,18 +13,9 @@ MouseClick::~MouseClick()
 bool
 MouseClick::verifyEvent(SDL_Event sdlEvent)
 {
-    return MouseClick::isMyEvent(sdlEvent);
-}
-
-bool
-MouseClick::isMyEvent(SDL_Event sdlEvent)
-{
-    if(sdlEvent.type == SDL_MOUSEBUTTONDOWN)
+    if((sdlEvent.type == SDL_MOUSEBUTTONDOWN) ||
+        (sdlEvent.type == SDL_MOUSEBUTTONUP))
         return true;
     else
         return false;
 }
-
-
-
-

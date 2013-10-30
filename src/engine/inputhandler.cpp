@@ -36,32 +36,6 @@ InputHandler::sendSdlEvent(SDL_Event sdlEvent)
     sendSdlEventToListMouseClick(sdlEvent);
     sendSdlEventToListMouseMotion(sdlEvent);
     
-    /*
-    if(Event::isMyEvent(sdlEvent))
-    {
-        sendSdlEventToListEvent(sdlEvent);
-        
-        if(KeyboardEvent::isMyEvent(sdlEvent))
-        {
-            sendSdlEventToListKeyboardEvent(sdlEvent);
-        }
-        
-        if(MouseEvent::isMyEvent(sdlEvent))
-        {
-            sendSdlEventToListMouseEvent(sdlEvent);
-            
-            if(MouseClick::isMyEvent(sdlEvent))
-            {
-                sendSdlEventToListMouseClick(sdlEvent);
-            }
-            
-            if(MouseMotion::isMyEvent(sdlEvent))
-            {
-                sendSdlEventToListMouseMotion(sdlEvent);
-            }
-        }
-    }
-    */
 }
 
 void

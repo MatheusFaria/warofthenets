@@ -35,18 +35,6 @@ Event::setActive(bool active)
 }
 
 bool
-Event::verifyEvent(SDL_Event sdlEvent)
-{
-    return Event::isMyEvent(sdlEvent);
-}
-
-bool
-Event::isMyEvent(SDL_Event sdlEvent)
-{
-    return true;
-}
-
-bool
 Event::sendMeToListener(SDL_Event event)
 {
     if(active)
@@ -77,40 +65,15 @@ Event::setEventListener(EventListener *eventListener)
 	this->eventListener = eventListener;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+bool
+Event::verifyEvent(SDL_Event sdlEvent)
+{
+    if( (sdlEvent.type == SDL_KEYDOWN) ||
+        (sdlEvent.type == SDL_KEYUP) ||
+        (sdlEvent.type == SDL_MOUSEBUTTONDOWN) ||
+        (sdlEvent.type == SDL_MOUSEBUTTONUP) ||
+        (sdlEvent.type == SDL_MOUSEMOTION))
+        return true;
+    else
+        return false;
+}

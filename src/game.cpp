@@ -102,7 +102,7 @@ Game::run()
 
 	bool quit = false;
 	
-	//presentation();
+	presentation();
 	//SDL_Delay(2000);
 	
 	Uint32 frameStart, frameTime;
@@ -179,7 +179,7 @@ Game::presentation()
 	int mitY = (this->window->getHeight() / 2) - (mit.getHeight() / 2);
     mit.setPosition(mitX, mitY);
         
-    for(int i = 255; i >= 0; i--)
+    for(int i = 255; i >= 0; i -= 2)
     {
         Render::getInstance()->clear();
         
@@ -192,7 +192,7 @@ Game::presentation()
         Render::getInstance()->present();
     }
         
-    for(int i = 255; i >= 0; i--)
+    for(int i = 255; i >= 0; i -= 3)
     {
         Render::getInstance()->clear();
         
@@ -204,7 +204,7 @@ Game::presentation()
         Render::getInstance()->present();
     }
     
-    for(int i = 255; i >= 0; i--)
+    for(int i = 255; i >= 0; i -= 3)
     {
         Render::getInstance()->clear();
         
