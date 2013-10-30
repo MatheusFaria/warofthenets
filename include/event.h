@@ -20,8 +20,6 @@ public:
 	virtual bool eventInMe(SDL_Event sdlEvent) = 0;
 	
 	virtual bool verifyEvent(SDL_Event sdlEvent);
-	
-	static bool isMyEvent(SDL_Event sdlEvent);
 		
 	void notifyListener(SDL_Event sdlEvent);
 	

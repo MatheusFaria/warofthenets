@@ -42,7 +42,7 @@ Game::init()
 		cout << "Could not Set Enviroment" << endl;
 
 	const char * title = "War of The Nets";
-	this->window = new Window(800, 600, 0, 0, title);
+	this->window = new Window(1280, 700, 0, 0, title);
 	(this->window)->createWindow();
 	
 	this->gameStateMachine = new GameStateMachine();
@@ -119,44 +119,44 @@ Game::presentation()
     Render * rend = this->window->getRender();
 	
 	SDL_Color whiteColor = {255, 255, 255, 255};
-	
+	SDL_SetRenderDrawColor(rend->getRenderer(), 255, 255, 255, 255);
 	rend->clear();
 	
+	int xcenter = 250, ycenter = 100;
+
 	Image logo;
-	logo.loadImage("resources/img/logo.png", rend->getRenderer());
-	int logoX = (this->window->getWidth() / 2) - (logo.getWidth() / 2);
-	int logoY = (this->window->getHeight() / 2) - (logo.getHeight() / 2);
-	rend->renderTexture(logo.getTexture(), logoX, logoY);
-	
-	Text *phrase = new Text("Apresenta:", 30);
-	phrase->setFont("resources/font/Army.ttf");
-	phrase->generateTexture(rend->getRenderer(), whiteColor, whiteColor);
-	int phraseX = (this->window->getWidth() / 2) - (phrase->getWidth() / 2);
-	int phraseY = logoY + logo.getHeight() + 10;
-	rend->renderTexture(phrase->getTexture(), phraseX, phraseY);
+	logo.loadImage("resources/img/apresentacao.png", rend->getRenderer());
+	rend->renderTexture(logo.getTexture(), xcenter, ycenter);
 	
 	rend->present();
 	
-	SDL_Delay(2000);
+	SDL_Delay(3000);
+	
+	rend->clear();
+
+	Image tecs;
+	tecs.loadImage("resources/img/tecnologias.png", rend->getRenderer());
+	rend->renderTexture(tecs.getTexture(), xcenter, ycenter);
+	
+	rend->present();
+	
+	SDL_Delay(3000);
+	
+	rend->clear();
+
+	Image requisitos;
+	requisitos.loadImage("resources/img/requisitoslegais.png", rend->getRenderer());
+	rend->renderTexture(requisitos.getTexture(), xcenter, ycenter);
+	
+	rend->present();
+	
+	SDL_Delay(3000);
 	
 	rend->clear();
 
 	Image background;
 	background.loadImage("resources/img/armybackground.png", rend->getRenderer());
 	rend->renderTexture(background.getTexture(), 0, 0);
-
-
-	Image ageClass;
-	ageClass.loadImage("resources/img/ageclassification.png", rend->getRenderer());
-	rend->renderTexture(ageClass.getTexture(), 600, 450);
-
-	Image logoMini;
-	logoMini.loadImage("resources/img/logomini.png", rend->getRenderer());
-	rend->renderTexture(logoMini.getTexture(), 350, 400);
-
-	Image mitLicense;
-	mitLicense.loadImage("resources/img/mitlicense.png", rend->getRenderer());
-	rend->renderTexture(mitLicense.getTexture(), 10, 400);
 	
 	Text * gameName = new Text("WAR OF THE NETS", 80);
 	gameName->setFont("resources/font/Army.ttf");
