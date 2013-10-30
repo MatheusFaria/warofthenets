@@ -31,6 +31,7 @@ private:
 	std::vector<GameObject*> gameOverObjects;
 	static const std::string gameOverId;	
     
+    Image *background;
     Image *title;
     MenuButton *newGame;
     MenuButton *quitToMenu;

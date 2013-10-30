@@ -44,6 +44,8 @@ GameOverState::render()
 bool
 GameOverState::onEnter()
 {
+    background = new Image("resources/img/fundo.png");
+    
     title = new Image("resources/img/gameover.png");
     int titleX = (Game::Instance()->getWindow()->getWidth() / 2) - (title->getWidth() / 2);
 	int titleY = 50;
@@ -57,12 +59,13 @@ GameOverState::onEnter()
 	InputHandler::getInstance()->addMouseClick(newGame);
 
     quitToMenu = new MenuButton(0, 0, "resources/img/quittomenu.png", "quitToMenu");
-	int quitToMenuX = newGameX;
-	int quitToMenuY= (Game::Instance()->getWindow()->getHeight() / 2) + (quitToMenu->getHeight() / 2);
+	int quitToMenuX = (Game::Instance()->getWindow()->getWidth() / 2) - (quitToMenu->getWidth() / 2);
+	int quitToMenuY= (Game::Instance()->getWindow()->getHeight() / 2) + (quitToMenu->getHeight() / 2) + 20;
 	quitToMenu->setPosition(quitToMenuX, quitToMenuY);
 	quitToMenu->setEventListener(this);
 	InputHandler::getInstance()->addMouseClick(quitToMenu);
     
+    gameOverObjects.push_back(background);
     gameOverObjects.push_back(title);
     gameOverObjects.push_back(newGame);
     gameOverObjects.push_back(quitToMenu);
@@ -82,16 +85,18 @@ bool
 GameOverState::onExit()
 {    
     InputHandler::getInstance()->removeKeyboardEvent(this);
-    InputHandler::getInstance()->removeMouseClick(newGame);
     InputHandler::getInstance()->removeMouseClick(quitToMenu);
+    InputHandler::getInstance()->removeMouseClick(newGame);
     
-    title->clean();
-    newGame->clean();
     quitToMenu->clean();
+    newGame->clean();
+    title->clean();
+    background->clean();
     
-    delete title;
-    delete newGame;
     delete quitToMenu;
+    delete newGame;
+    delete title;
+    delete background;
     
 	//std::cout<<"Exiting Game Over State"<<std::endl;
 	return true;
