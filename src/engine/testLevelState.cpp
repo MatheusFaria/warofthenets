@@ -119,7 +119,7 @@ TestLevelState::onExit()
     }
         
     delete listImage;
-    delete hex;
+    //delete hex;
     
     return false;
 }
@@ -133,6 +133,16 @@ TestLevelState::getStateId() const
 bool
 TestLevelState::eventInMe(SDL_Event sdlEvent)
 {
+	if(sdlEvent.key.type == SDL_KEYDOWN)
+    {
+        if(sdlEvent.key.keysym.sym == SDLK_1)
+            return true;
+        if(sdlEvent.key.keysym.sym == SDLK_2)
+            return true;
+        if(sdlEvent.key.keysym.sym == SDLK_3)
+            return true;
+    }
+
     return true;
 }
 
