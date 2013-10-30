@@ -144,7 +144,7 @@ MenuState::menuToCredit()
 void
 MenuState::exitFromMenu()
 {
-	std::cout<<"Exit button touched"<<std::endl;
+	Game::Instance()->finishGame();
 }
 
 void

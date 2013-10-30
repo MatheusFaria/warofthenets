@@ -20,6 +20,9 @@ public:
 	void mainLoop();
 	void menu();
 	void clean();
+	
+	bool isFinish();
+	void finishGame();
 
 	GameStateMachine* getStateMachine();
 	Window* getWindow();
@@ -29,6 +32,8 @@ private:
 	static Game* instance;
 	Window * window;
 	GameStateMachine* gameStateMachine;
+	
+	bool finish;
 
 };
 

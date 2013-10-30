@@ -29,6 +29,7 @@ Game* Game::instance = NULL;
 Game::Game()
 {
 	cout << "Creating War of the Nets" << endl;
+	finish = false;
 }
 
 Game* 
@@ -100,15 +101,13 @@ Game::run()
 {
 	cout << "Run" << endl;
 
-	bool quit = false;
-	
 	presentation();
 	//SDL_Delay(2000);
 	
 	Uint32 frameStart, frameTime;
 	
 	SDL_Event event;	
-	while(!quit)
+	while(!isFinish())
 	{
 	    frameStart = SDL_GetTicks();
 	    
@@ -117,7 +116,7 @@ Game::run()
 	        InputHandler::getInstance()->sendSdlEvent(event);
 		    
 		    if(event.type == SDL_QUIT)
-		        quit = true;
+		        finishGame();
 	    }
 	    
 	    gameStateMachine->update();
@@ -248,6 +247,18 @@ Game::clean()
     
     SDL_DestroyRenderer(Render::getInstance()->getRenderer());
     SDL_Quit();
+}
+
+bool
+Game::isFinish()
+{
+    return finish;
+}
+
+void
+Game::finishGame()
+{
+    finish = true;
 }
 
 void updateTime();
