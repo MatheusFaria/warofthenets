@@ -3,25 +3,37 @@
 
 #include "gameestate.h"
 #include "gameobject.h"
+#include "menubutton.h"
+#include "keyboardevent.h"
+#include "image.h"
+#include "mouseclick.h"
 #include <vector>
 
-class GameOverState{
+class GameOverState : public GameState , public KeyboardEvent,
+                      public MouseClick::MouseClickListener {
 
 public:
 
-	void update();
-	void render();
+	virtual void update();
+	virtual void render();
 
-	bool onEnter();
-	bool onExit();
+	virtual bool onEnter();
+	virtual bool onExit();
 
-	std::string getGameOverId() const;
+	virtual std::string getStateId() const;
+
+	virtual bool eventInMe(SDL_Event sdlEvent);
+	
+	virtual void onMouseClick(MouseClick *mouseClick);
 
 private:
 
 	std::vector<GameObject*> gameOverObjects;
 	static const std::string gameOverId;	
-
+    
+    Image *title;
+    MenuButton *newGame;
+    MenuButton *quitToMenu;
 };
 
 #endif

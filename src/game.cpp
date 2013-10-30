@@ -99,7 +99,7 @@ Game::run()
 
 	bool quit = false;
 	
-	presentation();
+	//presentation();
 	//SDL_Delay(2000);
 	
 	Uint32 frameStart, frameTime;

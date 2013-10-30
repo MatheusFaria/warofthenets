@@ -166,31 +166,31 @@ InputHandler::setActive(bool active)
 void
 InputHandler::addEvent(Event *event)
 {
-    listEvent->push_back(event);
+    listEvent->push_front(event);
 }
 
 void
 InputHandler::addKeyboardEvent(KeyboardEvent *keyboardEvent)
 {
-    listKeyboardEvent->push_back(keyboardEvent);
+    listKeyboardEvent->push_front(keyboardEvent);
 }
 
 void
 InputHandler::addMouseEvent(MouseEvent *mouseEvent)
 {
-    listMouseEvent->push_back(mouseEvent);
+    listMouseEvent->push_front(mouseEvent);
 }
 
 void
 InputHandler::addMouseClick(MouseClick *mouseClick)
 {
-    listMouseClick->push_back(mouseClick);
+    listMouseClick->push_front(mouseClick);
 }
 
 void
 InputHandler::addMouseMotion(MouseMotion *mouseMotion)
 {
-    listMouseMotion->push_back(mouseMotion);
+    listMouseMotion->push_front(mouseMotion);
 }
 
 void

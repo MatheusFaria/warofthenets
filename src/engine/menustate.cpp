@@ -8,6 +8,7 @@
 #include "text.h"
 #include "SDL2/SDL.h"
 #include "soundmanager.h"
+#include "gameoverstate.h"
 #include <iostream>
 
 const std::string MenuState::menuId = "MENU";
@@ -74,7 +75,7 @@ MenuState::createMenu()
 	
 	aboutButton = new MenuButton(0, 0, "resources/img/about.png", "aboutbutton");
 	int aboutx = playx;
-	int abouty= playy + (Game::Instance()->getWindow()->getHeight() / 2)-playy + (aboutButton->getHeight() / 2);
+	int abouty= (Game::Instance()->getWindow()->getHeight() / 2) + (aboutButton->getHeight() / 2);
 	aboutButton->setPosition(aboutx, abouty);
 	aboutButton->setEventListener(this);
 	InputHandler::getInstance()->addMouseClick(aboutButton);
@@ -92,9 +93,7 @@ MenuState::createMenu()
 	audioButton->setPosition(audiox, audioy);
 	audioButton->setEventListener(this);
 	InputHandler::getInstance()->addMouseClick(audioButton);
-
-
-
+	
 	menuObjects.push_back(audioButton);
 	menuObjects.push_back(playButton);
 	menuObjects.push_back(aboutButton);
@@ -133,7 +132,7 @@ MenuState::getStateId() const
 void
 MenuState::menuToPlay()
 {
-	Game::Instance()->getStateMachine()->changeState(new PlayState());
+	Game::Instance()->getStateMachine()->pushState(new GameOverState());
 }
 
 void
@@ -151,7 +150,6 @@ MenuState::exitFromMenu()
 void
 MenuState::onMouseClick(MouseClick *mouseClick)
 {
-    
     if(mouseClick == playButton)
         menuToPlay();
     

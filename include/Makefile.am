@@ -12,4 +12,4 @@ include_HEADERS = 	window.h render.h image.h game.h text.h sdlsettings.h \
 					menustate.h playstate.h vector2d.h menubutton.h inputhandler.h \
 					pausestate.h gameoverstate.h soundmanager.h event.h \
 					inputhandler.h keyboardevent.h mouseclick.h mouseevent.h \
-					mousemotion.h creditstate.h
+					mousemotion.h creditstate.h gameoverstate.h

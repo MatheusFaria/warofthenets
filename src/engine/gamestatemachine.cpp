@@ -20,7 +20,6 @@ GameStateMachine::clean()
 {
 	if(!gameStates.empty())
 	{
-		gameStates.back()->onExit();
 		delete gameStates.back();
 		gameStates.clear();
 	}
@@ -46,7 +45,6 @@ GameStateMachine::popState()
 		    GameState *temp = gameStates.back();
 			gameStates.pop_back();
 			delete temp;
-
 		}
 	}
 }

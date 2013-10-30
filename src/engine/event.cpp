@@ -7,6 +7,7 @@ Event::Event()
 {
     //cout << "Event instanciado!" << endl;
     this->active = true;
+    this->eventListener = NULL;
 }
 
 Event::~Event()
