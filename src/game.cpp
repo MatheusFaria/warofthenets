@@ -178,9 +178,6 @@ Game::presentation()
     mit.setPosition(mitX, mitY);
     
     Image gameName("resources/img/gamename.png");
-    int gameNameX = (this->window->getWidth() / 2) - (gameName.getWidth() / 2);
-	int gameNameY = (this->window->getHeight() / 2) - (gameName.getHeight() / 2);
-    gameName.setPosition(gameNameX, gameNameY);
         
     for(int i = 255; i >= 0; i -= 3)
     {
