@@ -135,11 +135,7 @@ TestLevelState::eventInMe(SDL_Event sdlEvent)
 {
 	if(sdlEvent.key.type == SDL_KEYDOWN)
     {
-        if(sdlEvent.key.keysym.sym == SDLK_1)
-            return true;
-        if(sdlEvent.key.keysym.sym == SDLK_2)
-            return true;
-        if(sdlEvent.key.keysym.sym == SDLK_3)
+        if(sdlEvent.key.keysym.sym == SDLK_ESCAPE)
             return true;
     }
 
