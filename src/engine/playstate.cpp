@@ -29,6 +29,8 @@ PlayState::onExit()
 {
 	for(int i =0; i<(int)playObjects.size(); i++)
 		playObjects[i]->clean();
+
+	return true;
 }
 
 std::string 

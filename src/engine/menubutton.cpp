@@ -30,7 +30,7 @@ MenuButton::update()
 		mousePosition.getY() > (position.getY()))
 	{
 	
-        currentFrame = MOUSE_OVER;
+        //currentFrame = MOUSE_OVER;
 
         if( (sdlEvent.button.button == SDL_BUTTON_LEFT)  )
 		//if(InputHandler::Instance()->getMouseButtonState(LEFT) && released)
@@ -45,13 +45,13 @@ MenuButton::update()
 		//else if(!InputHandler::Instance()->getMouseButtonState(LEFT))
    		{
         	released = true;
-        	currentFrame = MOUSE_OVER;
+        	//currentFrame = MOUSE_OVER;
     	}
 	}
 	else
 	{
 		released = true;
-		currentFrame = MOUSE_OUT;
+		//currentFrame = MOUSE_OUT;
 	}	
 	
 	//cout << "released: " << released << endl;
@@ -73,6 +73,8 @@ MenuButton::verifyEvent(SDL_Event sdlEvent)
     {
         return true;
     }
+
+    return false;
 }
 
 

@@ -57,6 +57,8 @@ SoundManager::loadSound(std::string path, std::string soundId, sound_type type)
 		sfxMap[soundId] = chunk;
 		return true;
 	}
+
+	return false;
 }
 
 void
