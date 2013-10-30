@@ -168,7 +168,6 @@ Game::presentation()
     SDL_Renderer *rend = this->window->getRender()->getRenderer();
     SDL_Rect rectBackground = {0, 0, WIDTH, HEIGHT};
     
-    
     Image sdl("resources/img/sdl.png");
     int sdlX = (this->window->getWidth() / 2) - (sdl.getWidth() / 2);
 	int sdlY = (this->window->getHeight() / 2) - (sdl.getHeight() / 2);
@@ -178,8 +177,13 @@ Game::presentation()
     int mitX = (this->window->getWidth() / 2) - (mit.getWidth() / 2);
 	int mitY = (this->window->getHeight() / 2) - (mit.getHeight() / 2);
     mit.setPosition(mitX, mitY);
+    
+    Image gameName("resources/img/gamename.png");
+    int gameNameX = (this->window->getWidth() / 2) - (gameName.getWidth() / 2);
+	int gameNameY = (this->window->getHeight() / 2) - (gameName.getHeight() / 2);
+    gameName.setPosition(gameNameX, gameNameY);
         
-    for(int i = 255; i >= 0; i -= 2)
+    for(int i = 255; i >= 0; i -= 3)
     {
         Render::getInstance()->clear();
         
@@ -192,7 +196,7 @@ Game::presentation()
         Render::getInstance()->present();
     }
         
-    for(int i = 255; i >= 0; i -= 3)
+    for(int i = 255; i >= 0; i -= 4)
     {
         Render::getInstance()->clear();
         
@@ -204,11 +208,23 @@ Game::presentation()
         Render::getInstance()->present();
     }
     
-    for(int i = 255; i >= 0; i -= 3)
+    for(int i = 255; i >= 0; i -= 4)
     {
         Render::getInstance()->clear();
         
         mit.draw();
+        
+        SDL_SetRenderDrawColor(rend, 255, 255, 255, i);
+        SDL_RenderFillRect(rend, &rectBackground);
+        
+        Render::getInstance()->present();
+    }
+    
+    for(int i = 255; i >= 0; i -= 4)
+    {
+        Render::getInstance()->clear();
+        
+        gameName.draw();
         
         SDL_SetRenderDrawColor(rend, 255, 255, 255, i);
         SDL_RenderFillRect(rend, &rectBackground);
