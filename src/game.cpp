@@ -60,10 +60,13 @@ Game::init()
 		cout << "Enviroment Set" << endl;
 	else
 		cout << "Could not Set Enviroment" << endl;
+		
 
 	const char * title = "War of The Nets";
 	this->window = new Window(WIDTH, HEIGHT, 0, 0, title);
 	(this->window)->createWindow();
+	
+	SDL_SetRenderDrawBlendMode(this->window->getRender()->getRenderer(), SDL_BLENDMODE_BLEND);
 
 	this->gameStateMachine = new GameStateMachine();
 	this->gameStateMachine->changeState(new MenuState());
@@ -164,7 +167,7 @@ Game::presentation()
     
     SDL_Renderer *rend = this->window->getRender()->getRenderer();
     SDL_Rect rectBackground = {0, 0, WIDTH, HEIGHT};
-    SDL_SetRenderDrawBlendMode(rend, SDL_BLENDMODE_BLEND);
+    
     
     Image sdl("resources/img/sdl.png");
     int sdlX = (this->window->getWidth() / 2) - (sdl.getWidth() / 2);

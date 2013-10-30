@@ -34,6 +34,13 @@ private:
     Image *title;
     MenuButton *newGame;
     MenuButton *quitToMenu;
+    
+    float velocity;
+	float previousTime;
+	
+	SDL_Renderer *rend;
+    SDL_Rect rectBackground;
+    int alpha;
 };
 
 #endif

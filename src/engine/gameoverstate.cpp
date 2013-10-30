@@ -13,6 +13,22 @@ GameOverState::update()
 {
 	for(int i =0; i<(int)gameOverObjects.size(); i++)
 		gameOverObjects[i]->update();
+	
+	                                                                                                                                                                              
+    if(alpha <= 0)
+    {
+        velocity = 0;
+    }else{
+        velocity = -0.085;
+    }
+    
+    alpha += ((SDL_GetTicks() - previousTime) / 1) * velocity;
+    
+    previousTime = SDL_GetTicks();
+    
+    if(alpha < 0)
+        alpha = 0;
+    
 }
 
 void
@@ -20,6 +36,9 @@ GameOverState::render()
 {
 	for(int i =0; i<(int)gameOverObjects.size(); i++)
 		gameOverObjects[i]->draw();
+	
+	SDL_SetRenderDrawColor(rend, 255, 255, 255, alpha);
+	SDL_RenderFillRect(rend, &rectBackground);
 }
 
 bool
@@ -49,6 +68,12 @@ GameOverState::onEnter()
     gameOverObjects.push_back(quitToMenu);
     
     InputHandler::getInstance()->addKeyboardEvent(this);
+    
+    previousTime = SDL_GetTicks();
+    
+	rend = Game::Instance()->getWindow()->getRender()->getRenderer();
+    rectBackground = {0, 0, 1280, 700};
+    alpha = 255;
     
 	return true;
 }
