@@ -132,7 +132,8 @@ MenuState::getStateId() const
 void
 MenuState::menuToPlay()
 {
-	Game::Instance()->getStateMachine()->pushState(new GameOverState());
+	//Game::Instance()->getStateMachine()->pushState(new GameOverState());
+	Game::Instance()->getStateMachine()->pushState(new PlayState());
 }
 
 void

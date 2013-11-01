@@ -88,6 +88,7 @@ MenuButton::eventInMe(SDL_Event sdlEvent)
     {
         if( (sdlEvent.button.button == SDL_BUTTON_LEFT) &&
             (sdlEvent.button.state == SDL_RELEASED) &&
+            (sdlEvent.type != SDL_MOUSEMOTION) &&
             !released)
             return true;
     }

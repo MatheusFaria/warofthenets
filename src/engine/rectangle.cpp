@@ -1,30 +1,21 @@
 #include "rectangle.h"
 #include "log.h"
 
-Rectangle::Rectangle(int w, int h, int posX, int posY, bool fill)
-:DrawableObject(w, h, posX, posY)
+Rectangle::Rectangle(int w, int h, Render * render, bool fill)
+:DrawableObject(render, w, h)
 {
-	this->rect = {x, y, width, height};
+	this->rect = {0, 0, w, h};
 	this->filled = fill;
 }
 
-Rectangle::~Rectangle()
-{
-}
+Rectangle::~Rectangle() {}
 
 void 
 Rectangle::putObjectInSurface()
 {
 	if(this->filled)
-		SDL_RenderFillRect(render->getRenderer(), &(this->rect));
+		SDL_RenderFillRect(getInternalRenderer(), &(this->rect));
 	else
-		SDL_RenderDrawRect(render->getRenderer(), &(this->rect));
-}
-
-void
-Rectangle::fill()
-{
-	this->filled = true;
-	draw();
+		SDL_RenderDrawRect(getInternalRenderer(), &(this->rect));
 }
 

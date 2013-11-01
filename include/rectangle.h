@@ -5,10 +5,8 @@
 
 class Rectangle: virtual public DrawableObject {
 public:
-	Rectangle(int, int, int=0, int=0, bool=false); 
+	Rectangle(int, int, Render *, bool=false); 
 	~Rectangle();
-
-	void fill();
 
 private:
 	SDL_Rect rect;
