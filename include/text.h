@@ -21,6 +21,7 @@ public:
 	void setFont(string);
 	void setStyle(int);
 	void setColor(SDL_Color color);
+	void setText(string value);
 	SDL_Texture * generateTexture(SDL_Renderer *, SDL_Color, SDL_Color, int = TTF_SOLID);
 
 	SDL_Texture * getTexture();
@@ -49,6 +50,8 @@ private:
 	SDL_Color backgroundColor;
 	TTF_Font * font;
 	string fontPath;
+	
+	SDL_Color color;
 	
 	int width;
 	int height;

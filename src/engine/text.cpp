@@ -55,6 +55,14 @@ Text::setStyle(int style)
 void 
 Text::setColor(SDL_Color color)
 {
+    this->color = color;
+    generateTexture(Render::getInstance()->getRenderer(), color, color);
+}
+
+void 
+Text::setText(string value)
+{
+    this->value = value;
     generateTexture(Render::getInstance()->getRenderer(), color, color);
 }
 

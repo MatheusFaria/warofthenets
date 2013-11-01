@@ -1,4 +1,5 @@
 #include "playstate.h"
+#include "gameoverstate.h"
 #include "render.h"
 #include "game.h"
 #include "SDL2/SDL.h"
@@ -14,6 +15,11 @@ PlayState::update()
 {
 	for(int i =0; i<(int)playObjects.size(); i++)
 		playObjects[i]->update();
+	
+	
+	txtNumTower->setText(std::to_string(numTower));
+	txtNumBomb->setText(std::to_string(numBomb));
+	txtNumSpy->setText(std::to_string(numSpy));
 }
 
 void
@@ -24,6 +30,10 @@ PlayState::render()
 
 	for(int i =0; i<(int)playObjects.size(); i++)
 		playObjects[i]->draw();
+	
+	txtNumTower->draw();
+	txtNumBomb->draw();
+	txtNumSpy->draw();
 }
 
 bool
@@ -44,6 +54,12 @@ PlayState::onEnter()
 	InputHandler::getInstance()->addMouseClick(this);
 
 	createHUD();
+	
+	numTower = 0;
+	numBomb = 0;
+	numSpy = 0;
+	
+	
 
 	std::cout<<"Play State"<<std::endl;
 	return true;
@@ -72,9 +88,23 @@ PlayState::createMap()
 bool 
 PlayState::onExit()
 {
-	for(int i =0; i<(int)playObjects.size(); i++)
+    InputHandler::getInstance()->removeMouseClick(quit);
+    InputHandler::getInstance()->removeMouseClick(recursoSpy);
+    InputHandler::getInstance()->removeMouseClick(recursoBomb);
+    InputHandler::getInstance()->removeMouseClick(recursoTower);
+    InputHandler::getInstance()->removeMouseClick(painelRecurso);
+    InputHandler::getInstance()->removeMouseClick(this);
+    
+    for(int i =0; i<(int)playObjects.size(); i++)
+	{
 		playObjects[i]->clean();
-
+		delete playObjects[i];
+    }
+    
+    delete txtNumTower;
+	delete txtNumBomb;
+	delete txtNumSpy;
+    
 	return true;
 }
 
@@ -112,12 +142,43 @@ PlayState::createHUD()
 	recursoSpy->setPosition(recursoSpyX, recursoSpyY);
 	recursoSpy->setEventListener(this);
 	InputHandler::getInstance()->addMouseClick(recursoSpy);
+	
+	quit = new MenuButton(0, 0, "resources/img/botaosair.png", "botaosair");
+	int quitX = windowWidth - quit->getWidth();
+	int quitY = 0;
+	quit->setPosition(quitX, quitY);
+	quit->setEventListener(this);
+	InputHandler::getInstance()->addMouseClick(quit);
+	
+	SDL_Color blackColor = {0, 0, 0, 0};
+	
+	txtNumTower = new Text("0", 16);
+	txtNumTower->setFont("resources/font/Army.ttf");
+    txtNumTower->setColor(blackColor);
+    int x = recursoTowerX + recursoTower->getWidth() - txtNumTower->getWidth() - 18;
+    int y = recursoTowerY + recursoTower->getHeight() - txtNumTower->getHeight() - 9;
+    txtNumTower->setPosition(x, y);
+    
+    txtNumBomb = new Text("0", 16);
+	txtNumBomb->setFont("resources/font/Army.ttf");
+    txtNumBomb->setColor(blackColor);
+    x = recursoTowerX + recursoTower->getWidth() - txtNumBomb->getWidth() - 18;
+    y = recursoBombY + recursoBomb->getHeight() - txtNumBomb->getHeight() - 9;
+    txtNumBomb->setPosition(x, y);
+    
+    txtNumSpy = new Text("0", 16); 
+	txtNumSpy->setFont("resources/font/Army.ttf");
+    txtNumSpy->setColor(blackColor);
+    x = recursoTowerX + recursoTower->getWidth() - txtNumSpy->getWidth() - 18;
+    y = recursoSpyY + recursoSpy->getHeight() - txtNumSpy->getHeight() - 9;
+    txtNumSpy->setPosition(x, y);
 
 
 	playObjects.push_back(painelRecurso);
 	playObjects.push_back(recursoTower);
 	playObjects.push_back(recursoBomb);
 	playObjects.push_back(recursoSpy);
+	playObjects.push_back(quit);
 
 
 
@@ -146,7 +207,11 @@ PlayState::onMouseClick(MouseClick *mouseClick)
 
 		std::cout << "Selecionou: ESPIAO" << std::endl;
 	}
-		
+	
+	if(mouseClick == quit)
+	{
+	    Game::Instance()->getStateMachine()->changeState(new GameOverState());
+    }   
 }
 
 bool 
@@ -159,6 +224,14 @@ PlayState::eventInMe(SDL_Event sdlEvent)
         (sdlEvent.button.x < (painelRecurso->getX() + painelRecurso->getWidth())) &&
         (sdlEvent.button.y > painelRecurso->getY()) && 
         (sdlEvent.button.y < (painelRecurso->getY() + painelRecurso->getHeight())))
+	{
+		return false;
+	}
+	
+	if((sdlEvent.button.x > quit->getX()) &&
+        (sdlEvent.button.x < (quit->getX() + quit->getWidth())) &&
+        (sdlEvent.button.y > quit->getY()) && 
+        (sdlEvent.button.y < (quit->getY() + quit->getHeight())))
 	{
 		return false;
 	}
@@ -206,13 +279,18 @@ PlayState::eventInMe(SDL_Event sdlEvent)
 
 	    if(idSelected == "resources/img/tower.png")	
 	    {
+	        numTower++;
 	    	//std::cout<<"Chegou aqui"<<std::endl;
 	    	recurso = new Torre(tX, tY);
 	    	recurso->setY(tY + recurso->getHeight() - (recurso->getHeight() / 4));	
 	    	//std::cout<<"Passou aqui"<<std::endl;
+	    }else{
+	        recurso = new Image(idSelected, tX, tY);
+	        if(idSelected == "resources/img/bomb.png")
+			    numBomb++;
+		    else
+		        numSpy++;
 	    }	
-	    else	
-			recurso = new Image(idSelected, tX, tY);
 		
 		recurso->setX(recurso->getX() + (recurso->getWidth() / 4));
 

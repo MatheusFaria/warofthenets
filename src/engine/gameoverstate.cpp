@@ -4,6 +4,7 @@
 #include "inputhandler.h"
 #include "image.h"
 #include "SDL2/SDL.h"
+#include "playstate.h"
 #include <iostream>
 
 const std::string GameOverState::gameOverId = "GAMEOVER";
@@ -124,4 +125,7 @@ GameOverState::onMouseClick(MouseClick *mouseClick)
 {
     if(mouseClick == quitToMenu)
         Game::Instance()->getStateMachine()->popState();
+        
+    if(mouseClick == newGame)
+        Game::Instance()->getStateMachine()->changeState(new PlayState());
 }

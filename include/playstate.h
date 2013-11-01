@@ -5,6 +5,7 @@
 #include "gameobject.h"
 #include "menubutton.h"
 #include "image.h"
+#include "text.h"
 #include "hexagon.h"
 #include "mouseclick.h"
 #include <vector>
@@ -42,8 +43,18 @@ private:
 	MenuButton *recursoTower;
 	MenuButton *recursoBomb;
 	MenuButton *recursoSpy;
+	
+	MenuButton *quit;
 
 	std::string idSelected;
+	
+	int numTower;
+	int numBomb;
+	int numSpy;
+
+    Text *txtNumTower;
+    Text *txtNumBomb;
+    Text *txtNumSpy;    
 
 	int eventX;
 	int eventY;
