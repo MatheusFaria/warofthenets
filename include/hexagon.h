@@ -18,6 +18,7 @@ public:
 	void destroyGameObject();
 	
 	GameObject* getObject();
+	bool haveObject();
 
 	bool isMouseRight();
 	bool isMouseLeft();

@@ -42,6 +42,9 @@ private:
 	int windowHeight;
 
 	map<Hexagon*, vector<Hexagon*>> grafoHexagon;
+	void foundAdjacents(Hexagon *hex);
+	
+	bool canConstruct(Hexagon *hex);
 
 	static const std::string playId;
 	std::vector<GameObject*> playObjects;

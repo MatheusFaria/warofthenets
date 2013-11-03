@@ -72,75 +72,6 @@ PlayState::onEnter()
 	return true;
 }
 
-void
-PlayState::createMap()
-{
-
-	const float yOff = 0.87*50;
-	const float xOff =0.5*50;
-
-	unsigned int numColumns = windowWidth/75;
-	unsigned int numRows = windowHeight/87;
-
-	std::cout<<numColumns<<" "<<numRows<<std::endl;
-
-	for(unsigned int i =0; i<numRows; i++)
-	{	
-		for(unsigned int j = 0; j<numColumns; j++)
-		{
-			float yPos = i*yOff*2;
-
-			if(j%2 != 0)
-				yPos += yOff;
-
-			const float xPos = j*xOff*3;
-
-			Hexagon *hex = new Hexagon(50, Render::getInstance());
-			hex->setDrawColor(0, 0, 0 , 255);
-			hex->setPosition(xPos, yPos);
-			vectorHexagon.push_back(hex);
-			hex->setEventListener(this);
-			InputHandler::getInstance()->addMouseClick(hex);
-
-
-		}
-	}	
-}
-
-void
-PlayState::foundAdjacents(Hexagon *hex)
-{
-	vector<Hexagon *> adjacents;
-
-	int width = hex->getWidth();
-	int height = hex->getHeight();
-	int centerX = hex->getX() + (width/2);
-	int centerY = hex->getY() + (height/2);
-
-	int x;
-	int y;
-
-	for(int i = 0; i < vectorHexagon.size(); i++)
-	{
-		x = centerX;
-		y = centerY + height;
-		if(vectorHexagon[i]->isMyCoordinate(x, y))
-		{
-			adjacents.push_back(vectorHexagon[i]);
-			grafoHexagon[vectorHexagon[i]].push_back(hex);
-		}
-
-		x = centerX;
-		y = centerY - height;
-		if(vectorHexagon[i]->isMyCoordinate(x, y))
-		{
-			adjacents.push_back(vectorHexagon[i]);
-			grafoHexagon[vectorHexagon[i]].push_back(hex);
-		}
-	}
-
-	grafoHexagon[hex] = adjacents;
-}
 
 bool 
 PlayState::onExit()
@@ -175,6 +106,134 @@ std::string
 PlayState::getStateId() const
 {
 	return playId;
+}
+
+
+void
+PlayState::createMap()
+{
+
+	const float yOff = 0.87*50;
+	const float xOff =0.5*50;
+
+	unsigned int numColumns = windowWidth/75;
+	unsigned int numRows = windowHeight/87;
+
+	std::cout<<numColumns<<" "<<numRows<<std::endl;
+
+	for(unsigned int i =0; i<numRows; i++)
+	{	
+		for(unsigned int j = 0; j<numColumns; j++)
+		{
+			float yPos = i*yOff*2;
+
+			if(j%2 != 0)
+				yPos += yOff;
+
+			const float xPos = j*xOff*3;
+
+			Hexagon *hex = new Hexagon(50, Render::getInstance());
+			hex->setDrawColor(0, 0, 0 , 255);
+			hex->setPosition(xPos, yPos);
+			vectorHexagon.push_back(hex);
+			hex->setEventListener(this);
+			InputHandler::getInstance()->addMouseClick(hex);
+            foundAdjacents(hex);
+		}
+	}	
+}
+
+void
+PlayState::foundAdjacents(Hexagon *hex)
+{
+    //std::cout << "\n\nfoundAdjacents: " << std::endl;
+
+	vector<Hexagon *> adjacents;
+
+	int width = 100;
+	int height = 87;
+	int centerX = hex->getX() + (width/2);
+	int centerY = hex->getY() + (height/2);
+
+	int x;
+	int y;
+
+	for(unsigned int i = 0; i < vectorHexagon.size(); i++)
+	{
+	    //CIMA
+		x = centerX;
+		y = centerY - height;
+		if(vectorHexagon[i]->isMyCoordinate(x, y))
+		{
+			adjacents.push_back(vectorHexagon[i]);
+			grafoHexagon[vectorHexagon[i]].push_back(hex);
+		}
+		
+		//CIMA + ESQUERDA
+		x = centerX - (width/2);
+		y = centerY - (height/2);
+		if(vectorHexagon[i]->isMyCoordinate(x, y))
+		{
+			adjacents.push_back(vectorHexagon[i]);
+			grafoHexagon[vectorHexagon[i]].push_back(hex);
+		}
+		
+		//CIMA + DIREITA
+		x = centerX + (width/2);
+		y = centerY - (height/2);
+		if(vectorHexagon[i]->isMyCoordinate(x, y))
+		{
+			adjacents.push_back(vectorHexagon[i]);
+			grafoHexagon[vectorHexagon[i]].push_back(hex);
+		}
+		
+		//BAIXO
+		x = centerX;
+		y = centerY + height;
+		if(vectorHexagon[i]->isMyCoordinate(x, y))
+		{
+			adjacents.push_back(vectorHexagon[i]);
+			grafoHexagon[vectorHexagon[i]].push_back(hex);
+		}
+		
+		//BAIXO + ESQUERDA
+		x = centerX - (width/2);
+		y = centerY + (height/2);
+		if(vectorHexagon[i]->isMyCoordinate(x, y))
+		{
+			adjacents.push_back(vectorHexagon[i]);
+			grafoHexagon[vectorHexagon[i]].push_back(hex);
+		}
+		
+		//BAIXO + DIREITA
+		x = centerX + (width/2);
+		y = centerY + (height/2);
+		if(vectorHexagon[i]->isMyCoordinate(x, y))
+		{
+			adjacents.push_back(vectorHexagon[i]);
+			grafoHexagon[vectorHexagon[i]].push_back(hex);
+		}
+	}
+
+	grafoHexagon[hex] = adjacents;
+}
+
+bool 
+PlayState::canConstruct(Hexagon *hex)
+{
+    vector<Hexagon *> adjacents;
+    adjacents = grafoHexagon[hex];
+    
+    //std::cout << "adjacents.size(): " << adjacents.size() << std::endl;
+    
+    for(unsigned int i = 0; i < adjacents.size(); i++)
+    {
+        //std::cout << "adjacents[i]->haveObject(): " << adjacents[i]->haveObject() << std::endl;
+        if(adjacents[i]->haveObject())
+            return false;
+    }
+    
+    return true;
 }
 
 void 
@@ -286,7 +345,7 @@ PlayState::onMouseClick(MouseClick *mouseClick)
     	std::cout<<"Clicou no Hexagon"<<std::endl;
     	Hexagon *temp = (Hexagon *) mouseClick;
 
-    	if(temp->isMouseLeft())
+    	if(temp->isMouseLeft() && canConstruct(temp))
     		showObject(temp);
     	else if(temp->isMouseRight())
     	{
