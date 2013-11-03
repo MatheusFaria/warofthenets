@@ -69,7 +69,12 @@ MenuButton::verifyEvent(SDL_Event sdlEvent)
 {
     this->sdlEvent = sdlEvent;
     
-    if(sdlEvent.button.button == SDL_BUTTON_LEFT)
+    //Lembrar do "!released";
+
+    if( (sdlEvent.button.button == SDL_BUTTON_LEFT) &&
+        (sdlEvent.button.state == SDL_RELEASED) &&
+        (sdlEvent.type != SDL_MOUSEMOTION) /*&&
+        !released*/)
     {
         return true;
     }
@@ -86,10 +91,6 @@ MenuButton::eventInMe(SDL_Event sdlEvent)
         (sdlEvent.button.y > this->getY()) && 
         (sdlEvent.button.y < (this->getY() + this->getHeight())))
     {
-        if( (sdlEvent.button.button == SDL_BUTTON_LEFT) &&
-            (sdlEvent.button.state == SDL_RELEASED) &&
-            (sdlEvent.type != SDL_MOUSEMOTION) &&
-            !released)
             return true;
     }
     

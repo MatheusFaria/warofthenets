@@ -8,7 +8,7 @@ class Torre : public Image{
 
 public:
 
-	Torre(int x, int y);
+	Torre(int x=0, int y=0);
 	virtual void update();
 	virtual void draw();
 

@@ -8,7 +8,7 @@ class RenderableObject{
 public:
 	RenderableObject(Render *);
 	RenderableObject(Render *, int, int, int);
-	~RenderableObject();
+	virtual ~RenderableObject();
 
 	SDL_Texture * getTexture();
 	int getWidth();

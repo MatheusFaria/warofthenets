@@ -10,7 +10,7 @@
 #include "mouseclick.h"
 #include <vector>
 
-class PlayState : public GameState, public MouseClick,
+class PlayState : public GameState,
 				  public MouseClick::MouseClickListener{
 
 public:
@@ -24,9 +24,15 @@ public:
 	virtual std::string getStateId() const;
 
 	virtual void onMouseClick(MouseClick *mouseClick);
-	virtual bool eventInMe(SDL_Event sdlEvent);
+	//virtual bool eventInMe(SDL_Event sdlEvent);
 
 private:
+
+	GameObject* createObject();
+	void incObject();
+	void showObject(Hexagon* hex);
+	void deleteObject(Hexagon* hex);
+	void decObject(GameObject* object);
 
 	void createHUD();
 	void createMap();
@@ -37,7 +43,7 @@ private:
 	static const std::string playId;
 	std::vector<GameObject*> playObjects;
 
-	Hexagon *hex;
+	std::vector<Hexagon *> vectorHexagon;
 
 	MenuButton *painelRecurso;
 	MenuButton *recursoTower;

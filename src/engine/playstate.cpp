@@ -5,6 +5,7 @@
 #include "SDL2/SDL.h"
 #include "inputhandler.h"
 #include "torre.h"
+#include <algorithm>
 #include <iostream>
 
 
@@ -15,6 +16,9 @@ PlayState::update()
 {
 	for(int i =0; i<(int)playObjects.size(); i++)
 		playObjects[i]->update();
+
+	for(int i =0; i<(int)vectorHexagon.size(); i++)
+		vectorHexagon[i]->update();
 	
 	
 	txtNumTower->setText(std::to_string(numTower));
@@ -25,11 +29,14 @@ PlayState::update()
 void
 PlayState::render()
 {
-	createMap();
+	//createMap();
 	
+	for(int i =0; i<(int)vectorHexagon.size(); i++)
+		vectorHexagon[i]->draw();
 
 	for(int i =0; i<(int)playObjects.size(); i++)
 		playObjects[i]->draw();
+
 	
 	txtNumTower->draw();
 	txtNumBomb->draw();
@@ -40,19 +47,19 @@ bool
 PlayState::onEnter()
 {
 	windowWidth = Game::Instance()->getWindow()->getWidth();
-	windowHeight = Game::Instance()->getWindow()->getHeight();
+	windowHeight =
+	Game::Instance()->getWindow()->getHeight();
 
-	hex = new Hexagon(50, Render::getInstance());
-	hex->setDrawColor(0, 0, 0 , 255);
-	hex->setPosition(200, 200);
+	
 
 	Render::getInstance()->setColor(255, 255, 255 , 255);
 	
 
 	idSelected = "";
 
-	InputHandler::getInstance()->addMouseClick(this);
+	//InputHandler::getInstance()->addMouseClick(this);
 
+	createMap();
 	createHUD();
 	
 	numTower = 0;
@@ -68,21 +75,34 @@ PlayState::onEnter()
 void
 PlayState::createMap()
 {
-	for(int i = 0, j = 0, ind = 0; i < windowWidth; i+= hex->getWidth() - hex->getWidth()/4 - 2, ind++)
-	{
-		if(ind % 2 != 0)
-			j = hex->getHeight()/2;
-		else
-			j = 0;
-		for(; j < windowHeight; j+= hex->getHeight() -1)
+
+	const float yOff = 0.87*50;
+	const float xOff =0.5*50;
+
+	unsigned int numColumns = windowWidth/75;
+	unsigned int numRows = windowHeight/87;
+
+	std::cout<<numColumns<<" "<<numRows<<std::endl;
+
+	for(unsigned int i =0; i<numRows; i++)
+	{	
+		for(unsigned int j = 0; j<numColumns; j++)
 		{
-		    //SDL_Texture *hexTexture = hex->generateTexture(rend->getRenderer());
-			//rend->renderTexture(hexTexture, i, j);
-			hex->setPosition(i, j);
-			hex->draw();
+			float yPos = i*yOff*2;
+
+			if(j%2 != 0)
+				yPos += yOff;
+
+			const float xPos = j*xOff*3;
+
+			Hexagon *hex = new Hexagon(50, Render::getInstance());
+			hex->setDrawColor(0, 0, 0 , 255);
+			hex->setPosition(xPos, yPos);
+			vectorHexagon.push_back(hex);
+			hex->setEventListener(this);
+			InputHandler::getInstance()->addMouseClick(hex);
 		}
-	
-	}
+	}	
 }
 
 bool 
@@ -93,14 +113,17 @@ PlayState::onExit()
     InputHandler::getInstance()->removeMouseClick(recursoBomb);
     InputHandler::getInstance()->removeMouseClick(recursoTower);
     InputHandler::getInstance()->removeMouseClick(painelRecurso);
-    InputHandler::getInstance()->removeMouseClick(this);
-    
+
     for(int i =0; i<(int)playObjects.size(); i++)
 	{
 		playObjects[i]->clean();
 		delete playObjects[i];
     }
     
+
+    for(int i =0; i<(int)vectorHexagon.size(); i++)
+		delete vectorHexagon[i];
+
     delete txtNumTower;
 	delete txtNumBomb;
 	delete txtNumSpy;
@@ -211,97 +234,92 @@ PlayState::onMouseClick(MouseClick *mouseClick)
 	if(mouseClick == quit)
 	{
 	    Game::Instance()->getStateMachine()->changeState(new GameOverState());
-    }   
+    }
+
+    if(dynamic_cast<Hexagon*>(mouseClick))
+    {
+
+    	std::cout<<"Clicou no Hexagon"<<std::endl;
+    	Hexagon *temp = (Hexagon *) mouseClick;
+
+    	if(temp->isMouseLeft())
+    		showObject(temp);
+    	else if(temp->isMouseRight())
+    	{
+    		std::cout<<"Clicou no direito"<<std::endl;
+    		deleteObject(temp);	
+    	}	
+
+    }
 }
 
-bool 
-PlayState::eventInMe(SDL_Event sdlEvent)
+GameObject*
+PlayState::createObject()
 {
-	if(idSelected == "")
-		return false;
+	Image* recurso = NULL;
 
-	if((sdlEvent.button.x > painelRecurso->getX()) &&
-        (sdlEvent.button.x < (painelRecurso->getX() + painelRecurso->getWidth())) &&
-        (sdlEvent.button.y > painelRecurso->getY()) && 
-        (sdlEvent.button.y < (painelRecurso->getY() + painelRecurso->getHeight())))
-	{
-		return false;
-	}
-	
-	if((sdlEvent.button.x > quit->getX()) &&
-        (sdlEvent.button.x < (quit->getX() + quit->getWidth())) &&
-        (sdlEvent.button.y > quit->getY()) && 
-        (sdlEvent.button.y < (quit->getY() + quit->getHeight())))
-	{
-		return false;
-	}
-
-	if( (sdlEvent.button.button == SDL_BUTTON_LEFT) &&
-            (sdlEvent.button.state == SDL_RELEASED) &&
-            (sdlEvent.type != SDL_MOUSEMOTION))
-	{
-		std::cout << "Colocando: " << idSelected << std::endl;
-
-		int x = sdlEvent.button.x / (hex->getWidth() - hex->getWidth()/4 - 2);
-        int y;
-        
-        if(x % 2 != 0)
-            y = sdlEvent.button.y - (hex->getHeight() / 2);
-        else
-            y = sdlEvent.button.y;
-            
-        y = y / (hex->getHeight() -1);
-        
-        int cX = 0, cY = 0;
-        int tX = 0, tY = 0;
-        
-        for(int i = 0, j = 0, ind = 0; (cX <= x); i+= hex->getWidth() - hex->getWidth()/4 - 2, ind++, cX++)
-	    {
-		    if(ind % 2 != 0)
-			    j = hex->getHeight()/2;
-		    else
-			    j = 0;
-		    
-		    tX = i;
-		    
-		    for(; cY <= y; j+= hex->getHeight() -1, cY++)
-		    {
-                tY = j;
-			    //rend->renderTexture(hex->generateTexture(rend->getRenderer()), i, j);
-		    }
-	
-	    }
+	if(idSelected =="")
+		return NULL;
+	if(idSelected == "resources/img/tower.png")
+    	recurso = new Torre();
 	    
-	    if(x % 2 != 0)
-	        tY += hex->getHeight()/2;
+	else
+        recurso = new Image(idSelected);
+	
 
-	    Image *recurso;
+	return recurso;
+}
 
-	    if(idSelected == "resources/img/tower.png")	
-	    {
-	        numTower++;
-	    	//std::cout<<"Chegou aqui"<<std::endl;
-	    	recurso = new Torre(tX, tY);
-	    	recurso->setY(tY + recurso->getHeight() - (recurso->getHeight() / 4));	
-	    	//std::cout<<"Passou aqui"<<std::endl;
-	    }else{
-	        recurso = new Image(idSelected, tX, tY);
-	        if(idSelected == "resources/img/bomb.png")
-			    numBomb++;
-		    else
-		        numSpy++;
-	    }	
-		
-		recurso->setX(recurso->getX() + (recurso->getWidth() / 4));
+void
+PlayState::incObject()
+{
+	if(idSelected == "resources/img/tower.png")
+		numTower++;
+	else if(idSelected == "resources/img/bomb.png")
+		numBomb++;
+	else if(idSelected == "resources/img/spy.png")	
+		numSpy++;
+}
 
-		y = recurso->getY() + (hex->getHeight()/2) - recurso->getHeight() + 2;
-		recurso->setY(y);
-		
-		playObjects.push_back(recurso);
+void
+PlayState::decObject(GameObject* object)
+{
+	if(dynamic_cast<Torre*>(object))
+		numTower--;
+}
 
+void 
+PlayState::showObject(Hexagon* hex)
+{
+	GameObject* object = createObject();
 
-		return true;
+	if(!object)
+		return;
+	else
+	{
+		if(hex->setObject(object))
+		{
+			incObject();
+			playObjects.push_back(object);
+		}	
 	}
+}
 
-	return false;
+void
+PlayState::deleteObject(Hexagon *hex)
+{
+
+	GameObject* object = hex->getObject();
+
+	if(!object)
+		return;
+
+	vector<GameObject*>::iterator it;
+
+	it = find(playObjects.begin(), playObjects.end(), object);
+	playObjects.erase(it);
+
+	hex->destroyGameObject();
+	decObject(object);
+	delete object;
 }

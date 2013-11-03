@@ -17,7 +17,7 @@ public:
 	virtual void clean();
 
     Vector2D getPosition();
-	void setPosition(int, int);
+	virtual void setPosition(int, int);
 	
 	int getWidth();
 	int getHeight();

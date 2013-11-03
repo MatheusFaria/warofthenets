@@ -9,6 +9,7 @@ Hexagon::Hexagon(int size, Render * render)
 	this->size = size;
 	setSurfaceHeight(size*sin(60*M_PI/180)*2 + 1);
 	setSurfaceWidth(size*2 + 1);
+	this->object = NULL;
 }
 
 Hexagon::~Hexagon() {}
@@ -29,5 +30,106 @@ Hexagon::putObjectInSurface()
 
 }
 
+bool 
+Hexagon::verifyEvent(SDL_Event sdlEvent)
+{
+	if((sdlEvent.button.state == SDL_RELEASED) &&
+            (sdlEvent.type != SDL_MOUSEMOTION))
+	{
+		return true;
+	}
+
+	return false;
+}
 
 
+bool 
+Hexagon::eventInMe(SDL_Event sdlEvent)
+{
+	if((sdlEvent.button.x > getX()) &&
+        (sdlEvent.button.x < (getX() + getWidth())) &&
+        (sdlEvent.button.y > getY()) && 
+        (sdlEvent.button.y < (getY() + getHeight())))
+	{
+		switch(sdlEvent.button.button)
+		{
+			case SDL_BUTTON_RIGHT:
+				setEventMouse(MOUSE_RIGHT);
+				break;
+			case SDL_BUTTON_LEFT:
+				setEventMouse(MOUSE_LEFT);
+				break;
+			case SDL_BUTTON_MIDDLE:
+				setEventMouse(MOUSE_MIDDLE);
+				break;
+			
+		}
+
+		return true;
+	}
+
+	return false;
+}
+
+bool 
+Hexagon::setObject(GameObject* _object)
+{
+	if(object == NULL)
+	{
+		object = _object;
+		return true;
+	}	
+	
+	return false;
+}
+
+void 
+Hexagon::update()
+{
+	if(object != NULL)
+		object->setPosition(getX(), getY());
+}
+
+void 
+Hexagon::setEventMouse(int mouse_state)
+{
+	resetEventMouse();
+	eventMouse[mouse_state] = true;
+}
+
+void 
+Hexagon::resetEventMouse()
+{
+	eventMouse[MOUSE_RIGHT] = false;
+	eventMouse[MOUSE_LEFT] = false;
+	eventMouse[MOUSE_MIDDLE] = false;
+
+}
+
+bool 
+Hexagon::isMouseRight()
+{
+	return eventMouse[MOUSE_RIGHT];
+}
+bool 
+Hexagon::isMouseLeft()
+{
+	return eventMouse[MOUSE_LEFT];
+}
+bool 
+Hexagon::isMouseMiddle()
+{
+	return eventMouse[MOUSE_MIDDLE];
+}
+
+GameObject* 
+Hexagon::getObject()
+{
+	return object;
+}
+
+void 
+Hexagon::destroyGameObject()
+{
+	object = NULL;
+}
