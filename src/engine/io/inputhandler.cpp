@@ -1,97 +1,213 @@
 #include "inputhandler.h"
-#include <cstdlib>
-#include "SDL2/SDL.h"
-#include <iostream>
 
-InputHandler* InputHandler::input = NULL;
+using namespace std;
+
+InputHandler *InputHandler::instance = NULL;
 
 InputHandler::InputHandler()
 {
-	for(int i =0; i<3; i++)
-		mouseButtonStates.push_back(false);
-
-	mousePosition = new Vector2D();
+    initLists();
+    active = true;
 }
 
 InputHandler::~InputHandler()
 {
-	mouseButtonStates.clear();
-	delete mousePosition;
+    deleteLists();
 }
 
-InputHandler*
-InputHandler::Instance()
+InputHandler *
+InputHandler::getInstance()
 {
-	if(input == NULL)
-		input = new InputHandler();
-
-	return input;
-}
-
-void 
-InputHandler::onMouseButtonDown(SDL_Event& event)
-{
-	if(event.button.button == SDL_BUTTON_LEFT)
-		mouseButtonStates[LEFT] = true;
-
-	if(event.button.button == SDL_BUTTON_RIGHT)
-		mouseButtonStates[RIGHT] = true;
-	
-	if(event.button.button == SDL_BUTTON_MIDDLE)
-		mouseButtonStates[MIDDLE] = true;
-}
-
-void 
-InputHandler::onMouseButtonUp(SDL_Event& event)
-{
-	if(event.button.button == SDL_BUTTON_LEFT)
-		mouseButtonStates[LEFT] = false;
-
-	if(event.button.button == SDL_BUTTON_RIGHT)
-		mouseButtonStates[RIGHT] = false;
-	
-	if(event.button.button == SDL_BUTTON_MIDDLE)
-		mouseButtonStates[MIDDLE] = false;
+    if(instance == NULL)
+        instance = new InputHandler();
+    
+    return instance;
 }
 
 void
-InputHandler::onMouseMoviment(SDL_Event& event)
+InputHandler::sendSdlEvent(SDL_Event sdlEvent)
 {
-	mousePosition->setX(event.motion.x);
-	mousePosition->setY(event.motion.y);
+    if(!active)
+        return;
+    
+    sendSdlEventToListEvent(sdlEvent);
+    sendSdlEventToListKeyboardEvent(sdlEvent);
+    sendSdlEventToListMouseEvent(sdlEvent);
+    sendSdlEventToListMouseClick(sdlEvent);
+    sendSdlEventToListMouseMotion(sdlEvent);
+    
 }
 
 void
-InputHandler::update(SDL_Event event)
+InputHandler::sendSdlEventToListEvent(SDL_Event sdlEvent)
 {
-	switch(event.type)
-	{
-		case SDL_MOUSEMOTION:
-			//std::cout<<"Entrou aqui"<<std::endl;
-			onMouseMoviment(event);
-			break;
-
-		case SDL_MOUSEBUTTONDOWN:
-			std::cout<<"Entrou aqui"<<std::endl;
-			onMouseButtonDown(event);
-			break;
-
-		case SDL_MOUSEBUTTONUP:
-			//std::cout<<"Entrou aqui"<<std::endl;
-			onMouseButtonUp(event);
-			break;	
-
-	}
+    list<Event *>::iterator it;
+    
+    for(it = listEvent->begin(); it != listEvent->end(); it++)
+    {
+        if((*it)->sendMeToListener(sdlEvent))
+            break;
+    }
 }
 
-bool 
-InputHandler::getMouseButtonState(int buttonId) const
+void
+InputHandler::sendSdlEventToListKeyboardEvent(SDL_Event sdlEvent)
 {
-	return mouseButtonStates[buttonId];
+    list<KeyboardEvent *>::iterator it;
+    
+    for(it = listKeyboardEvent->begin(); it != listKeyboardEvent->end(); it++)
+    {
+        if((*it)->sendMeToListener(sdlEvent))
+            break;
+    }
 }
 
-Vector2D* 
-InputHandler::getMousePosition()
+void
+InputHandler::sendSdlEventToListMouseEvent(SDL_Event sdlEvent)
 {
-	return mousePosition;
+    list<MouseEvent *>::iterator it;
+    
+    for(it = listMouseEvent->begin(); it != listMouseEvent->end(); it++)
+    {
+        if((*it)->sendMeToListener(sdlEvent))
+            break;
+    }
 }
+
+void
+InputHandler::sendSdlEventToListMouseClick(SDL_Event sdlEvent)
+{
+    list<MouseClick *>::iterator it;
+    
+    for(it = listMouseClick->begin(); it != listMouseClick->end(); it++)
+    {
+        if((*it)->sendMeToListener(sdlEvent))
+            break;
+    }
+}
+
+void
+InputHandler::sendSdlEventToListMouseMotion(SDL_Event sdlEvent)
+{
+    list<MouseMotion *>::iterator it;
+    
+    for(it = listMouseMotion->begin(); it != listMouseMotion->end(); it++)
+    {
+        if((*it)->sendMeToListener(sdlEvent))
+            break;
+    }
+}
+
+void
+InputHandler::initLists()
+{
+    listEvent = new list<Event *>();
+    listKeyboardEvent = new list<KeyboardEvent *>;
+    listMouseEvent = new list<MouseEvent *>;
+    listMouseClick = new list<MouseClick *>;
+    listMouseMotion = new list<MouseMotion *>;
+}
+
+void
+InputHandler::deleteLists()
+{
+    delete listEvent;
+    delete listKeyboardEvent;
+    delete listMouseEvent;
+    delete listMouseClick;
+    delete listMouseMotion;
+}
+
+void
+InputHandler::reset()
+{
+    deleteLists();
+    initLists();
+}
+
+bool
+InputHandler::isActive()
+{
+    return active;
+}
+
+void
+InputHandler::setActive(bool active)
+{
+    this->active = active;
+}
+
+void
+InputHandler::addEvent(Event *event)
+{
+    listEvent->push_front(event);
+}
+
+void
+InputHandler::addKeyboardEvent(KeyboardEvent *keyboardEvent)
+{
+    listKeyboardEvent->push_front(keyboardEvent);
+}
+
+void
+InputHandler::addMouseEvent(MouseEvent *mouseEvent)
+{
+    listMouseEvent->push_front(mouseEvent);
+}
+
+void
+InputHandler::addMouseClick(MouseClick *mouseClick)
+{
+    listMouseClick->push_front(mouseClick);
+}
+
+void
+InputHandler::addMouseMotion(MouseMotion *mouseMotion)
+{
+    listMouseMotion->push_front(mouseMotion);
+}
+
+void
+InputHandler::removeEvent(Event *event)
+{
+    listEvent->remove(event);
+}
+
+void
+InputHandler::removeKeyboardEvent(KeyboardEvent *keyboardEvent)
+{
+    listKeyboardEvent->remove(keyboardEvent);
+}
+
+void
+InputHandler::removeMouseEvent(MouseEvent *mouseEvent)
+{
+    listMouseEvent->remove(mouseEvent);
+}
+
+void
+InputHandler::removeMouseClick(MouseClick *mouseClick)
+{
+    listMouseClick->remove(mouseClick);
+}
+
+void
+InputHandler::removeMouseMotion(MouseMotion *mouseMotion)
+{
+    listMouseMotion->remove(mouseMotion);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

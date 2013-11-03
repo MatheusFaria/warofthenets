@@ -1,13 +1,14 @@
 #include "menustate.h"
 #include "playstate.h"
+#include "creditstate.h"
 #include "inputhandler.h"
 #include "render.h"
 #include "texturemanager.h"
-#include "menubutton.h"
 #include "game.h"
 #include "text.h"
 #include "SDL2/SDL.h"
 #include "soundmanager.h"
+#include "gameoverstate.h"
 #include <iostream>
 
 const std::string MenuState::menuId = "MENU";
@@ -15,8 +16,6 @@ const std::string MenuState::menuId = "MENU";
 void
 MenuState::update()
 {
-	TextureManager::Instance()->drawFrame("fundo", 0, 0, 1280,
-	 700, 0, 0, Render::getInstance()->getRenderer(), 0);
 
 	for(int i =0; i<(int)menuObjects.size(); i++)
 		menuObjects[i]->update();
@@ -30,6 +29,9 @@ MenuState::render()
 	TextureManager::Instance()->drawFrame("fundo", 0, 0, 1280,
 	 700, 0, 0, Render::getInstance()->getRenderer(), 0);
 
+	TextureManager::Instance()->draw("title", Game::Instance()->getWindow()->getWidth()/2 - 372, 50, 
+		Render::getInstance()->getRenderer());
+
 	for(int i =0; i<(int)menuObjects.size(); i++)
 		menuObjects[i]->draw();
 }
@@ -37,29 +39,18 @@ MenuState::render()
 bool
 MenuState::onEnter()
 {
-
-	if(!TextureManager::Instance()->loadImage("resources/img/play.png", 
-		"playbutton", Render::getInstance()->getRenderer()))
-	{
-		return false;	
-	}
-
-	if(!TextureManager::Instance()->loadImage("resources/img/about.png",
-		"aboutbutton", Render::getInstance()->getRenderer()))
-	{
-		return false;
-	}
-
-	if(!TextureManager::Instance()->loadImage("resources/img/exit.png",
-		"exitbutton", Render::getInstance()->getRenderer()))
-	{
-		return false;
-	}
-
+	
 	if(!TextureManager::Instance()->loadImage("resources/img/fundo.png",
 		"fundo", Render::getInstance()->getRenderer()))
 	{
 		std::cout<<"Error"<<std::endl;
+		return false;
+	}
+
+	
+	if(!TextureManager::Instance()->loadImage("resources/img/title.png",
+	 "title", Render::getInstance()->getRenderer()))
+	{
 		return false;
 	}
 	
@@ -73,35 +64,37 @@ MenuState::onEnter()
 void 
 MenuState::createMenu()
 {
-	int width, height;
 
-	SDL_QueryTexture(TextureManager::Instance()->getTexture("playbutton"), NULL, NULL,
-		 &width, &height);
+	playButton = new MenuButton(0, 0, "resources/img/play.png", "playbutton");
+	int playx = (Game::Instance()->getWindow()->getWidth() / 2) - (playButton->getWidth() / 2);
+	int playy= (Game::Instance()->getWindow()->getHeight() / 2) - (playButton->getHeight() / 2);
+	playButton->setPosition(playx, playy);
+	playButton->setEventListener(this);
+	InputHandler::getInstance()->addMouseClick(playButton);
 
-
-	int playx = (Game::Instance()->getWindow()->getWidth() / 2) - (width / 2);
-	int playy= (Game::Instance()->getWindow()->getHeight() / 2) - (height / 2);
-
-	GameObject* playButton = new MenuButton(playx, playy, 321, 179, "playbutton", menuToPlay);
-
-	SDL_QueryTexture(TextureManager::Instance()->getTexture("aboutbutton"), NULL, NULL,
-		 &width, &height);
-
+	
+	aboutButton = new MenuButton(0, 0, "resources/img/about.png", "aboutbutton");
 	int aboutx = playx;
-	int abouty= playy + (Game::Instance()->getWindow()->getHeight() / 2)-playy + (height / 2);
+	int abouty= (Game::Instance()->getWindow()->getHeight() / 2) + (aboutButton->getHeight() / 2);
+	aboutButton->setPosition(aboutx, abouty);
+	aboutButton->setEventListener(this);
+	InputHandler::getInstance()->addMouseClick(aboutButton);
 
-	GameObject* aboutButton = new MenuButton(aboutx, abouty, 325, 191, "aboutbutton", exitFromMenu);
+	exitButton = new MenuButton(0, 0, "resources/img/exit.png", "exitbutton");
+	int exitx = (Game::Instance()->getWindow()->getWidth() / 4) - (exitButton->getWidth());
+	int exity = (Game::Instance()->getWindow()->getHeight()) - exitButton->getHeight() - 10;
+	exitButton->setPosition(exitx, exity);
+	exitButton->setEventListener(this);
+	InputHandler::getInstance()->addMouseClick(exitButton);
 
-	SDL_QueryTexture(TextureManager::Instance()->getTexture("exitbutton"), NULL, NULL, 
-		&width, &height);
-
-	int exitx = (Game::Instance()->getWindow()->getWidth() / 4) - (width);
-	int exity = (Game::Instance()->getWindow()->getHeight()) - height - 10;
-
-	std::cout<<Game::Instance()->getWindow()->getHeight()<<std::endl;
-
-	GameObject* exitButton = new MenuButton(exitx, exity, 307, 184, "exitbutton", exitFromMenu);
-
+	audioButton = new MenuButton(0, 0, "resources/img/settingsbutton.png", "audiobutton");
+	int audiox = (Game::Instance()->getWindow()->getWidth()) - exitx - audioButton->getWidth();
+	int audioy = exity;
+	audioButton->setPosition(audiox, audioy);
+	audioButton->setEventListener(this);
+	InputHandler::getInstance()->addMouseClick(audioButton);
+	
+	menuObjects.push_back(audioButton);
 	menuObjects.push_back(playButton);
 	menuObjects.push_back(aboutButton);
 	menuObjects.push_back(exitButton);
@@ -116,10 +109,16 @@ MenuState::onExit()
 
 	menuObjects.clear();
 
+	
 	TextureManager::Instance()->clearFromTextureMap("playbutton");
 	TextureManager::Instance()->clearFromTextureMap("exitbutton");
 	TextureManager::Instance()->clearFromTextureMap("fundo");
+
 	SoundManager::Instance()->clearFromSoundManager("theme", MUSIC);
+	
+	InputHandler::getInstance()->removeMouseClick(playButton);
+	InputHandler::getInstance()->removeMouseClick(aboutButton);
+	InputHandler::getInstance()->removeMouseClick(exitButton);
 
 	return true;
 }
@@ -133,11 +132,59 @@ MenuState::getStateId() const
 void
 MenuState::menuToPlay()
 {
-	Game::Instance()->getStateMachine()->changeState(new PlayState());
+	//Game::Instance()->getStateMachine()->pushState(new GameOverState());
+	Game::Instance()->getStateMachine()->pushState(new PlayState());
+}
+
+void
+MenuState::menuToCredit()
+{
+	Game::Instance()->getStateMachine()->pushState(new CreditState());
 }
 
 void
 MenuState::exitFromMenu()
 {
-	std::cout<<"Exit button touched"<<std::endl;
+    //Game::Instance()->getStateMachine()->popState();
+	Game::Instance()->finishGame();
 }
+
+void
+MenuState::onMouseClick(MouseClick *mouseClick)
+{
+    if(mouseClick == playButton)
+        menuToPlay();
+    
+    if(mouseClick == aboutButton)
+        menuToCredit();
+        
+    if(mouseClick == exitButton)
+        exitFromMenu();
+    
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

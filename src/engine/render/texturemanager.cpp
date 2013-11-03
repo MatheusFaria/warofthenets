@@ -22,6 +22,15 @@ TextureManager::Instance()
 bool
 TextureManager::loadImage(string imagePath,  string imageId, SDL_Renderer* renderer)
 {
+	map<std::string, SDL_Texture*>::iterator it;
+	it = textureMap.find(imageId);
+
+	if(it != textureMap.end())
+	{
+			textureCount[imageId]++;
+			return true;
+	}			
+
 	SDL_Surface* surface = IMG_Load(imagePath.c_str());
 
 	if(!surface)
@@ -36,6 +45,7 @@ TextureManager::loadImage(string imagePath,  string imageId, SDL_Renderer* rende
 	if(texture)
 	{
 		textureMap[imageId] = texture;
+		textureCount[imageId]=1;
 		return true;
 	}
 	else
@@ -107,13 +117,25 @@ TextureManager::drawFrame(std::string imageId, int x, int y, int width, int heig
 void 
 TextureManager::clearTextureMap()
 {
+	map<string, SDL_Texture*>::iterator it;
+
+	for(it = textureMap.begin(); it != textureMap.end() ;it++)
+		SDL_DestroyTexture(it->second);
+
 	textureMap.clear();
+	textureCount.clear();
 }
 
 void 
 TextureManager::clearFromTextureMap(string imageId)
 {
-	textureMap.erase(imageId);
+	if(textureCount[imageId]==1)
+	{
+		SDL_DestroyTexture(textureMap[imageId]);
+		textureMap.erase(imageId);
+	}
+	else
+		textureCount[imageId]--;	
 }
 
 SDL_Texture* 

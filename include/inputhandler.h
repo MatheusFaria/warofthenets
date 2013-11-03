@@ -1,43 +1,75 @@
-#ifndef INPUT_HANDLER_H
-#define INPUT_HANDLER_H
+#ifndef INPUT_HANDLER
+#define INPUT_HANDLER
 
-#include "vector2d.h"
-#include "SDL2/SDL.h"
-#include <vector>
+#include <list>
+#include "event.h"
+#include "keyboardevent.h"
+#include "mouseevent.h"
+#include "mouseclick.h"
+#include "mousemotion.h"
 
-enum mouse_buttons
-{
-		LEFT = 0,
-		MIDDLE = 1,
-		RIGHT = 2
-};
+using namespace std;
 
-class InputHandler
-{
+class InputHandler {
+
 public:
-
-	static InputHandler* Instance();
-
-	void update(SDL_Event event);
-	void clean();
-
-	void onMouseButtonDown(SDL_Event&);
-	void onMouseButtonUp(SDL_Event&);
-	void onMouseMoviment(SDL_Event&);
-	bool getMouseButtonState(int) const;
-
-	Vector2D* getMousePosition();
-
-
+    static InputHandler * getInstance();
+    ~InputHandler();
+    
+    void sendSdlEvent(SDL_Event sdlEvent);
+    
+    void reset();
+    
+    void addEvent(Event *event);
+    void addKeyboardEvent(KeyboardEvent *keyboardEvent);
+    void addMouseEvent(MouseEvent *mouseEvent);
+    void addMouseClick(MouseClick *mouseClick);
+    void addMouseMotion(MouseMotion *mouseMotion);
+    
+    void removeEvent(Event *event);
+    void removeKeyboardEvent(KeyboardEvent *keyboardEvent);
+    void removeMouseEvent(MouseEvent *mouseEvent);
+    void removeMouseClick(MouseClick *mouseClick);
+    void removeMouseMotion(MouseMotion *mouseMotion);
+    
+    bool isActive();
+    void setActive(bool active);
+    
 private:
-
-	InputHandler();
-	~InputHandler();
-
-	static InputHandler* input; 	
-
-	std::vector<bool> mouseButtonStates;
-	Vector2D* mousePosition;
+    InputHandler();
+    static InputHandler *instance;
+    
+    void initLists();
+    void deleteLists();
+    
+    void sendSdlEventToListEvent(SDL_Event sdlEvent);
+    void sendSdlEventToListKeyboardEvent(SDL_Event sdlEvent);
+    void sendSdlEventToListMouseEvent(SDL_Event sdlEvent);
+    void sendSdlEventToListMouseClick(SDL_Event sdlEvent);
+    void sendSdlEventToListMouseMotion(SDL_Event sdlEvent);
+    
+    list<Event *> *listEvent;
+    list<KeyboardEvent *> *listKeyboardEvent;
+    list<MouseEvent *> *listMouseEvent;
+    list<MouseClick *> *listMouseClick;
+    list<MouseMotion *> *listMouseMotion;
+    
+    bool active;
+        
 };
 
 #endif
+
+
+
+
+
+
+
+
+
+
+
+
+
+

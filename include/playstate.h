@@ -3,9 +3,15 @@
 
 #include "gameestate.h"
 #include "gameobject.h"
+#include "menubutton.h"
+#include "image.h"
+#include "text.h"
+#include "hexagon.h"
+#include "mouseclick.h"
 #include <vector>
 
-class PlayState : public GameState{
+class PlayState : public GameState, public MouseClick,
+				  public MouseClick::MouseClickListener{
 
 public:
 
@@ -17,10 +23,41 @@ public:
 
 	virtual std::string getStateId() const;
 
+	virtual void onMouseClick(MouseClick *mouseClick);
+	virtual bool eventInMe(SDL_Event sdlEvent);
+
 private:
+
+	void createHUD();
+	void createMap();
+
+	int windowWidth;
+	int windowHeight;
 
 	static const std::string playId;
 	std::vector<GameObject*> playObjects;
+
+	Hexagon *hex;
+
+	MenuButton *painelRecurso;
+	MenuButton *recursoTower;
+	MenuButton *recursoBomb;
+	MenuButton *recursoSpy;
+	
+	MenuButton *quit;
+
+	std::string idSelected;
+	
+	int numTower;
+	int numBomb;
+	int numSpy;
+
+    Text *txtNumTower;
+    Text *txtNumBomb;
+    Text *txtNumSpy;    
+
+	int eventX;
+	int eventY;
 
 };
 

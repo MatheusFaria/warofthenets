@@ -13,7 +13,14 @@ libengine_la_LDFLAGS = -static
 
 # Library sources
 
-libengine_la_SOURCES = gamestatemachine.cpp log.cpp sdlgameobject.cpp sdlsettings.cpp vector2d.cpp window.cpp
+libengine_la_SOURCES = window.cpp render.cpp log.cpp text.cpp sdlsettings.cpp gamestatemachine.cpp \
+					texturemanager.cpp menustate.cpp sdlgameobject.cpp playstate.cpp \
+					vector2d.cpp menubutton.cpp inputhandler.cpp image.cpp drawableobject.cpp \
+					rectangle.cpp pixel.cpp line.cpp circle.cpp hexagon.cpp pausestate.cpp gameoverstate.cpp \
+					soundmanager.cpp event.cpp keyboardevent.cpp mouseclick.cpp mouseevent.cpp \
+					mousemotion.cpp inputhandler.cpp creditstate.cpp gameoverstate.cpp renderableobject.cpp \
+					geometry.cpp torre.cpp
+					
 
 # Libraries needed to build our library
 libengine_la_LIBADD = -lSDL2 -lm audio/libengineaudio.la io/libengineio.la network/libenginenetwork.la render/libenginerender.la 

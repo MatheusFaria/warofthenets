@@ -2,15 +2,22 @@
 #include "texturemanager.h"
 #include "render.h"
 
-SDLGameObject::SDLGameObject(int _x, int _y, int _width, int _height, string _imageId):GameObject() 
+SDLGameObject::SDLGameObject(int _x, int _y, int _width, int _height, string _imagePath, string _imageId):GameObject() 
 {
 	this->position = Vector2D(_x, _y);
 	width = _width;
 	height=_height;
 	imageId = _imageId;
+	imagePath = _imagePath;
 
 	currentRow = 0;
 	currentFrame  = 0;
+
+	TextureManager::Instance()->loadImage(imagePath, 
+		imageId, Render::getInstance()->getRenderer());
+
+	SDL_QueryTexture(TextureManager::Instance()->getTexture(imageId), NULL, NULL,
+		 &width, &height);
 }
 
 void
@@ -23,7 +30,7 @@ SDLGameObject::draw()
 void
 SDLGameObject::clean()
 {
-
+	TextureManager::Instance()->clearFromTextureMap(imageId);
 }
 
 void
@@ -33,20 +40,51 @@ SDLGameObject::update()
 }
 	
 void
-SDLGameObject::setWidth(int width)
+SDLGameObject::setPosition(int _x, int _y)
 {
-	this->width = width;
+	this->position = Vector2D(_x, _y);
+}
+
+int
+SDLGameObject::getWidth()
+{
+	return width;
+}
+
+int
+SDLGameObject::getHeight()
+{
+	return height;
+}
+
+Vector2D
+SDLGameObject::getPosition()
+{
+    return position;
+}
+
+
+int
+SDLGameObject::getX()
+{
+    return position.getX();
 }
 
 void
-SDLGameObject::setHeight(int height)
+SDLGameObject::setX(int x)
 {
-	this->height = height;
+    this->position = Vector2D(x, position.getY());
+}
+
+int
+SDLGameObject::getY()
+{
+    return position.getY();
 }
 
 void
-SDLGameObject::setPosition(int x, int y)
+SDLGameObject::setY(int y)
 {
-	this->position.setX(x);
-	this->position.setY(y);
+    this->position = Vector2D(position.getX(), y);
 }
+

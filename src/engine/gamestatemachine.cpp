@@ -1,4 +1,5 @@
 #include "gamestatemachine.h"
+#include <iostream>
 
 void
 GameStateMachine::update()
@@ -19,7 +20,6 @@ GameStateMachine::clean()
 {
 	if(!gameStates.empty())
 	{
-		gameStates.back()->onExit();
 		delete gameStates.back();
 		gameStates.clear();
 	}
@@ -28,7 +28,7 @@ GameStateMachine::clean()
 void
 GameStateMachine::pushState(GameState* state)
 {
-	if(state != NULL)
+	if( (state != NULL) && (state->getStateId() != gameStates.back()->getStateId()))
 	{
 		gameStates.push_back(state);
 		gameStates.back()->onEnter();
@@ -42,8 +42,9 @@ GameStateMachine::popState()
 	{
 		if(gameStates.back()->onExit())
 		{
-			delete gameStates.back();
+		    GameState *temp = gameStates.back();
 			gameStates.pop_back();
+			delete temp;
 		}
 	}
 }

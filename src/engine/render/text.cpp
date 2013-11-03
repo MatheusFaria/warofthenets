@@ -1,4 +1,5 @@
 #include "text.h"
+#include "render.h"
 #include "log.h"
 
 Text::Text(string value, int size, int style)
@@ -16,6 +17,7 @@ Text::Text(string value, int size, int style)
 
 	this->font = NULL;
 	this->text = NULL;
+	
 }
 
 Text::~Text()
@@ -49,6 +51,20 @@ Text::setStyle(int style)
 	this->style = style;
 	if(this->font != NULL)
 		TTF_SetFontStyle(this->font, this->style);
+}
+
+void 
+Text::setColor(SDL_Color color)
+{
+    this->color = color;
+    generateTexture(Render::getInstance()->getRenderer(), color, color);
+}
+
+void 
+Text::setText(string value)
+{
+    this->value = value;
+    generateTexture(Render::getInstance()->getRenderer(), color, color);
 }
 
 SDL_Texture * 
@@ -110,6 +126,49 @@ SDL_Texture *
 Text::getTexture()
 {
 	return this->text;	
+}
+
+void
+Text::draw()
+{
+    Render::getInstance()->renderTexture(text, position.getX(), position.getY());
+}
+
+void
+Text::setPosition(int x, int y)
+{
+	this->position = Vector2D(x, y);
+}
+
+Vector2D
+Text::getPosition()
+{
+    return position;
+}
+
+
+int
+Text::getX()
+{
+    return position.getX();
+}
+
+void
+Text::setX(int x)
+{
+    this->position = Vector2D(x, position.getY());
+}
+
+int
+Text::getY()
+{
+    return position.getY();
+}
+
+void
+Text::setY(int y)
+{
+    this->position = Vector2D(position.getX(), y);
 }
 
 int 

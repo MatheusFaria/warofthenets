@@ -1,14 +1,16 @@
 #include "pixel.h"
 #include "log.h"
 
-Pixel::Pixel() 
-:DrawableObject(MIN_WIDTH, MIN_HEIGHT)
-{}
-
+Pixel::Pixel(Render * render) 
+:DrawableObject(render)
+{
+	setSurfaceWidth(1);
+	setSurfaceHeight(1);
+}
 Pixel::~Pixel() {}
 
 void 
 Pixel::putObjectInSurface()
 {
-	SDL_RenderDrawPoint(render->getRenderer(), x, y);
+	SDL_RenderDrawPoint(getInternalRenderer(), 0, 0);
 }

@@ -1,26 +1,18 @@
 #ifndef IMAGE_H
 #define IMAGE_H
 
+#include "sdlgameobject.h"
 #include "SDL2/SDL.h"
 #include "SDL2/SDL_image.h"
 
-class Image{
+class Image : public SDLGameObject {
 
 public:
-	Image();
-	~Image();
+	Image(std::string imagePath, int x = 0, int y = 0);
 	
-	bool loadImage(const char* path, SDL_Renderer * render);
-	SDL_Texture * getTexture();
-	
-	int getWidth();
-	int getHeight();
 
 private:
-	SDL_Texture * texture;
-	
-	int width;
-	int height;
+
 };
 
 #endif
