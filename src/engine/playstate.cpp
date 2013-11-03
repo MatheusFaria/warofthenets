@@ -5,6 +5,7 @@
 #include "SDL2/SDL.h"
 #include "inputhandler.h"
 #include "torre.h"
+#include "bomba.h"
 #include <algorithm>
 #include <iostream>
 
@@ -19,6 +20,38 @@ PlayState::update()
 
 	for(int i =0; i<(int)vectorHexagon.size(); i++)
 		vectorHexagon[i]->update();
+
+	std::vector<Bomba*> bombDelete;
+	for(int i =0; i<(int)bombObjects.size(); i++)
+	{
+		bombObjects[i]->update();
+		//std::cout << "bombObjects[i]->isAnimating(): " << bombObjects[i]->isAnimating() << std::endl;
+		if(!bombObjects[i]->isAnimating())
+		{
+			bombDelete.push_back(bombObjects[i]);
+		}
+	}
+
+	std::vector<Bomba*>::iterator it;
+	for(int i =(int)bombDelete.size()-1; i>=0; i--)
+	{
+		Bomba *bomba = bombDelete[i];
+		it = find(bombObjects.begin(), bombObjects.end(), bomba);
+		bombObjects.erase(it);
+
+		for(int i =0; i<(int)vectorHexagon.size(); i++)
+		{
+			if(vectorHexagon[i]->getObject() == bomba)
+			{
+				bomba->explode(grafoHexagon, vectorHexagon[i]);
+				destroyVectorObjects(bomba->getVetorDestruicao());
+				//vectorHexagon[i]->destroyGameObject();
+			}	
+
+		}
+	}
+
+
 	
 	
 	txtNumTower->setText(std::to_string(numTower));
@@ -36,6 +69,9 @@ PlayState::render()
 
 	for(int i =0; i<(int)playObjects.size(); i++)
 		playObjects[i]->draw();
+
+	for(int i =0; i<(int)bombObjects.size(); i++)
+		bombObjects[i]->draw();
 
 	
 	txtNumTower->draw();
@@ -229,8 +265,11 @@ PlayState::canConstruct(Hexagon *hex)
     for(unsigned int i = 0; i < adjacents.size(); i++)
     {
         //std::cout << "adjacents[i]->haveObject(): " << adjacents[i]->haveObject() << std::endl;
-        if(adjacents[i]->haveObject())
-            return false;
+        if(dynamic_cast<Torre *>(adjacents[i]->getObject()))
+    	{
+	        if(adjacents[i]->haveObject())
+	            return false;
+        }
     }
     
     return true;
@@ -345,7 +384,7 @@ PlayState::onMouseClick(MouseClick *mouseClick)
     	std::cout<<"Clicou no Hexagon"<<std::endl;
     	Hexagon *temp = (Hexagon *) mouseClick;
 
-    	if(temp->isMouseLeft() && canConstruct(temp))
+    	if(temp->isMouseLeft())
     		showObject(temp);
     	else if(temp->isMouseRight())
     	{
@@ -355,19 +394,23 @@ PlayState::onMouseClick(MouseClick *mouseClick)
 
     	return;	
     }
+
 }
 
 GameObject*
-PlayState::createObject()
+PlayState::createObject(Hexagon *hex)
 {
 	Image* recurso = NULL;
 
 	if(idSelected =="")
 		return NULL;
-	if(idSelected == "resources/img/tower.png")
+	if(idSelected == "resources/img/tower.png"  && canConstruct(hex))
     	recurso = new Torre();
-	    
-	else
+	else if(idSelected == "resources/img/bomb.png")
+	{
+		recurso = new Bomba();
+	}		
+	else if(idSelected == "resources/img/spy.png")
         recurso = new Image(idSelected);
 	
 
@@ -390,22 +433,31 @@ PlayState::decObject(GameObject* object)
 {
 	if(dynamic_cast<Torre*>(object))
 		numTower--;
+	else if(dynamic_cast<Bomba*>(object))
+		numBomb--;
 }
 
 void 
 PlayState::showObject(Hexagon* hex)
 {
-	GameObject* object = createObject();
+	GameObject* object = createObject(hex);
 
 	if(!object)
 		return;
 	else
 	{
-		if(hex->setObject(object))
-		{
-			incObject();
+		if(dynamic_cast<Bomba*>(object))
+		{	
+			bombObjects.push_back((Bomba*)object);
+			hex->setObject(object);
+		}		
+		else if(hex->setObject(object))
+		{	
 			playObjects.push_back(object);
-		}	
+		}
+
+		incObject();	
+					
 	}
 }
 
@@ -421,9 +473,18 @@ PlayState::deleteObject(Hexagon *hex)
 	vector<GameObject*>::iterator it;
 
 	it = find(playObjects.begin(), playObjects.end(), object);
-	playObjects.erase(it);
+
+	if(it != playObjects.end())
+		playObjects.erase(it);
 
 	hex->destroyGameObject();
 	decObject(object);
 	delete object;
+}
+
+void
+PlayState::destroyVectorObjects(std::vector<Hexagon*> destroy)
+{
+	for(unsigned int i =0; i<destroy.size();i++)
+		deleteObject(destroy[i]);
 }

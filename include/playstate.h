@@ -6,6 +6,7 @@
 #include "menubutton.h"
 #include "image.h"
 #include "text.h"
+#include "bomba.h"
 #include "hexagon.h"
 #include "mouseclick.h"
 #include <vector>
@@ -27,13 +28,15 @@ public:
 	virtual void onMouseClick(MouseClick *mouseClick);
 	//virtual bool eventInMe(SDL_Event sdlEvent);
 
+
 private:
 
-	GameObject* createObject();
+	GameObject* createObject(Hexagon *hex);
 	void incObject();
 	void showObject(Hexagon* hex);
 	void deleteObject(Hexagon* hex);
 	void decObject(GameObject* object);
+	void destroyVectorObjects(std::vector<Hexagon*>);
 
 	void createHUD();
 	void createMap();
@@ -48,6 +51,8 @@ private:
 
 	static const std::string playId;
 	std::vector<GameObject*> playObjects;
+
+	std::vector<Bomba*> bombObjects;
 
 	std::vector<Hexagon *> vectorHexagon;
 
