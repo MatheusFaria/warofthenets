@@ -9,6 +9,7 @@
 #include "hexagon.h"
 #include "mouseclick.h"
 #include <vector>
+#include <map>
 
 class PlayState : public GameState,
 				  public MouseClick::MouseClickListener{
@@ -39,6 +40,8 @@ private:
 
 	int windowWidth;
 	int windowHeight;
+
+	map<Hexagon*, vector<Hexagon*>> grafoHexagon;
 
 	static const std::string playId;
 	std::vector<GameObject*> playObjects;

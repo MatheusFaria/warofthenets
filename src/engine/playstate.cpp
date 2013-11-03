@@ -101,8 +101,45 @@ PlayState::createMap()
 			vectorHexagon.push_back(hex);
 			hex->setEventListener(this);
 			InputHandler::getInstance()->addMouseClick(hex);
+
+
 		}
 	}	
+}
+
+void
+PlayState::foundAdjacents(Hexagon *hex)
+{
+	vector<Hexagon *> adjacents;
+
+	int width = hex->getWidth();
+	int height = hex->getHeight();
+	int centerX = hex->getX() + (width/2);
+	int centerY = hex->getY() + (height/2);
+
+	int x;
+	int y;
+
+	for(int i = 0; i < vectorHexagon.size(); i++)
+	{
+		x = centerX;
+		y = centerY + height;
+		if(vectorHexagon[i]->isMyCoordinate(x, y))
+		{
+			adjacents.push_back(vectorHexagon[i]);
+			grafoHexagon[vectorHexagon[i]].push_back(hex);
+		}
+
+		x = centerX;
+		y = centerY - height;
+		if(vectorHexagon[i]->isMyCoordinate(x, y))
+		{
+			adjacents.push_back(vectorHexagon[i]);
+			grafoHexagon[vectorHexagon[i]].push_back(hex);
+		}
+	}
+
+	grafoHexagon[hex] = adjacents;
 }
 
 bool 
@@ -122,8 +159,11 @@ PlayState::onExit()
     
 
     for(int i =0; i<(int)vectorHexagon.size(); i++)
+    {	
+    	InputHandler::getInstance()->removeMouseClick(vectorHexagon[i]);
 		delete vectorHexagon[i];
-
+	}
+		
     delete txtNumTower;
 	delete txtNumBomb;
 	delete txtNumSpy;
@@ -215,6 +255,7 @@ PlayState::onMouseClick(MouseClick *mouseClick)
 		idSelected = "resources/img/tower.png";
 
 		std::cout << "Selecionou: TORRE" << std::endl;
+		return;
 	}
 
 	if(mouseClick == recursoBomb)
@@ -222,6 +263,7 @@ PlayState::onMouseClick(MouseClick *mouseClick)
 		idSelected = "resources/img/bomb.png";
 
 		std::cout << "Selecionou: BOMBA" << std::endl;
+		return;
 	}
 
 	if(mouseClick == recursoSpy)
@@ -229,11 +271,13 @@ PlayState::onMouseClick(MouseClick *mouseClick)
 		idSelected = "resources/img/spy.png";
 
 		std::cout << "Selecionou: ESPIAO" << std::endl;
+		return;
 	}
 	
 	if(mouseClick == quit)
 	{
 	    Game::Instance()->getStateMachine()->changeState(new GameOverState());
+		return;
     }
 
     if(dynamic_cast<Hexagon*>(mouseClick))
@@ -250,6 +294,7 @@ PlayState::onMouseClick(MouseClick *mouseClick)
     		deleteObject(temp);	
     	}	
 
+    	return;	
     }
 }
 

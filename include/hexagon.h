@@ -23,6 +23,8 @@ public:
 	bool isMouseLeft();
 	bool isMouseMiddle();
 
+	bool isMyCoordinate(int x, int y);
+
 private:
 	int size;
 

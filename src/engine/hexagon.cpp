@@ -46,10 +46,7 @@ Hexagon::verifyEvent(SDL_Event sdlEvent)
 bool 
 Hexagon::eventInMe(SDL_Event sdlEvent)
 {
-	if((sdlEvent.button.x > getX()) &&
-        (sdlEvent.button.x < (getX() + getWidth())) &&
-        (sdlEvent.button.y > getY()) && 
-        (sdlEvent.button.y < (getY() + getHeight())))
+	if(isMyCoordinate(sdlEvent.button.x, sdlEvent.button.y))
 	{
 		switch(sdlEvent.button.button)
 		{
@@ -132,4 +129,18 @@ void
 Hexagon::destroyGameObject()
 {
 	object = NULL;
+}
+
+bool 
+Hexagon::isMyCoordinate(int x, int y)
+{
+	if((x > getX()) &&
+        (x < (getX() + getWidth())) &&
+        (y > getY()) && 
+        (y < (getY() + getHeight())))
+	{
+		return true;
+	}
+
+	return false;
 }
