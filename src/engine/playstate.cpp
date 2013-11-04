@@ -41,7 +41,7 @@ PlayState::update()
 
 		for(int i =0; i<(int)vectorHexagon.size(); i++)
 		{
-			if(vectorHexagon[i]->getObject() == bomba)
+			if(vectorHexagon[i]->getBomba() != NULL)
 			{
 				bomba->explode(grafoHexagon, vectorHexagon[i]);
 				destroyVectorObjects(bomba->getVetorDestruicao());
@@ -408,7 +408,7 @@ PlayState::createObject(Hexagon *hex)
     	recurso = new Torre();
 	else if(idSelected == "resources/img/bomb.png")
 	{
-		recurso = new Bomba();
+		recurso = new Bomba(hex->getX(), hex->getY());
 	}		
 	else if(idSelected == "resources/img/spy.png")
         recurso = new Image(idSelected);
@@ -466,6 +466,7 @@ PlayState::deleteObject(Hexagon *hex)
 {
 
 	GameObject* object = hex->getObject();
+	GameObject* bomba = hex->getBomba();
 
 	if(!object)
 		return;
@@ -479,6 +480,10 @@ PlayState::deleteObject(Hexagon *hex)
 
 	hex->destroyGameObject();
 	decObject(object);
+
+	if(bomba != NULL)
+		decObject(bomba);
+
 	delete object;
 }
 

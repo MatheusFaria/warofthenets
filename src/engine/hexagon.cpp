@@ -1,6 +1,8 @@
 #include "hexagon.h"
 #include "log.h"
 #include <cmath>
+#include "bomba.h"
+#include "torre.h"
 #include "geometry.h"
 
 #include <iostream>
@@ -73,12 +75,18 @@ Hexagon::eventInMe(SDL_Event sdlEvent)
 bool 
 Hexagon::setObject(GameObject* _object)
 {
-	if(object == NULL)
+	if(dynamic_cast<Bomba*>(_object))
+		bomba=_object;
+	else if(dynamic_cast<Torre*>(_object))
 	{
-		object = _object;
-		return true;
-	}	
-	
+
+		if(object == NULL)
+		{
+			object = _object;
+			return true;
+		}		
+	}
+		
 	return false;
 }
 
@@ -125,6 +133,12 @@ GameObject*
 Hexagon::getObject()
 {
 	return object;
+}
+
+GameObject*
+Hexagon::getBomba()
+{
+	return bomba;
 }
 
 bool 

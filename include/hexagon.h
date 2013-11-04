@@ -18,6 +18,7 @@ public:
 	void destroyGameObject();
 	
 	GameObject* getObject();
+	GameObject* getBomba();
 	bool haveObject();
 
 	bool isMouseRight();
@@ -32,6 +33,7 @@ private:
 	void putObjectInSurface();
 
 	GameObject *object;
+	GameObject *bomba;
 
 	void setEventMouse(int mouse_state);
 	void resetEventMouse();
