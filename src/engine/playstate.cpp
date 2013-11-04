@@ -15,13 +15,20 @@ const std::string PlayState::playId = "PLAY";
 void
 PlayState::update()
 {
+
 	for(int i =0; i<(int)playObjects.size(); i++)
 		playObjects[i]->update();
 
 	for(int i =0; i<(int)vectorHexagon.size(); i++)
 		vectorHexagon[i]->update();
 
+	for(int i =0; i<(int)hudButtons.size(); i++)
+		hudButtons[i]->update();
+
+	
+
 	std::vector<Bomba*> bombDelete;
+
 	for(int i =0; i<(int)bombObjects.size(); i++)
 	{
 		bombObjects[i]->update();
@@ -32,6 +39,7 @@ PlayState::update()
 		}
 	}
 
+
 	std::vector<Bomba*>::iterator it;
 	for(int i =(int)bombDelete.size()-1; i>=0; i--)
 	{
@@ -39,10 +47,13 @@ PlayState::update()
 		it = find(bombObjects.begin(), bombObjects.end(), bomba);
 		bombObjects.erase(it);
 
+		//std::cout<<vectorHexagon.size()<<std::endl;
+
 		for(int i =0; i<(int)vectorHexagon.size(); i++)
 		{
-			if(vectorHexagon[i]->getBomba() != NULL)
+			if(vectorHexagon[i]->getBomba() != NULL )
 			{
+				std::cout << "i: " << i << std::endl;
 				bomba->explode(grafoHexagon, vectorHexagon[i]);
 				destroyVectorObjects(bomba->getVetorDestruicao());
 				//vectorHexagon[i]->destroyGameObject();
@@ -51,12 +62,28 @@ PlayState::update()
 		}
 	}
 
+	calculateTime();
+	
+	if(seconds >= 5)
+		finalizarTurno();
 
-	
-	
+	txtNumInformation->setText(std::to_string(numInformacao));
 	txtNumTower->setText(std::to_string(numTower));
 	txtNumBomb->setText(std::to_string(numBomb));
 	txtNumSpy->setText(std::to_string(numSpy));
+	txtTime->setText(std::to_string(minutes)+":"+std::to_string(seconds));
+
+}
+
+void 
+PlayState::calculateTime()
+{
+	int tempo = SDL_GetTicks() - actualTime;
+
+	minutes = tempo/60000;
+	tempo -= minutes*60000;
+
+	seconds = tempo/1000;
 }
 
 void
@@ -73,10 +100,14 @@ PlayState::render()
 	for(int i =0; i<(int)bombObjects.size(); i++)
 		bombObjects[i]->draw();
 
-	
+	for(int i =0; i<(int)hudButtons.size(); i++)
+		hudButtons[i]->draw();
+
+	txtNumInformation->draw();
 	txtNumTower->draw();
 	txtNumBomb->draw();
 	txtNumSpy->draw();
+	txtTime->draw();
 }
 
 bool
@@ -86,23 +117,21 @@ PlayState::onEnter()
 	windowHeight =
 	Game::Instance()->getWindow()->getHeight();
 
-	
+	iniciarTurno();
 
 	Render::getInstance()->setColor(255, 255, 255 , 255);
 	
 
 	idSelected = "";
 
-	//InputHandler::getInstance()->addMouseClick(this);
-
 	createMap();
 	createHUD();
 	
+	numInformacao = 1;
 	numTower = 0;
 	numBomb = 0;
 	numSpy = 0;
-	
-	
+	iniciarTurno();
 
 	std::cout<<"Play State"<<std::endl;
 	return true;
@@ -112,11 +141,6 @@ PlayState::onEnter()
 bool 
 PlayState::onExit()
 {
-    InputHandler::getInstance()->removeMouseClick(quit);
-    InputHandler::getInstance()->removeMouseClick(recursoSpy);
-    InputHandler::getInstance()->removeMouseClick(recursoBomb);
-    InputHandler::getInstance()->removeMouseClick(recursoTower);
-    InputHandler::getInstance()->removeMouseClick(painelRecurso);
 
     for(int i =0; i<(int)playObjects.size(); i++)
 	{
@@ -130,6 +154,14 @@ PlayState::onExit()
     	InputHandler::getInstance()->removeMouseClick(vectorHexagon[i]);
 		delete vectorHexagon[i];
 	}
+
+	for(int i =0; i<(int)hudButtons.size(); i++)
+    {	
+    	InputHandler::getInstance()->removeMouseClick(hudButtons[i]);
+		delete hudButtons[i];
+	}
+
+	
 		
     delete txtNumTower;
 	delete txtNumBomb;
@@ -259,9 +291,20 @@ PlayState::canConstruct(Hexagon *hex)
 {
     vector<Hexagon *> adjacents;
     adjacents = grafoHexagon[hex];
+
+    vector<Hexagon *> adjacentsAdj;
     
     //std::cout << "adjacents.size(): " << adjacents.size() << std::endl;
-    
+    bool temTorre = false;
+    for(unsigned int i = 0; i < vectorHexagon.size(); i++)
+    {
+    	if(vectorHexagon[i]->haveObject())
+    		temTorre = true;
+    }
+
+    if(!temTorre)
+    	return true;
+
     for(unsigned int i = 0; i < adjacents.size(); i++)
     {
         //std::cout << "adjacents[i]->haveObject(): " << adjacents[i]->haveObject() << std::endl;
@@ -271,13 +314,28 @@ PlayState::canConstruct(Hexagon *hex)
 	            return false;
         }
     }
+
+    for(unsigned int i = 0; i < adjacents.size(); i++)
+    {
+		adjacentsAdj = grafoHexagon[adjacents[i]];
+
+    	for(unsigned int i = 0; i < adjacentsAdj.size(); i++)
+    	{
+			if(adjacentsAdj[i]->haveObject())
+				return true;
+		}
+	}
+
     
-    return true;
+    return false;
 }
 
 void 
 PlayState::createHUD()
 {
+
+	std::string font = "resources/font/Army.ttf";
+
 	painelRecurso = new MenuButton(0, 0, "resources/img/painelrecurso.png", "painelrecurso");
 	painelRecurso->setPosition(0, windowHeight - painelRecurso->getHeight());
 	painelRecurso->setEventListener(this);
@@ -303,6 +361,13 @@ PlayState::createHUD()
 	recursoSpy->setPosition(recursoSpyX, recursoSpyY);
 	recursoSpy->setEventListener(this);
 	InputHandler::getInstance()->addMouseClick(recursoSpy);
+
+	recursoInformacao= new MenuButton(0, 0, "resources/img/paionelinformacao.png", "botaorecursoinformacao");
+	int recursoInformacaoX = painelRecurso->getX() + painelRecurso->getWidth();
+	int recursoInformacaoY = windowHeight - recursoInformacao->getHeight();
+	recursoInformacao->setPosition(recursoInformacaoX, recursoInformacaoY);
+	recursoInformacao->setEventListener(this);
+	InputHandler::getInstance()->addMouseClick(recursoInformacao);
 	
 	quit = new MenuButton(0, 0, "resources/img/botaosair.png", "botaosair");
 	int quitX = windowWidth - quit->getWidth();
@@ -310,37 +375,62 @@ PlayState::createHUD()
 	quit->setPosition(quitX, quitY);
 	quit->setEventListener(this);
 	InputHandler::getInstance()->addMouseClick(quit);
+
+	fimTurno = new MenuButton(0, 0, "resources/img/botaoFimTurno.png", "botaofimturno");
+	int fimTurnoX = windowWidth - fimTurno->getWidth();
+	int fimTurnoY = windowHeight - fimTurno->getHeight();
+	fimTurno->setPosition(fimTurnoX, fimTurnoY);
+	fimTurno->setEventListener(this);
+	InputHandler::getInstance()->addMouseClick(fimTurno);
 	
 	SDL_Color blackColor = {0, 0, 0, 0};
 	
+	txtNumInformation = new Text("0", 32);
+	txtNumInformation->setFont(font);
+    txtNumInformation->setColor(blackColor);
+    int x = recursoInformacaoX + (recursoInformacao->getWidth()/2) - (txtNumInformation->getWidth()/6);
+    int y = recursoInformacaoY + (recursoInformacao->getHeight()/2) - (txtNumInformation->getHeight()/6);
+    txtNumInformation->setPosition(x, y);
+
 	txtNumTower = new Text("0", 16);
-	txtNumTower->setFont("resources/font/Army.ttf");
+	txtNumTower->setFont(font);
     txtNumTower->setColor(blackColor);
-    int x = recursoTowerX + recursoTower->getWidth() - txtNumTower->getWidth() - 18;
-    int y = recursoTowerY + recursoTower->getHeight() - txtNumTower->getHeight() - 9;
+    x = recursoTowerX + recursoTower->getWidth() - txtNumTower->getWidth() - 18;
+    y = recursoTowerY + recursoTower->getHeight() - txtNumTower->getHeight() - 9;
     txtNumTower->setPosition(x, y);
     
     txtNumBomb = new Text("0", 16);
-	txtNumBomb->setFont("resources/font/Army.ttf");
+	txtNumBomb->setFont(font);
     txtNumBomb->setColor(blackColor);
     x = recursoTowerX + recursoTower->getWidth() - txtNumBomb->getWidth() - 18;
     y = recursoBombY + recursoBomb->getHeight() - txtNumBomb->getHeight() - 9;
     txtNumBomb->setPosition(x, y);
     
     txtNumSpy = new Text("0", 16); 
-	txtNumSpy->setFont("resources/font/Army.ttf");
+	txtNumSpy->setFont(font);
     txtNumSpy->setColor(blackColor);
     x = recursoTowerX + recursoTower->getWidth() - txtNumSpy->getWidth() - 18;
     y = recursoSpyY + recursoSpy->getHeight() - txtNumSpy->getHeight() - 9;
     txtNumSpy->setPosition(x, y);
 
+    painelCronometro = new MenuButton(0, 0, "resources/img/painelcronometro.png", "cronometro");
+	InputHandler::getInstance()->addMouseClick(painelCronometro);
 
-	playObjects.push_back(painelRecurso);
-	playObjects.push_back(recursoTower);
-	playObjects.push_back(recursoBomb);
-	playObjects.push_back(recursoSpy);
-	playObjects.push_back(quit);
+	txtTime = new Text("00:00", 16);
+	txtTime->setFont(font);
+	txtTime->setColor(blackColor);
+	x = painelCronometro->getWidth()/2 - txtTime->getWidth()/2;
+	y = painelCronometro->getHeight()/2 - txtTime->getHeight()/2;
+	txtTime->setPosition(x,y);
 
+	hudButtons.push_back(painelRecurso);
+	hudButtons.push_back(recursoTower);
+	hudButtons.push_back(recursoBomb);
+	hudButtons.push_back(recursoSpy);
+	hudButtons.push_back(quit);
+	hudButtons.push_back(fimTurno);
+	hudButtons.push_back(recursoInformacao);
+	hudButtons.push_back(painelCronometro);
 
 
 }
@@ -384,6 +474,9 @@ PlayState::onMouseClick(MouseClick *mouseClick)
     	std::cout<<"Clicou no Hexagon"<<std::endl;
     	Hexagon *temp = (Hexagon *) mouseClick;
 
+    	//std::cout<<"temp->haveObject(): " << temp->haveObject() <<std::endl;
+
+
     	if(temp->isMouseLeft())
     		showObject(temp);
     	else if(temp->isMouseRight())
@@ -393,6 +486,12 @@ PlayState::onMouseClick(MouseClick *mouseClick)
     	}	
 
     	return;	
+    }
+
+    if(mouseClick == fimTurno)
+    {
+    	std::cout<<"Fim turno!"<<std::endl;
+    	finalizarTurno();
     }
 
 }
@@ -431,6 +530,8 @@ PlayState::incObject()
 void
 PlayState::decObject(GameObject* object)
 {
+	std::cout<<"Entrou aqui"<<std::endl;
+
 	if(dynamic_cast<Torre*>(object))
 		numTower--;
 	else if(dynamic_cast<Bomba*>(object))
@@ -447,16 +548,41 @@ PlayState::showObject(Hexagon* hex)
 	else
 	{
 		if(dynamic_cast<Bomba*>(object))
-		{	
-			bombObjects.push_back((Bomba*)object);
-			hex->setObject(object);
+		{
+			if(numInformacao >= 2)
+			{
+				bombObjects.push_back((Bomba*)object);
+				hex->setObject(object);
+				incObject();
+				numInformacao -= 2;
+			}
 		}		
-		else if(hex->setObject(object))
-		{	
-			playObjects.push_back(object);
+		else if(dynamic_cast<Torre*>(object)) 
+		{
+			if(numInformacao >= 1)
+			{
+				if(hex->setObject(object))
+				{
+					playObjects.push_back(object);
+					incObject();
+					numInformacao -= 1;
+				}
+			}
+		}
+		else //Se for espiao
+		{
+			if(numInformacao >= 3)
+			{
+				if(hex->setObject(object))
+				{
+					playObjects.push_back(object);
+					incObject();
+					numInformacao -= 3;
+				}
+			}
 		}
 
-		incObject();	
+			
 					
 	}
 }
@@ -466,30 +592,57 @@ PlayState::deleteObject(Hexagon *hex)
 {
 
 	GameObject* object = hex->getObject();
+
+	if(object != NULL)
+	{
+
+		vector<GameObject*>::iterator it;
+
+		it = find(playObjects.begin(), playObjects.end(), object);
+
+		if(it != playObjects.end())
+			playObjects.erase(it);
+
+		decObject(object);
+		delete object;
+
+	}
+	
 	GameObject* bomba = hex->getBomba();
 
-	if(!object)
-		return;
+	if(bomba!= NULL)
+	{
+		decObject(bomba);	
+		delete bomba;
+	}	
 
-	vector<GameObject*>::iterator it;
-
-	it = find(playObjects.begin(), playObjects.end(), object);
-
-	if(it != playObjects.end())
-		playObjects.erase(it);
 
 	hex->destroyGameObject();
-	decObject(object);
-
-	if(bomba != NULL)
-		decObject(bomba);
-
-	delete object;
+		
 }
 
 void
 PlayState::destroyVectorObjects(std::vector<Hexagon*> destroy)
 {
+	std::cout << "destroy.size(): " << destroy.size() << std::endl;
 	for(unsigned int i =0; i<destroy.size();i++)
 		deleteObject(destroy[i]);
+}
+
+void 
+PlayState::finalizarTurno()
+{
+	if(numTower > 0)
+		numInformacao += numTower * 2;
+	else
+		numInformacao++;
+
+	iniciarTurno();
+}
+
+
+void
+PlayState::iniciarTurno()
+{
+	actualTime = SDL_GetTicks();	
 }

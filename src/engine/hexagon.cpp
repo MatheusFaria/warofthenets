@@ -14,6 +14,7 @@ Hexagon::Hexagon(int size, Render * render)
 	setSurfaceHeight(size*sin(60*M_PI/180)*2 + 1);
 	setSurfaceWidth(size*2 + 1);
 	this->object = NULL;
+	this->bomba = NULL;
 }
 
 Hexagon::~Hexagon() {}
@@ -76,7 +77,13 @@ bool
 Hexagon::setObject(GameObject* _object)
 {
 	if(dynamic_cast<Bomba*>(_object))
-		bomba=_object;
+	{
+		if(bomba == NULL)
+		{
+			bomba =_object;
+			return true;
+		}
+	}	
 	else if(dynamic_cast<Torre*>(_object))
 	{
 
@@ -144,7 +151,7 @@ Hexagon::getBomba()
 bool 
 Hexagon::haveObject()
 {
-    if(object == NULL)
+    if(object == NULL && bomba == NULL)
         return false;
     else
         return true;
@@ -153,7 +160,9 @@ Hexagon::haveObject()
 void 
 Hexagon::destroyGameObject()
 {
+	std::cout<<"destroyGameObject"<<std::endl;
 	object = NULL;
+	bomba = NULL;
 }
 
 bool 

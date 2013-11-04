@@ -8,8 +8,8 @@ std::string Bomba::path = "resources/img/bomb.png";
 
 Bomba::Bomba(int x, int y):Image(path,x,y)
 {
-	numFrames = 4;
-	actualRow = 1;
+	numFrames = 5;
+	currentFrame =1;
 
 	raioDestruicao = 1;
 
@@ -32,15 +32,25 @@ Bomba::animate()
 void
 Bomba::update()
 {
-	//int intervalo = 1000;
+	int intervalo = 100;
 
-	//actualRow = (SDL_GetTicks()/intervalo)%numFrames;
-	//actualRow = 1;
+	int delta= SDL_GetTicks() - tempInicial;
 
-	int temp = SDL_GetTicks() - tempInicial;
+	if(delta >= intervalo)
+	{
+		std::cout<<"entrou aqui"<<std::endl;
+		currentFrame++;
+		tempInicial = SDL_GetTicks();
+	}
+
+	
+	if(currentFrame == 5)
+		inAnimate = false;
+
+	/*int temp = SDL_GetTicks() - tempInicial;
 
 	if(temp > 1500)
-		inAnimate = false;
+		inAnimate = false;*/
 }
 
 bool 
@@ -53,7 +63,7 @@ void
 Bomba::draw()
 {
 
-	TextureManager::Instance()->drawFrame(imageId, (Uint32)position.getX(),(Uint32)position.getY(),width,
+	TextureManager::Instance()->drawFrame(imageId, (Uint32)position.getX(),(Uint32)position.getY(),width/5,
 	 height, currentRow, currentFrame,Render::getInstance()->getRenderer(), 0 );
 }
 
@@ -72,6 +82,8 @@ Bomba::explode(map<Hexagon*, vector<Hexagon*>>  grafoHexagon, Hexagon *hex)
 	filaVisitar.push(hex);
 
 	explodeRecursivo(grafoHexagon, 0);
+
+	std::cout << "\n\n vetorDestruicao.size(): " << vetorDestruicao.size() << std::endl;
 }
 
  

@@ -37,6 +37,9 @@ private:
 	void deleteObject(Hexagon* hex);
 	void decObject(GameObject* object);
 	void destroyVectorObjects(std::vector<Hexagon*>);
+	void iniciarTurno();
+	void finalizarTurno();
+	void calculateTime();
 
 	void createHUD();
 	void createMap();
@@ -50,6 +53,9 @@ private:
 	bool canConstruct(Hexagon *hex);
 
 	static const std::string playId;
+
+	std::vector<MenuButton*> hudButtons;
+
 	std::vector<GameObject*> playObjects;
 
 	std::vector<Bomba*> bombObjects;
@@ -57,9 +63,12 @@ private:
 	std::vector<Hexagon *> vectorHexagon;
 
 	MenuButton *painelRecurso;
+	MenuButton *recursoInformacao;
 	MenuButton *recursoTower;
 	MenuButton *recursoBomb;
 	MenuButton *recursoSpy;
+	MenuButton *fimTurno;
+	MenuButton* painelCronometro;
 	
 	MenuButton *quit;
 
@@ -68,10 +77,15 @@ private:
 	int numTower;
 	int numBomb;
 	int numSpy;
+	int numInformacao;
+	int actualTime;
+	int minutes, seconds;
 
+    Text *txtNumInformation;
     Text *txtNumTower;
     Text *txtNumBomb;
     Text *txtNumSpy;    
+    Text *txtTime;
 
 	int eventX;
 	int eventY;
