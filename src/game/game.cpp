@@ -15,6 +15,7 @@
 #include "soundmanager.h"
 #include "texture.h"
 #include "imagemanager.h"
+#include "networkmanager.h"
 
 #include <iostream>
 using namespace std;
@@ -55,10 +56,13 @@ Game::init(int qtd, char * dataServer)
 {
 	cout << "Intialize" << endl;
 
+	Networkmanager * network;
+
 	if(qtd == 1)
 	{
-		cout << "This is a server" << endl;
 		this->server = new Server("10.1.1.1", "9000");
+		this->client = NULL;
+		cout << "This is a server" << endl;
 	}
 	else
 	{
@@ -66,6 +70,8 @@ Game::init(int qtd, char * dataServer)
 		this->server = new Server(dataServer[1], dataServer[2]);
 		this->client = new Client("10.1.1.2", "9000", server);
 	}
+
+	network = new Networkmanager(server, client);
 
 	if(SDLSettings::setUpEnviroment())
 		cout << "Enviroment Set" << endl;

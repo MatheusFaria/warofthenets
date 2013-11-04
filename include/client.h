@@ -11,9 +11,9 @@ public:
 
 private:
 	std::string ip;
-	std::strinf port;
+	std::string port;
 	Server * server;
-}
+};
 
 #endif
 
