@@ -29,7 +29,7 @@ MenuState::render()
 	TextureManager::Instance()->drawFrame("fundo", 0, 0, 1280,
 	 700, 0, 0, Render::getInstance()->getRenderer(), 0);
 
-	TextureManager::Instance()->draw("title", Game::Instance()->getWindow()->getWidth()/2 - 372, 50, 
+	TextureManager::Instance()->draw("title", Game::Instance()->getWindow()->getWidth()/2 - 1132/2, 10, 
 		Render::getInstance()->getRenderer());
 
 	for(int i =0; i<(int)menuObjects.size(); i++)
@@ -65,31 +65,36 @@ void
 MenuState::createMenu()
 {
 
-	playButton = new MenuButton(0, 0, "resources/img/play.png", "playbutton");
+	int espacamento = 40;
+
+	playButton = new MenuButton(0, 0, "resources/img/play.png", "playbutton", 3, true);
 	int playx = (Game::Instance()->getWindow()->getWidth() / 2) - (playButton->getWidth() / 2);
-	int playy= (Game::Instance()->getWindow()->getHeight() / 2) - (playButton->getHeight() / 2);
+	int playy= (Game::Instance()->getWindow()->getHeight() / 2) - ((playButton->getHeight()) / 2);
 	playButton->setPosition(playx, playy);
 	playButton->setEventListener(this);
 	InputHandler::getInstance()->addMouseClick(playButton);
 
 	
-	aboutButton = new MenuButton(0, 0, "resources/img/about.png", "aboutbutton");
+	aboutButton = new MenuButton(0, 0, "resources/img/about.png", "aboutbutton",3, true);
 	int aboutx = playx;
-	int abouty= (Game::Instance()->getWindow()->getHeight() / 2) + (aboutButton->getHeight() / 2);
+	int abouty= (Game::Instance()->getWindow()->getHeight() / 2) + (aboutButton->getHeight() / 2) + espacamento;
 	aboutButton->setPosition(aboutx, abouty);
 	aboutButton->setEventListener(this);
 	InputHandler::getInstance()->addMouseClick(aboutButton);
 
-	exitButton = new MenuButton(0, 0, "resources/img/exit.png", "exitbutton");
-	int exitx = (Game::Instance()->getWindow()->getWidth() / 4) - (exitButton->getWidth());
-	int exity = (Game::Instance()->getWindow()->getHeight()) - exitButton->getHeight() - 10;
+	
+	exitButton = new MenuButton(0, 0, "resources/img/exit.png", "exitbutton", 3, true);
+	int exitx = aboutx;
+	int exity = (Game::Instance()->getWindow()->getHeight()/2) +(aboutButton->getHeight())+
+		(exitButton->getHeight()/2) + espacamento*2;
+
 	exitButton->setPosition(exitx, exity);
 	exitButton->setEventListener(this);
 	InputHandler::getInstance()->addMouseClick(exitButton);
-
-	audioButton = new MenuButton(0, 0, "resources/img/settingsbutton.png", "audiobutton");
-	int audiox = (Game::Instance()->getWindow()->getWidth()) - exitx - audioButton->getWidth();
-	int audioy = exity;
+	
+	audioButton = new MenuButton(0, 0, "resources/img/config.png", "config");
+	int audiox = (Game::Instance()->getWindow()->getWidth()) - audioButton->getWidth() - espacamento;
+	int audioy = (Game::Instance()->getWindow()->getHeight()) - audioButton->getHeight() - espacamento;
 	audioButton->setPosition(audiox, audioy);
 	audioButton->setEventListener(this);
 	InputHandler::getInstance()->addMouseClick(audioButton);

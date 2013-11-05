@@ -1,16 +1,20 @@
 #include "menubutton.h"
 #include "sdlgameobject.h"
 #include "inputhandler.h"
+#include "texturemanager.h"
+#include "render.h"
 #include "SDL2/SDL.h"
 #include <iostream>
 
 using namespace std;
 
-MenuButton::MenuButton(int _x, int _y, string _imagePath, string _imageId, int _numFrames)
+MenuButton::MenuButton(int _x, int _y, string _imagePath, string _imageId, int _numFrames, bool _animate)
 : SDLGameObject(_x, _y, 0, 0, _imagePath, _imageId, _numFrames), MouseClick()
 {
 	currentFrame = MOUSE_OUT;
+	currentRow = MOUSE_OUT;
 	released = true;
+	animate = _animate;
 }
 
 void
@@ -24,19 +28,19 @@ MenuButton::update()
 {    
 	Vector2D mousePosition(sdlEvent.motion.x, sdlEvent.motion.y);
 	
-	if(mousePosition.getX() < (position.getX() + width) &&
+	if(mousePosition.getX() < (position.getX() + getWidth()) &&
 		mousePosition.getX() > position.getX() &&
-		mousePosition.getY() < (position.getY()+ height) &&
+		mousePosition.getY() < (position.getY()+ getHeight()) &&
 		mousePosition.getY() > (position.getY()))
 	{
-	
-        //currentFrame = MOUSE_OVER;
+		if(animate)
+        	currentRow = MOUSE_OVER;
 
         if( (sdlEvent.button.button == SDL_BUTTON_LEFT)  )
 		//if(InputHandler::Instance()->getMouseButtonState(LEFT) && released)
 		{	
-			
-			//currentFrame = CLICKED;
+			if(animate)
+				currentRow = CLICKED;
 
 			released = false;
 		}
@@ -45,13 +49,17 @@ MenuButton::update()
 		//else if(!InputHandler::Instance()->getMouseButtonState(LEFT))
    		{
         	released = true;
-        	//currentFrame = MOUSE_OVER;
+        	
+        	if(animate)
+        		currentRow = MOUSE_OVER;
     	}
 	}
 	else
 	{
 		released = true;
-		//currentFrame = MOUSE_OUT;
+
+		if(animate)
+			currentRow = MOUSE_OUT;
 	}	
 	
 	//cout << "released: " << released << endl;

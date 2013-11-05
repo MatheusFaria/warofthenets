@@ -8,7 +8,7 @@
 class MenuButton : public SDLGameObject, public MouseClick {
 
 public:
-	MenuButton(int, int, string, string, int = 1);
+	MenuButton(int, int, string, string, int = 1, bool=false);
 
 	virtual void draw();
 	virtual void update();
@@ -28,6 +28,7 @@ private:
 	};
 
 	bool released;
+	bool animate;
 	
 	SDL_Event sdlEvent;
 
