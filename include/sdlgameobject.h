@@ -28,9 +28,16 @@ public:
 	int getY();
 	void setY(int y);
 
+	int getCurrentRow();
+
+	void incCurrentRow();
+	void decCurrentRow();
+
+
+
 protected:
 
-	SDLGameObject(int, int, int, int, string, string);
+	SDLGameObject(int, int, int, int, string, string, int = 1);
 
 	Vector2D position;
 	int width;
@@ -39,6 +46,7 @@ protected:
 	string imagePath;
 	int currentRow;
 	int currentFrame;
+	int numFrames;
 
 };
 

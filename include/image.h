@@ -8,7 +8,7 @@
 class Image : public SDLGameObject {
 
 public:
-	Image(std::string imagePath, int x = 0, int y = 0);
+	Image(std::string imagePath, int x = 0, int y = 0, int numFrames = 1);
 	
 
 private:

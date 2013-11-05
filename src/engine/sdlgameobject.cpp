@@ -2,7 +2,8 @@
 #include "texturemanager.h"
 #include "render.h"
 
-SDLGameObject::SDLGameObject(int _x, int _y, int _width, int _height, string _imagePath, string _imageId):GameObject() 
+SDLGameObject::SDLGameObject(int _x, int _y, int _width, int _height, string _imagePath, string _imageId,
+	int _numFrames):GameObject() 
 {
 	this->position = Vector2D(_x, _y);
 	width = _width;
@@ -12,6 +13,7 @@ SDLGameObject::SDLGameObject(int _x, int _y, int _width, int _height, string _im
 
 	currentRow = 0;
 	currentFrame  = 0;
+	numFrames = _numFrames;
 
 	TextureManager::Instance()->loadImage(imagePath, 
 		imageId, Render::getInstance()->getRenderer());
@@ -24,7 +26,7 @@ void
 SDLGameObject::draw()
 {
 	TextureManager::Instance()->drawFrame(imageId, (Uint32)position.getX(),(Uint32)position.getY(),width,
-	 height, currentRow, currentFrame,Render::getInstance()->getRenderer(), 0 );
+	 height/numFrames, currentRow, currentFrame,Render::getInstance()->getRenderer(), 0 );
 }
 
 void
@@ -54,7 +56,7 @@ SDLGameObject::getWidth()
 int
 SDLGameObject::getHeight()
 {
-	return height;
+	return height / numFrames;
 }
 
 Vector2D
@@ -88,6 +90,25 @@ SDLGameObject::setY(int y)
     this->position = Vector2D(position.getX(), y);
 }
 
+void 
+SDLGameObject::incCurrentRow()
+{
+	if(currentRow != numFrames)
+		currentRow++;
+}
+
+void 
+SDLGameObject::decCurrentRow()
+{
+	if(currentRow != 0)
+		currentRow--;
+}
+
+int
+SDLGameObject::getCurrentRow()
+{
+	return currentRow;
+}
 
 
 

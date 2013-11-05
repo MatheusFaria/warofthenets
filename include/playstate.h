@@ -41,9 +41,14 @@ private:
 	void iniciarTurno();
 	void finalizarTurno();
 	void calculateTime();
+	void atualizarCronometro();
+	void atualizarTorres();
 
 	void createHUD();
 	void createMap();
+
+	int x;
+	int y;
 
 	int windowWidth;
 	int windowHeight;
@@ -59,13 +64,30 @@ private:
 	std::vector<GameObject*> playObjects;
 	std::vector<Hexagon *> vectorHexagon;
 
-	MenuButton *painelRecurso;
+	Image *hudBackground;
+
+
+	MenuButton *levelInformacao;
 	MenuButton *recursoInformacao;
-	MenuButton *recursoTower;
-	MenuButton *recursoBomb;
+
+	Image *levelTower;
+	Image *levelBomb;
+	Image *levelSpy;
+
+	bool towerActualized;
+	bool bombActualized;
+	bool spyActualized;
+
+	MenuButton *upgradeTower;
+	MenuButton *upgradeBomb;
+	MenuButton *upgradeSpy;
+
+	MenuButton *recursoTower;	
+	MenuButton *recursoBomb;	
 	MenuButton *recursoSpy;
+
 	MenuButton *fimTurno;
-	MenuButton* painelCronometro;
+	MenuButton *painelCronometro;
 	MenuButton *quit;
 
 	Bomba* bombObject;
@@ -78,11 +100,22 @@ private:
 	int actualTime;
 	int minutes, seconds;
 
+	int numLevelTower;
+	int numLevelBomb;
+	int numLevelSpy; 
+
     Text *txtNumInformation;
+
     Text *txtNumTower;
     Text *txtNumBomb;
     Text *txtNumSpy;    
+
     Text *txtTime;
+
+    Text *txtLevelTower;
+    Text *txtLevelBomb;
+    Text* txtLevelSpy;
+
 
 	int eventX;
 	int eventY;

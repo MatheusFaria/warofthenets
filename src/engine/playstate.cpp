@@ -15,30 +15,23 @@ const std::string PlayState::playId = "PLAY";
 void
 PlayState::update()
 {
-
+	//int x;
+	//int y;
 	for(int i =0; i<(int)playObjects.size(); i++)
 		playObjects[i]->update();
 
 	for(int i =0; i<(int)vectorHexagon.size(); i++)
+	{
+		//vectorHexagon[i]->setPosition
 		vectorHexagon[i]->update();
+	}
 
 	for(int i =0; i<(int)hudButtons.size(); i++)
 		hudButtons[i]->update();
 
 	
 
-	std::vector<Bomba*> bombDelete;
 
-	/*
-	for(int i =0; i<(int)bombObjects.size(); i++)
-	{
-		bombObjects[i]->update();
-		//std::cout << "bombObjects[i]->isAnimating(): " << bombObjects[i]->isAnimating() << std::endl;
-		if(!bombObjects[i]->isAnimating())
-		{
-			bombDelete.push_back(bombObjects[i]);
-		}
-	}*/
 
 
 	if(bombObject != NULL)
@@ -87,17 +80,41 @@ PlayState::update()
 		}
 	}*/
 
-	calculateTime();
+	atualizarCronometro();
 	
-	if(seconds >= 5)
+	if(seconds >= 15)
 		finalizarTurno();
 
 	txtNumInformation->setText(std::to_string(numInformacao));
 	txtNumTower->setText(std::to_string(numTower));
 	txtNumBomb->setText(std::to_string(numBomb));
 	txtNumSpy->setText(std::to_string(numSpy));
-	txtTime->setText(std::to_string(minutes)+":"+std::to_string(seconds));
+	txtLevelBomb->setText(std::to_string(numLevelBomb));
+	txtLevelTower->setText(std::to_string(numLevelTower));
+	txtLevelSpy->setText(std::to_string(numLevelSpy));
 
+}
+
+void
+PlayState::atualizarCronometro()
+{
+	calculateTime();	
+
+	std::string tempo = ""; 
+
+	if(minutes<10)
+		tempo+="0";
+	
+	tempo+=std::to_string(minutes)+":";
+
+	if(seconds<10)
+		tempo+="0";
+
+	tempo += std::to_string(seconds);
+	txtTime->setText(tempo);
+
+	int xseconds = painelCronometro->getX() + painelCronometro->getWidth()/2 - txtTime->getWidth()/2; 
+	txtTime->setX(xseconds);
 }
 
 void 
@@ -139,6 +156,9 @@ PlayState::render()
 	txtNumBomb->draw();
 	txtNumSpy->draw();
 	txtTime->draw();
+	txtLevelBomb->draw();
+	txtLevelTower->draw();
+	txtLevelSpy->draw();
 }
 
 bool
@@ -147,23 +167,32 @@ PlayState::onEnter()
 	windowWidth = Game::Instance()->getWindow()->getWidth();
 	windowHeight =
 	Game::Instance()->getWindow()->getHeight();
+
 	bombObject = NULL;
+	upgradeTower = NULL;
 
 	iniciarTurno();
 
 	Render::getInstance()->setColor(255, 255, 255 , 255);
-	
+	Torre::setCustoAtualizacao(5);
 
 	idSelected = "";
 
 	createMap();
 	createHUD();
 	
-	numInformacao = 1;
+	numInformacao = 100;
 	numTower = 0;
 	numBomb = 0;
 	numSpy = 0;
-	iniciarTurno();
+
+	numLevelTower = 1;
+	numLevelBomb = 1;
+	numLevelSpy = 1;
+
+	x = 0;
+	y = 0;
+	
 
 	std::cout<<"Play State"<<std::endl;
 	return true;
@@ -222,7 +251,7 @@ PlayState::createMap()
 
 	for(unsigned int i =0; i<numRows; i++)
 	{	
-		for(unsigned int j = 0; j<numColumns; j++)
+		for(unsigned int j = 2; j<numColumns; j++)
 		{
 			float yPos = i*yOff*2;
 
@@ -366,40 +395,53 @@ PlayState::createHUD()
 {
 
 	std::string font = "resources/font/Army.ttf";
+	int espacamento = 20;
 
-	painelRecurso = new MenuButton(0, 0, "resources/img/painelrecurso.png", "painelrecurso");
-	painelRecurso->setPosition(0, windowHeight - painelRecurso->getHeight());
-	painelRecurso->setEventListener(this);
-	InputHandler::getInstance()->addMouseClick(painelRecurso);
+	recursoInformacao= new MenuButton(0, 0, "resources/img/paionelinformacao.png", "botaorecursoinformacao");
+	int recursoInformacaoX = 0;
+	int recursoInformacaoY = 0;
+	recursoInformacao->setPosition(recursoInformacaoX, recursoInformacaoY);
+	recursoInformacao->setEventListener(this);
+	InputHandler::getInstance()->addMouseClick(recursoInformacao);
 
-	recursoTower = new MenuButton(0, 0, "resources/img/botaorecursotorre.png", "botaorecursotorre");
-	int recursoTowerX = (painelRecurso->getWidth() / 2) - (recursoTower->getWidth() / 2);
-	int recursoTowerY = painelRecurso->getY() + 26;
+	recursoTower = new MenuButton(0, 0, "resources/img/botaorecursotorre.png", "botaorecursotorre", 3);
+	//int recursoTowerX = levelTowerX + levelTower->getWidth() + espacamento/2;
+	int recursoTowerX = recursoInformacaoX + recursoInformacao->getWidth() - recursoTower->getWidth();
+	int recursoTowerY = recursoInformacaoY + espacamento + recursoInformacao->getHeight();
 	recursoTower->setPosition(recursoTowerX, recursoTowerY);
 	recursoTower->setEventListener(this);
 	InputHandler::getInstance()->addMouseClick(recursoTower);
 
-	recursoBomb = new MenuButton(0, 0, "resources/img/botaorecursobomba.png", "botaorecursobomba");
+	levelTower = new Image("resources/img/botaolevel.png", 0, 0);
+	int levelTowerX = recursoInformacaoX;
+	int levelTowerY = recursoTowerY + recursoTower->getHeight() - levelTower->getHeight();
+	levelTower->setPosition(levelTowerX, levelTowerY);
+
+	recursoBomb = new MenuButton(0, 0, "resources/img/botaorecursobomba.png", "botaorecursobomba", 3);
 	int recursoBombX = recursoTowerX;
-	int recursoBombY = recursoTowerY + recursoTower->getHeight() + 7;
+	int recursoBombY = recursoTowerY + espacamento + recursoTower->getHeight();
 	recursoBomb->setPosition(recursoBombX, recursoBombY);
 	recursoBomb->setEventListener(this);
 	InputHandler::getInstance()->addMouseClick(recursoBomb);
 
-	recursoSpy = new MenuButton(0, 0, "resources/img/botaorecursoespiao.png", "botaorecursoespiao");
+	levelBomb = new Image("resources/img/botaolevel.png", 0, 0);
+	int levelBombX = recursoInformacaoX;
+	int levelBombY = recursoBombY + recursoBomb->getHeight() - levelBomb->getHeight();
+	levelBomb->setPosition(levelBombX, levelBombY);
+
+
+	recursoSpy = new MenuButton(0, 0, "resources/img/botaorecursoespiao.png", "botaorecursoespiao", 3);
 	int recursoSpyX = recursoTowerX;
-	int recursoSpyY = recursoBombY + recursoBomb->getHeight() + 7;
+	int recursoSpyY = recursoBombY + espacamento + recursoBomb->getHeight();
 	recursoSpy->setPosition(recursoSpyX, recursoSpyY);
 	recursoSpy->setEventListener(this);
 	InputHandler::getInstance()->addMouseClick(recursoSpy);
 
-	recursoInformacao= new MenuButton(0, 0, "resources/img/paionelinformacao.png", "botaorecursoinformacao");
-	int recursoInformacaoX = painelRecurso->getX() + painelRecurso->getWidth();
-	int recursoInformacaoY = windowHeight - recursoInformacao->getHeight();
-	recursoInformacao->setPosition(recursoInformacaoX, recursoInformacaoY);
-	recursoInformacao->setEventListener(this);
-	InputHandler::getInstance()->addMouseClick(recursoInformacao);
-	
+	levelSpy = new Image("resources/img/botaolevel.png",0, 0);
+	int levelSpyX = recursoInformacaoX;
+	int levelSpyY = recursoSpyY + recursoSpy->getHeight() - levelSpy->getHeight();
+	levelSpy->setPosition(levelSpyX, levelSpyY);
+
 	quit = new MenuButton(0, 0, "resources/img/botaosair.png", "botaosair");
 	int quitX = windowWidth - quit->getWidth();
 	int quitY = 0;
@@ -413,50 +455,101 @@ PlayState::createHUD()
 	fimTurno->setPosition(fimTurnoX, fimTurnoY);
 	fimTurno->setEventListener(this);
 	InputHandler::getInstance()->addMouseClick(fimTurno);
+
+    painelCronometro = new MenuButton(0, 0, "resources/img/painelcronometro.png", "cronometro");
+    int painelCronometroX = 0;
+	int painelCronometroY = windowHeight - painelCronometro->getHeight();
+	painelCronometro->setPosition(painelCronometroX, painelCronometroY);
+	InputHandler::getInstance()->addMouseClick(painelCronometro);
 	
-	SDL_Color blackColor = {0, 0, 0, 0};
+	//SDL_Color blackColor = {0, 0, 0, 0};
+	SDL_Color whiteColor = {255, 255, 255, 0};
 	
 	txtNumInformation = new Text("0", 32);
 	txtNumInformation->setFont(font);
-    txtNumInformation->setColor(blackColor);
+    txtNumInformation->setColor(whiteColor);
     int x = recursoInformacaoX + (recursoInformacao->getWidth()/2) - (txtNumInformation->getWidth()/6);
     int y = recursoInformacaoY + (recursoInformacao->getHeight()/2) - (txtNumInformation->getHeight()/6);
     txtNumInformation->setPosition(x, y);
 
 	txtNumTower = new Text("0", 16);
 	txtNumTower->setFont(font);
-    txtNumTower->setColor(blackColor);
-    x = recursoTowerX + recursoTower->getWidth() - txtNumTower->getWidth() - 18;
-    y = recursoTowerY + recursoTower->getHeight() - txtNumTower->getHeight() - 9;
+    txtNumTower->setColor(whiteColor);
+    x = recursoTowerX + recursoTower->getWidth() - (txtNumTower->getWidth()/4) - (espacamento/1);
+    y = recursoTowerY + recursoTower->getHeight() - (txtNumTower->getHeight()/4) - (espacamento/1);
     txtNumTower->setPosition(x, y);
     
     txtNumBomb = new Text("0", 16);
 	txtNumBomb->setFont(font);
-    txtNumBomb->setColor(blackColor);
-    x = recursoTowerX + recursoTower->getWidth() - txtNumBomb->getWidth() - 18;
-    y = recursoBombY + recursoBomb->getHeight() - txtNumBomb->getHeight() - 9;
+    txtNumBomb->setColor(whiteColor);
+    x = recursoTowerX + recursoTower->getWidth() - (txtNumBomb->getWidth()/4) - (espacamento/1);
+    y = recursoBombY + recursoBomb->getHeight() - (txtNumBomb->getHeight()/4) - (espacamento/1);
     txtNumBomb->setPosition(x, y);
     
     txtNumSpy = new Text("0", 16); 
 	txtNumSpy->setFont(font);
-    txtNumSpy->setColor(blackColor);
-    x = recursoTowerX + recursoTower->getWidth() - txtNumSpy->getWidth() - 18;
-    y = recursoSpyY + recursoSpy->getHeight() - txtNumSpy->getHeight() - 9;
+    txtNumSpy->setColor(whiteColor);
+    x = recursoTowerX + recursoTower->getWidth() - (txtNumSpy->getWidth()/4) - (espacamento/1);
+    y = recursoSpyY + recursoSpy->getHeight() - (txtNumSpy->getHeight()/4) - (espacamento/1);
     txtNumSpy->setPosition(x, y);
 
-    painelCronometro = new MenuButton(0, 0, "resources/img/painelcronometro.png", "cronometro");
-	InputHandler::getInstance()->addMouseClick(painelCronometro);
-
-	txtTime = new Text("00:00", 16);
+	txtTime = new Text("00:00", 50);
 	txtTime->setFont(font);
-	txtTime->setColor(blackColor);
-	x = painelCronometro->getWidth()/2 - txtTime->getWidth()/2;
-	y = painelCronometro->getHeight()/2 - txtTime->getHeight()/2;
+	txtTime->setColor(whiteColor);
+	x =  painelCronometroX + painelCronometro->getWidth()/2 - txtTime->getWidth()/2;
+	y = painelCronometroY + painelCronometro->getHeight()/2 - txtTime->getHeight()/2;
 	txtTime->setPosition(x,y);
 
-	hudButtons.push_back(painelRecurso);
+	txtLevelBomb = new Text("1", 28);
+	txtLevelBomb->setFont(font);
+    txtLevelBomb->setColor(whiteColor);
+    x = levelBombX + levelBomb->getWidth()/2 - txtLevelBomb->getWidth()/2;
+    y = levelBombY + levelBomb->getHeight()/2 - txtLevelBomb->getHeight()/2;
+    txtLevelBomb->setPosition(x, y);
+
+    txtLevelTower = new Text("1", 28);
+	txtLevelTower->setFont(font);
+    txtLevelTower->setColor(whiteColor);
+    x = levelTowerX + levelTower->getWidth()/2 - txtLevelTower->getWidth()/2;
+    y = levelTowerY + levelTower->getHeight()/2 - txtLevelTower->getHeight()/2;
+    txtLevelTower->setPosition(x, y);
+
+    txtLevelSpy = new Text("1", 28);
+	txtLevelSpy->setFont(font);
+    txtLevelSpy->setColor(whiteColor);
+    x = levelSpyX + levelSpy->getWidth()/2 - txtLevelSpy->getWidth()/2;
+    y = levelSpyY + levelSpy->getHeight()/2 - txtLevelSpy->getHeight()/2;
+    txtLevelSpy->setPosition(x, y);
+
+    hudBackground = new Image("resources/img/hud_bg.png", 0, 0);
+
+    upgradeTower = new MenuButton(0,0,"resources/img/buttonupgrade.png", "buttonupgrade", 3);
+    x = levelTowerX;
+    y = levelTowerY - upgradeTower->getHeight() -espacamento/4;
+    upgradeTower->setPosition(x,y);
+	upgradeTower->setEventListener(this);
+	InputHandler::getInstance()->addMouseClick(upgradeTower);
+
+    upgradeBomb = new MenuButton(0,0,"resources/img/buttonupgrade.png", "buttonupgrade", 3);
+    x = levelBombX;
+    y = levelBombY - upgradeBomb->getHeight() -espacamento/4;
+    upgradeBomb->setPosition(x,y);
+	upgradeBomb->setEventListener(this);
+	InputHandler::getInstance()->addMouseClick(upgradeBomb);
+
+    upgradeSpy = new MenuButton(0,0,"resources/img/buttonupgrade.png", "buttonupgrade", 3);
+    x = levelSpyX;
+    y = levelSpyY - upgradeSpy->getHeight() -espacamento/4;
+    upgradeSpy->setPosition(x,y);
+	upgradeSpy->setEventListener(this);
+	InputHandler::getInstance()->addMouseClick(upgradeSpy);
+
+
+	hudButtons.push_back(upgradeTower);
 	hudButtons.push_back(recursoTower);
+	hudButtons.push_back(upgradeBomb);
 	hudButtons.push_back(recursoBomb);
+	hudButtons.push_back(upgradeSpy);
 	hudButtons.push_back(recursoSpy);
 	hudButtons.push_back(quit);
 	hudButtons.push_back(fimTurno);
@@ -464,6 +557,10 @@ PlayState::createHUD()
 	hudButtons.push_back(painelCronometro);
 
 
+    playObjects.push_back(hudBackground);
+    playObjects.push_back(levelTower);
+    playObjects.push_back(levelBomb);
+   	playObjects.push_back(levelSpy);
 }
 
 void 
@@ -525,6 +622,23 @@ PlayState::onMouseClick(MouseClick *mouseClick)
     	finalizarTurno();
     }
 
+    if(mouseClick == upgradeTower)
+    {
+    	if(towerActualized)
+    		return;
+
+    	if(Torre::getCustoAtualizacao()<=numInformacao && numLevelTower < 3)
+    	{
+	    	recursoTower->incCurrentRow();
+	    	numLevelTower++;
+	    	numInformacao -= Torre::getCustoAtualizacao();
+	    	upgradeTower->incCurrentRow();
+
+	    	atualizarTorres();
+	    	towerActualized = true;
+	    }	
+    }
+
 }
 
 GameObject*
@@ -535,7 +649,7 @@ PlayState::createObject(Hexagon *hex)
 	if(idSelected =="")
 		return NULL;
 	if(idSelected == "resources/img/tower.png"  && canConstruct(hex))
-    	recurso = new Torre();
+    	recurso = new Torre(numLevelTower);
 	else if(idSelected == "resources/img/bomb.png" && bombObject == NULL)
 	{
 		recurso = new Bomba(hex->getX(), hex->getY());
@@ -675,5 +789,28 @@ PlayState::finalizarTurno()
 void
 PlayState::iniciarTurno()
 {
+	if(upgradeTower != NULL && upgradeTower->getCurrentRow()==1)
+	{
+		if(numLevelTower == 2)
+				upgradeTower->decCurrentRow();
+		else if(numLevelTower == 3)	
+				upgradeTower->incCurrentRow();
+
+	}
+
+	towerActualized = false;
+	bombActualized = false;
+	spyActualized = false;
+
 	actualTime = SDL_GetTicks();	
+}
+
+void 
+PlayState::atualizarTorres()
+{
+	for(unsigned int i =0; i<playObjects.size(); i++)
+	{
+		if(dynamic_cast<Torre*>(playObjects[i]))
+			((Torre*)playObjects[i])->incActualColumn();
+	}
 }

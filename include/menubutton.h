@@ -8,7 +8,7 @@
 class MenuButton : public SDLGameObject, public MouseClick {
 
 public:
-	MenuButton(int, int, string, string);
+	MenuButton(int, int, string, string, int = 1);
 
 	virtual void draw();
 	virtual void update();
