@@ -101,7 +101,11 @@ void
 Hexagon::update()
 {
 	if(object != NULL)
-		object->setPosition(getX(), getY());
+	{
+		int x = getX() + (getWidth()/2) - (object->getWidth()/6);
+		int y = getY() + (getHeight()/2) - (object->getHeight()/4);
+		object->setPosition(x, y);
+	}
 }
 
 void 

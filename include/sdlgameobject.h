@@ -16,17 +16,18 @@ public:
 	virtual void update();
 	virtual void clean();
 
+	virtual int getX();
+	virtual void setX(int x);
+
+	virtual int getY();
+	virtual void setY(int y);
+
+	virtual int getWidth();
+	virtual int getHeight();
+
     Vector2D getPosition();
 	virtual void setPosition(int, int);
 	
-	int getWidth();
-	int getHeight();
-	
-	int getX();
-	void setX(int x);
-	
-	int getY();
-	void setY(int y);
 
 	int getCurrentRow();
 
