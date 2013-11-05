@@ -29,6 +29,7 @@ PlayState::update()
 
 	std::vector<Bomba*> bombDelete;
 
+	/*
 	for(int i =0; i<(int)bombObjects.size(); i++)
 	{
 		bombObjects[i]->update();
@@ -37,9 +38,33 @@ PlayState::update()
 		{
 			bombDelete.push_back(bombObjects[i]);
 		}
+	}*/
+
+
+	if(bombObject != NULL)
+	{
+		bombObject->update();
+
+		if(!bombObject->isAnimating())
+		{
+			for(int i =0; i<(int)vectorHexagon.size(); i++)
+			{	
+				if(vectorHexagon[i]->getBomba() != NULL )
+				{
+					std::cout << "i: " << i << std::endl;
+					bombObject->explode(grafoHexagon, vectorHexagon[i]);
+					destroyVectorObjects(bombObject->getVetorDestruicao());
+					//vectorHexagon[i]->destroyGameObject();
+				}	
+
+			}
+
+			bombObject = NULL;
+		}	
+
 	}
 
-
+	/*
 	std::vector<Bomba*>::iterator it;
 	for(int i =(int)bombDelete.size()-1; i>=0; i--)
 	{
@@ -60,7 +85,7 @@ PlayState::update()
 			}	
 
 		}
-	}
+	}*/
 
 	calculateTime();
 	
@@ -97,8 +122,14 @@ PlayState::render()
 	for(int i =0; i<(int)playObjects.size(); i++)
 		playObjects[i]->draw();
 
-	for(int i =0; i<(int)bombObjects.size(); i++)
-		bombObjects[i]->draw();
+	/*for(int i =0; i<(int)bombObjects.size(); i++)
+	{
+		if(bombObjects[i] != NULL)
+			bombObjects[i]->draw();
+	}*/
+
+	if(bombObject != NULL)	
+		bombObject->draw();
 
 	for(int i =0; i<(int)hudButtons.size(); i++)
 		hudButtons[i]->draw();
@@ -116,6 +147,7 @@ PlayState::onEnter()
 	windowWidth = Game::Instance()->getWindow()->getWidth();
 	windowHeight =
 	Game::Instance()->getWindow()->getHeight();
+	bombObject = NULL;
 
 	iniciarTurno();
 
@@ -160,7 +192,6 @@ PlayState::onExit()
     	InputHandler::getInstance()->removeMouseClick(hudButtons[i]);
 		delete hudButtons[i];
 	}
-
 	
 		
     delete txtNumTower;
@@ -505,7 +536,7 @@ PlayState::createObject(Hexagon *hex)
 		return NULL;
 	if(idSelected == "resources/img/tower.png"  && canConstruct(hex))
     	recurso = new Torre();
-	else if(idSelected == "resources/img/bomb.png")
+	else if(idSelected == "resources/img/bomb.png" && bombObject == NULL)
 	{
 		recurso = new Bomba(hex->getX(), hex->getY());
 	}		
@@ -543,7 +574,7 @@ PlayState::showObject(Hexagon* hex)
 {
 	GameObject* object = createObject(hex);
 
-	if(!object)
+	if(object == NULL)
 		return;
 	else
 	{
@@ -551,7 +582,7 @@ PlayState::showObject(Hexagon* hex)
 		{
 			if(numInformacao >= 2)
 			{
-				bombObjects.push_back((Bomba*)object);
+				bombObject = (Bomba*) object;
 				hex->setObject(object);
 				incObject();
 				numInformacao -= 2;

@@ -11,6 +11,7 @@
 #include "mouseclick.h"
 #include <vector>
 #include <map>
+#include <queue>
 
 class PlayState : public GameState,
 				  public MouseClick::MouseClickListener{
@@ -55,11 +56,7 @@ private:
 	static const std::string playId;
 
 	std::vector<MenuButton*> hudButtons;
-
 	std::vector<GameObject*> playObjects;
-
-	std::vector<Bomba*> bombObjects;
-
 	std::vector<Hexagon *> vectorHexagon;
 
 	MenuButton *painelRecurso;
@@ -69,9 +66,9 @@ private:
 	MenuButton *recursoSpy;
 	MenuButton *fimTurno;
 	MenuButton* painelCronometro;
-	
 	MenuButton *quit;
 
+	Bomba* bombObject;
 	std::string idSelected;
 	
 	int numTower;

@@ -82,8 +82,6 @@ Bomba::explode(map<Hexagon*, vector<Hexagon*>>  grafoHexagon, Hexagon *hex)
 	filaVisitar.push(hex);
 
 	explodeRecursivo(grafoHexagon, 0);
-
-	std::cout << "\n\n vetorDestruicao.size(): " << vetorDestruicao.size() << std::endl;
 }
 
  
