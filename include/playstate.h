@@ -9,11 +9,12 @@
 #include "bomba.h"
 #include "hexagon.h"
 #include "mouseclick.h"
+#include "keyboardevent.h"
 #include <vector>
 #include <map>
 #include <queue>
 
-class PlayState : public GameState,
+class PlayState : public GameState, public KeyboardEvent,
 				  public MouseClick::MouseClickListener{
 
 public:
@@ -27,7 +28,7 @@ public:
 	virtual std::string getStateId() const;
 
 	virtual void onMouseClick(MouseClick *mouseClick);
-	//virtual bool eventInMe(SDL_Event sdlEvent);
+	virtual bool eventInMe(SDL_Event sdlEvent);
 
 
 private:
@@ -43,6 +44,7 @@ private:
 	void calculateTime();
 	void atualizarCronometro();
 	void atualizarTorres();
+	void atualizarMapa();
 
 	void createHUD();
 	void createMap();
@@ -50,8 +52,14 @@ private:
 	int x;
 	int y;
 
+	int velocityX;
+	int velocityY;
+
 	int windowWidth;
 	int windowHeight;
+
+	int mapColumns;
+	int mapRows;
 
 	map<Hexagon*, vector<Hexagon*>> grafoHexagon;
 	void foundAdjacents(Hexagon *hex);

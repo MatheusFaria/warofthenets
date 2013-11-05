@@ -15,23 +15,14 @@ const std::string PlayState::playId = "PLAY";
 void
 PlayState::update()
 {
-	//int x;
-	//int y;
 	for(int i =0; i<(int)playObjects.size(); i++)
 		playObjects[i]->update();
 
 	for(int i =0; i<(int)vectorHexagon.size(); i++)
-	{
-		//vectorHexagon[i]->setPosition
 		vectorHexagon[i]->update();
-	}
 
 	for(int i =0; i<(int)hudButtons.size(); i++)
 		hudButtons[i]->update();
-
-	
-
-
 
 
 	if(bombObject != NULL)
@@ -92,6 +83,8 @@ PlayState::update()
 	txtLevelBomb->setText(std::to_string(numLevelBomb));
 	txtLevelTower->setText(std::to_string(numLevelTower));
 	txtLevelSpy->setText(std::to_string(numLevelSpy));
+
+	atualizarMapa();
 
 }
 
@@ -164,6 +157,9 @@ PlayState::render()
 bool
 PlayState::onEnter()
 {
+	mapColumns = 25;
+	mapRows = 15;
+
 	windowWidth = Game::Instance()->getWindow()->getWidth();
 	windowHeight =
 	Game::Instance()->getWindow()->getHeight();
@@ -192,7 +188,13 @@ PlayState::onEnter()
 
 	x = 0;
 	y = 0;
-	
+
+	velocityX = 0;
+	velocityY = 0;
+
+
+	InputHandler::getInstance()->addKeyboardEvent(this);
+
 
 	std::cout<<"Play State"<<std::endl;
 	return true;
@@ -222,6 +224,8 @@ PlayState::onExit()
 		delete hudButtons[i];
 	}
 	
+
+	InputHandler::getInstance()->removeKeyboardEvent(this);
 		
     delete txtNumTower;
 	delete txtNumBomb;
@@ -244,14 +248,14 @@ PlayState::createMap()
 	const float yOff = 0.87*50;
 	const float xOff =0.5*50;
 
-	unsigned int numColumns = windowWidth/75;
-	unsigned int numRows = windowHeight/87;
+	unsigned int numColumns = mapColumns;//windowWidth/75;
+	unsigned int numRows = mapRows;//windowHeight/87;
 
 	std::cout<<numColumns<<" "<<numRows<<std::endl;
 
 	for(unsigned int i =0; i<numRows; i++)
 	{	
-		for(unsigned int j = 2; j<numColumns; j++)
+		for(unsigned int j = 2; j<numColumns+2; j++)
 		{
 			float yPos = i*yOff*2;
 
@@ -813,4 +817,97 @@ PlayState::atualizarTorres()
 		if(dynamic_cast<Torre*>(playObjects[i]))
 			((Torre*)playObjects[i])->incActualColumn();
 	}
+}
+
+void 
+PlayState::atualizarMapa()
+{
+	int hexagonX;
+	int hexagonY;
+
+	if(this->velocityX == 0 && this->velocityY ==0)
+		return;
+
+	//std::cout<<"this->x : "<<this->x<<std::endl;
+	if(this->velocityX<0)
+	{
+		if(this->x + this->velocityX < 0)	
+			this->velocityX =0;
+	}
+	else
+	{
+		if(this->x + windowWidth > (mapColumns * 75))
+			this->velocityX = 0;
+	}
+
+	
+	if(this->velocityY<0)
+	{
+		if(this->y + this->velocityY < 0) 
+			this->velocityY=0;
+	}
+	else
+	{
+		if(this->y + windowHeight > (mapRows * 87) + 44)
+			this->velocityY=0;
+	}
+
+	this->x = (this->x + this->velocityX);
+	this->y = (this->y + this->velocityY);
+
+	for(int i =0; i<(int)vectorHexagon.size(); i++)
+	{
+		//hexagonX = vectorHexagon[i]->getX() + this->x;
+		//hexagonY = vectorHexagon[i]->getY() + this->y;
+
+		hexagonX = vectorHexagon[i]->getX() - this->velocityX;
+		hexagonY = vectorHexagon[i]->getY() - this->velocityY;
+
+		//if( (hexagonX >= 0) && (hexagonX <= (mapColumns * 75)) )
+			vectorHexagon[i]->setX(hexagonX);
+
+		//if( (hexagonY >= 0) && (hexagonY < (mapRows * 87)))
+			vectorHexagon[i]->setY(hexagonY);
+	}
+}
+
+bool 
+PlayState::eventInMe(SDL_Event sdlEvent)
+{
+	int velocity = 10;
+
+	
+	if(sdlEvent.key.keysym.sym == SDLK_UP)
+	{
+		if(sdlEvent.key.state == SDL_PRESSED)
+			velocityY = -velocity;
+		else
+			velocityY = 0;
+	}
+
+	if(sdlEvent.key.keysym.sym == SDLK_DOWN)
+	{
+		if(sdlEvent.key.state == SDL_PRESSED)
+			velocityY = +velocity;
+		else
+			velocityY = 0;
+	}
+
+	if(sdlEvent.key.keysym.sym == SDLK_LEFT)
+	{
+		if(sdlEvent.key.state == SDL_PRESSED)
+			velocityX = -velocity;
+		else
+			velocityX = 0;
+	}
+
+	if(sdlEvent.key.keysym.sym == SDLK_RIGHT)
+	{
+		if(sdlEvent.key.state == SDL_PRESSED)
+			velocityX = +velocity;
+		else
+			velocityX = 0;
+	}
+
+	return true;
 }
