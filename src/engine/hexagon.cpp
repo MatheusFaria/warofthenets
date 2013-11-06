@@ -3,6 +3,7 @@
 #include <cmath>
 #include "bomba.h"
 #include "torre.h"
+#include "spy.h"
 #include "geometry.h"
 
 #include <iostream>
@@ -15,6 +16,7 @@ Hexagon::Hexagon(int size, Render * render)
 	setSurfaceWidth(size*2 + 1);
 	this->object = NULL;
 	this->bomba = NULL;
+	this->spy = NULL;
 }
 
 Hexagon::~Hexagon() {}
@@ -95,22 +97,52 @@ Hexagon::setObject(GameObject* _object)
 		if(object == NULL)
 		{
 			object = _object;
+
+			if(spy != NULL)
+				activateSpy();
+
 			return true;
 		}		
+	}
+	else
+	{
+		if(spy == NULL)
+		{
+			spy = _object;
+			activateSpy();
+			return true;
+		}
 	}
 		
 	return false;
 }
 
+void
+Hexagon::activateSpy()
+{
+	if(object != NULL)
+		((Torre*)object)->spyOnTower(((Spy*)spy)->getLevel()+1);
+
+}
+
 void 
 Hexagon::update()
 {
+
+
 	if(object != NULL)
 	{
 		int x = getX() + (getWidth()/2) - (object->getWidth()/6);
-		int y = getY() + (getHeight()/2) - (object->getHeight()/4);
+		int y = getY() + (getHeight()/2) - (object->getHeight()/4);	
 		object->setPosition(x, y);
 	}
+		
+	if(spy != NULL)
+	{	
+		int x = getX() + (getWidth()/2) - (spy->getWidth()/2);
+		int y = getY() + (getHeight()/2) - (spy->getHeight()/4);	
+		spy->setPosition(x,y);
+	}	
 }
 
 void 
@@ -155,6 +187,12 @@ GameObject*
 Hexagon::getBomba()
 {
 	return bomba;
+}
+
+GameObject* 
+Hexagon::getSpy()
+{
+	return spy;
 }
 
 bool 

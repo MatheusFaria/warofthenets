@@ -19,6 +19,7 @@ public:
 	
 	GameObject* getObject();
 	GameObject* getBomba();
+	GameObject* getSpy();
 	bool haveObject();
 
 	bool isMouseRight();
@@ -31,6 +32,7 @@ private:
 	int size;
 
 	void putObjectInSurface();
+	void activateSpy();
 
 	GameObject *object;
 	GameObject *bomba;

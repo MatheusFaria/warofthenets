@@ -10,9 +10,12 @@ int Torre::custoAtualizacao = 0;
 
 Torre::Torre(int numLevelTower, int x, int y):Image(path,x,y)
 {
-	numFrames = 4;
+	this->numFrames = 4;
 	actualRow = 1;
+	this->numLevelTower = numLevelTower;
 	currentFrame = numLevelTower - 1;
+
+	numInformacao  = numLevelTower+1;
 }
 
 void
@@ -20,6 +23,8 @@ Torre::update()
 {
 	int intervalo = 100;
 	actualRow = (SDL_GetTicks()/intervalo)%numFrames;
+
+	numInformacao = numInformacao*numLevelTower;
 }
 
 void
@@ -45,4 +50,18 @@ void
 Torre::incActualColumn()
 {
 	currentFrame++;
+}
+
+void
+Torre::spyOnTower(int levelSpy)
+{
+	numInformacao = numInformacao/levelSpy;
+	std::cout<<"numInformacao"<<numInformacao<<std::endl;
+}
+
+int 
+Torre::getInformacao()
+{
+	//std::cout<<"numInformacao"<<numInformacao<<std::endl;
+	return numInformacao;
 }

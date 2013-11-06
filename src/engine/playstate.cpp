@@ -6,6 +6,7 @@
 #include "inputhandler.h"
 #include "torre.h"
 #include "bomba.h"
+#include "spy.h"
 #include <algorithm>
 #include <iostream>
 
@@ -42,7 +43,6 @@ PlayState::update()
 					std::cout << "i: " << i << std::endl;
 					bombObject->explode(grafoHexagon, vectorHexagon[i]);
 					destroyVectorObjects(bombObject->getVetorDestruicao());
-					//vectorHexagon[i]->destroyGameObject();
 				}	
 
 			}
@@ -51,29 +51,6 @@ PlayState::update()
 		}	
 
 	}
-
-	/*
-	std::vector<Bomba*>::iterator it;
-	for(int i =(int)bombDelete.size()-1; i>=0; i--)
-	{
-		Bomba *bomba = bombDelete[i];
-		it = find(bombObjects.begin(), bombObjects.end(), bomba);
-		bombObjects.erase(it);
-
-		//std::cout<<vectorHexagon.size()<<std::endl;
-
-		for(int i =0; i<(int)vectorHexagon.size(); i++)
-		{
-			if(vectorHexagon[i]->getBomba() != NULL )
-			{
-				std::cout << "i: " << i << std::endl;
-				bomba->explode(grafoHexagon, vectorHexagon[i]);
-				destroyVectorObjects(bomba->getVetorDestruicao());
-				//vectorHexagon[i]->destroyGameObject();
-			}	
-
-		}
-	}*/
 
 	atualizarCronometro();
 	
@@ -135,12 +112,6 @@ PlayState::render()
 
 	for(int i =0; i<(int)playObjects.size(); i++)
 		playObjects[i]->draw();
-
-	/*for(int i =0; i<(int)bombObjects.size(); i++)
-	{
-		if(bombObjects[i] != NULL)
-			bombObjects[i]->draw();
-	}*/
 
 	if(bombObject != NULL)	
 		bombObject->draw();
@@ -675,7 +646,7 @@ PlayState::createObject(Hexagon *hex)
 		recurso = new Bomba(hex->getX(), hex->getY());
 	}		
 	else if(idSelected == "resources/img/spy.png")
-        recurso = new Image(idSelected);
+        recurso = new Spy();
 	
 
 	return recurso;
@@ -701,6 +672,8 @@ PlayState::decObject(GameObject* object)
 		numTower--;
 	else if(dynamic_cast<Bomba*>(object))
 		numBomb--;
+	else
+		numSpy--;
 }
 
 void 
@@ -797,10 +770,14 @@ PlayState::destroyVectorObjects(std::vector<Hexagon*> destroy)
 void 
 PlayState::finalizarTurno()
 {
-	if(numTower > 0)
-		numInformacao += numTower * 2;
-	else
-		numInformacao++;
+	for(unsigned int i =0; i<playObjects.size();i++)
+	{
+		if(dynamic_cast<Torre*>(playObjects[i]))
+		{
+			std::cout<<"Entrou aqui"<<std::endl;
+			numInformacao+=((Torre*)playObjects[i])->getInformacao();
+		}	
+	}
 
 	iniciarTurno();
 }
