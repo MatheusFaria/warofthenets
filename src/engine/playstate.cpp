@@ -19,16 +19,13 @@ PlayState::update()
 	for(int i =0; i<(int)playObjects.size(); i++)
 		playObjects[i]->update();
 
-	for(int i =0; i<(int)vectorHexagon.size(); i++)
-		vectorHexagon[i]->update();
-
 	for(int i =0; i<(int)hudImages.size(); i++)
 		hudImages[i]->update();
 
 	for(int i =0; i<(int)hudButtons.size(); i++)
 		hudButtons[i]->update();
 
-
+    hexagonMap->update();
 
 	if(bombObject != NULL)
 	{
@@ -36,20 +33,24 @@ PlayState::update()
 
 		if(!bombObject->isAnimating())
 		{
+		    std::vector<Hexagon*> vectorHexagon;
+		    
+		    vectorHexagon = hexagonMap->getVectorHexagon();
+		    
 			for(int i =0; i<(int)vectorHexagon.size(); i++)
 			{	
 				if(vectorHexagon[i]->getBomba() != NULL )
 				{
 					std::cout << "i: " << i << std::endl;
-					bombObject->explode(grafoHexagon, vectorHexagon[i]);
+					bombObject->explode(hexagonMap->getGrafoHexagon(), vectorHexagon[i]);
 					destroyVectorObjects(bombObject->getVetorDestruicao());
+					//vectorHexagon[i]->destroyGameObject();
 				}	
 
 			}
 
 			bombObject = NULL;
 		}	
-
 	}
 
 	atualizarCronometro();
@@ -105,13 +106,10 @@ PlayState::calculateTime()
 void
 PlayState::render()
 {
-	//createMap();
-	
-	for(int i =0; i<(int)vectorHexagon.size(); i++)
-		vectorHexagon[i]->draw();
-
 	for(int i =0; i<(int)playObjects.size(); i++)
 		playObjects[i]->draw();
+
+    hexagonMap->draw();
 
 	if(bombObject != NULL)	
 		bombObject->draw();
@@ -152,10 +150,11 @@ PlayState::onEnter()
 	Torre::setCustoAtualizacao(5);
 
 	idSelected = "";
-
-	createMap();
+    
+    hexagonMap = new HexagonMap(mapColumns, mapRows);
+    hexagonMap->setEventListener(this);
 	createHUD();
-	
+    	
 	numInformacao = 100;
 	numTower = 0;
 	numBomb = 0;
@@ -189,13 +188,6 @@ PlayState::onExit()
 		playObjects[i]->clean();
 		delete playObjects[i];
     }
-    
-
-    for(int i =0; i<(int)vectorHexagon.size(); i++)
-    {	
-    	InputHandler::getInstance()->removeMouseClick(vectorHexagon[i]);
-		delete vectorHexagon[i];
-	}
 
 	for(int i =0; i<(int)hudImages.size(); i++)
 	{
@@ -209,6 +201,8 @@ PlayState::onExit()
 		delete hudButtons[i];
 	}
 
+    hexagonMap->clean();
+    delete hexagonMap;
 
 	InputHandler::getInstance()->removeKeyboardEvent(this);
 		
@@ -223,160 +217,6 @@ std::string
 PlayState::getStateId() const
 {
 	return playId;
-}
-
-
-void
-PlayState::createMap()
-{
-
-	const float yOff = 0.87*50;
-	const float xOff =0.5*50;
-
-	unsigned int numColumns = mapColumns;//windowWidth/75;
-	unsigned int numRows = mapRows;//windowHeight/87;
-
-	std::cout<<numColumns<<" "<<numRows<<std::endl;
-
-	for(unsigned int i =0; i<numRows; i++)
-	{	
-		for(unsigned int j = 2; j<numColumns+2; j++)
-		{
-			float yPos = i*yOff*2;
-
-			if(j%2 != 0)
-				yPos += yOff;
-
-			const float xPos = j*xOff*3;
-
-			Hexagon *hex = new Hexagon(50, Render::getInstance());
-			hex->setDrawColor(0, 0, 0 , 255);
-			hex->setPosition(xPos, yPos);
-			vectorHexagon.push_back(hex);
-			hex->setEventListener(this);
-			InputHandler::getInstance()->addMouseClick(hex);
-            foundAdjacents(hex);
-		}
-	}	
-}
-
-void
-PlayState::foundAdjacents(Hexagon *hex)
-{
-    //std::cout << "\n\nfoundAdjacents: " << std::endl;
-
-	vector<Hexagon *> adjacents;
-
-	int width = 100;
-	int height = 87;
-	int centerX = hex->getX() + (width/2);
-	int centerY = hex->getY() + (height/2);
-
-	int x;
-	int y;
-
-	for(unsigned int i = 0; i < vectorHexagon.size(); i++)
-	{
-	    //CIMA
-		x = centerX;
-		y = centerY - height;
-		if(vectorHexagon[i]->isMyCoordinate(x, y))
-		{
-			adjacents.push_back(vectorHexagon[i]);
-			grafoHexagon[vectorHexagon[i]].push_back(hex);
-		}
-		
-		//CIMA + ESQUERDA
-		x = centerX - (width/2);
-		y = centerY - (height/2);
-		if(vectorHexagon[i]->isMyCoordinate(x, y))
-		{
-			adjacents.push_back(vectorHexagon[i]);
-			grafoHexagon[vectorHexagon[i]].push_back(hex);
-		}
-		
-		//CIMA + DIREITA
-		x = centerX + (width/2);
-		y = centerY - (height/2);
-		if(vectorHexagon[i]->isMyCoordinate(x, y))
-		{
-			adjacents.push_back(vectorHexagon[i]);
-			grafoHexagon[vectorHexagon[i]].push_back(hex);
-		}
-		
-		//BAIXO
-		x = centerX;
-		y = centerY + height;
-		if(vectorHexagon[i]->isMyCoordinate(x, y))
-		{
-			adjacents.push_back(vectorHexagon[i]);
-			grafoHexagon[vectorHexagon[i]].push_back(hex);
-		}
-		
-		//BAIXO + ESQUERDA
-		x = centerX - (width/2);
-		y = centerY + (height/2);
-		if(vectorHexagon[i]->isMyCoordinate(x, y))
-		{
-			adjacents.push_back(vectorHexagon[i]);
-			grafoHexagon[vectorHexagon[i]].push_back(hex);
-		}
-		
-		//BAIXO + DIREITA
-		x = centerX + (width/2);
-		y = centerY + (height/2);
-		if(vectorHexagon[i]->isMyCoordinate(x, y))
-		{
-			adjacents.push_back(vectorHexagon[i]);
-			grafoHexagon[vectorHexagon[i]].push_back(hex);
-		}
-	}
-
-	grafoHexagon[hex] = adjacents;
-}
-
-bool 
-PlayState::canConstruct(Hexagon *hex)
-{
-    vector<Hexagon *> adjacents;
-    adjacents = grafoHexagon[hex];
-
-    vector<Hexagon *> adjacentsAdj;
-    
-    //std::cout << "adjacents.size(): " << adjacents.size() << std::endl;
-    bool temTorre = false;
-    for(unsigned int i = 0; i < vectorHexagon.size(); i++)
-    {
-    	if(vectorHexagon[i]->haveObject())
-    		temTorre = true;
-    }
-
-    if(!temTorre)
-    	return true;
-
-    for(unsigned int i = 0; i < adjacents.size(); i++)
-    {
-        //std::cout << "adjacents[i]->haveObject(): " << adjacents[i]->haveObject() << std::endl;
-        if(dynamic_cast<Torre *>(adjacents[i]->getObject()))
-    	{
-	        if(adjacents[i]->haveObject())
-	            return false;
-        }
-    }
-
-    for(unsigned int i = 0; i < adjacents.size(); i++)
-    {
-		adjacentsAdj = grafoHexagon[adjacents[i]];
-
-    	for(unsigned int i = 0; i < adjacentsAdj.size(); i++)
-    	{
-			if(adjacentsAdj[i]->haveObject())
-				return true;
-		}
-	}
-
-    
-    return false;
 }
 
 void 
@@ -639,7 +479,7 @@ PlayState::createObject(Hexagon *hex)
 
 	if(idSelected =="")
 		return NULL;
-	if(idSelected == "resources/img/tower.png"  && canConstruct(hex))
+	if(idSelected == "resources/img/tower.png"  && hexagonMap->canConstruct(hex))
     	recurso = new Torre(numLevelTower);
 	else if(idSelected == "resources/img/bomb.png" && bombObject == NULL)
 	{
@@ -815,17 +655,22 @@ PlayState::atualizarTorres()
 void 
 PlayState::atualizarMapa()
 {
-	int hexagonX;
-	int hexagonY;
-
+    int newX;
+	int newY;
+	
 	if(this->velocityX == 0 && this->velocityY ==0)
+	{	    
+	    hexagonMap->setVelocityX(velocityX);
+	    hexagonMap->setVelocityY(velocityY);
+	    
 		return;
-
+    }
+    
 	//std::cout<<"this->x : "<<this->x<<std::endl;
 	if(this->velocityX<0)
 	{
 		if(this->x + this->velocityX < 0)	
-			this->velocityX =0;
+			this->velocityX = 0;
 	}
 	else
 	{
@@ -845,23 +690,19 @@ PlayState::atualizarMapa()
 			this->velocityY=0;
 	}
 
+    if(bombObject != NULL)
+    {
+        newX = bombObject->getX() - this->velocityX;
+        newY = bombObject->getY() - this->velocityY;
+        
+        bombObject->setPosition(newX, newY);
+    }
+
 	this->x = (this->x + this->velocityX);
 	this->y = (this->y + this->velocityY);
-
-	for(int i =0; i<(int)vectorHexagon.size(); i++)
-	{
-		//hexagonX = vectorHexagon[i]->getX() + this->x;
-		//hexagonY = vectorHexagon[i]->getY() + this->y;
-
-		hexagonX = vectorHexagon[i]->getX() - this->velocityX;
-		hexagonY = vectorHexagon[i]->getY() - this->velocityY;
-
-		//if( (hexagonX >= 0) && (hexagonX <= (mapColumns * 75)) )
-			vectorHexagon[i]->setX(hexagonX);
-
-		//if( (hexagonY >= 0) && (hexagonY < (mapRows * 87)))
-			vectorHexagon[i]->setY(hexagonY);
-	}
+	
+	hexagonMap->setVelocityX(velocityX);
+	hexagonMap->setVelocityY(velocityY);
 }
 
 bool 

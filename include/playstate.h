@@ -10,6 +10,7 @@
 #include "hexagon.h"
 #include "mouseclick.h"
 #include "keyboardevent.h"
+#include "hexagonmap.h"
 #include <vector>
 #include <map>
 #include <queue>
@@ -61,12 +62,9 @@ private:
 	int mapColumns;
 	int mapRows;
 
-	map<Hexagon*, vector<Hexagon*>> grafoHexagon;
-	void foundAdjacents(Hexagon *hex);
-	
-	bool canConstruct(Hexagon *hex);
-
 	static const std::string playId;
+
+    HexagonMap *hexagonMap;
 
 	std::vector<MenuButton*> hudButtons;
 	std::vector<Image*> hudImages;
