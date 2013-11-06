@@ -21,6 +21,7 @@ public:
 	SDL_Renderer * getRenderer() const;
 
 	void update();
+	void updateTexture();
 
 protected:
 	virtual SDL_Texture * generateTexture() = 0;

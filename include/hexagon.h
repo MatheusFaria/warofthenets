@@ -34,6 +34,7 @@ private:
 
 	GameObject *object;
 	GameObject *bomba;
+	GameObject* spy;
 
 	void setEventMouse(int mouse_state);
 	void resetEventMouse();

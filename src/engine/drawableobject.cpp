@@ -75,25 +75,37 @@ DrawableObject::eraseDraw()
 	SDL_Color actualColor = this->color;
 	SDL_Color transparentBlack = {0, 0, 0, 0};
 
-	setDrawColor(transparentBlack.r, transparentBlack.g,
-							transparentBlack.b, transparentBlack.a);
+	SDL_SetRenderDrawColor(this->internalRenderer, transparentBlack.r, transparentBlack.g,
+									transparentBlack.b, transparentBlack.a);
+
+	//setDrawColor(transparentBlack.r, transparentBlack.g,
+	//						transparentBlack.b, transparentBlack.a);
 	SDL_RenderClear(this->internalRenderer);
 	SDL_RenderPresent(this->internalRenderer);
+
+	SDL_SetRenderDrawColor(this->internalRenderer, actualColor.r, actualColor.g,
+									actualColor.b, actualColor.a);
 	
-	setDrawColor(actualColor.r, actualColor.g,
-					actualColor.b, actualColor.a);
+	//setDrawColor(actualColor.r, actualColor.g,
+	//				actualColor.b, actualColor.a);
 }
 
 
 void 
 DrawableObject::setDrawColor(Uint8 r, Uint8 g, Uint8 b, Uint8 a)
 {
+	if(this->color.r == r && this->color.g == g && 
+		 this->color.b ==b && this->color.a == a)
+		return;
+
 	this->color.r = r;
 	this->color.g = g;
 	this->color.b = b;
 	this->color.a = a;
 	SDL_SetRenderDrawColor(this->internalRenderer, this->color.r, this->color.g,
 									this->color.b, this->color.a);
+
+	updateTexture();
 }
 
 void

@@ -93,3 +93,9 @@ RenderableObject::getSpritesColumns() const
 	return this->spritesCols;
 }
 
+void
+RenderableObject::updateTexture()
+{
+	SDL_DestroyTexture(this->texture);
+	this->texture = generateTexture();
+}

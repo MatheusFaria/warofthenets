@@ -69,6 +69,7 @@ private:
 	static const std::string playId;
 
 	std::vector<MenuButton*> hudButtons;
+	std::vector<Image*> hudImages;
 	std::vector<GameObject*> playObjects;
 	std::vector<Hexagon *> vectorHexagon;
 

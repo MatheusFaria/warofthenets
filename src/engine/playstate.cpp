@@ -21,8 +21,12 @@ PlayState::update()
 	for(int i =0; i<(int)vectorHexagon.size(); i++)
 		vectorHexagon[i]->update();
 
+	for(int i =0; i<(int)hudImages.size(); i++)
+		hudImages[i]->update();
+
 	for(int i =0; i<(int)hudButtons.size(); i++)
 		hudButtons[i]->update();
+
 
 
 	if(bombObject != NULL)
@@ -141,8 +145,12 @@ PlayState::render()
 	if(bombObject != NULL)	
 		bombObject->draw();
 
+	for(int i =0; i<(int)hudImages.size(); i++)
+		hudImages[i]->draw();
+
 	for(int i =0; i<(int)hudButtons.size(); i++)
 		hudButtons[i]->draw();
+
 
 	txtNumInformation->draw();
 	txtNumTower->draw();
@@ -218,12 +226,18 @@ PlayState::onExit()
 		delete vectorHexagon[i];
 	}
 
+	for(int i =0; i<(int)hudImages.size(); i++)
+	{
+		hudImages[i]->clean();
+		delete hudImages[i];
+    }
+
 	for(int i =0; i<(int)hudButtons.size(); i++)
     {	
     	InputHandler::getInstance()->removeMouseClick(hudButtons[i]);
 		delete hudButtons[i];
 	}
-	
+
 
 	InputHandler::getInstance()->removeKeyboardEvent(this);
 		
@@ -561,10 +575,10 @@ PlayState::createHUD()
 	hudButtons.push_back(painelCronometro);
 
 
-    playObjects.push_back(hudBackground);
-    playObjects.push_back(levelTower);
-    playObjects.push_back(levelBomb);
-   	playObjects.push_back(levelSpy);
+	hudImages.push_back(hudBackground);
+	hudImages.push_back(levelTower);
+	hudImages.push_back(levelBomb);
+	hudImages.push_back(levelSpy);
 }
 
 void 
@@ -602,9 +616,11 @@ PlayState::onMouseClick(MouseClick *mouseClick)
 
     if(dynamic_cast<Hexagon*>(mouseClick))
     {
-
     	std::cout<<"Clicou no Hexagon"<<std::endl;
     	Hexagon *temp = (Hexagon *) mouseClick;
+
+    	if(temp->getX() + temp->getWidth() < hudBackground->getWidth())
+    		return;
 
     	//std::cout<<"temp->haveObject(): " << temp->haveObject() <<std::endl;
 

@@ -38,6 +38,11 @@ Hexagon::putObjectInSurface()
 bool 
 Hexagon::verifyEvent(SDL_Event sdlEvent)
 {
+	if(sdlEvent.type == SDL_MOUSEMOTION && isMyCoordinate(sdlEvent.motion.x, sdlEvent.motion.y))
+		this->setDrawColor(0,0,255, 255);
+	else
+		this->setDrawColor(0,0,0, 255);	
+
 	if((sdlEvent.button.state == SDL_RELEASED) &&
             (sdlEvent.type != SDL_MOUSEMOTION))
 	{
@@ -171,28 +176,22 @@ Hexagon::destroyGameObject()
 
 bool 
 Hexagon::isMyCoordinate(int x, int y)
-{
-    /*
-    std::cout << "\n\n\nisMyCoordinate: " << std::endl;
-    
-    int centerX = getX() + (getWidth()/2);
-	int centerY = getY() + (getHeight()/2);
-    
-    std::cout << "getX(): " << getX() << std::endl;
-	std::cout << "getY(): " << getY() << std::endl;
-	std::cout << "getWidth(): " << getWidth() << std::endl;
-	std::cout << "getHeight(): " << getHeight() << std::endl;
-	std::cout << "centerX: " << centerX << std::endl;
-	std::cout << "centerY: " << centerY << std::endl;
-	*/
-	
+{	
 	int width = 100;
 	int height = 87;
 	
-	if((x > getX()) &&
-        (x < (getX() + width)) &&
+	if((x > getX()+25) &&
+        (x < (getX() + width -25)) &&
         (y > getY()) && 
         (y < (getY() + height)))
+	{
+		return true;
+	}
+
+	if((x > getX()+12) &&
+        (x < (getX() + width -12)) &&
+        (y > getY() + 22) && 
+        (y < (getY() + height-22)))
 	{
 		return true;
 	}
