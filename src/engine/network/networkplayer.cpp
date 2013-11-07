@@ -70,6 +70,8 @@ NetworkPlayer::sendMessage(Data * package)
 	else
 		cout << "Server Socket NOT null" << endl;
 	
+	cout<<package->type<<endl;	
+	
 	switch(this->type)
 	{
 		case 0:
