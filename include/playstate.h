@@ -8,9 +8,11 @@
 #include "text.h"
 #include "bomba.h"
 #include "hexagon.h"
+#include "spy.h"
 #include "mouseclick.h"
 #include "keyboardevent.h"
 #include "hexagonmap.h"
+#include "networkplayer.h"
 #include <vector>
 #include <map>
 #include <queue>
@@ -46,9 +48,22 @@ private:
 	void atualizarCronometro();
 	void atualizarTorres();
 	void atualizarMapa();
+	void ativarBotoes(bool);
+
+	void criarTorre(Hexagon *hex, Torre *tower);
+	void criarTorreInimiga(Data data);
+	void criarBomba(Hexagon *hex, Bomba *bomba);
+	void criarEspiao(Hexagon *hex, Spy *spy);
+
+	Hexagon * encontrarHexagono(int x, int y);
 
 	void createHUD();
 	void createMap();
+
+	void receberMensagens();
+	void parseData(Data);
+
+	bool isMyTurn;
 
 	int x;
 	int y;
@@ -70,6 +85,8 @@ private:
 	std::vector<Image*> hudImages;
 	std::vector<GameObject*> playObjects;
 	std::vector<Hexagon *> vectorHexagon;
+
+	std::vector<Torre*> vectorEnemyTower;
 
 	Image *hudBackground;
 

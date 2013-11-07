@@ -21,7 +21,7 @@ libgame_la_LIBADD = engine/libengine.la -lSDL2 -lSDL2_mixer
 warofthenets_SOURCES = main.cpp
 
 # Libraries needed to build program
-warofthenets_LDADD = libgame.la -lSDL2 -lSDL2_mixer
+warofthenets_LDADD = libgame.la -lSDL2 -lSDL2_mixer -lSDL2_net
 
 # Include flags
 INCLUDES = -I../include -g -W -Wall -pedantic -ansi -std=c++0x -Wno-long-long
