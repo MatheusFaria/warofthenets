@@ -662,7 +662,7 @@ PlayState::criarEspiao(Hexagon *hex, Spy *spy)
 	
 	Data data;
 	
-	data.x = hex-<getX()+50;
+	data.x = hex->getX()+50;
 	data.y = hex->getY()+43;
 	data.type = SPY + numLevelSpy;
 	
