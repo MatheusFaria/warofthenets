@@ -121,8 +121,10 @@ void
 Hexagon::activateSpy()
 {
 	if(object != NULL)
-		((Torre*)object)->spyOnTower(((Spy*)spy)->getLevel()+1);
-
+	{
+		int numInfo = ((Torre*)object)->spyOnTower(((Spy*)spy)->getLevel());
+        ((Spy*)spy)->setNumInformacao(numInfo);
+    }
 }
 
 void 

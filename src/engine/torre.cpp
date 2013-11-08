@@ -15,7 +15,7 @@ Torre::Torre(int numLevelTower, int x, int y):Image(path,x,y)
 	this->numLevelTower = numLevelTower;
 	currentFrame = numLevelTower - 1;
 
-	numInformacao  = numLevelTower+1;
+	numInformacao  = 4;
 }
 
 void
@@ -52,11 +52,13 @@ Torre::incActualColumn()
 	currentFrame++;
 }
 
-void
+int
 Torre::spyOnTower(int levelSpy)
 {
-	numInformacao = numInformacao/levelSpy;
-	std::cout<<"numInformacao"<<numInformacao<<std::endl;
+    int infoSpy = numInformacao/(5 - levelSpy);
+	numInformacao -= infoSpy;
+	
+	return infoSpy;
 }
 
 int 

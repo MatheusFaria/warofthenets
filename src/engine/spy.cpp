@@ -9,6 +9,7 @@ std::string Spy::path = "resources/img/spy.png";
 Spy::Spy(int numLevelSpy, int x, int y):Image(path,x,y)
 {
 	this->numLevelSpy = numLevelSpy;
+	this->numInformacao = 0;
 	currentFrame = numLevelSpy - 1;
 }
 
@@ -30,3 +31,16 @@ Spy::getLevel()
 {
 	return numLevelSpy;
 }
+
+void
+Spy::setNumInformacao(int numInfo)
+{
+    this->numInformacao = numInfo;
+}
+
+int
+Spy::getInformacao() const
+{   
+    return this->numInformacao;
+}
+

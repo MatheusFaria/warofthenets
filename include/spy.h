@@ -14,10 +14,14 @@ public:
 
 	int getLevel();
 
+    int getInformacao() const;
+    void setNumInformacao(int numInfo);
+    
 private:
 
 	static std::string path;
 	int numLevelSpy;	
+	int numInformacao;
 };
 
 #endif

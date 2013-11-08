@@ -13,7 +13,7 @@
 
 #define TOWER 10
 #define BOMB 20
-#define SPY 10
+#define SPY 30
 
 const std::string PlayState::playId = "PLAY";
 
@@ -550,7 +550,10 @@ PlayState::decObject(GameObject* object)
 	if(dynamic_cast<Torre*>(object))
 		numTower--;
 	else if(dynamic_cast<Bomba*>(object))
-		numBomb--;
+	{
+	    if(isMyTurn)
+		    numBomb--;
+	}	   
 	else
 		numSpy--;
 }
@@ -694,14 +697,18 @@ PlayState::deleteObject(Hexagon *hex)
 		it = find(playObjects.begin(), playObjects.end(), object);
 
 		if(it != playObjects.end())
+		{
+		    decObject(object);
+		    std::cout<<"dec object"<<std::endl;
 			playObjects.erase(it);
+		}	
 				
 		it = find(vectorEnemyObjects.begin(), vectorEnemyObjects.end(), object);
 		
 		if(it != vectorEnemyObjects.end())
 			vectorEnemyObjects.erase(it);
 
-		decObject(object);
+		
 		delete object;
 
 	}
@@ -743,6 +750,11 @@ PlayState::finalizarTurno()
 			std::cout<<"Entrou aqui"<<std::endl;
 			numInformacao+=((Torre*)playObjects[i])->getInformacao();
 		}	
+		else if(dynamic_cast<Spy*>(playObjects[i]))
+		{
+		    std::cout<<"Entrou aqui"<<std::endl;
+			numInformacao+=((Spy*)playObjects[i])->getInformacao();
+		}
 	}
 
 	Data data;

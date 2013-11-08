@@ -16,7 +16,7 @@ public:
 
 	void incActualColumn();
 	int getInformacao();
-	void spyOnTower(int levelSpy);
+	int spyOnTower(int levelSpy);
 
 private:
 
