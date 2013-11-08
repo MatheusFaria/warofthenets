@@ -639,7 +639,7 @@ PlayState::criarBombaInimiga(Data data)
     Bomba *bomb = new Bomba(data.type%10);
     
     hex->setObject(bomb);
-    bombObject = bomba;
+    bombObject = bomb;
 }
 
 void 
