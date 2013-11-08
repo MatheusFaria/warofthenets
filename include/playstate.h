@@ -55,6 +55,7 @@ private:
 	void criarBomba(Hexagon *hex, Bomba *bomba);
 	void criarBombaInimiga(Data data);
 	void criarEspiao(Hexagon *hex, Spy *spy);
+	void criarEspiaoInimiga(Data data);
 
 	Hexagon * encontrarHexagono(int x, int y);
 

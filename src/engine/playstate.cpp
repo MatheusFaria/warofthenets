@@ -76,7 +76,7 @@ PlayState::update()
 
 	atualizarMapa();
 	
-	//if(!isMyTurn)
+	if(!isMyTurn)
 		receberMensagens();
 
 }
@@ -461,6 +461,11 @@ PlayState::onMouseClick(MouseClick *mouseClick)
 
     if(dynamic_cast<Hexagon*>(mouseClick))
     {
+        std::cout<<"isMyTurn = " << isMyTurn <<std::endl;
+        
+        if(!isMyTurn)
+            return;
+            
     	std::cout<<"Clicou no Hexagon"<<std::endl;
     	Hexagon *temp = (Hexagon *) mouseClick;
 
@@ -636,7 +641,7 @@ PlayState::criarBombaInimiga(Data data)
 {
     Hexagon* hex = encontrarHexagono(data.x, data.y);
     
-    Bomba *bomb = new Bomba(data.type%10);
+    Bomba *bomb = new Bomba(hex->getX(), hex->getY());
     
     hex->setObject(bomb);
     bombObject = bomb;
@@ -654,6 +659,25 @@ PlayState::criarEspiao(Hexagon *hex, Spy *spy)
 			numInformacao -= 3;
 		}
 	}
+	
+	Data data;
+	
+	data.x = hex-<getX()+50;
+	data.y = hex->getY()+43;
+	data.type = SPY + numLevelSpy;
+	
+	NetworkManager::Instance()->sendMessage(data);
+}
+
+void
+PlayState::criarEspiaoInimiga(Data data)
+{
+    Hexagon* hex = encontrarHexagono(data.x, data.y);
+
+	Spy *spy = new Spy();
+	
+	hex->setObject(spy);
+	vectorEnemyObjects.push_back(spy);
 }
 
 void
@@ -706,6 +730,10 @@ PlayState::destroyVectorObjects(std::vector<Hexagon*> destroy)
 void 
 PlayState::finalizarTurno()
 {
+    if(!isMyTurn)
+        return;
+        
+    std::cout << "Finalizando turno" << std::endl;
 	ativarBotoes(false);
 
 	for(unsigned int i =0; i<playObjects.size();i++)
@@ -731,6 +759,10 @@ PlayState::finalizarTurno()
 void
 PlayState::iniciarTurno()
 {
+    if(isMyTurn)
+        return;
+        
+    std::cout << "Iniciando turno" << std::endl;
     isMyTurn = true;
     
 	if(upgradeTower != NULL && upgradeTower->getCurrentRow()==1)
@@ -890,6 +922,9 @@ PlayState::parseData(Data data)
 	
 	else if(unidade == BOMB/10)
 	    criarBombaInimiga(data);
+	
+	else if(unidade == SPY/10)
+	    criarEspiaoInimiga(data);
 }
 
 Hexagon * 
