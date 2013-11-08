@@ -11,6 +11,9 @@
 #include <algorithm>
 #include <iostream>
 
+#define TOWER 10
+#define BOMB 20
+#define SPY 10
 
 const std::string PlayState::playId = "PLAY";
 
@@ -21,8 +24,8 @@ PlayState::update()
 	for(int i =0; i<(int)playObjects.size(); i++)
 		playObjects[i]->update();
 
-	for(int i =0; i<(int)vectorEnemyTower.size(); i++)
-		vectorEnemyTower[i]->update();
+	for(int i =0; i<(int)vectorEnemyObjects.size(); i++)
+		vectorEnemyObjects[i]->update();
 
 	for(int i =0; i<(int)hudImages.size(); i++)
 		hudImages[i]->update();
@@ -117,8 +120,8 @@ PlayState::render()
 	for(int i =0; i<(int)playObjects.size(); i++)
 		playObjects[i]->draw();
 
-	for(int i =0; i<(int)vectorEnemyTower.size(); i++)
-		vectorEnemyTower[i]->draw();
+	for(int i =0; i<(int)vectorEnemyObjects.size(); i++)
+		vectorEnemyObjects[i]->draw();
 
     hexagonMap->draw();
 
@@ -214,10 +217,10 @@ PlayState::onExit()
 		delete playObjects[i];
     }
 
-    for(int i =0; i<(int)vectorEnemyTower.size(); i++)
+    for(int i =0; i<(int)vectorEnemyObjects.size(); i++)
 	{
-		vectorEnemyTower[i]->clean();
-		delete vectorEnemyTower[i];
+		vectorEnemyObjects[i]->clean();
+		delete vectorEnemyObjects[i];
 	}
 
 	for(int i =0; i<(int)hudImages.size(); i++)
@@ -591,7 +594,7 @@ PlayState::criarTorre(Hexagon *hex, Torre *tower)
 
 	data.x = hex->getX()+50;
 	data.y = hex->getY()+43;
-	data.type = 10 + numLevelTower;
+	data.type = TOWER + numLevelTower;
 
 	NetworkManager::Instance()->sendMessage(data);
 }
@@ -605,7 +608,7 @@ PlayState::criarTorreInimiga(Data data)
 	
 
 	hex->setObject(tower);
-	vectorEnemyTower.push_back(tower);
+	vectorEnemyObjects.push_back(tower);
 }
 
 void 
@@ -618,6 +621,25 @@ PlayState::criarBomba(Hexagon *hex, Bomba *bomba)
 		incObject();
 		numInformacao -= 2;
 	}
+	
+	Data data;
+	
+	data.x = hex->getX()+50;
+	data.y = hex->getY()+43;
+	data.type = BOMB + numLevelBomb;
+
+	NetworkManager::Instance()->sendMessage(data);
+}
+
+void
+PlayState::criarBombaInimiga(Data data)
+{
+    Hexagon* hex = encontrarHexagono(data.x, data.y);
+    
+    Bomba *bomb = new Bomba(data.type%10);
+    
+    hex->setObject(bomb);
+    bombObject = bomba;
 }
 
 void 
@@ -649,6 +671,11 @@ PlayState::deleteObject(Hexagon *hex)
 
 		if(it != playObjects.end())
 			playObjects.erase(it);
+				
+		it = find(vectorEnemyObjects.begin(), vectorEnemyObjects.end(), object);
+		
+		if(it != vectorEnemyObjects.end())
+			vectorEnemyObjects.erase(it);
 
 		decObject(object);
 		delete object;
@@ -858,8 +885,11 @@ PlayState::parseData(Data data)
 	if(unidade == 4)
 		iniciarTurno();
 
-	else if(unidade == 1)
+	else if(unidade == TOWER/10)
 		criarTorreInimiga(data);
+	
+	else if(unidade == BOMB/10)
+	    criarBombaInimiga(data);
 }
 
 Hexagon * 

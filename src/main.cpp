@@ -9,7 +9,7 @@ int main()
 	std::string ip, nome;
 
 	ip = "10.1.1.154";
-	nome = "lucas";
+	nome = "luciano";
 
     
 	NetworkManager::Instance()->tipo = tipo;

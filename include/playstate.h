@@ -53,6 +53,7 @@ private:
 	void criarTorre(Hexagon *hex, Torre *tower);
 	void criarTorreInimiga(Data data);
 	void criarBomba(Hexagon *hex, Bomba *bomba);
+	void criarBombaInimiga(Data data);
 	void criarEspiao(Hexagon *hex, Spy *spy);
 
 	Hexagon * encontrarHexagono(int x, int y);
@@ -86,7 +87,7 @@ private:
 	std::vector<GameObject*> playObjects;
 	std::vector<Hexagon *> vectorHexagon;
 
-	std::vector<Torre*> vectorEnemyTower;
+	std::vector<GameObject*> vectorEnemyObjects;
 
 	Image *hudBackground;
 
