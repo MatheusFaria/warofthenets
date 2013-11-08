@@ -17,8 +17,6 @@ const std::string PlayState::playId = "PLAY";
 void
 PlayState::update()
 {
-	if(!isMyTurn)
-		receberMensagens();
 
 	for(int i =0; i<(int)playObjects.size(); i++)
 		playObjects[i]->update();
@@ -74,6 +72,9 @@ PlayState::update()
 	txtLevelSpy->setText(std::to_string(numLevelSpy));
 
 	atualizarMapa();
+	
+	//if(!isMyTurn)
+		receberMensagens();
 
 }
 
@@ -163,6 +164,9 @@ PlayState::onEnter()
     
     hexagonMap = new HexagonMap(mapColumns, mapRows);
     hexagonMap->setEventListener(this);
+    hexagonMap->update();
+    hexagonMap->draw();
+    
 	createHUD();
     	
 	numInformacao = 100;
@@ -184,9 +188,15 @@ PlayState::onEnter()
 	InputHandler::getInstance()->addKeyboardEvent(this);
 
 	if(NetworkManager::Instance()->tipo == 0)
+	{
 		isMyTurn = true;
+		ativarBotoes(true);
+	}
 	else
+	{
 		isMyTurn = false;
+		ativarBotoes(false);
+	}
 
 
 	std::cout<<"Play State"<<std::endl;
@@ -579,8 +589,8 @@ PlayState::criarTorre(Hexagon *hex, Torre *tower)
 
 	Data data;
 
-	data.x = hex->getX()+hex->getWidth()/2;
-	data.y = hex->getY()+hex->getHeight()/2;
+	data.x = hex->getX()+50;
+	data.y = hex->getY()+43;
 	data.type = 10 + numLevelTower;
 
 	NetworkManager::Instance()->sendMessage(data);
@@ -592,6 +602,7 @@ PlayState::criarTorreInimiga(Data data)
 	Hexagon* hex = encontrarHexagono(data.x, data.y);
 
 	Torre *tower = new Torre(data.type%10);
+	
 
 	hex->setObject(tower);
 	vectorEnemyTower.push_back(tower);
@@ -680,8 +691,11 @@ PlayState::finalizarTurno()
 	}
 
 	Data data;
-	data.type = 0;
+	data.type = 40;
 	NetworkManager::Instance()->sendMessage(data);
+	
+	actualTime = SDL_GetTicks();
+	isMyTurn = false;
 
 	//iniciarTurno();
 }
@@ -690,6 +704,8 @@ PlayState::finalizarTurno()
 void
 PlayState::iniciarTurno()
 {
+    isMyTurn = true;
+    
 	if(upgradeTower != NULL && upgradeTower->getCurrentRow()==1)
 	{
 		if(numLevelTower == 2)
@@ -824,6 +840,11 @@ PlayState::receberMensagens()
 		if(data.type == -1)
 			break;
 
+        std::cout << "\nreceberMensagens: " << data.x << std::endl;    
+        std::cout << "data.type: " << data.type << std::endl;   
+        std::cout << "data.x: " << data.x << std::endl;
+        std::cout << "data.y: " << data.y << std::endl<< std::endl;
+
 		parseData(data);
 	}
 }
@@ -831,13 +852,11 @@ PlayState::receberMensagens()
 void
 PlayState::parseData(Data data)
 {
+    
 	int unidade = data.type/10;
 
-	if(unidade == 0)
-	{	
-		isMyTurn = true;
+	if(unidade == 4)
 		iniciarTurno();
-	}		
 
 	else if(unidade == 1)
 		criarTorreInimiga(data);
@@ -853,6 +872,8 @@ PlayState::encontrarHexagono(int x, int y)
 		if(vectorHexagon[i]->isMyCoordinate(x, y))
 			return vectorHexagon[i];
 	}
+	
+	std::cout << "HEXAGONO NULO!" << std::endl;
 
 	return NULL;
 }

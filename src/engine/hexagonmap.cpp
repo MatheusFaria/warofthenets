@@ -8,6 +8,9 @@ HexagonMap::HexagonMap(int numColumns, int numRows)
     this->numColumns = numColumns;
     this->numRows = numRows;
     
+    this->velocityX = 0;
+    this->velocityY = 0;
+    
     createMap();
 }
 
@@ -19,7 +22,7 @@ HexagonMap::~HexagonMap()
 void
 HexagonMap::draw()
 {
-    for(unsigned int i = 0; i < vectorHexagon.size(); i++)
+    for(unsigned int i = 0; i < vectorHexagon.size(); i++)            
 		vectorHexagon[i]->draw();
 }
 
@@ -87,7 +90,18 @@ HexagonMap::createMap()
 			InputHandler::getInstance()->addMouseClick(hexagon);
             foundAdjacents(hexagon);
 		}
-	}	
+	}
+	
+	/*
+	std::cout << "createMap()" << std::endl;
+	std::cout << "vectorHexagon.size()" << vectorHexagon.size() << std::endl;
+	
+	for(unsigned int i = 0; i < vectorHexagon.size(); i++)
+    {
+        std::cout << "vectorHexagon[i]->getX(): " << vectorHexagon[i]->getX() << std::endl;
+        std::cout << "vectorHexagon[i]->getY(): " << vectorHexagon[i]->getY() << std::endl;
+	}
+	*/
 }
 
 

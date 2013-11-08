@@ -104,19 +104,26 @@ int
 NetworkManager::listenNetwork(void * ptr)
 {
 	NetworkManager * net = (NetworkManager *) ptr;
-	cout << "Recieve Message" << endl;
+	//cout << "Recieve Message" << endl;
 	if(net->client == NULL)
 		cout << "Server NULL" << endl;
 	
 	Data * pkg = new Data;
-	pkg->type = 0;
+	pkg->type = -2;
 	while(pkg->type != -1)
 	{
 		net->client->receiveMessage();
 		pkg = net->client->getPackage();
 		if(pkg != NULL)
 		{
-			cout<<"Mensagem ouvida: "<<pkg->type<<endl;
+		    /*
+			cout<<"\nMensagem ouvida: "<<endl;
+			cout<<"pkg->type: "<<pkg->type<<endl;
+			cout<<"pkg->x: "<<pkg->x<<endl;
+			cout<<"pkg->y: "<<pkg->y<<endl<<endl;
+			*/
+			if(pkg->type == 0)
+			    continue;
 			net->messages.push(*pkg);
 		}	
 
@@ -124,7 +131,7 @@ NetworkManager::listenNetwork(void * ptr)
 			cout << "Package NULL" << endl;
 		else
 		{
-			cout << "Package NOT null" << endl;
+			//cout << "Package NOT null" << endl;
 			//cout << pkg->type << endl;
 		}
 	}

@@ -75,10 +75,10 @@ NetworkPlayer::sendMessage(Data * package)
 	switch(this->type)
 	{
 		case 0:
-			SDLNet_TCP_Send(clientSocket, package, sizeof(package));
+			SDLNet_TCP_Send(clientSocket, package, sizeof(Data));
 			break;
 		case 1:
-			SDLNet_TCP_Send(serverSocket, package, sizeof(package));
+			SDLNet_TCP_Send(serverSocket, package, sizeof(Data));
 			break;
 	}
 }
@@ -88,15 +88,15 @@ NetworkPlayer::receiveMessage()
 {
 	if(clientSocket == NULL)
 		cout << "Client Socket NULL" << endl;
-	else
-		cout << "Client Socket NOT null" << endl;
+	//else
+		//cout << "Client Socket NOT null" << endl;
 	switch(this->type)
 	{
 		case 0:
-			SDLNet_TCP_Recv(clientSocket, this->package, sizeof(package));
+			SDLNet_TCP_Recv(clientSocket, this->package, sizeof(Data));
 			break;
 		case 1:
-			SDLNet_TCP_Recv(serverSocket, this->package, sizeof(package));
+			SDLNet_TCP_Recv(serverSocket, this->package, sizeof(Data));
 			break;
 	}
 }
