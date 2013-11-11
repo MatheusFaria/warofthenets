@@ -158,6 +158,7 @@ PlayState::onEnter()
 	bombObject = NULL;
 	upgradeTower = NULL;
 	upgradeBomb = NULL;
+	upgradeSpy = NULL;
 
 	iniciarTurno();
 
@@ -526,6 +527,22 @@ PlayState::onMouseClick(MouseClick *mouseClick)
 	    	bombActualized = true;
 	    }	
     }
+    
+    if(mouseClick == upgradeSpy)
+    {
+    	if(spyActualized)
+    		return;
+
+    	if(Spy::getCustoAtualizacao()<=numInformacao && numLevelSpy < 3)
+    	{
+	    	recursoSpy->incCurrentRow();
+	    	numLevelSpy++;
+	    	numInformacao -= Spy::getCustoAtualizacao();
+	    	upgradeSpy->incCurrentRow();
+
+	    	spyActualized = true;
+	    }	
+    }
 
 }
 
@@ -543,7 +560,7 @@ PlayState::createObject(Hexagon *hex)
 		recurso = new Bomba(numLevelBomb, hex->getX(), hex->getY());
 	}		
 	else if(idSelected == "resources/img/spy.png")
-        recurso = new Spy();
+        recurso = new Spy(numLevelSpy);
 	
 
 	return recurso;
@@ -663,8 +680,7 @@ PlayState::criarBombaInimiga(Data data)
     Hexagon* hex = encontrarHexagono(data.x, data.y);
     
     Bomba *bomb = new Bomba(data.type % 10, hex->getX(), hex->getY());
-    
-    std::cout << "\n\n BOMBA INIMIGA. data.type % 10 = " << data.type % 10 << std::endl;
+        
     std::cout << std::endl;
     
     hex->setObject(bomb);
@@ -698,7 +714,7 @@ PlayState::criarEspiaoInimiga(Data data)
 {
     Hexagon* hex = encontrarHexagono(data.x, data.y);
 
-	Spy *spy = new Spy();
+	Spy *spy = new Spy(data.type % 10);
 	
 	hex->setObject(spy);
 	vectorEnemyObjects.push_back(spy);
@@ -813,6 +829,15 @@ PlayState::iniciarTurno()
 				upgradeBomb->decCurrentRow();
 		else if(numLevelBomb == 3)	
 				upgradeBomb->incCurrentRow();
+
+	}
+	
+	if(upgradeSpy != NULL && upgradeSpy->getCurrentRow()==1)
+	{
+		if(numLevelSpy == 2)
+				upgradeSpy->decCurrentRow();
+		else if(numLevelSpy == 3)	
+				upgradeSpy->incCurrentRow();
 
 	}
 

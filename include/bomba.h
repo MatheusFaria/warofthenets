@@ -11,7 +11,7 @@ class Bomba : public Image{
 
 public:
 
-	Bomba(int raioDestruicao, int x=0, int y=0);
+	Bomba(int raioDestruicao = 1, int x=0, int y=0);
 	virtual void update();
 	virtual void draw();
     

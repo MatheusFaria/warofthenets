@@ -11,6 +11,7 @@ public:
 	Torre(int numLevelTower = 1, int x=0, int y=0);
 	virtual void update();
 	virtual void draw();
+	
 	static int getCustoAtualizacao();
 	static void setCustoAtualizacao(int _custoAtualizacao);
 
