@@ -8,7 +8,9 @@ int main()
 	int tipo;
 	std::string ip, nome;
 
-    std::cin >> tipo;
+    //std::cin >> tipo;
+
+    tipo = 0;
 
 	ip = "127.0.0.1";
 	nome = "luciano";

@@ -86,8 +86,8 @@ NetworkPlayer::sendMessage(Data * package)
 void 
 NetworkPlayer::receiveMessage()
 {
-	if(clientSocket == NULL)
-		cout << "Client Socket NULL" << endl;
+	//if(clientSocket == NULL)
+		//cout << "Client Socket NULL" << endl;
 	//else
 		//cout << "Client Socket NOT null" << endl;
 	switch(this->type)
