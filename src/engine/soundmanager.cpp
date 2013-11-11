@@ -73,6 +73,12 @@ SoundManager::playSound(std::string soundId, int loop)
 	Mix_PlayChannel(-1, sfxMap[soundId], loop);
 }
 
+void
+SoundManager::stopSound()
+{
+	 Mix_HaltMusic();
+}
+
 void 
 SoundManager::clearSoundManager()
 {

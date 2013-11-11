@@ -22,39 +22,36 @@ TextureManager::Instance()
 bool
 TextureManager::loadImage(string imagePath,  string imageId, SDL_Renderer* renderer)
 {
-	map<std::string, SDL_Texture*>::iterator it;
-	it = textureMap.find(imageId);
-
-	if(it != textureMap.end())
+	if(getTexture(imageId) == NULL)	
 	{
-			textureCount[imageId]++;
+		SDL_Surface* surface = IMG_Load(imagePath.c_str());
+
+		if(!surface)
+		{
+			cout<<"Error:"<<endl;
+			//cout<<"Error: "<<SDL_GetError()<<endl;
+			return false;
+		}
+
+		SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
+		SDL_FreeSurface(surface);
+
+		if(texture)
+		{
+			textureMap[imageId] = texture;
+			textureCount[imageId]=1;
 			return true;
-	}			
-
-	SDL_Surface* surface = IMG_Load(imagePath.c_str());
-
-	if(!surface)
-	{
-		cout<<"Error:"<<endl;
-		//cout<<"Error: "<<SDL_GetError()<<endl;
-		return false;
-	}
-
-	SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
-	SDL_FreeSurface(surface);
-
-	if(texture)
-	{
-		textureMap[imageId] = texture;
-		textureCount[imageId]=1;
-		return true;
-	}
+		}
+		else
+		{
+			cout<<"Error:"<<endl;
+			return false;
+		}
+	}	
 	else
-	{
-		cout<<"Error:"<<endl;
-		return false;
-	}
+		textureCount[imageId]++;
 
+	return true;
 	
 
 }
@@ -92,11 +89,12 @@ TextureManager::drawFrame(std::string imageId, int x, int y, int width, int heig
 	SDL_Rect destination;
 
 
-	if(textureMap.find(imageId) == textureMap.end())
+	if(getTexture(imageId) == NULL)
 	{
 		cout<<"Couldn't find the respective image with id: "<<imageId<<endl;
 		return;
-	}
+	}	
+	
 
     source.x = width * currentFrame;
     source.y = height * currentRow;
@@ -131,6 +129,8 @@ TextureManager::clearFromTextureMap(string imageId)
 	{
 		SDL_DestroyTexture(textureMap[imageId]);
 		textureMap.erase(imageId);
+		//std::cout<<imageId<<std::endl;
+		textureCount.erase(imageId);
 	}
 	else
 		textureCount[imageId]--;	
@@ -141,7 +141,7 @@ TextureManager::getTexture(string imageId)
 {
 	if(textureMap.find(imageId) == textureMap.end())
 	{
-		cout<<"Couldn't find the respective image with id: "<<imageId<<endl;
+		//cout<<"Couldn't find the respective image with id: "<<imageId<<endl;
 		return NULL;
 	}
 	else

@@ -20,6 +20,8 @@ public:
 	bool loadSound(std::string path, std::string soundId, sound_type type);
 
 	void playSound(std::string soundId, int loop);
+	void stopSound();
+
 	void playMusic(std::string musicId, int loop);
 
 	void clearSoundManager();

@@ -3,6 +3,7 @@
 #include "inputhandler.h"
 #include "texturemanager.h"
 #include "render.h"
+#include "soundmanager.h"
 #include "SDL2/SDL.h"
 #include <iostream>
 
@@ -15,6 +16,7 @@ MenuButton::MenuButton(int _x, int _y, string _imagePath, string _imageId, int _
 	currentRow = MOUSE_OUT;
 	released = true;
 	animate = _animate;
+	soundId = "";
 }
 
 void
@@ -41,6 +43,8 @@ MenuButton::update()
 		{	
 			if(animate)
 				currentRow = CLICKED;
+
+			playSoundOnClick();
 
 			released = false;
 		}
@@ -105,6 +109,26 @@ MenuButton::eventInMe(SDL_Event sdlEvent)
     return false;
 }
 
+bool
+MenuButton::setAudioOnClick(string path, string soundId)
+{
+	this->soundId = soundId;
+	SoundManager::Instance()->loadSound(path, soundId, SFX);
+
+	return true;
+}
+
+bool
+MenuButton::playSoundOnClick()
+{
+	if(soundId != "")
+	{	
+		SoundManager::Instance()->	playSound(soundId, 0);
+		return true;
+	}
+	
+	return false;	
+}
 
 
 

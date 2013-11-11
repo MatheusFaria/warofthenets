@@ -71,9 +71,6 @@ Game::init()
 
 	this->gameStateMachine = new GameStateMachine();
 	this->gameStateMachine->changeState(new MenuState());
-
-	SoundManager::Instance()->loadSound("resources/audio/Black_Vortex.ogg", "theme", MUSIC);
-	SoundManager::Instance()->playMusic("theme", 1);
 }
 
 GameStateMachine*

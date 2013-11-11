@@ -55,6 +55,9 @@ MenuState::onEnter()
 	}
 	
 	createMenu();
+
+	SoundManager::Instance()->loadSound("resources/audio/Black_Vortex.ogg", "theme", MUSIC);
+	SoundManager::Instance()->playMusic("theme", 1);
 	
 	std::cout<<"Entering Menu State"<<std::endl;
 
@@ -72,6 +75,7 @@ MenuState::createMenu()
 	int playy= (Game::Instance()->getWindow()->getHeight() / 2) - ((playButton->getHeight()) / 2);
 	playButton->setPosition(playx, playy);
 	playButton->setEventListener(this);
+	playButton->setAudioOnClick("resources/audio/fx_stab-001.wav", "playClick");
 	InputHandler::getInstance()->addMouseClick(playButton);
 
 	
@@ -118,8 +122,11 @@ MenuState::onExit()
 	TextureManager::Instance()->clearFromTextureMap("playbutton");
 	TextureManager::Instance()->clearFromTextureMap("exitbutton");
 	TextureManager::Instance()->clearFromTextureMap("fundo");
+	TextureManager::Instance()->clearFromTextureMap("title");
 
+	SoundManager::Instance()->stopSound();
 	SoundManager::Instance()->clearFromSoundManager("theme", MUSIC);
+	SoundManager::Instance()->clearFromSoundManager("playClick", SFX);
 	
 	InputHandler::getInstance()->removeMouseClick(playButton);
 	InputHandler::getInstance()->removeMouseClick(aboutButton);
