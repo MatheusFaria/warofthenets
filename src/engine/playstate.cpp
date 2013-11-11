@@ -15,6 +15,8 @@
 #define BOMB 20
 #define SPY 30
 
+#define UPDATE_TOWER 60
+
 const std::string PlayState::playId = "PLAY";
 
 void
@@ -53,10 +55,8 @@ PlayState::update()
 					bombObject->explode(hexagonMap->getGrafoHexagon(), vectorHexagon[i]);
 					destroyVectorObjects(bombObject->getVetorDestruicao());
 					//vectorHexagon[i]->destroyGameObject();
-				}	
-
+				}
 			}
-
 			bombObject = NULL;
 		}	
 	}
@@ -157,6 +157,7 @@ PlayState::onEnter()
 
 	bombObject = NULL;
 	upgradeTower = NULL;
+	upgradeBomb = NULL;
 
 	iniciarTurno();
 
@@ -803,6 +804,19 @@ PlayState::atualizarTorres()
 		if(dynamic_cast<Torre*>(playObjects[i]))
 			((Torre*)playObjects[i])->incActualColumn();
 	}
+	
+	Data data;
+	data.type = UPDATE_TOWER;
+	NetworkManager::Instance()->sendMessage(data);
+}
+void 
+PlayState::atualizarTorresInimigas()
+{
+    for(unsigned int i =0; i<vectorEnemyObjects.size(); i++)
+	{
+		if(dynamic_cast<Torre*>(vectorEnemyObjects[i]))
+			((Torre*)vectorEnemyObjects[i])->incActualColumn();
+	}
 }
 
 void 
@@ -937,6 +951,9 @@ PlayState::parseData(Data data)
 	
 	else if(unidade == SPY/10)
 	    criarEspiaoInimiga(data);
+	    
+    else if(unidade == UPDATE_TOWER/10)
+        atualizarTorresInimigas();
 }
 
 Hexagon * 

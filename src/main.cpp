@@ -5,10 +5,12 @@
 int main()
 {
 
-	int tipo = 1;
+	int tipo;
 	std::string ip, nome;
 
-	ip = "10.1.1.154";
+    std::cin >> tipo;
+
+	ip = "127.0.0.1";
 	nome = "luciano";
 
     

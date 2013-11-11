@@ -47,6 +47,7 @@ private:
 	void calculateTime();
 	void atualizarCronometro();
 	void atualizarTorres();
+	void atualizarTorresInimigas();
 	void atualizarMapa();
 	void ativarBotoes(bool);
 
@@ -108,7 +109,7 @@ private:
 	MenuButton *upgradeBomb;
 	MenuButton *upgradeSpy;
 
-	MenuButton *recursoTower;	
+	MenuButton *recursoTower;
 	MenuButton *recursoBomb;	
 	MenuButton *recursoSpy;
 
