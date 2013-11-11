@@ -3,15 +3,19 @@
 #include "texturemanager.h"
 #include "render.h"
 #include <iostream>
+#include <math.h>
+
 
 std::string Bomba::path = "resources/img/bomb.png";
 
-Bomba::Bomba(int x, int y):Image(path,x,y)
+int Bomba::custoAtualizacao = 0;
+
+Bomba::Bomba(int raioDestruicao, int x, int y):Image(path,x,y)
 {
 	numFrames = 5;
-	currentFrame =1;
+	currentFrame = 1;
 
-	raioDestruicao = 1;
+	this->raioDestruicao = 6 * pow( (2 + 1), (raioDestruicao - 1) );
 
 	//animate();
 
@@ -67,6 +71,18 @@ Bomba::draw()
 	 height, currentRow, currentFrame,Render::getInstance()->getRenderer(), 0 );
 }
 
+int
+Bomba::getCustoAtualizacao()
+{
+	return Bomba::custoAtualizacao;
+}
+
+void 
+Bomba::setCustoAtualizacao(int _custoAtualizacao)
+{
+	Bomba::custoAtualizacao = _custoAtualizacao;
+}
+
 void 
 Bomba::explode(map<Hexagon*, vector<Hexagon*>>  grafoHexagon, Hexagon *hex)
 {
@@ -88,7 +104,7 @@ Bomba::explode(map<Hexagon*, vector<Hexagon*>>  grafoHexagon, Hexagon *hex)
 void 
 Bomba::explodeRecursivo(map<Hexagon*, vector<Hexagon*>> grafoHexagon, int num)
 {
-	if(num > (6) || filaVisitar.empty())
+	if(num > (raioDestruicao) || filaVisitar.empty())
 		return;
 
 	//std::cout << "\n\n num: " << num << std::endl;

@@ -11,9 +11,12 @@ class Bomba : public Image{
 
 public:
 
-	Bomba(int x=0, int y=0);
+	Bomba(int raioDestruicao, int x=0, int y=0);
 	virtual void update();
 	virtual void draw();
+    
+	static int getCustoAtualizacao();
+	static void setCustoAtualizacao(int _custoAtualizacao);
 
 	void explode(map<Hexagon*, vector<Hexagon*>> grafoHexagon, Hexagon *hex);
 
@@ -30,6 +33,8 @@ private:
 	int numFrames;
 	int actualRow;
 	int raioDestruicao;
+	static int custoAtualizacao;
+
 
 	std::map<Hexagon *, bool> mapaVisitado;
 	std::queue<Hexagon *> filaVisitar;

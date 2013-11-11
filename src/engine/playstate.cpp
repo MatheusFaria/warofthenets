@@ -163,6 +163,7 @@ PlayState::onEnter()
 
 	Render::getInstance()->setColor(255, 255, 255 , 255);
 	Torre::setCustoAtualizacao(5);
+	Bomba::setCustoAtualizacao(5);
 
 	idSelected = "";
     
@@ -492,7 +493,7 @@ PlayState::onMouseClick(MouseClick *mouseClick)
     	std::cout<<"Fim turno!"<<std::endl;
     	finalizarTurno();
     }
-
+    
     if(mouseClick == upgradeTower)
     {
     	if(towerActualized)
@@ -509,6 +510,22 @@ PlayState::onMouseClick(MouseClick *mouseClick)
 	    	towerActualized = true;
 	    }	
     }
+    
+    if(mouseClick == upgradeBomb)
+    {
+    	if(bombActualized)
+    		return;
+
+    	if(Bomba::getCustoAtualizacao()<=numInformacao && numLevelBomb < 3)
+    	{
+	    	recursoBomb->incCurrentRow();
+	    	numLevelBomb++;
+	    	numInformacao -= Bomba::getCustoAtualizacao();
+	    	upgradeBomb->incCurrentRow();
+
+	    	bombActualized = true;
+	    }	
+    }
 
 }
 
@@ -523,7 +540,7 @@ PlayState::createObject(Hexagon *hex)
     	recurso = new Torre(numLevelTower);
 	else if(idSelected == "resources/img/bomb.png" && bombObject == NULL)
 	{
-		recurso = new Bomba(hex->getX(), hex->getY());
+		recurso = new Bomba(numLevelBomb, hex->getX(), hex->getY());
 	}		
 	else if(idSelected == "resources/img/spy.png")
         recurso = new Spy();
@@ -645,7 +662,10 @@ PlayState::criarBombaInimiga(Data data)
 {
     Hexagon* hex = encontrarHexagono(data.x, data.y);
     
-    Bomba *bomb = new Bomba(hex->getX(), hex->getY());
+    Bomba *bomb = new Bomba(data.type % 10, hex->getX(), hex->getY());
+    
+    std::cout << "\n\n BOMBA INIMIGA. data.type % 10 = " << data.type % 10 << std::endl;
+    std::cout << std::endl;
     
     hex->setObject(bomb);
     bombObject = bomb;
@@ -784,6 +804,15 @@ PlayState::iniciarTurno()
 				upgradeTower->decCurrentRow();
 		else if(numLevelTower == 3)	
 				upgradeTower->incCurrentRow();
+
+	}
+	
+	if(upgradeBomb != NULL && upgradeBomb->getCurrentRow()==1)
+	{
+		if(numLevelBomb == 2)
+				upgradeBomb->decCurrentRow();
+		else if(numLevelBomb == 3)	
+				upgradeBomb->incCurrentRow();
 
 	}
 
