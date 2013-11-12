@@ -32,7 +32,13 @@ Bomba::Bomba(int raioDestruicao, int x, int y):Image(path,x,y)
 bool 
 Bomba::playExploiveSound()
 {
-	SoundManager::Instance()->playSound("bomba", 0);
+	if(raioDestruicao == 6)
+		SoundManager::Instance()->playSound("bomba1", 0);
+	else if(raioDestruicao == 18)
+		SoundManager::Instance()->playSound("bomba2", 0);
+	else
+		SoundManager::Instance()->playSound("bomba3", 0);
+
 	return true;
 }
 
@@ -47,13 +53,12 @@ Bomba::animate()
 void
 Bomba::update()
 {
-	int intervalo = 100;
+	int intervalo = 200;
 
 	int delta= SDL_GetTicks() - tempInicial;
 
 	if(delta >= intervalo)
 	{
-		std::cout<<"entrou aqui"<<std::endl;
 		currentFrame++;
 		tempInicial = SDL_GetTicks();
 	}

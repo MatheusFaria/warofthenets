@@ -257,7 +257,9 @@ PlayState::onExit()
 
 	SoundManager::Instance()->stopSound();
 	SoundManager::Instance()->clearFromSoundManager("theme", MUSIC);
-	SoundManager::Instance()->clearFromSoundManager("bomba", SFX);
+	SoundManager::Instance()->clearFromSoundManager("bomba1", SFX);
+	SoundManager::Instance()->clearFromSoundManager("bomba2", SFX);
+	SoundManager::Instance()->clearFromSoundManager("bomba3", SFX);
 	SoundManager::Instance()->clearFromSoundManager("torre", SFX);
     
 	return true;
@@ -1051,5 +1053,8 @@ void
 PlayState::loadMusics()
 {
 	SoundManager::Instance()->loadSound("resources/audio/mechanical_metallic_rattle-001.wav", "torre", SFX);
-	SoundManager::Instance()->loadSound("resources/audio/explosion_medium_close-005.wav", "bomba", SFX);
+	SoundManager::Instance()->loadSound("resources/audio/explosion_medium_close-005.wav", "bomba1", SFX);
+	SoundManager::Instance()->loadSound("resources/audio/explosion_medium-003.wav", "bomba2", SFX);
+	SoundManager::Instance()->loadSound("resources/audio/explosion_large_debris-007.wav", "bomba3", SFX);
+
 }
