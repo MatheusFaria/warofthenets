@@ -2,6 +2,7 @@
 #include "SDL2/SDL.h"
 #include "texturemanager.h"
 #include "render.h"
+#include "soundmanager.h"
 #include <iostream>
 #include <math.h>
 
@@ -17,12 +18,22 @@ Bomba::Bomba(int raioDestruicao, int x, int y):Image(path,x,y)
 
 	this->raioDestruicao = 6 * pow( (2 + 1), (raioDestruicao - 1) );
 
+	playExploiveSound();
+	
 	//animate();
 
 	tempInicial = SDL_GetTicks();
-
 	inAnimate = true;
 
+
+
+}
+
+bool 
+Bomba::playExploiveSound()
+{
+	SoundManager::Instance()->playSound("bomba", 0);
+	return true;
 }
 
 void

@@ -37,6 +37,9 @@ public:
 private:
 
 	GameObject* createObject(Hexagon *hex);
+
+	void loadMusics();
+
 	void incObject();
 	void showObject(Hexagon* hex);
 	void deleteObject(Hexagon* hex);

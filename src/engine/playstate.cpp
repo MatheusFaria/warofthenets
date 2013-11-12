@@ -8,6 +8,7 @@
 #include "bomba.h"
 #include "spy.h"
 #include "networkmanager.h"
+#include "soundmanager.h"
 #include <algorithm>
 #include <iostream>
 
@@ -148,6 +149,8 @@ PlayState::render()
 bool
 PlayState::onEnter()
 {
+	loadMusics();
+
 	mapColumns = 25;
 	mapRows = 15;
 
@@ -161,6 +164,9 @@ PlayState::onEnter()
 	upgradeSpy = NULL;
 
 	iniciarTurno();
+
+	SoundManager::Instance()->loadSound("resources/audio/Audio Network - Dark Surge.ogg", "theme", MUSIC);
+	SoundManager::Instance()->playMusic("theme", -1);
 
 	Render::getInstance()->setColor(255, 255, 255 , 255);
 	Torre::setCustoAtualizacao(5);
@@ -246,6 +252,13 @@ PlayState::onExit()
     delete txtNumTower;
 	delete txtNumBomb;
 	delete txtNumSpy;
+	delete txtTime;
+	delete txtNumInformation;
+
+	SoundManager::Instance()->stopSound();
+	SoundManager::Instance()->clearFromSoundManager("theme", MUSIC);
+	SoundManager::Instance()->clearFromSoundManager("bomba", SFX);
+	SoundManager::Instance()->clearFromSoundManager("torre", SFX);
     
 	return true;
 }
@@ -1032,4 +1045,11 @@ PlayState::ativarBotoes(bool comando)
 	for(unsigned int i =0; i<hudButtons.size();i++)
 		hudButtons[i]->setActive(comando);
 
+}
+
+void
+PlayState::loadMusics()
+{
+	SoundManager::Instance()->loadSound("resources/audio/mechanical_metallic_rattle-001.wav", "torre", SFX);
+	SoundManager::Instance()->loadSound("resources/audio/explosion_medium_close-005.wav", "bomba", SFX);
 }

@@ -5,6 +5,7 @@
 #include "hexagon.h"
 #include <map>
 #include <vector>
+#include <string>
 #include <queue>
 
 class Bomba : public Image{
@@ -19,10 +20,11 @@ public:
 	static void setCustoAtualizacao(int _custoAtualizacao);
 
 	void explode(map<Hexagon*, vector<Hexagon*>> grafoHexagon, Hexagon *hex);
-
 	std::vector<Hexagon *> getVetorDestruicao();
 
 	bool isAnimating();
+
+	bool playExploiveSound();
 
 private:
 
@@ -40,6 +42,7 @@ private:
 	std::queue<Hexagon *> filaVisitar;
 	std::vector<Hexagon *> vetorDestruicao;
 
+	std::string explosionSound;
 
 	void explodeRecursivo(map<Hexagon*, vector<Hexagon*>> grafoHexagon, int num);
 	void animate();

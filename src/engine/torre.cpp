@@ -2,6 +2,7 @@
 #include "SDL2/SDL.h"
 #include "texturemanager.h"
 #include "render.h"
+#include "soundmanager.h"
 #include <iostream>
 
 std::string Torre::path = "resources/img/tower.png";
@@ -16,6 +17,15 @@ Torre::Torre(int numLevelTower, int x, int y):Image(path,x,y)
 	currentFrame = numLevelTower - 1;
 
 	numInformacao  = 4;
+
+	playSound();
+}
+
+bool 
+Torre::playSound()
+{	
+	SoundManager::Instance()->playSound("torre", 0);
+	return true;
 }
 
 void

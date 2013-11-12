@@ -19,6 +19,8 @@ public:
 	int getInformacao();
 	int spyOnTower(int levelSpy);
 
+	bool playSound();
+
 private:
 
 	static std::string path;	
@@ -26,6 +28,7 @@ private:
 	int actualRow;
 	int numInformacao;
 	int numLevelTower;
+	std::string constructSound;
 	static int custoAtualizacao;
 
 };
