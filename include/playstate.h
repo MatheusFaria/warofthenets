@@ -65,6 +65,7 @@ private:
 
 	void createHUD();
 	void createMap();
+	void showHistory();
 
 	void receberMensagens();
 	void parseData(Data);

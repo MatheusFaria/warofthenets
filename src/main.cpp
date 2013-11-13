@@ -12,7 +12,7 @@ int main()
 
     //tipo = 0;
 
-	ip = "127.0.0.1";
+	ip = "192.168.5.175";
 	nome = "luciano";
 
     

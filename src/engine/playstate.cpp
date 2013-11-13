@@ -155,8 +155,9 @@ PlayState::onEnter()
 	mapRows = 15;
 
 	windowWidth = Game::Instance()->getWindow()->getWidth();
-	windowHeight =
-	Game::Instance()->getWindow()->getHeight();
+	windowHeight = Game::Instance()->getWindow()->getHeight();
+	
+	showHistory();
 
 	bombObject = NULL;
 	upgradeTower = NULL;
@@ -263,6 +264,24 @@ PlayState::onExit()
 	SoundManager::Instance()->clearFromSoundManager("torre", SFX);
     
 	return true;
+}
+
+void
+PlayState::showHistory()
+{
+	Image history("resources/img/history.png");
+    int historyX = (windowWidth / 2) - (history.getWidth() / 2);
+	int historyY = (windowHeight / 2) - (history.getHeight() / 2);
+    history.setPosition(historyX, historyY);
+	
+	
+	Render::getInstance()->clear();
+    history.draw();
+    Render::getInstance()->present();
+
+    SDL_Delay(7000);
+    Render::getInstance()->clear();
+
 }
 
 std::string 
