@@ -789,8 +789,8 @@ PlayState::destroyVectorObjects(std::vector<Hexagon*> destroy)
 void 
 PlayState::finalizarTurno()
 {
-    //if(!isMyTurn)
-    //    return;
+    if(!isMyTurn)
+        return;
         
     std::cout << "Finalizando turno" << std::endl;
 	ativarBotoes(false);
@@ -815,16 +815,14 @@ PlayState::finalizarTurno()
 	
 	actualTime = SDL_GetTicks();
 	isMyTurn = false;
-
-	iniciarTurno();
 }
 
 
 void
 PlayState::iniciarTurno()
 {
-    //if(isMyTurn)
-    //    return;
+    if(isMyTurn)
+        return;
         
     std::cout << "Iniciando turno" << std::endl;
     isMyTurn = true;
