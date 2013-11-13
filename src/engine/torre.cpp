@@ -56,6 +56,7 @@ int
 Torre::spyOnTower(int levelSpy)
 {
     int infoSpy = numInformacao/(5 - levelSpy);
+    std::cout<<"Entrou aqui"<<std::endl;
 	numInformacao -= infoSpy;
 	
 	return infoSpy;

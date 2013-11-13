@@ -101,8 +101,8 @@ Game::run()
 {
 	cout << "Run" << endl;
 
-	//presentation();
-	//SDL_Delay(2000);
+	presentation();
+	SDL_Delay(2000);
 	
 	Uint32 frameStart, frameTime;
 	

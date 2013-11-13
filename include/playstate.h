@@ -62,6 +62,7 @@ private:
 
 	void createHUD();
 	void createMap();
+	void showHistory();
 
 	void receberMensagens();
 	void parseData(Data);
@@ -92,7 +93,6 @@ private:
 	std::vector<GameObject*> vectorEnemyObjects;
 
 	Image *hudBackground;
-
 
 	MenuButton *levelInformacao;
 	MenuButton *recursoInformacao;
