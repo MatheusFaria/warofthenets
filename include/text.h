@@ -43,6 +43,10 @@ public:
 	
 	std::string getValue();
 
+	int getLetterWidth(char letter);
+	int getLetterHeight(char letter);
+	int getLetterPrintWidth(char letter);
+
 private:
 	SDL_Texture * text;
 	string value;

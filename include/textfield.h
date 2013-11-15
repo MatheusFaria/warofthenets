@@ -21,9 +21,10 @@ public:
 	void clean();
 
 private:
-	int cursorIndex;
 	int hField, wField;
+	int wLetterSize;
 	int xField, yField;
+	int xcursor, ycursor;
 	int fontSize;
 	int cursorBlink;
 	bool focused;

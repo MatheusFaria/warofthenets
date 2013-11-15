@@ -19,7 +19,6 @@ TextField::TextField(int x, int y, std::string shapePath, int hField, int wField
 	this->text = NULL;
 
 	this->focused = false;
-	this->cursorIndex = 0;
 }
 
 void
@@ -31,18 +30,21 @@ TextField::init()
 
 
 	int hcursor = this->hField - 6, wcursor = 5;
-	int xcursor = this->xField + 1, ycursor = this->yField + (this->hField - hcursor)/2;
+	this->xcursor = this->xField;
+	this->ycursor = this->yField + (this->hField - hcursor)/2;
 
 	this->cursor = new Rectangle(wcursor, hcursor, Render::getInstance(), true);
 	this->cursor->setDrawColor(0, 0, 0, 255);
-	this->cursor->setPosition(xcursor, ycursor);
+	this->cursor->setPosition(this->xcursor, this->ycursor);
 
 	SDL_Color black = {0, 0, 0, 255};
 
-	this->text = new Text(" ", this->fontSize);
+	this->text = new Text("", this->fontSize);
 	this->text->setFont("resources/font/monospaced.ttf");
 	this->text->setColor(black);
 	this->text->setPosition(this->xField, this->yField);
+
+	this->wLetterSize = this->text->getLetterPrintWidth('M');
 }
 
 TextField::~TextField() 
@@ -65,10 +67,12 @@ TextField::eventInMe(SDL_Event sdlEvent)
 		y >= this->yField && y <= (this->yField + this->hField))
 	{
 		this->focused = true;
+		SDL_StartTextInput();
 		return true;
 	}
 
 	this->focused = false;
+	SDL_StopTextInput();
 	return false;
 }
 
@@ -78,16 +82,35 @@ TextField::verifyEvent(SDL_Event sdlEvent)
     if((sdlEvent.type == SDL_MOUSEBUTTONDOWN) ||
         (sdlEvent.type == SDL_MOUSEBUTTONUP))
         return true;
-	else if(((sdlEvent.type == SDL_KEYDOWN) ||
-        (sdlEvent.type == SDL_KEYUP)) && this->focused)
+	else if(((sdlEvent.type == SDL_TEXTINPUT)) && this->focused)
 	{
-		char typed = sdlEvent.key.keysym.sym;
-		if(typed >= 'a' && typed <= 'z')
+		char typed = *sdlEvent.text.text;
+		if(typed >= ' ' && typed <= '~')
 		{
 			this->text->setValue(this->text->getValue() + typed);
-			cout << typed << endl;
+			this->xcursor += this->wLetterSize;
+			this->cursor->setPosition(this->xcursor, this->ycursor);
 		}
-        return false;
+		return false;
+	}
+	else if(sdlEvent.type == SDL_KEYUP)
+	{
+		char typed = sdlEvent.key.keysym.sym;
+		if(typed == SDLK_BACKSPACE)
+		{
+			string textValue = this->text->getValue();
+			if(textValue.size() != 0)
+				textValue = string(textValue.begin(), textValue.end() - 1);
+			this->text->setValue(textValue);
+
+			this->xcursor -= this->wLetterSize;
+			if(this->xcursor < this->xField)
+				this->xcursor = this->xField;
+
+			this->cursor->setPosition(this->xcursor, this->ycursor);
+		}
+
+		return false;
 	}
     else
         return false;
@@ -107,7 +130,9 @@ TextField::draw()
 	this->rect->draw();
 
 	if(this->cursorBlink && this->focused)
+	{
 		this->cursor->draw();
+	}
 
 	this->text->draw();
 }

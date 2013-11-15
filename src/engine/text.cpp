@@ -85,7 +85,7 @@ Text::generateTexture(SDL_Renderer * render, SDL_Color foregroundColor, SDL_Colo
 	SDL_Surface * textSurface = this->generateSurfaceText(mode);
 	if(textSurface == NULL)
 	{
-		Log::warn("Could not genarate surface to the text font");
+		//Log::warn("Could not genarate surface to the text font");
 		return NULL;
 	}
 	
@@ -130,7 +130,8 @@ Text::getTexture()
 void
 Text::draw()
 {
-    Render::getInstance()->renderTexture(text, position.getX(), position.getY());
+	if(this->text != NULL)
+    	Render::getInstance()->renderTexture(this->text, position.getX(), position.getY());
 }
 
 void
@@ -193,4 +194,31 @@ Text::setValue(string value)
 {
 	this->value = value;
     generateTexture(Render::getInstance()->getRenderer(), color, color);
+}
+
+int 
+Text::getLetterWidth(char letter)
+{
+	int max = 0, min = 1;
+	if(this->font != NULL)
+		TTF_GlyphMetrics(this->font, letter, &min, &max, NULL, NULL, NULL);
+	return max - min;
+}
+
+int 
+Text::getLetterHeight(char letter)
+{
+	int max = 0, min = 1;
+	if(this->font != NULL)
+		TTF_GlyphMetrics(this->font, letter, NULL, NULL, &min, &max, NULL);
+	return max - min;
+}
+
+int 
+Text::getLetterPrintWidth(char letter)
+{
+	int advanced = -1;
+	if(this->font != NULL)
+		TTF_GlyphMetrics(this->font, letter, NULL, NULL, NULL, NULL, &advanced);
+	return advanced;
 }
