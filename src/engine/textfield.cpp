@@ -19,32 +19,42 @@ TextField::TextField(int x, int y, std::string shapePath, int hField, int wField
 	this->text = NULL;
 
 	this->focused = false;
+	this->wCursor = 5;
 }
 
 void
 TextField::init()
 {
-	this->rect = new Rectangle(this->wField, this->hField, Render::getInstance(), true);
-	this->rect->setDrawColor(255, 255, 255, 255);
-	this->rect->setPosition(this->xField, this->yField);
-
-
-	int hcursor = this->hField - 6, wcursor = 5;
-	this->xcursor = this->xField;
-	this->ycursor = this->yField + (this->hField - hcursor)/2;
-
-	this->cursor = new Rectangle(wcursor, hcursor, Render::getInstance(), true);
-	this->cursor->setDrawColor(0, 0, 0, 255);
-	this->cursor->setPosition(this->xcursor, this->ycursor);
-
 	SDL_Color black = {0, 0, 0, 255};
 
 	this->text = new Text("", this->fontSize);
 	this->text->setFont("resources/font/monospaced.ttf");
 	this->text->setColor(black);
-	this->text->setPosition(this->xField, this->yField);
 
+	int letterh = this->text->getLetterHeight('M');
 	this->wLetterSize = this->text->getLetterPrintWidth('M');
+
+	if(this->hField < letterh)
+		this->hField = letterh + 6;
+
+	if(this->wField % this->wLetterSize)
+		this->wField -= this->wField % this->wLetterSize;
+	this->wField += this->wCursor;
+
+	int texty = this->yField + (this->hField - letterh)/2;
+	this->text->setPosition(this->xField, texty);
+
+	this->rect = new Rectangle(this->wField, this->hField, Render::getInstance(), true);
+	this->rect->setDrawColor(255, 255, 255, 255);
+	this->rect->setPosition(this->xField, this->yField);
+
+	this->hCursor = this->hField - 6;
+	this->xcursor = this->xField;
+	this->ycursor = this->yField + (this->hField - this->hCursor)/2;
+
+	this->cursor = new Rectangle(this->wCursor, this->hCursor, Render::getInstance(), true);
+	this->cursor->setDrawColor(0, 0, 0, 255);
+	this->cursor->setPosition(this->xcursor, this->ycursor);
 }
 
 TextField::~TextField() 
@@ -82,7 +92,7 @@ TextField::verifyEvent(SDL_Event sdlEvent)
     if((sdlEvent.type == SDL_MOUSEBUTTONDOWN) ||
         (sdlEvent.type == SDL_MOUSEBUTTONUP))
         return true;
-	else if(((sdlEvent.type == SDL_TEXTINPUT)) && this->focused)
+	else if(((sdlEvent.type == SDL_TEXTINPUT)) && this->focused && this->xcursor < (this->xField + this->wField - this->wCursor))
 	{
 		char typed = *sdlEvent.text.text;
 		if(typed >= ' ' && typed <= '~')

@@ -25,6 +25,7 @@ private:
 	int wLetterSize;
 	int xField, yField;
 	int xcursor, ycursor;
+	int wCursor, hCursor;
 	int fontSize;
 	int cursorBlink;
 	bool focused;
