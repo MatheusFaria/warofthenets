@@ -22,7 +22,8 @@ public:
 	void setStyle(int);
 	void setColor(SDL_Color color);
 	void setText(string value);
-	SDL_Texture * generateTexture(SDL_Renderer *, SDL_Color, SDL_Color, int = TTF_SOLID);
+	void setValue(string value);
+	SDL_Texture * generateTexture(SDL_Renderer *, SDL_Color, SDL_Color, int = TTF_BLENDED);
 
 	SDL_Texture * getTexture();
 	
@@ -39,6 +40,8 @@ public:
 	
 	int getWidth();
 	int getHeight();
+	
+	std::string getValue();
 
 private:
 	SDL_Texture * text;

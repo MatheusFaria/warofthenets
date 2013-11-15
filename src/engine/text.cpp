@@ -182,3 +182,15 @@ Text::getHeight()
     return this->height;
 }
 
+std::string 
+Text::getValue()
+{
+	return this->value;
+}
+
+void
+Text::setValue(string value)
+{
+	this->value = value;
+    generateTexture(Render::getInstance()->getRenderer(), color, color);
+}
