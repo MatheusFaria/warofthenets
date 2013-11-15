@@ -202,7 +202,7 @@ PlayState::onEnter()
     hexagonMap = new HexagonMap(mapColumns, mapRows);
     hexagonMap->setEventListener(this);
     	
-	numInformacao = 100;
+	numInformacao = 3;
 	numTower = 0;
 	numBomb = 0;
 	numSpy = 0;
@@ -661,13 +661,13 @@ PlayState::createObject(Hexagon *hex)
 
 	if(idSelected =="")
 		return NULL;
-	if(idSelected == "resources/img/tower.png"  && hexagonMap->canConstruct(hex))
+	if(idSelected == "resources/img/tower.png"  && hexagonMap->canConstruct(hex) && numInformacao>1)
     	recurso = new Torre(Torre::ALIADA, numLevelTower);
-	else if(idSelected == "resources/img/bomb.png" && bombObject == NULL)
+	else if(idSelected == "resources/img/bomb.png" && bombObject == NULL && numInformacao>2)
 	{
 		recurso = new Bomba(numLevelBomb, hex->getX(), hex->getY());
 	}		
-	else if(idSelected == "resources/img/spy.png")
+	else if(idSelected == "resources/img/spy.png" && numInformacao>3)
         recurso = new Spy(numLevelSpy);
 	
 
@@ -745,8 +745,8 @@ PlayState::criarTorre(Hexagon *hex, Torre *tower)
 
 	Data data;
 
-	data.x = hex->getX()+50;
-	data.y = hex->getY()+43;
+	data.x = hex->getX()+50 +this->x;
+	data.y = hex->getY()+43 + this->y;
 	data.type = TOWER + numLevelTower;
 
 	NetworkManager::Instance()->sendMessage(data);
@@ -761,6 +761,7 @@ PlayState::definirPontoPartida()
 void 
 PlayState::criarTorreInimiga(Data data)
 {
+
 	Hexagon* hex = hexagonMap->encontrarHexagono(data.x, data.y);
 
 	Torre *tower = new Torre(Torre::INIMIGA, data.type%10);
@@ -779,15 +780,17 @@ PlayState::criarBomba(Hexagon *hex, Bomba *bomba)
 		hex->setObject(bomba);
 		incObject();
 		numInformacao -= 2;
+
+		Data data;
+	
+		data.x = hex->getX()+50+this->x;
+		data.y = hex->getY()+43+this->y;
+		data.type = BOMB + numLevelBomb;
+
+		NetworkManager::Instance()->sendMessage(data);
 	}
 	
-	Data data;
 	
-	data.x = hex->getX()+50;
-	data.y = hex->getY()+43;
-	data.type = BOMB + numLevelBomb;
-
-	NetworkManager::Instance()->sendMessage(data);
 }
 
 void
@@ -814,15 +817,15 @@ PlayState::criarEspiao(Hexagon *hex, Spy *spy)
 			incObject();
 			numInformacao -= 3;
 		}
+
+		Data data;
+	
+		data.x = hex->getX()+50+this->x;
+		data.y = hex->getY()+43+this->y;
+		data.type = SPY + numLevelSpy;
+		
+		NetworkManager::Instance()->sendMessage(data);
 	}
-	
-	Data data;
-	
-	data.x = hex->getX()+50;
-	data.y = hex->getY()+43;
-	data.type = SPY + numLevelSpy;
-	
-	NetworkManager::Instance()->sendMessage(data);
 }
 
 void
@@ -933,7 +936,7 @@ PlayState::finalizarTurno()
 	actualTime = SDL_GetTicks();
 	isMyTurn = false;
 	txtTurno->setText("WAIT");
-	iniciarTurno();
+	//iniciarTurno();
 }
 
 
@@ -1045,6 +1048,7 @@ PlayState::atualizarMapa()
 			this->velocityY=0;
 	}
 
+	
     if(bombObject != NULL)
     {
         newX = bombObject->getX() - this->velocityX;
@@ -1112,6 +1116,9 @@ PlayState::receberMensagens()
 
 		if(data.type == -1)
 			break;
+
+		data.x -= this->x;
+		data.y -= this->y;
 
         std::cout << "\nreceberMensagens: " << data.x << std::endl;    
         std::cout << "data.type: " << data.type << std::endl;   

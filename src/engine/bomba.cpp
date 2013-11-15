@@ -2,6 +2,7 @@
 #include "SDL2/SDL.h"
 #include "texturemanager.h"
 #include "render.h"
+#include "base.h"
 #include "soundmanager.h"
 #include <iostream>
 #include <math.h>
@@ -128,7 +129,7 @@ Bomba::explodeRecursivo(map<Hexagon*, vector<Hexagon*>> grafoHexagon, int num)
 	Hexagon *hex = filaVisitar.front();
 	filaVisitar.pop();
 
-	if(hex->haveObject())
+	if(hex->haveObject() && !dynamic_cast<Base*>(hex->getObject()))
 		vetorDestruicao.push_back(hex);
 
 	
