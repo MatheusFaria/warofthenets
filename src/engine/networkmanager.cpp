@@ -36,6 +36,12 @@ NetworkManager::init()
 	return 0;
 }
 
+int
+NetworkManager::getTipo() const
+{
+	return tipo;
+}
+
 int NetworkManager::launchCommunication()
 {
 	this->listenThread = SDL_CreateThread(listenNetwork, "listenNetwork", this);

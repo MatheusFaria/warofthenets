@@ -5,14 +5,16 @@
 #include "soundmanager.h"
 #include <iostream>
 
-std::string Torre::path = "resources/img/tower.png";
-
 int Torre::custoAtualizacao = 0;
+int Torre::ALIADA = 0;
+int Torre::INIMIGA = 1;
 
-Torre::Torre(int numLevelTower, int x, int y):Image(path,x,y)
+Torre::Torre(int tipoTorre, int numLevelTower, int x, int y, std::string path):Image(path,x,y)
 {
+	this->tipoTorre = tipoTorre;
 	this->numFrames = 4;
 	actualRow = 1;
+	this->numLevels =3;
 	this->numLevelTower = numLevelTower;
 	currentFrame = numLevelTower - 1;
 
@@ -41,7 +43,7 @@ void
 Torre::draw()
 {
 	TextureManager::Instance()->drawFrame(imageId, (Uint32)position.getX(),(Uint32)position.getY(),width/3,
-	 height/4, actualRow, currentFrame,Render::getInstance()->getRenderer(), 0 );
+	 height/numFrames, actualRow, currentFrame,Render::getInstance()->getRenderer(), 0 );
 }
 
 int
@@ -76,4 +78,10 @@ Torre::getInformacao()
 {
 	//std::cout<<"numInformacao"<<numInformacao<<std::endl;
 	return numInformacao;
+}
+
+bool
+Torre::isAliada()
+{
+	return tipoTorre == 0;
 }

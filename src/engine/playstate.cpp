@@ -118,13 +118,14 @@ PlayState::calculateTime()
 void
 PlayState::render()
 {
-	for(int i =0; i<(int)playObjects.size(); i++)
-		playObjects[i]->draw();
 
 	for(int i =0; i<(int)vectorEnemyObjects.size(); i++)
 		vectorEnemyObjects[i]->draw();
 
     hexagonMap->draw();
+
+    for(int i =0; i<(int)playObjects.size(); i++)
+		playObjects[i]->draw();
 
 	if(bombObject != NULL)	
 		bombObject->draw();
@@ -157,7 +158,7 @@ PlayState::onEnter()
 	windowWidth = Game::Instance()->getWindow()->getWidth();
 	windowHeight = Game::Instance()->getWindow()->getHeight();
 	
-	showHistory();
+	//showHistory();
 
 	bombObject = NULL;
 	upgradeTower = NULL;
@@ -177,9 +178,8 @@ PlayState::onEnter()
     
     hexagonMap = new HexagonMap(mapColumns, mapRows);
     hexagonMap->setEventListener(this);
-    hexagonMap->update();
-    hexagonMap->draw();
-    
+
+    criarBase();
 	createHUD();
     	
 	numInformacao = 100;
@@ -216,6 +216,27 @@ PlayState::onEnter()
 	return true;
 }
 
+void 
+PlayState::criarBase()
+{
+	int baseUm, baseDois;
+    if(NetworkManager::Instance()->getTipo() == 1)
+	{
+	    baseUm = Torre::ALIADA;
+	    baseDois = Torre::INIMIGA;
+    }else{
+    	baseDois = Torre::ALIADA;
+	    baseUm = Torre::INIMIGA;
+    }
+
+    base1 = new Base(baseUm, 1, 0,0);
+    hexagonMap->putObjectOnMap(5, 5, base1);
+    playObjects.push_back(base1);
+
+    /*base2 = new Base(baseDois, 1, 0,0);
+    hexagonMap->putObjectOnMap(10, 3, base2);
+    playObjects.push_back(base2);*/
+}
 
 bool 
 PlayState::onExit()
@@ -588,7 +609,7 @@ PlayState::createObject(Hexagon *hex)
 	if(idSelected =="")
 		return NULL;
 	if(idSelected == "resources/img/tower.png"  && hexagonMap->canConstruct(hex))
-    	recurso = new Torre(numLevelTower);
+    	recurso = new Torre(Torre::ALIADA, numLevelTower);
 	else if(idSelected == "resources/img/bomb.png" && bombObject == NULL)
 	{
 		recurso = new Bomba(numLevelBomb, hex->getX(), hex->getY());
@@ -677,11 +698,17 @@ PlayState::criarTorre(Hexagon *hex, Torre *tower)
 }
 
 void 
+PlayState::definirPontoPartida()
+{
+
+}
+
+void 
 PlayState::criarTorreInimiga(Data data)
 {
-	Hexagon* hex = encontrarHexagono(data.x, data.y);
+	Hexagon* hex = hexagonMap->encontrarHexagono(data.x, data.y);
 
-	Torre *tower = new Torre(data.type%10);
+	Torre *tower = new Torre(Torre::INIMIGA, data.type%10);
 	
 
 	hex->setObject(tower);
@@ -711,7 +738,7 @@ PlayState::criarBomba(Hexagon *hex, Bomba *bomba)
 void
 PlayState::criarBombaInimiga(Data data)
 {
-    Hexagon* hex = encontrarHexagono(data.x, data.y);
+    Hexagon* hex = hexagonMap->encontrarHexagono(data.x, data.y);
     
     Bomba *bomb = new Bomba(data.type % 10, hex->getX(), hex->getY());
         
@@ -746,7 +773,7 @@ PlayState::criarEspiao(Hexagon *hex, Spy *spy)
 void
 PlayState::criarEspiaoInimiga(Data data)
 {
-    Hexagon* hex = encontrarHexagono(data.x, data.y);
+    Hexagon* hex = hexagonMap->encontrarHexagono(data.x, data.y);
 
 	Spy *spy = new Spy(data.type % 10);
 	
@@ -808,8 +835,8 @@ PlayState::destroyVectorObjects(std::vector<Hexagon*> destroy)
 void 
 PlayState::finalizarTurno()
 {
-    if(!isMyTurn)
-        return;
+    //if(!isMyTurn)
+    //    return;
         
     std::cout << "Finalizando turno" << std::endl;
 	ativarBotoes(false);
@@ -834,14 +861,15 @@ PlayState::finalizarTurno()
 	
 	actualTime = SDL_GetTicks();
 	isMyTurn = false;
+	iniciarTurno();
 }
 
 
 void
 PlayState::iniciarTurno()
 {
-    if(isMyTurn)
-        return;
+    //if(isMyTurn)
+    //    return;
         
     std::cout << "Iniciando turno" << std::endl;
     isMyTurn = true;
@@ -1042,7 +1070,7 @@ PlayState::parseData(Data data)
         atualizarTorresInimigas();
 }
 
-Hexagon * 
+/*Hexagon * 
 PlayState::encontrarHexagono(int x, int y)
 {
 	std::vector<Hexagon*> vectorHexagon = hexagonMap->getVectorHexagon();
@@ -1056,7 +1084,7 @@ PlayState::encontrarHexagono(int x, int y)
 	std::cout << "HEXAGONO NULO!" << std::endl;
 
 	return NULL;
-}
+}*/
 
 void 
 PlayState::ativarBotoes(bool comando)

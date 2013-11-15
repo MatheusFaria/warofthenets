@@ -21,7 +21,8 @@ public:
 	virtual void clean();
 
     void setEventListener(Event::EventListener *eventListener);
-    
+    Hexagon* encontrarHexagono(int x, int y);
+    void putObjectOnMap(int x, int y, GameObject* object);
     bool canConstruct(Hexagon *hexagon);
     
     
@@ -45,6 +46,8 @@ private:
     
     void createMap();
     
+    bool estaConectadoNaBase(Hexagon *hexagono);
+    bool existeTorreNoHexagono(Hexagon *hexagon);
     
     void addHexagonsOnInputHandler();
     void removeHexagonsOnInputHandler();

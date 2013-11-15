@@ -3,6 +3,7 @@
 #include <cmath>
 #include "bomba.h"
 #include "torre.h"
+#include "base.h"
 #include "spy.h"
 #include "geometry.h"
 
@@ -130,15 +131,19 @@ Hexagon::activateSpy()
 void 
 Hexagon::update()
 {
-
-
-	if(object != NULL)
+	if(dynamic_cast<Base*> (object))
+	{
+		int x = getX() - object->getWidth()/4;
+		int y = getY() - object->getHeight()/4;
+		object->setPosition(x,y);
+	}
+	else if(object != NULL)
 	{
 		int x = getX() + (getWidth()/2) - (object->getWidth()/6);
 		int y = getY() + (getHeight()/2) - (object->getHeight()/4);	
 		object->setPosition(x, y);
 	}
-		
+
 	if(spy != NULL)
 	{	
 		int x = getX() + (getWidth()/2) - (spy->getWidth()/2);

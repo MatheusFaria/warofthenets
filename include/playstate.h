@@ -8,6 +8,7 @@
 #include "text.h"
 #include "bomba.h"
 #include "hexagon.h"
+#include "base.h"
 #include "spy.h"
 #include "mouseclick.h"
 #include "keyboardevent.h"
@@ -60,6 +61,7 @@ private:
 	void criarBombaInimiga(Data data);
 	void criarEspiao(Hexagon *hex, Spy *spy);
 	void criarEspiaoInimiga(Data data);
+	void criarBase();
 
 	Hexagon * encontrarHexagono(int x, int y);
 
@@ -69,6 +71,8 @@ private:
 
 	void receberMensagens();
 	void parseData(Data);
+
+	void definirPontoPartida();
 
 	bool isMyTurn;
 
@@ -121,6 +125,8 @@ private:
 	MenuButton *painelCronometro;
 	MenuButton *quit;
 
+	GameObject* base1;
+	GameObject* base2;
 	Bomba* bombObject;
 	std::string idSelected;
 	

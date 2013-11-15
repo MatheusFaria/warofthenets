@@ -1,5 +1,8 @@
 #include "hexagonmap.h"
 #include "inputhandler.h"
+#include "base.h"
+#include <queue>
+#include <map>
 
 #include <iostream>
 
@@ -207,6 +210,15 @@ HexagonMap::canConstruct(Hexagon *hexagon)
 
     vector<Hexagon *> adjacentsAdj;
     
+    if(existeTorreNoHexagono(hexagon))
+    	return false;
+
+    if(possuiTorreAdjacente(hexagon))
+    	return false;
+
+    if(estaConectadoNaBase(hexagon))
+		return true;
+    /*
     if(!existeTorreEmAlgumHexagono())
         return true;
     
@@ -215,11 +227,91 @@ HexagonMap::canConstruct(Hexagon *hexagon)
         
     if(possuiTorreNoAdjacenteDoAdjacente(hexagon))
         return true;
-
+	*/
     
 
     
     return false;
+}
+
+bool
+HexagonMap::estaConectadoNaBase(Hexagon *hexagono)
+{
+	std::map<Hexagon *, bool> mapaVisitado;
+	std::queue<Hexagon *> filaVisitar;
+
+	filaVisitar.push(hexagono);
+
+	for(unsigned int i = 0; i < vectorHexagon.size(); i++)
+	{
+		mapaVisitado[vectorHexagon[i]] = false;
+	}
+
+	
+	while(!filaVisitar.empty())
+	{
+		cout << "filaVisitar.size(): " << filaVisitar.size() << endl;
+		Hexagon *hexFront = filaVisitar.front();
+		filaVisitar.pop();
+
+		mapaVisitado[hexFront] = true;
+
+		if(hexFront->haveObject())
+		{
+			if(dynamic_cast<Base *>(hexFront->getObject()))
+			{
+				return true;
+			}
+		}
+
+		std::vector<Hexagon*> vectorHexagonAdjacente;
+		vectorHexagonAdjacente = grafoHexagon[hexFront];
+
+		for(unsigned int i = 0; i < vectorHexagonAdjacente.size(); i++)
+		{
+			if(mapaVisitado[vectorHexagonAdjacente[i]] == false)
+			{
+				mapaVisitado[vectorHexagonAdjacente[i]] = true;
+			}
+		}
+
+		for(unsigned int i = 0; i < vectorHexagonAdjacente.size(); i++)
+		{
+			std::vector<Hexagon*> vectorHexagonAdjacenteAdjacente;
+			vectorHexagonAdjacenteAdjacente = grafoHexagon[vectorHexagonAdjacente[i]];
+
+			for(unsigned int j = 0; j < vectorHexagonAdjacenteAdjacente.size(); j++)
+			{
+				if(mapaVisitado[vectorHexagonAdjacenteAdjacente[j]] == false)
+				{
+					mapaVisitado[vectorHexagonAdjacenteAdjacente[j]] = true;
+
+					if(vectorHexagonAdjacenteAdjacente[j]->haveObject())
+						filaVisitar.push(vectorHexagonAdjacenteAdjacente[j]);
+				}
+			}
+		}
+
+		
+
+		
+
+
+		
+	}
+	
+
+	return false;
+}
+
+
+bool
+HexagonMap::existeTorreNoHexagono(Hexagon *hexagon)
+{
+	if(hexagon->haveObject())
+		return true;
+	else
+		return false;
 }
 
 bool
@@ -243,7 +335,11 @@ HexagonMap::possuiTorreAdjacente(Hexagon *hexagon)
     for(unsigned int i = 0; i < adjacents.size(); i++)
     {
     	if(adjacents[i]->haveObject())
-    		return true;
+		{
+			if( ((Torre *)adjacents[i]->getObject())->isAliada())
+				return true;
+		}
+    		
     }
     
     return false;
@@ -294,8 +390,31 @@ HexagonMap::deleteHexagons()
 	    delete vectorHexagon[i];
 }
 
+void
+HexagonMap::putObjectOnMap(int x, int y, GameObject* object)
+{
+	if(object == NULL)
+		return;
 
+	Hexagon *hex = vectorHexagon[y*numColumns+x];
 
+	if(hex != NULL)
+		hex->setObject(object);
+
+}
+
+Hexagon * 
+HexagonMap::encontrarHexagono(int x, int y)
+{
+
+	for(unsigned int i = 0; i < vectorHexagon.size(); i++)
+	{
+		if(vectorHexagon[i]->isMyCoordinate(x, y))
+			return vectorHexagon[i];
+	}
+
+	return NULL;
+}
 
 
 

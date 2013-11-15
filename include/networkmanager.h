@@ -22,6 +22,8 @@ public:
 	Data receiveMessage();
 	void sendMessage(Data message);
 
+	int getTipo() const;
+
 	int tipo;
 	std::string ip, nome;
 
