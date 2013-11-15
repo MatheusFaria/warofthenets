@@ -671,16 +671,16 @@ PlayState::createObject(Hexagon *hex)
 	if(idSelected =="")
 		return NULL;
 	if(idSelected == "resources/img/tower.png"  && hexagonMap->canConstruct(hex) 
-		&& numInformacao>Torre::getCustoUnidade())
+		&& numInformacao >= Torre::getCustoUnidade())
 	{	
     	recurso = new Torre(Torre::ALIADA, numLevelTower);
     }	
 	else if(idSelected == "resources/img/bomb.png" && bombObject == NULL 
-		&& numInformacao>Bomba::getCustoUnidade())
+		&& numInformacao >= Bomba::getCustoUnidade())
 	{
 		recurso = new Bomba(numLevelBomb, hex->getX(), hex->getY());
 	}		
-	else if(idSelected == "resources/img/spy.png" && numInformacao>Spy::getCustoUnidade())
+	else if(idSelected == "resources/img/spy.png" && numInformacao >= Spy::getCustoUnidade())
         recurso = new Spy(numLevelSpy);
 	
 
@@ -744,13 +744,13 @@ PlayState::showObject(Hexagon* hex)
 void 
 PlayState::criarTorre(Hexagon *hex, Torre *tower)
 {
-	if(numInformacao >= 1)
+	if(numInformacao >= Torre::getCustoUnidade())
 	{
 		if(hex->setObject(tower))
 		{
 			playObjects.push_back(tower);
 			incObject();
-			numInformacao -= 1;
+			numInformacao -= Torre::getCustoUnidade();
 
 			verificarVitoria(hex);
 		}
@@ -787,12 +787,12 @@ PlayState::criarTorreInimiga(Data data)
 void 
 PlayState::criarBomba(Hexagon *hex, Bomba *bomba)
 {
-	if(numInformacao >= 2)
+	if(numInformacao >= Bomba::getCustoUnidade())
 	{
 		bombObject = bomba;
 		hex->setObject(bomba);
 		incObject();
-		numInformacao -= 2;
+		numInformacao -= Bomba::getCustoUnidade();
 
 		Data data;
 	
@@ -822,13 +822,13 @@ PlayState::criarBombaInimiga(Data data)
 void 
 PlayState::criarEspiao(Hexagon *hex, Spy *spy)
 {
-	if(numInformacao >= 3)
+	if(numInformacao >= Spy::getCustoUnidade())
 	{
 		if(hex->setObject(spy))
 		{
 			playObjects.push_back(spy);
 			incObject();
-			numInformacao -= 3;
+			numInformacao -= Spy::getCustoUnidade();
 		}
 
 		Data data;
