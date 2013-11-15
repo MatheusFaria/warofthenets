@@ -6,6 +6,7 @@
 #include <iostream>
 
 int Torre::custoAtualizacao = 0;
+int Torre::custoUnidade = 0;
 int Torre::ALIADA = 0;
 int Torre::INIMIGA = 1;
 
@@ -56,6 +57,18 @@ void
 Torre::setCustoAtualizacao(int _custoAtualizacao)
 {
 	Torre::custoAtualizacao = _custoAtualizacao;
+}
+
+int
+Torre::getCustoUnidade()
+{
+	return Torre::custoUnidade;
+}
+
+void 
+Torre::setCustoUnidade(int _custoUnidade)
+{
+	Torre::custoUnidade = _custoUnidade;
 }
 
 void

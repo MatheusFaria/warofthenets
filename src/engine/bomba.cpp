@@ -9,7 +9,7 @@
 
 
 std::string Bomba::path = "resources/img/bomb.png";
-
+int Bomba::custoUnidade = 0;
 int Bomba::custoAtualizacao = 0;
 
 Bomba::Bomba(int raioDestruicao, int x, int y):Image(path,x,y)
@@ -99,6 +99,19 @@ Bomba::setCustoAtualizacao(int _custoAtualizacao)
 {
 	Bomba::custoAtualizacao = _custoAtualizacao;
 }
+
+int
+Bomba::getCustoUnidade()
+{
+	return Bomba::custoUnidade;
+}
+
+void 
+Bomba::setCustoUnidade(int _custoUnidade)
+{
+	Bomba::custoUnidade = _custoUnidade;
+}
+
 
 void 
 Bomba::explode(map<Hexagon*, vector<Hexagon*>>  grafoHexagon, Hexagon *hex)

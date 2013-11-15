@@ -18,6 +18,8 @@ public:
     
 	static int getCustoAtualizacao();
 	static void setCustoAtualizacao(int _custoAtualizacao);
+	static int getCustoUnidade();
+	static void setCustoUnidade(int _custoUnidade);
 
 	void explode(map<Hexagon*, vector<Hexagon*>> grafoHexagon, Hexagon *hex);
 	std::vector<Hexagon *> getVetorDestruicao();
@@ -36,6 +38,7 @@ private:
 	int actualRow;
 	int raioDestruicao;
 	static int custoAtualizacao;
+	static int custoUnidade;
 
 
 	std::map<Hexagon *, bool> mapaVisitado;

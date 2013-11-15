@@ -14,6 +14,8 @@ public:
     
 	static int getCustoAtualizacao();
 	static void setCustoAtualizacao(int _custoAtualizacao);
+	static int getCustoUnidade();
+	static void setCustoUnidade(int _custoUnidade);
 
 	int getLevel();
 
@@ -26,6 +28,7 @@ private:
 	int numLevelSpy;	
 	int numInformacao;
 	static int custoAtualizacao;
+	static int custoUnidade;
 };
 
 #endif

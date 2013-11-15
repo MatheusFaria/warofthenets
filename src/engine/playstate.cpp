@@ -194,8 +194,14 @@ PlayState::onEnter()
 	SoundManager::Instance()->playMusic("theme", -1);
 
 	Render::getInstance()->setColor(255, 255, 255 , 255);
+
+	Torre::setCustoUnidade(3);
+	Bomba::setCustoUnidade(5);
+	Spy::setCustoUnidade(5);
+
 	Torre::setCustoAtualizacao(5);
 	Bomba::setCustoAtualizacao(5);
+	Spy::setCustoAtualizacao(5);
 
 	idSelected = "";
     
@@ -614,6 +620,7 @@ PlayState::onMouseClick(MouseClick *mouseClick)
 	    	numLevelTower++;
 	    	numInformacao -= Torre::getCustoAtualizacao();
 	    	upgradeTower->incCurrentRow();
+	    	Torre::setCustoUnidade(Torre::getCustoUnidade()+2);
 
 	    	atualizarTorres();
 	    	towerActualized = true;
@@ -631,6 +638,7 @@ PlayState::onMouseClick(MouseClick *mouseClick)
 	    	numLevelBomb++;
 	    	numInformacao -= Bomba::getCustoAtualizacao();
 	    	upgradeBomb->incCurrentRow();
+	    	Bomba::setCustoUnidade(Bomba::getCustoUnidade()+2);
 
 	    	bombActualized = true;
 	    }	
@@ -647,6 +655,7 @@ PlayState::onMouseClick(MouseClick *mouseClick)
 	    	numLevelSpy++;
 	    	numInformacao -= Spy::getCustoAtualizacao();
 	    	upgradeSpy->incCurrentRow();
+	    	Spy::setCustoUnidade(Spy::getCustoUnidade()+2);
 
 	    	spyActualized = true;
 	    }	
@@ -661,13 +670,17 @@ PlayState::createObject(Hexagon *hex)
 
 	if(idSelected =="")
 		return NULL;
-	if(idSelected == "resources/img/tower.png"  && hexagonMap->canConstruct(hex) && numInformacao>1)
+	if(idSelected == "resources/img/tower.png"  && hexagonMap->canConstruct(hex) 
+		&& numInformacao>Torre::getCustoUnidade())
+	{	
     	recurso = new Torre(Torre::ALIADA, numLevelTower);
-	else if(idSelected == "resources/img/bomb.png" && bombObject == NULL && numInformacao>2)
+    }	
+	else if(idSelected == "resources/img/bomb.png" && bombObject == NULL 
+		&& numInformacao>Bomba::getCustoUnidade())
 	{
 		recurso = new Bomba(numLevelBomb, hex->getX(), hex->getY());
 	}		
-	else if(idSelected == "resources/img/spy.png" && numInformacao>3)
+	else if(idSelected == "resources/img/spy.png" && numInformacao>Spy::getCustoUnidade())
         recurso = new Spy(numLevelSpy);
 	
 

@@ -14,6 +14,8 @@ public:
 	
 	static int getCustoAtualizacao();
 	static void setCustoAtualizacao(int _custoAtualizacao);
+	static int getCustoUnidade();
+	static void setCustoUnidade(int _custoUnidade);
 
 	void incActualColumn();
 	virtual int getInformacao();
@@ -37,7 +39,9 @@ private:
 	int numInformacao;
 	int numLevelTower;
 	std::string constructSound;
+	
 	static int custoAtualizacao;
+	static int custoUnidade;
 
 	int tipoTorre;
 

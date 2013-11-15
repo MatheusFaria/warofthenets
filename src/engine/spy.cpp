@@ -6,7 +6,7 @@
 #include <iostream>
 
 std::string Spy::path = "resources/img/spy.png";
-
+int Spy::custoUnidade = 0;
 int Spy::custoAtualizacao = 0;
 
 Spy::Spy(int numLevelSpy, int x, int y):Image(path,x,y)
@@ -40,6 +40,18 @@ void
 Spy::setCustoAtualizacao(int _custoAtualizacao)
 {
 	Spy::custoAtualizacao = _custoAtualizacao;
+}
+
+int
+Spy::getCustoUnidade()
+{
+	return Spy::custoUnidade;
+}
+
+void 
+Spy::setCustoUnidade(int _custoUnidade)
+{
+	Spy::custoUnidade = _custoUnidade;
 }
 
 int
