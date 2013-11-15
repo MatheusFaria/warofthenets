@@ -18,6 +18,7 @@ Hexagon::Hexagon(int size, Render * render)
 	this->object = NULL;
 	this->bomba = NULL;
 	this->spy = NULL;
+	this->vitoria = NULL;
 }
 
 Hexagon::~Hexagon() {}
@@ -105,7 +106,7 @@ Hexagon::setObject(GameObject* _object)
 			return true;
 		}		
 	}
-	else
+	else if(dynamic_cast<Spy*> (_object))
 	{
 		if(spy == NULL)
 		{
@@ -113,6 +114,12 @@ Hexagon::setObject(GameObject* _object)
 			activateSpy();
 			return true;
 		}
+	}
+	else
+	{
+		if(vitoria == NULL)
+			vitoria = (Image*)_object;
+
 	}
 		
 	return false;
@@ -149,8 +156,12 @@ Hexagon::update()
 		int x = getX() + (getWidth()/2) - (spy->getWidth()/2);
 		int y = getY() + (getHeight()/2) - (spy->getHeight()/4);	
 		spy->setPosition(x,y);
-	}	
+	}
+
+	if(vitoria != NULL)
+		vitoria->setPosition(getX()+2, getY()+2);
 }
+
 
 void 
 Hexagon::setEventMouse(int mouse_state)
@@ -242,4 +253,10 @@ Hexagon::isMyCoordinate(int x, int y)
 	}
 
 	return false;
+}
+
+bool
+Hexagon::isVictoryPoint()
+{
+	return vitoria != NULL;
 }

@@ -54,6 +54,7 @@ private:
 	void atualizarTorresInimigas();
 	void atualizarMapa();
 	void ativarBotoes(bool);
+	void zerarCronometro();
 
 	void criarTorre(Hexagon *hex, Torre *tower);
 	void criarTorreInimiga(Data data);
@@ -62,6 +63,7 @@ private:
 	void criarEspiao(Hexagon *hex, Spy *spy);
 	void criarEspiaoInimiga(Data data);
 	void criarBase();
+	void criarPontoVitoria();
 
 	Hexagon * encontrarHexagono(int x, int y);
 
@@ -73,6 +75,10 @@ private:
 	void parseData(Data);
 
 	void definirPontoPartida();
+
+	void verificarVitoria(Hexagon *hexagon);
+	void receberVitoria();
+	void informarVitoria();
 
 	bool isMyTurn;
 
@@ -100,6 +106,7 @@ private:
 	std::vector<GameObject*> vectorEnemyObjects;
 
 	Image *hudBackground;
+	Image *hudTurno;
 
 
 	MenuButton *levelInformacao;
@@ -108,6 +115,7 @@ private:
 	Image *levelTower;
 	Image *levelBomb;
 	Image *levelSpy;
+	Image* vitoria;
 
 	bool towerActualized;
 	bool bombActualized;
@@ -148,12 +156,13 @@ private:
     Text *txtNumSpy;    
 
     Text *txtTime;
+    Text *txtTurno;
 
     Text *txtLevelTower;
     Text *txtLevelBomb;
     Text* txtLevelSpy;
 
-
+    bool fimDeJogo;
 	int eventX;
 	int eventY;
 

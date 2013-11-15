@@ -20,6 +20,8 @@ public:
 	virtual void update();
 	virtual void clean();
 
+    bool isVictory(Hexagon *hexagon);
+
     void setEventListener(Event::EventListener *eventListener);
     Hexagon* encontrarHexagono(int x, int y);
     void putObjectOnMap(int x, int y, GameObject* object);
@@ -31,6 +33,8 @@ public:
     
     void setVelocityX(int velocityX);
     void setVelocityY(int velocityY);
+
+    void setActive(bool active);
 
 private:
     
@@ -48,6 +52,7 @@ private:
     
     bool estaConectadoNaBase(Hexagon *hexagono);
     bool existeTorreNoHexagono(Hexagon *hexagon);
+    Hexagon* getHexagon(int x, int y);
     
     void addHexagonsOnInputHandler();
     void removeHexagonsOnInputHandler();

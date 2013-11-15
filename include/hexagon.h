@@ -2,6 +2,7 @@
 #define HEXAGON_H
 
 #include "drawableobject.h"
+#include "image.h"
 #include "gameobject.h"
 #include "mouseclick.h"
 
@@ -25,6 +26,7 @@ public:
 	bool isMouseRight();
 	bool isMouseLeft();
 	bool isMouseMiddle();
+	bool isVictoryPoint();
 
 	bool isMyCoordinate(int x, int y);
 
@@ -37,6 +39,7 @@ private:
 	GameObject *object;
 	GameObject *bomba;
 	GameObject* spy;
+	Image* vitoria;
 
 	void setEventMouse(int mouse_state);
 	void resetEventMouse();

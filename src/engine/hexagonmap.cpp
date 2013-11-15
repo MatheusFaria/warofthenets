@@ -260,7 +260,8 @@ HexagonMap::estaConectadoNaBase(Hexagon *hexagono)
 		{
 			if(dynamic_cast<Base *>(hexFront->getObject()))
 			{
-				return true;
+				if( ((Base*)hexFront->getObject())->isAliada() )
+					return true;
 			}
 		}
 
@@ -287,7 +288,10 @@ HexagonMap::estaConectadoNaBase(Hexagon *hexagono)
 					mapaVisitado[vectorHexagonAdjacenteAdjacente[j]] = true;
 
 					if(vectorHexagonAdjacenteAdjacente[j]->haveObject())
-						filaVisitar.push(vectorHexagonAdjacenteAdjacente[j]);
+					{
+						if( ((Torre*) vectorHexagonAdjacenteAdjacente[j]->getObject())->isAliada() ) 
+							filaVisitar.push(vectorHexagonAdjacenteAdjacente[j]);
+					}
 				}
 			}
 		}
@@ -396,11 +400,18 @@ HexagonMap::putObjectOnMap(int x, int y, GameObject* object)
 	if(object == NULL)
 		return;
 
-	Hexagon *hex = vectorHexagon[y*numColumns+x];
+	Hexagon *hex = getHexagon(x,y);
 
 	if(hex != NULL)
 		hex->setObject(object);
 
+}
+
+Hexagon *
+HexagonMap::getHexagon(int x, int y)
+{
+	Hexagon *hex = vectorHexagon[y*numColumns+x];
+	return hex;
 }
 
 Hexagon * 
@@ -416,9 +427,33 @@ HexagonMap::encontrarHexagono(int x, int y)
 	return NULL;
 }
 
+bool 
+HexagonMap::isVictory(Hexagon *hexagon)
+{
+	if(hexagon->isVictoryPoint())
+		return true;
+
+	vector<Hexagon *> adjacents;    
+    adjacents = grafoHexagon[hexagon];
+
+    for(unsigned int i = 0; i < adjacents.size(); i++)
+	{
+		if(adjacents[i]->isVictoryPoint())
+			return true;
+	}
+
+	return false;
+}
 
 
-
+void 
+HexagonMap::setActive(bool active)
+{
+	for(unsigned int i = 0; i < vectorHexagon.size(); i++)
+	{
+		vectorHexagon[i]->setActive(active);
+	}
+}
 
 
 

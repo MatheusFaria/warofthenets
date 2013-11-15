@@ -8,17 +8,12 @@ int main()
 	int tipo;
 	std::string ip, nome;
 	
-	/*std::cout << " Digite o IP do servidor: ";
+	std::cout << " Digite o IP do servidor: ";
 	std::cin >> ip;
 	
 	std::cout << "\n Digite 1 para ser o servidor," << std::endl;
 	std::cout << "ou 0 para ser o cliente: ";
-    std::cin >> tipo;*/
-
-    tipo = 0;
-
-	ip = "127.0.0.1";
-	nome = "servidor";
+    std::cin >> tipo;
 	
     
 	NetworkManager::Instance()->tipo = tipo;

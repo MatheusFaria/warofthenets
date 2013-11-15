@@ -18,6 +18,8 @@
 
 #define UPDATE_TOWER 60
 
+#define VICTORY 70
+
 const std::string PlayState::playId = "PLAY";
 
 void
@@ -62,7 +64,10 @@ PlayState::update()
 		}	
 	}
 
-	atualizarCronometro();
+	if(!fimDeJogo)
+		atualizarCronometro();
+	else
+		zerarCronometro();
 	
 	if(seconds >= 15)
 		finalizarTurno();
@@ -79,6 +84,14 @@ PlayState::update()
 	
 	if(!isMyTurn)
 		receberMensagens();
+
+}
+
+void 
+PlayState::verificarVitoria(Hexagon *hexagon)
+{
+	if(hexagonMap->isVictory(hexagon))
+		informarVitoria();
 
 }
 
@@ -102,6 +115,15 @@ PlayState::atualizarCronometro()
 
 	int xseconds = painelCronometro->getX() + painelCronometro->getWidth()/2 - txtTime->getWidth()/2; 
 	txtTime->setX(xseconds);
+}
+
+void
+PlayState::zerarCronometro()
+{
+	minutes=seconds=0;
+	std::string tempo = "00:00";
+
+	txtTime->setText(tempo);
 }
 
 void 
@@ -145,6 +167,7 @@ PlayState::render()
 	txtLevelBomb->draw();
 	txtLevelTower->draw();
 	txtLevelSpy->draw();
+	txtTurno->draw();
 }
 
 bool
@@ -165,7 +188,7 @@ PlayState::onEnter()
 	upgradeBomb = NULL;
 	upgradeSpy = NULL;
 
-	iniciarTurno();
+	fimDeJogo = false;
 
 	SoundManager::Instance()->loadSound("resources/audio/Audio Network - Dark Surge.ogg", "theme", MUSIC);
 	SoundManager::Instance()->playMusic("theme", -1);
@@ -178,9 +201,6 @@ PlayState::onEnter()
     
     hexagonMap = new HexagonMap(mapColumns, mapRows);
     hexagonMap->setEventListener(this);
-
-    criarBase();
-	createHUD();
     	
 	numInformacao = 100;
 	numTower = 0;
@@ -197,6 +217,10 @@ PlayState::onEnter()
 	velocityX = 0;
 	velocityY = 0;
 
+	criarBase();
+	criarPontoVitoria();
+	createHUD();
+	iniciarTurno();
 
 	InputHandler::getInstance()->addKeyboardEvent(this);
 
@@ -230,12 +254,27 @@ PlayState::criarBase()
     }
 
     base1 = new Base(baseUm, 1, 0,0);
-    hexagonMap->putObjectOnMap(5, 5, base1);
+    hexagonMap->putObjectOnMap(2, 2, base1);
     playObjects.push_back(base1);
 
-    /*base2 = new Base(baseDois, 1, 0,0);
-    hexagonMap->putObjectOnMap(10, 3, base2);
-    playObjects.push_back(base2);*/
+    base2 = new Base(baseDois, 1, 0,0);
+    hexagonMap->putObjectOnMap(19, 2, base2);
+    playObjects.push_back(base2);
+
+
+}
+
+void 
+PlayState::criarPontoVitoria()
+{
+	vitoria = new Image("resources/img/hexagonoazul.png", 0, 0);
+    if(NetworkManager::Instance()->getTipo() == 1)
+    	hexagonMap->putObjectOnMap(19, 10, vitoria);	
+    else
+    	hexagonMap->putObjectOnMap(2, 10, vitoria);
+
+    playObjects.push_back(vitoria);
+    
 }
 
 bool 
@@ -375,13 +414,18 @@ PlayState::createHUD()
 	int fimTurnoY = windowHeight - fimTurno->getHeight();
 	fimTurno->setPosition(fimTurnoX, fimTurnoY);
 	fimTurno->setEventListener(this);
-	InputHandler::getInstance()->addMouseClick(fimTurno);
+	InputHandler::getInstance()->addMouseClick(fimTurno); 
 
     painelCronometro = new MenuButton(0, 0, "resources/img/painelcronometro.png", "cronometro");
     int painelCronometroX = 0;
 	int painelCronometroY = windowHeight - painelCronometro->getHeight();
 	painelCronometro->setPosition(painelCronometroX, painelCronometroY);
 	InputHandler::getInstance()->addMouseClick(painelCronometro);
+
+	hudTurno = new Image("resources/img/painelturno.png", 0, 0);
+	int hudTurnoX =0;
+	int hudTurnoY = painelCronometroY - hudTurno->getHeight() - espacamento;
+	hudTurno->setPosition(hudTurnoX, hudTurnoY);
 	
 	//SDL_Color blackColor = {0, 0, 0, 0};
 	SDL_Color whiteColor = {255, 255, 255, 0};
@@ -442,6 +486,13 @@ PlayState::createHUD()
     y = levelSpyY + levelSpy->getHeight()/2 - txtLevelSpy->getHeight()/2;
     txtLevelSpy->setPosition(x, y);
 
+    txtTurno = new Text("PLAY", 50);
+    txtTurno->setFont(font);
+    txtTurno->setColor(whiteColor);
+    x = hudTurno->getWidth()/2 - txtTurno->getWidth()/2;
+    y = hudTurno->getY() + hudTurno->getHeight()/2 - txtTurno->getHeight()/2;
+    txtTurno->setPosition(x,y);
+
     hudBackground = new Image("resources/img/hud_bg.png", 0, 0);
 
     upgradeTower = new MenuButton(0,0,"resources/img/buttonupgrade.png", "buttonupgrade", 3);
@@ -478,10 +529,12 @@ PlayState::createHUD()
 	hudButtons.push_back(painelCronometro);
 
 
+
 	hudImages.push_back(hudBackground);
 	hudImages.push_back(levelTower);
 	hudImages.push_back(levelBomb);
 	hudImages.push_back(levelSpy);
+	hudImages.push_back(hudTurno);
 }
 
 void 
@@ -685,6 +738,8 @@ PlayState::criarTorre(Hexagon *hex, Torre *tower)
 			playObjects.push_back(tower);
 			incObject();
 			numInformacao -= 1;
+
+			verificarVitoria(hex);
 		}
 	}
 
@@ -782,6 +837,22 @@ PlayState::criarEspiaoInimiga(Data data)
 }
 
 void
+PlayState::informarVitoria()
+{
+	Data data;
+	data.type = VICTORY;
+
+	std::cout<<"EPIC WIN!!!!"<<std::endl;
+	fimDeJogo = true;
+	ativarBotoes(false);
+	hexagonMap->setActive(false);
+	quit->setActive(true);
+
+	
+	NetworkManager::Instance()->sendMessage(data);
+}
+
+void
 PlayState::deleteObject(Hexagon *hex)
 {
 
@@ -835,8 +906,8 @@ PlayState::destroyVectorObjects(std::vector<Hexagon*> destroy)
 void 
 PlayState::finalizarTurno()
 {
-    //if(!isMyTurn)
-    //    return;
+	 if(!isMyTurn)
+        return;
         
     std::cout << "Finalizando turno" << std::endl;
 	ativarBotoes(false);
@@ -861,6 +932,7 @@ PlayState::finalizarTurno()
 	
 	actualTime = SDL_GetTicks();
 	isMyTurn = false;
+	txtTurno->setText("WAIT");
 	iniciarTurno();
 }
 
@@ -868,8 +940,10 @@ PlayState::finalizarTurno()
 void
 PlayState::iniciarTurno()
 {
-    //if(isMyTurn)
-    //    return;
+    if(isMyTurn)
+        return;
+        	
+	txtTurno->setText("PLAY");
         
     std::cout << "Iniciando turno" << std::endl;
     isMyTurn = true;
@@ -1068,6 +1142,8 @@ PlayState::parseData(Data data)
 	    
     else if(unidade == UPDATE_TOWER/10)
         atualizarTorresInimigas();
+    else if(unidade == VICTORY/10)
+    	receberVitoria();
 }
 
 /*Hexagon * 
@@ -1102,4 +1178,15 @@ PlayState::loadMusics()
 	SoundManager::Instance()->loadSound("resources/audio/explosion_medium-003.wav", "bomba2", SFX);
 	SoundManager::Instance()->loadSound("resources/audio/explosion_large_debris-007.wav", "bomba3", SFX);
 
+}
+
+void
+PlayState::receberVitoria()
+{
+	std::cout<<"Que loucura cara, vc joga de uma maneira burra"<<std::endl;
+	ativarBotoes(false);
+	hexagonMap->setActive(false);
+	quit->setActive(true);
+
+	fimDeJogo = true;
 }
