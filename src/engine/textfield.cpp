@@ -2,14 +2,14 @@
 #include "log.h"
 #include "render.h"
 
-TextField::TextField(int x, int y, std::string shapePath, int hField, int wField, int fontSize, int nFrames)
-:MouseClick(), SDLGameObject(x, y, 0, 0, shapePath, shapePath, nFrames)
+TextField::TextField(int x, int y, int wField, int hField, int fontSize)
+:MouseClick()
 {
 	this->hField = hField;
 	this->wField = wField;
 	
-	this->xField = getX() + (getWidth() - this->wField)/2;
-	this->yField = getY() + (getHeight() - this->hField)/2;
+	this->xField = x;
+	this->yField = y;
 
 	this->fontSize = fontSize;
 	this->cursorBlink = 1;
@@ -17,6 +17,7 @@ TextField::TextField(int x, int y, std::string shapePath, int hField, int wField
 	this->rect = NULL;
 	this->cursor = NULL;
 	this->text = NULL;
+	this->shape = NULL;
 
 	this->focused = false;
 	this->wCursor = 5;
@@ -48,6 +49,10 @@ TextField::init()
 	this->rect->setDrawColor(255, 255, 255, 255);
 	this->rect->setPosition(this->xField, this->yField);
 
+	this->shape = new Rectangle(this->wField, this->hField, Render::getInstance());
+	this->shape->setDrawColor(0, 0, 0, 255);
+	this->shape->setPosition(this->xField, this->yField);
+
 	this->hCursor = this->hField - 6;
 	this->xcursor = this->xField;
 	this->ycursor = this->yField + (this->hField - this->hCursor)/2;
@@ -61,6 +66,8 @@ TextField::~TextField()
 {
 	if(this->rect != NULL)
 		delete this->rect;
+	if(this->shape != NULL)
+		delete this->shape;
 	if(this->cursor != NULL)
 		delete this->cursor;
 	if(this->text != NULL)
@@ -73,8 +80,8 @@ TextField::eventInMe(SDL_Event sdlEvent)
 	int x = sdlEvent.button.x;
 	int y = sdlEvent.button.y;
 
-	if(x >= this->xField && x <= (this->xField + this->wField) &&
-		y >= this->yField && y <= (this->yField + this->hField))
+	if((x >= this->xField) && (x <= (this->xField + this->wField)) &&
+		(y >= this->yField) && (y <= (this->yField + this->hField)))
 	{
 		this->focused = true;
 		SDL_StartTextInput();
@@ -136,8 +143,8 @@ TextField::update()
 void 
 TextField::draw()
 {
-	SDLGameObject::draw();
 	this->rect->draw();
+	this->shape->draw();
 
 	if(this->cursorBlink && this->focused)
 	{
@@ -151,3 +158,29 @@ void
 TextField::clean()
 {
 }
+
+std::string 
+TextField::getText() const
+{
+	return this->text->getValue();
+}
+
+int  
+TextField::getWidth() const
+{
+	return this->wField;
+}
+
+int  
+TextField::getHeight() const
+{
+	return this->hField;
+}
+
+void 
+TextField::setPosition(int x, int y)
+{
+	this->xField = x;
+	this->yField = y;
+}
+

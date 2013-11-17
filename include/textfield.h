@@ -4,12 +4,11 @@
 #include "mouseclick.h"
 #include "rectangle.h"
 #include "text.h"
-#include "sdlgameobject.h"
 #include <string>
 
-class TextField: public MouseClick, SDLGameObject{
+class TextField: public MouseClick{
 public:
-	TextField(int x, int y, std::string shapePath, int hField, int wField, int fontSize = 30, int nFrames = 1);
+	TextField(int x, int y, int wField, int hField, int fontSize = 30);
 	~TextField();
 
 	void init();
@@ -19,6 +18,12 @@ public:
 	void update();
 	void draw();
 	void clean();
+
+	std::string getText() const;
+	int getWidth() const;
+	int getHeight() const;
+
+	void setPosition(int x, int y);
 
 private:
 	int hField, wField;
@@ -30,6 +35,7 @@ private:
 	int cursorBlink;
 	bool focused;
 	Rectangle * rect;
+	Rectangle * shape;
 	Rectangle * cursor;
 	Text * text;
 };
