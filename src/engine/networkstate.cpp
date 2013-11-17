@@ -70,10 +70,10 @@ NetworkState::onEnter()
 	y += 5;
 	this->texts["name"]->setPosition(x, y);
 
-	this->ipError = new Warn("You typed the wrong IP", "resources/img/warnok.png",
+	this->warn = new Warn("You typed the wrong IP", "resources/img/warnok.png",
 							"resources/audio/fx_stab-001.wav", "resources/font/Army.ttf");
-	this->ipError->init();
-
+	this->warn->init();
+	this->warn->setShow(false);
 	return true;
 }
 
@@ -86,10 +86,15 @@ NetworkState::getStateId() const
 void 
 NetworkState::update()
 {
+	if(this->warn->getShow())
+		this->disableAllClicks();
+	else
+		this->enableAllClicks();
 	for(map<std::string, MenuButton *>::iterator it = this->buttons.begin(); it != this->buttons.end(); it++)
 		it->second->update();
 	for(map<std::string, TextField *>::iterator it = this->textfields.begin(); it != this->textfields.end(); it++)
 		it->second->update();
+	this->warn->update();
 }
 
 void 
@@ -101,7 +106,7 @@ NetworkState::render()
 		it->second->draw();
 	for(map<std::string, TextField *>::iterator it = this->textfields.begin(); it != this->textfields.end(); it++)
 		it->second->draw();
-	ipError->draw();
+	this->warn->draw();
 }
 
 bool
@@ -127,11 +132,29 @@ NetworkState::onMouseClick(MouseClick *mouseClick)
 {
     if(mouseClick == this->buttons["createRoom"])
 	{
-        //create
+        if(textfields["ip"]->getText() == "")
+		{
+			this->warn->setText("You typed the IP wrong.");
+			this->warn->setShow(true);
+		}
+        else if(textfields["name"]->getText() == "")
+		{
+			this->warn->setText("You typed the name wrong.");
+			this->warn->setShow(true);
+		}
 	}
     else if(mouseClick == this->buttons["joinRoom"])
 	{
-        //join
+        if(textfields["ip"]->getText() == "")
+		{
+			this->warn->setText("You typed the IP wrong.");
+			this->warn->setShow(true);
+		}
+        else if(textfields["name"]->getText() == "")
+		{
+			this->warn->setText("You typed the name wrong.");
+			this->warn->setShow(true);
+		}
 	}
 	/*std::string nome = NetworkManager::Instance()->nome;
 	int tipo  = NetworkManager::Instance()->tipo;
@@ -145,3 +168,20 @@ NetworkState::onMouseClick(MouseClick *mouseClick)
 	NetworkManager::Instance()->launchCommunication();*/
 }
 
+void
+NetworkState::enableAllClicks()
+{
+	for(map<std::string, MenuButton *>::iterator it = this->buttons.begin(); it != this->buttons.end(); it++)
+		it->second->setActive(true);
+	for(map<std::string, TextField *>::iterator it = this->textfields.begin(); it != this->textfields.end(); it++)
+		it->second->setActive(true);
+}
+
+void
+NetworkState::disableAllClicks()
+{
+	for(map<std::string, MenuButton *>::iterator it = this->buttons.begin(); it != this->buttons.end(); it++)
+		it->second->setActive(false);
+	for(map<std::string, TextField *>::iterator it = this->textfields.begin(); it != this->textfields.end(); it++)
+		it->second->setActive(false);
+}

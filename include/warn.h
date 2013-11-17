@@ -18,6 +18,9 @@ public:
 	void clean();
 	void onMouseClick(MouseClick *mouseClick);
 
+	bool getShow() const;
+	void setShow(bool show);
+
 	void setScreenBlackness(int alpha);
 	void setText(std::string text);
 	void setScreenColor(SDL_Color screenColor);
@@ -29,6 +32,7 @@ private:
 	std::string musicPath;
 	std::string fontPath;
 	int fontSize;
+	bool show;
 	SDL_Color bgColor;
 	SDL_Color letterColor;
 	Text * text;

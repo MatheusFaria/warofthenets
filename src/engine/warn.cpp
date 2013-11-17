@@ -15,6 +15,7 @@ Warn::Warn(std::string warnMessage, std::string okButtonPath, std::string okButt
 	this->text = NULL;
 	this->okButton = NULL;
 	this->bg = NULL;
+	this->show = true;
 }
 
 Warn::~Warn()
@@ -44,7 +45,7 @@ Warn::init()
 	this->text->setPosition(x, y);
 
 	x += this->text->getWidth();
-	y += this->text->getHeight();
+	y += this->text->getHeight() + 30;
 
 	this->okButton = new MenuButton(x, y, this->buttonPath, "warnOkButton", 3, true); 
 	this->okButton->setEventListener(this);
@@ -89,9 +90,12 @@ Warn::update()
 void
 Warn::draw()
 {
-	this->bg->draw();
-	this->text->draw();
-	this->okButton->draw();
+	if(this->show)
+	{
+		this->bg->draw();
+		this->text->draw();
+		this->okButton->draw();
+	}
 }
 
 void
@@ -102,7 +106,23 @@ Warn::onMouseClick(MouseClick *mouseClick)
 {
     if(mouseClick == this->okButton)
 	{
-        //erease everything
+		this->show = false;
+		InputHandler::getInstance()->removeMouseClick(this->okButton);
 	}
 }
 
+bool 
+Warn::getShow() const
+{
+	return this->show;
+}
+
+void
+Warn::setShow(bool show)
+{
+	this->show = show;
+	if(this->show == false)
+		InputHandler::getInstance()->removeMouseClick(this->okButton);
+	else
+		InputHandler::getInstance()->addMouseClick(this->okButton);
+}

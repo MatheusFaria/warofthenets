@@ -99,7 +99,7 @@ TextField::verifyEvent(SDL_Event sdlEvent)
     if((sdlEvent.type == SDL_MOUSEBUTTONDOWN) ||
         (sdlEvent.type == SDL_MOUSEBUTTONUP))
         return true;
-	else if(((sdlEvent.type == SDL_TEXTINPUT)) && this->focused && this->xcursor < (this->xField + this->wField - this->wCursor))
+	else if(sdlEvent.type == SDL_TEXTINPUT && this->focused && this->xcursor < (this->xField + this->wField - this->wCursor))
 	{
 		char typed = *sdlEvent.text.text;
 		if(typed >= ' ' && typed <= '~')
