@@ -2,6 +2,7 @@
 #define MENU_BUTTON_H
 
 #include "sdlgameobject.h"
+#include "textarea.h"
 #include "mouseclick.h"
 #include "SDL2/SDL.h"
 
@@ -13,12 +14,18 @@ public:
 	virtual void draw();
 	virtual void update();
 	virtual void clean();
+	
+	void drawText();
 
     virtual bool eventInMe(SDL_Event sdlEvent);
     virtual bool verifyEvent(SDL_Event sdlEvent);
 
     bool setAudioOnClick(string, string);
     bool playSoundOnClick();
+    
+    void setText(std::string textValue);
+    
+    void activeTextArea(bool active);
 
 private:
 
@@ -36,6 +43,9 @@ private:
 	
 	SDL_Event sdlEvent;
 
+    TextArea *textArea;
+    bool textAreaIsActive;
+    bool textAreaCanDraw;
 };
 
 #endif

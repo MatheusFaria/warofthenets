@@ -20,7 +20,7 @@ libengine_la_SOURCES = window.cpp render.cpp log.cpp text.cpp sdlsettings.cpp ga
 					soundmanager.cpp event.cpp keyboardevent.cpp mouseclick.cpp mouseevent.cpp \
 					mousemotion.cpp inputhandler.cpp creditstate.cpp gameoverstate.cpp renderableobject.cpp \
 					geometry.cpp torre.cpp bomba.cpp spy.cpp hexagonmap.cpp networkmanager.cpp \
-					networkplayer.cpp networkstate.cpp base.cpp
+					networkplayer.cpp networkstate.cpp base.cpp textarea.cpp
 					
 
 # Libraries needed to build our library

@@ -9,6 +9,7 @@
 #include "spy.h"
 #include "networkmanager.h"
 #include "soundmanager.h"
+#include "textarea.h"
 #include <algorithm>
 #include <iostream>
 
@@ -25,7 +26,6 @@ const std::string PlayState::playId = "PLAY";
 void
 PlayState::update()
 {
-
 	for(int i =0; i<(int)playObjects.size(); i++)
 		playObjects[i]->update();
 
@@ -79,7 +79,12 @@ PlayState::update()
 	txtLevelBomb->setText(std::to_string(numLevelBomb));
 	txtLevelTower->setText(std::to_string(numLevelTower));
 	txtLevelSpy->setText(std::to_string(numLevelSpy));
-
+	
+	
+	
+	
+    
+    
 	atualizarMapa();
 	
 	if(!isMyTurn)
@@ -157,6 +162,9 @@ PlayState::render()
 
 	for(int i =0; i<(int)hudButtons.size(); i++)
 		hudButtons[i]->draw();
+	
+	for(int i =0; i<(int)hudButtons.size(); i++)
+		hudButtons[i]->drawText();
 
 
 	txtNumInformation->draw();
@@ -377,6 +385,8 @@ PlayState::createHUD()
 	recursoTower->setPosition(recursoTowerX, recursoTowerY);
 	recursoTower->setEventListener(this);
 	InputHandler::getInstance()->addMouseClick(recursoTower);
+	recursoTower->setText("cust of UNIT: " + std::to_string(Torre::getCustoUnidade()));
+	recursoTower->activeTextArea(true);
 
 	levelTower = new Image("resources/img/botaolevel.png", 0, 0);
 	int levelTowerX = recursoInformacaoX;
@@ -389,6 +399,8 @@ PlayState::createHUD()
 	recursoBomb->setPosition(recursoBombX, recursoBombY);
 	recursoBomb->setEventListener(this);
 	InputHandler::getInstance()->addMouseClick(recursoBomb);
+	recursoBomb->setText("cust of UNIT: " + std::to_string(Bomba::getCustoUnidade()));
+	recursoBomb->activeTextArea(true);
 
 	levelBomb = new Image("resources/img/botaolevel.png", 0, 0);
 	int levelBombX = recursoInformacaoX;
@@ -402,6 +414,8 @@ PlayState::createHUD()
 	recursoSpy->setPosition(recursoSpyX, recursoSpyY);
 	recursoSpy->setEventListener(this);
 	InputHandler::getInstance()->addMouseClick(recursoSpy);
+	recursoSpy->setText("cust of UNIT: " + std::to_string(Spy::getCustoUnidade()));
+	recursoSpy->activeTextArea(true);
 
 	levelSpy = new Image("resources/img/botaolevel.png",0, 0);
 	int levelSpyX = recursoInformacaoX;
@@ -507,13 +521,17 @@ PlayState::createHUD()
     upgradeTower->setPosition(x,y);
 	upgradeTower->setEventListener(this);
 	InputHandler::getInstance()->addMouseClick(upgradeTower);
-
+	upgradeTower->setText("cust of UPGRADE: " + std::to_string(Torre::getCustoAtualizacao()));
+	upgradeTower->activeTextArea(true);
+	
     upgradeBomb = new MenuButton(0,0,"resources/img/buttonupgrade.png", "buttonupgrade", 3);
     x = levelBombX;
     y = levelBombY - upgradeBomb->getHeight() -espacamento/4;
     upgradeBomb->setPosition(x,y);
 	upgradeBomb->setEventListener(this);
 	InputHandler::getInstance()->addMouseClick(upgradeBomb);
+	upgradeBomb->setText("cust of UPGRADE: " + std::to_string(Bomba::getCustoAtualizacao()));
+	upgradeBomb->activeTextArea(true);
 
     upgradeSpy = new MenuButton(0,0,"resources/img/buttonupgrade.png", "buttonupgrade", 3);
     x = levelSpyX;
@@ -521,6 +539,8 @@ PlayState::createHUD()
     upgradeSpy->setPosition(x,y);
 	upgradeSpy->setEventListener(this);
 	InputHandler::getInstance()->addMouseClick(upgradeSpy);
+	upgradeSpy->setText("cust of UPGRADE: " + std::to_string(Spy::getCustoAtualizacao()));
+	upgradeSpy->activeTextArea(true);
 
 
 	hudButtons.push_back(upgradeTower);
@@ -620,7 +640,13 @@ PlayState::onMouseClick(MouseClick *mouseClick)
 	    	numLevelTower++;
 	    	numInformacao -= Torre::getCustoAtualizacao();
 	    	upgradeTower->incCurrentRow();
+	    	
 	    	Torre::setCustoUnidade(Torre::getCustoUnidade()+2);
+	    	recursoTower->setText("cust of UNIT: " + std::to_string(Torre::getCustoUnidade()));	    	
+	    	
+	    	Torre::setCustoAtualizacao(Torre::getCustoAtualizacao()+2);
+	        upgradeTower->setText("cust of UPGRADE: " + std::to_string(Torre::getCustoAtualizacao()));
+	    	
 
 	    	atualizarTorres();
 	    	towerActualized = true;
@@ -638,7 +664,12 @@ PlayState::onMouseClick(MouseClick *mouseClick)
 	    	numLevelBomb++;
 	    	numInformacao -= Bomba::getCustoAtualizacao();
 	    	upgradeBomb->incCurrentRow();
+	    	
 	    	Bomba::setCustoUnidade(Bomba::getCustoUnidade()+2);
+	    	recursoBomb->setText("cust of UNIT: " + std::to_string(Bomba::getCustoUnidade()));	    	
+	    	
+	    	Bomba::setCustoAtualizacao(Bomba::getCustoAtualizacao()+2);
+	        upgradeBomb->setText("cust of UPGRADE: " + std::to_string(Bomba::getCustoAtualizacao()));
 
 	    	bombActualized = true;
 	    }	
@@ -655,7 +686,12 @@ PlayState::onMouseClick(MouseClick *mouseClick)
 	    	numLevelSpy++;
 	    	numInformacao -= Spy::getCustoAtualizacao();
 	    	upgradeSpy->incCurrentRow();
+	    	
 	    	Spy::setCustoUnidade(Spy::getCustoUnidade()+2);
+	    	recursoSpy->setText("cust of UNIT: " + std::to_string(Spy::getCustoUnidade()));	    	
+	    	
+	    	Spy::setCustoAtualizacao(Spy::getCustoAtualizacao()+2);
+	        upgradeSpy->setText("cust of UPGRADE: " + std::to_string(Spy::getCustoAtualizacao()));
 
 	    	spyActualized = true;
 	    }	
@@ -949,6 +985,7 @@ PlayState::finalizarTurno()
 	actualTime = SDL_GetTicks();
 	isMyTurn = false;
 	txtTurno->setText("WAIT");
+	
 	//iniciarTurno();
 }
 
@@ -968,8 +1005,10 @@ PlayState::iniciarTurno()
 	{
 		if(numLevelTower == 2)
 				upgradeTower->decCurrentRow();
-		else if(numLevelTower == 3)	
+		else if(numLevelTower == 3) {
 				upgradeTower->incCurrentRow();
+				upgradeTower->setText("cust of UPGRADE: --");
+		}
 
 	}
 	
@@ -977,8 +1016,10 @@ PlayState::iniciarTurno()
 	{
 		if(numLevelBomb == 2)
 				upgradeBomb->decCurrentRow();
-		else if(numLevelBomb == 3)	
+		else if(numLevelBomb == 3) {
 				upgradeBomb->incCurrentRow();
+				upgradeBomb->setText("cust of UPGRADE: --");
+		}
 
 	}
 	
@@ -986,8 +1027,10 @@ PlayState::iniciarTurno()
 	{
 		if(numLevelSpy == 2)
 				upgradeSpy->decCurrentRow();
-		else if(numLevelSpy == 3)	
+		else if(numLevelSpy == 3) {
 				upgradeSpy->incCurrentRow();
+				upgradeSpy->setText("cust of UPGRADE: --");
+		}
 
 	}
 

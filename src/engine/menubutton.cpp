@@ -17,6 +17,11 @@ MenuButton::MenuButton(int _x, int _y, string _imagePath, string _imageId, int _
 	released = true;
 	animate = _animate;
 	soundId = "";
+	
+	textAreaCanDraw = false;
+	textAreaIsActive = false;
+	textArea = new TextArea();
+	
 }
 
 void
@@ -26,15 +31,27 @@ MenuButton::draw()
 }
 
 void
+MenuButton::drawText()
+{
+    if(textAreaCanDraw && textAreaIsActive)
+	    textArea->draw();
+}
+
+void
 MenuButton::update()
 {    
+    textArea->setX(this->getX() + this->getWidth());
+    textArea->setY(this->getY());
+
 	Vector2D mousePosition(sdlEvent.motion.x, sdlEvent.motion.y);
 	
 	if(mousePosition.getX() < (position.getX() + getWidth()) &&
 		mousePosition.getX() > position.getX() &&
 		mousePosition.getY() < (position.getY()+ getHeight()) &&
 		mousePosition.getY() > (position.getY()))
-	{
+	{	
+	    textAreaCanDraw = true;
+	
 		if(animate)
         	currentRow = MOUSE_OVER;
 
@@ -60,6 +77,8 @@ MenuButton::update()
 	}
 	else
 	{
+	    textAreaCanDraw = false;
+	    
 		released = true;
 
 		if(animate)
@@ -102,8 +121,8 @@ MenuButton::eventInMe(SDL_Event sdlEvent)
         (sdlEvent.button.x < (this->getX() + this->getWidth())) &&
         (sdlEvent.button.y > this->getY()) && 
         (sdlEvent.button.y < (this->getY() + this->getHeight())))
-    {
-            return true;
+    {        
+        return true;
     }
     
     return false;
@@ -131,7 +150,17 @@ MenuButton::playSoundOnClick()
 }
 
 
+void 
+MenuButton::setText(std::string textValue)
+{
+    textArea->setText(textValue);
+}
 
+void 
+MenuButton::activeTextArea(bool active)
+{
+    textAreaIsActive = active;
+}
 
 
 
