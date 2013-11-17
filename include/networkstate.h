@@ -7,6 +7,7 @@
 #include "networkmanager.h"
 #include "textfield.h"
 #include "mouseclick.h"
+#include "warn.h"
 #include <map>
 #include <string>
 
@@ -31,6 +32,7 @@ private:
 	std::map<std::string, MenuButton*> buttons;
 	std::map<std::string, Text*> texts;
 	std::map<std::string, TextField*> textfields;
+	Warn * ipError;
 	static const std::string networkId;
 	
 };

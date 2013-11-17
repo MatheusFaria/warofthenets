@@ -26,17 +26,18 @@ NetworkState::onEnter()
 	int y = 50;
 	this->texts["title"]->setPosition(x, y);
 
-	x -= this->texts["title"]->getWidth()/2;
 	y += this->texts["title"]->getHeight() + 100;
 
 	this->buttons["createRoom"] = new MenuButton(x, y, "resources/img/createroom_button.png", "createRoom", 3, true);
+	x = (Game::Instance()->getWindow()->getWidth() / 4) - (this->buttons["createRoom"]->getWidth() / 2);
+	this->buttons["createRoom"]->setPosition(x, y);
 	this->buttons["createRoom"]->setEventListener(this);
 	this->buttons["createRoom"]->setAudioOnClick("resources/audio/fx_stab-001.wav", "playClick");
 	InputHandler::getInstance()->addMouseClick(this->buttons["createRoom"]);
 
-	x += buttons["createRoom"]->getWidth()*1.5;
-
 	this->buttons["joinRoom"] = new MenuButton(x, y, "resources/img/joinroom_button.png", "joinRoom", 3, true);
+	x = (Game::Instance()->getWindow()->getWidth()*0.75) - (this->buttons["joinRoom"]->getWidth() / 2);
+	this->buttons["joinRoom"]->setPosition(x, y);
 	this->buttons["joinRoom"]->setEventListener(this);
 	this->buttons["joinRoom"]->setAudioOnClick("resources/audio/fx_stab-001.wav", "playClick");
 	InputHandler::getInstance()->addMouseClick(this->buttons["joinRoom"]);
@@ -62,7 +63,6 @@ NetworkState::onEnter()
 	this->textfields["name"]->init();
 	InputHandler::getInstance()->addMouseClick(this->textfields["name"]);
 
-
 	this->texts["name"] = new Text("Name:", 30);
 	this->texts["name"]->setFont("resources/font/Army.ttf");
 	this->texts["name"]->setColor(black);
@@ -70,18 +70,11 @@ NetworkState::onEnter()
 	y += 5;
 	this->texts["name"]->setPosition(x, y);
 
-	/*std::string nome = NetworkManager::Instance()->nome;
-	int tipo  = NetworkManager::Instance()->tipo;
-	std::string ip = NetworkManager::Instance()->ip;
+	this->ipError = new Warn("You typed the wrong IP", "resources/img/warnok.png",
+							"resources/audio/fx_stab-001.wav", "resources/font/Army.ttf");
+	this->ipError->init();
 
-	if(tipo == 1)
-		NetworkManager::Instance()->joinRoom(nome, ip);
-	else
-		NetworkManager::Instance()->createRoom(nome, ip);
-
-	NetworkManager::Instance()->launchCommunication();*/
 	return true;
-
 }
 
 std::string
@@ -108,18 +101,47 @@ NetworkState::render()
 		it->second->draw();
 	for(map<std::string, TextField *>::iterator it = this->textfields.begin(); it != this->textfields.end(); it++)
 		it->second->draw();
+	ipError->draw();
 }
 
 bool
 NetworkState::onExit()
 {
-	delete this->texts["title"];
-	//InputHandler::getInstance()->removeMouseClick(this->ip);
+	for(map<std::string, Text *>::iterator it = this->texts.begin(); it != this->texts.end(); it++)
+		delete it->second;
+	for(map<std::string, MenuButton *>::iterator it = this->buttons.begin(); it != this->buttons.end(); it++)
+	{
+		InputHandler::getInstance()->removeMouseClick(it->second);
+		delete it->second;
+	}
+	for(map<std::string, TextField *>::iterator it = this->textfields.begin(); it != this->textfields.end(); it++)
+	{
+		InputHandler::getInstance()->removeMouseClick(it->second);
+		delete it->second;
+	}
 	return true;
 }
 
 void 
 NetworkState::onMouseClick(MouseClick *mouseClick)
 {
+    if(mouseClick == this->buttons["createRoom"])
+	{
+        //create
+	}
+    else if(mouseClick == this->buttons["joinRoom"])
+	{
+        //join
+	}
+	/*std::string nome = NetworkManager::Instance()->nome;
+	int tipo  = NetworkManager::Instance()->tipo;
+	std::string ip = NetworkManager::Instance()->ip;
+
+	if(tipo == 1)
+		NetworkManager::Instance()->joinRoom(nome, ip);
+	else
+		NetworkManager::Instance()->createRoom(nome, ip);
+
+	NetworkManager::Instance()->launchCommunication();*/
 }
 
