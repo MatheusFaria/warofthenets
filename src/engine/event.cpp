@@ -8,6 +8,9 @@ Event::Event()
     //cout << "Event instanciado!" << endl;
     this->active = true;
     this->eventListener = NULL;
+    
+    this->focusable = false;
+    this->focused = false;
 }
 
 Event::~Event()
@@ -52,6 +55,35 @@ Event::sendMeToListener(SDL_Event event)
     return false;
 }
 
+bool 
+Event::isFocusable()
+{
+    return focusable;
+}
+
+void 
+Event::setFocusable(bool focusable)
+{
+    this->focusable = focusable;
+}
+	
+bool 
+Event::isFocused()
+{
+    return focused;
+}
+
+void 
+Event::setFocused(bool focused)
+{
+    this->focused = focused;
+}
+
+void 
+Event::onFocusChange()
+{
+
+}
 
 Event::EventListener *
 Event::getEventListener()

@@ -159,17 +159,6 @@ NetworkState::onMouseClick(MouseClick *mouseClick)
 		}
 	}
 	
-	if(mouseClick == this->textfields["ip"])
-	{
-	    this->textfields["name"]->setFocused(false);
-	    this->textfields["ip"]->setFocused(true);
-	}
-	else if(mouseClick == this->textfields["name"])
-	{
-	    this->textfields["ip"]->setFocused(false);
-	    this->textfields["name"]->setFocused(true);
-	}
-	
 	/*std::string nome = NetworkManager::Instance()->nome;
 	int tipo  = NetworkManager::Instance()->tipo;
 	std::string ip = NetworkManager::Instance()->ip;

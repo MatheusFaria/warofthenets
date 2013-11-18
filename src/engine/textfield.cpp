@@ -2,6 +2,9 @@
 #include "log.h"
 #include "render.h"
 
+#include <iostream>
+using namespace std;
+
 TextField::TextField(int x, int y, int wField, int hField, int fontSize)
 :MouseClick()
 {
@@ -19,7 +22,7 @@ TextField::TextField(int x, int y, int wField, int hField, int fontSize)
 	this->text = NULL;
 	this->shape = NULL;
 
-	this->focused = false;
+	this->setFocusable(true);
 	this->wCursor = 5;
 }
 
@@ -83,13 +86,8 @@ TextField::eventInMe(SDL_Event sdlEvent)
 	if((x >= this->xField) && (x <= (this->xField + this->wField)) &&
 		(y >= this->yField) && (y <= (this->yField + this->hField)))
 	{
-		//this->focused = true;
-		//SDL_StartTextInput();
 		return true;
 	}
-
-	//this->focused = false;
-	//SDL_StopTextInput();
 	return false;
 }
 
@@ -99,7 +97,7 @@ TextField::verifyEvent(SDL_Event sdlEvent)
     if((sdlEvent.type == SDL_MOUSEBUTTONDOWN) ||
         (sdlEvent.type == SDL_MOUSEBUTTONUP))
         return true;
-	else if(sdlEvent.type == SDL_TEXTINPUT && this->focused && this->xcursor < (this->xField + this->wField - this->wCursor))
+	else if(sdlEvent.type == SDL_TEXTINPUT && this->isFocused() && this->xcursor < (this->xField + this->wField - this->wCursor))
 	{
 		char typed = *sdlEvent.text.text;
 		if(typed >= ' ' && typed <= '~')
@@ -110,7 +108,7 @@ TextField::verifyEvent(SDL_Event sdlEvent)
 		}
 		return false;
 	}
-	else if(sdlEvent.type == SDL_KEYUP && this->focused && this->xcursor < (this->xField + this->wField - this->wCursor))
+	else if(sdlEvent.type == SDL_KEYUP && this->isFocused() && this->xcursor < (this->xField + this->wField - this->wCursor))
 	{
 		char typed = sdlEvent.key.keysym.sym;
 		if(typed == SDLK_BACKSPACE)
@@ -133,6 +131,16 @@ TextField::verifyEvent(SDL_Event sdlEvent)
         return false;
 }
 
+void 
+TextField::onFocusChange()
+{
+    if(this->isFocused())
+	    SDL_StartTextInput();
+    else
+        SDL_StopTextInput();
+}
+
+
 void
 TextField::update()
 {
@@ -146,23 +154,12 @@ TextField::draw()
 	this->rect->draw();
 	this->shape->draw();
 
-	if(this->cursorBlink && this->focused)
+	if(this->cursorBlink && this->isFocused())
 	{
 		this->cursor->draw();
 	}
 
 	this->text->draw();
-}
-
-void
-TextField::setFocused(bool focused)
-{
-    this->focused = focused;
-    
-    if(focused)
-	    SDL_StartTextInput();
-    else
-	    SDL_StopTextInput();
 }
 
 void

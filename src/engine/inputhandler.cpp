@@ -82,7 +82,16 @@ InputHandler::sendSdlEventToListMouseClick(SDL_Event sdlEvent)
     for(it = listMouseClick->begin(); it != listMouseClick->end(); it++)
     {
         if((*it)->sendMeToListener(sdlEvent))
+        {
+            if( (*it)->isFocusable() )
+            {
+                cleanFocused();
+                (*it)->setFocused(true);
+                (*it)->onFocusChange();
+            }
+            
             break;
+        }
     }
 }
 
@@ -96,6 +105,48 @@ InputHandler::sendSdlEventToListMouseMotion(SDL_Event sdlEvent)
         if((*it)->sendMeToListener(sdlEvent))
             break;
     }
+}
+
+void 
+InputHandler::cleanFocused()
+{
+    list<Event *>::iterator itEvent;
+    list<KeyboardEvent *>::iterator itKeyboardEvent;
+    list<MouseEvent *>::iterator itMouseEvent;
+    list<MouseClick *>::iterator itMouseClick;
+    list<MouseMotion *>::iterator itMouseMotion;
+    
+    for(itEvent = listEvent->begin(); itEvent != listEvent->end(); itEvent++)
+    {
+        (*itEvent)->setFocused(false);
+        (*itEvent)->onFocusChange();        
+    }
+    
+    for(itKeyboardEvent = listKeyboardEvent->begin(); itKeyboardEvent != listKeyboardEvent->end(); itKeyboardEvent++)
+    {
+        (*itKeyboardEvent)->setFocused(false);
+        (*itKeyboardEvent)->onFocusChange();        
+    }
+        
+    for(itMouseEvent = listMouseEvent->begin(); itMouseEvent != listMouseEvent->end(); itMouseEvent++)
+    {
+        (*itMouseEvent)->setFocused(false);
+        (*itMouseEvent)->onFocusChange();        
+    }
+        
+    for(itMouseClick = listMouseClick->begin(); itMouseClick != listMouseClick->end(); itMouseClick++)
+    {
+        (*itMouseClick)->setFocused(false);
+        (*itMouseClick)->onFocusChange();        
+    }
+        
+    for(itMouseMotion = listMouseMotion->begin(); itMouseMotion != listMouseMotion->end(); itMouseMotion++)
+    {
+        (*itMouseMotion)->setFocused(false);
+        (*itMouseMotion)->onFocusChange();        
+    }
+    
+    
 }
 
 void
@@ -196,6 +247,7 @@ InputHandler::removeMouseMotion(MouseMotion *mouseMotion)
 {
     listMouseMotion->remove(mouseMotion);
 }
+
 
 
 

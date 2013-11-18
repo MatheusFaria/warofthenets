@@ -15,6 +15,8 @@ public:
 
 	bool eventInMe(SDL_Event sdlEvent);
 	bool verifyEvent(SDL_Event sdlEvent);
+	void onFocusChange();
+	
 	void update();
 	void draw();
 	void clean();
@@ -24,8 +26,6 @@ public:
 	int getHeight() const;
 
 	void setPosition(int x, int y);
-	
-	void setFocused(bool focused);
 
 private:
 	int hField, wField;
@@ -35,7 +35,6 @@ private:
 	int wCursor, hCursor;
 	int fontSize;
 	int cursorBlink;
-	bool focused;
 	Rectangle * rect;
 	Rectangle * shape;
 	Rectangle * cursor;

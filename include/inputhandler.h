@@ -35,6 +35,8 @@ public:
     bool isActive();
     void setActive(bool active);
     
+    void cleanFocused();
+    
 private:
     InputHandler();
     static InputHandler *instance;
