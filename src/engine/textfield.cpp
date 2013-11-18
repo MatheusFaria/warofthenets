@@ -83,13 +83,13 @@ TextField::eventInMe(SDL_Event sdlEvent)
 	if((x >= this->xField) && (x <= (this->xField + this->wField)) &&
 		(y >= this->yField) && (y <= (this->yField + this->hField)))
 	{
-		this->focused = true;
-		SDL_StartTextInput();
+		//this->focused = true;
+		//SDL_StartTextInput();
 		return true;
 	}
 
-	this->focused = false;
-	SDL_StopTextInput();
+	//this->focused = false;
+	//SDL_StopTextInput();
 	return false;
 }
 
@@ -152,6 +152,17 @@ TextField::draw()
 	}
 
 	this->text->draw();
+}
+
+void
+TextField::setFocused(bool focused)
+{
+    this->focused = focused;
+    
+    if(focused)
+	    SDL_StartTextInput();
+    else
+	    SDL_StopTextInput();
 }
 
 void

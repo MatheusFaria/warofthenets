@@ -47,6 +47,7 @@ NetworkState::onEnter()
 	y += this->buttons["createRoom"]->getHeight() + this->textfields["ip"]->getHeight()*3;
 	this->textfields["ip"]->setPosition(x, y);
 	this->textfields["ip"]->init();
+	this->textfields["ip"]->setEventListener(this);
 	InputHandler::getInstance()->addMouseClick(this->textfields["ip"]);
 	
 	this->texts["ip"] = new Text("IP:", 30);
@@ -61,6 +62,7 @@ NetworkState::onEnter()
 	y += this->textfields["ip"]->getHeight()*2;
 	this->textfields["name"]->setPosition(x, y);
 	this->textfields["name"]->init();
+	this->textfields["name"]->setEventListener(this);
 	InputHandler::getInstance()->addMouseClick(this->textfields["name"]);
 
 	this->texts["name"] = new Text("Name:", 30);
@@ -156,6 +158,18 @@ NetworkState::onMouseClick(MouseClick *mouseClick)
 			this->warn->setShow(true);
 		}
 	}
+	
+	if(mouseClick == this->textfields["ip"])
+	{
+	    this->textfields["name"]->setFocused(false);
+	    this->textfields["ip"]->setFocused(true);
+	}
+	else if(mouseClick == this->textfields["name"])
+	{
+	    this->textfields["ip"]->setFocused(false);
+	    this->textfields["name"]->setFocused(true);
+	}
+	
 	/*std::string nome = NetworkManager::Instance()->nome;
 	int tipo  = NetworkManager::Instance()->tipo;
 	std::string ip = NetworkManager::Instance()->ip;
@@ -166,6 +180,8 @@ NetworkState::onMouseClick(MouseClick *mouseClick)
 		NetworkManager::Instance()->createRoom(nome, ip);
 
 	NetworkManager::Instance()->launchCommunication();*/
+	
+	
 }
 
 void

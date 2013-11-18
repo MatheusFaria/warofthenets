@@ -24,6 +24,8 @@ public:
 	int getHeight() const;
 
 	void setPosition(int x, int y);
+	
+	void setFocused(bool focused);
 
 private:
 	int hField, wField;
