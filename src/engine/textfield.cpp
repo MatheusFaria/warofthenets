@@ -110,7 +110,7 @@ TextField::verifyEvent(SDL_Event sdlEvent)
 		}
 		return false;
 	}
-	else if(sdlEvent.type == SDL_KEYUP)
+	else if(sdlEvent.type == SDL_KEYUP && this->focused && this->xcursor < (this->xField + this->wField - this->wCursor))
 	{
 		char typed = sdlEvent.key.keysym.sym;
 		if(typed == SDLK_BACKSPACE)
