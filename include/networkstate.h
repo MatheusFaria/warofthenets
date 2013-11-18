@@ -5,11 +5,14 @@
 #include "gameobject.h"
 #include "menubutton.h"
 #include "networkmanager.h"
-#include <vector>
+#include "textfield.h"
+#include "mouseclick.h"
+#include "warn.h"
+#include <map>
 #include <string>
 
 
-class NetworkState : public GameState{
+class NetworkState : public GameState, MouseClick::MouseClickListener{
 
 public:
 
@@ -21,13 +24,19 @@ public:
 	virtual bool onEnter();
 	virtual bool onExit();
 
-	virtual std::string getStateId();
+	void enableAllClicks();
+	void disableAllClicks();
+
+	virtual std::string getStateId() const;
+	void onMouseClick(MouseClick *mouseClick);
 
 private:
 
-	std::vector<MenuButton*> networkButtonObjects;
+	std::map<std::string, MenuButton*> buttons;
+	std::map<std::string, Text*> texts;
+	std::map<std::string, TextField*> textfields;
+	Warn * warn;
 	static const std::string networkId;
-
 	
 };
 

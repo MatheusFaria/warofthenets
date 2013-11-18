@@ -149,7 +149,6 @@ MenuButton::playSoundOnClick()
 	return false;	
 }
 
-
 void 
 MenuButton::setText(std::string textValue)
 {
@@ -161,27 +160,4 @@ MenuButton::activeTextArea(bool active)
 {
     textAreaIsActive = active;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
