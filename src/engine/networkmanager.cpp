@@ -36,12 +36,6 @@ NetworkManager::init()
 	return 0;
 }
 
-int
-NetworkManager::getTipo() const
-{
-	return tipo;
-}
-
 int NetworkManager::launchCommunication()
 {
 	this->listenThread = SDL_CreateThread(listenNetwork, "listenNetwork", this);
@@ -144,3 +138,39 @@ NetworkManager::listenNetwork(void * ptr)
 	return 0;
 }
 
+int
+NetworkManager::getTipo() const
+{
+	return this->tipo;
+}
+
+void 
+NetworkManager::setTipo(int tipo)
+{
+	this->tipo = tipo;
+}
+
+
+void 
+NetworkManager::setNome(std::string nome)
+{
+	this->nome = nome;
+}
+
+std::string
+NetworkManager::getNome() const
+{
+	return this->nome;
+}
+
+void 
+NetworkManager::setIp(std::string ip)
+{
+	this->ip = ip;
+}
+
+std::string 
+NetworkManager::getIp()
+{
+	return this->ip;
+}

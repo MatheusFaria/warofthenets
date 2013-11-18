@@ -238,7 +238,7 @@ PlayState::onEnter()
 
 	InputHandler::getInstance()->addKeyboardEvent(this);
 
-	if(NetworkManager::Instance()->tipo == 0)
+	if(NetworkManager::Instance()->getTipo() == 0)
 	{
 		isMyTurn = true;
 		ativarBotoes(true);

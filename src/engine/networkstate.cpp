@@ -1,4 +1,5 @@
 #include "networkstate.h"
+#include "playstate.h"
 #include "inputhandler.h"
 #include "text.h"
 #include "image.h"
@@ -138,12 +139,21 @@ NetworkState::onMouseClick(MouseClick *mouseClick)
 		{
 			this->warn->setText("You typed the IP wrong.");
 			this->warn->setShow(true);
+			return;
 		}
         else if(textfields["name"]->getText() == "")
 		{
 			this->warn->setText("You typed the name wrong.");
 			this->warn->setShow(true);
+			return;
 		}
+
+		NetworkManager::Instance()->setTipo(1);
+		NetworkManager::Instance()->setIp(textfields["ip"]->getText());
+		NetworkManager::Instance()->setNome(textfields["name"]->getText());
+		NetworkManager::Instance()->createRoom(textfields["name"]->getText(),textfields["ip"]->getText());
+		NetworkManager::Instance()->launchCommunication();
+		Game::Instance()->getStateMachine()->pushState(new PlayState());
 	}
     else if(mouseClick == this->buttons["joinRoom"])
 	{
@@ -151,12 +161,20 @@ NetworkState::onMouseClick(MouseClick *mouseClick)
 		{
 			this->warn->setText("You typed the IP wrong.");
 			this->warn->setShow(true);
+			return;
 		}
         else if(textfields["name"]->getText() == "")
 		{
 			this->warn->setText("You typed the name wrong.");
 			this->warn->setShow(true);
+			return;
 		}
+		NetworkManager::Instance()->setTipo(0);
+		NetworkManager::Instance()->setIp(textfields["ip"]->getText());
+		NetworkManager::Instance()->setNome(textfields["name"]->getText());
+		NetworkManager::Instance()->joinRoom(textfields["name"]->getText(),textfields["ip"]->getText());
+		NetworkManager::Instance()->launchCommunication();
+		Game::Instance()->getStateMachine()->pushState(new PlayState());
 	}
 	
 	if(mouseClick == this->textfields["ip"])

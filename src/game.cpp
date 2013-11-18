@@ -72,8 +72,8 @@ Game::init()
 	SDL_SetRenderDrawBlendMode(this->window->getRender()->getRenderer(), SDL_BLENDMODE_BLEND);
 
 	this->gameStateMachine = new GameStateMachine();
-	//this->gameStateMachine->changeState(new MenuState());
-	this->gameStateMachine->changeState(new NetworkState());
+	this->gameStateMachine->changeState(new MenuState());
+	//this->gameStateMachine->changeState(new NetworkState());
 }
 
 GameStateMachine*

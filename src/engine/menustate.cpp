@@ -2,6 +2,7 @@
 #include "playstate.h"
 #include "creditstate.h"
 #include "inputhandler.h"
+#include "networkstate.h"
 #include "render.h"
 #include "texturemanager.h"
 #include "game.h"
@@ -145,7 +146,8 @@ void
 MenuState::menuToPlay()
 {
 	//Game::Instance()->getStateMachine()->pushState(new GameOverState());
-	Game::Instance()->getStateMachine()->pushState(new PlayState());
+	//Game::Instance()->getStateMachine()->pushState(new PlayState());
+	Game::Instance()->getStateMachine()->pushState(new NetworkState());
 }
 
 void

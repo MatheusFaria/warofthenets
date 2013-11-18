@@ -22,10 +22,16 @@ public:
 	Data receiveMessage();
 	void sendMessage(Data message);
 
+	void setTipo(int tipo);
 	int getTipo() const;
 
-	int tipo;
-	std::string ip, nome;
+	void setNome(std::string nome);
+	std::string getNome() const;
+
+	void setIp(std::string ip);
+	std::string getIp();
+	
+	
 
 
 private:
@@ -41,6 +47,9 @@ private:
 	int init();
 	static int listenNetwork(void * ptr); 
 	void runNetwork();
+
+	int tipo;
+	std::string ip, nome;
 
 	static NetworkManager* instance;
 };
