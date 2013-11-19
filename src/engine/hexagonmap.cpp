@@ -89,6 +89,7 @@ HexagonMap::createMap()
 			Hexagon *hexagon = new Hexagon(50, Render::getInstance());
 			hexagon->setDrawColor(0, 0, 0 , 255);
 			hexagon->setPosition(xPos, yPos);
+			hexagon->addBackgroundImage("resources/img/hex_grama.png");
 			vectorHexagon.push_back(hexagon);
 			InputHandler::getInstance()->addMouseClick(hexagon);
             foundAdjacents(hexagon);

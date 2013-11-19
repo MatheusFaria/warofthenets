@@ -59,7 +59,7 @@ NetworkManager::createRoom(std::string name, std::string ip)
 	cout << "Object Server Created" << endl;
 	cout << this->client->createServer() << endl;
 	cout << "Server Created" << endl;
-	while(this->client->acceptConnection());
+	while(this->client->acceptConnection()){ SDL_Delay(1);}
 }
 
 int

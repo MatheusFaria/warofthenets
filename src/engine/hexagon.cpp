@@ -136,8 +136,25 @@ Hexagon::activateSpy()
 }
 
 void 
+Hexagon::draw()
+{
+    DrawableObject::draw();
+    
+    for(unsigned int i = 0; i < backgroundImages.size(); i++)
+        backgroundImages[i]->draw();
+}
+
+void 
 Hexagon::update()
 {
+    for(unsigned int i = 0; i < backgroundImages.size(); i++)
+    {
+        int x = getX() + (getWidth()/2) - (backgroundImages[i]->getWidth()/2);
+		int y = getY() + (getHeight()/2) - (backgroundImages[i]->getHeight()/2);
+		
+        backgroundImages[i]->setPosition(x, y);
+    }
+
 	if(dynamic_cast<Base*> (object))
 	{
 		int x = getX() - object->getWidth()/4;
@@ -162,6 +179,12 @@ Hexagon::update()
 		vitoria->setPosition(getX()+2, getY()+2);
 }
 
+void 
+Hexagon::addBackgroundImage(std::string imagePath)
+{
+    Image *image = new Image(imagePath, 0, 0);
+    backgroundImages.push_back(image);
+}
 
 void 
 Hexagon::setEventMouse(int mouse_state)

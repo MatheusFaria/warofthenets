@@ -5,6 +5,7 @@
 #include "image.h"
 #include "gameobject.h"
 #include "mouseclick.h"
+#include <vector>
 
 class Hexagon: virtual public DrawableObject, public MouseClick{
 public:
@@ -15,6 +16,7 @@ public:
 	virtual bool eventInMe(SDL_Event sdlEvent);
 
 	void update();
+	void draw();
 	bool setObject(GameObject* _object);
 	void destroyGameObject();
 	
@@ -29,6 +31,8 @@ public:
 	bool isVictoryPoint();
 
 	bool isMyCoordinate(int x, int y);
+	
+	void addBackgroundImage(std::string imagePath);
 
 private:
 	int size;
@@ -36,10 +40,14 @@ private:
 	void putObjectInSurface();
 	void activateSpy();
 
+    std::vector<Image*> backgroundImages;
+
 	GameObject *object;
 	GameObject *bomba;
 	GameObject* spy;
 	Image* vitoria;
+	
+	
 
 	void setEventMouse(int mouse_state);
 	void resetEventMouse();
