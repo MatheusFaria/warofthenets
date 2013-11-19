@@ -47,7 +47,6 @@ private:
 	GameObject* spy;
 	Image* vitoria;
 	
-	
 
 	void setEventMouse(int mouse_state);
 	void resetEventMouse();

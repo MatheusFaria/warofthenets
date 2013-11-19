@@ -9,8 +9,12 @@ class Torre : public Image{
 public:
 
 	Torre(int tipoTorre, int numLevelTower = 1, int x=0, int y=0, std::string path = "resources/img/tower.png");
+	
 	virtual void update();
 	virtual void draw();
+	virtual void clean();
+	
+	virtual void setPosition(int, int);
 	
 	static int getCustoAtualizacao();
 	static void setCustoAtualizacao(int _custoAtualizacao);
@@ -44,6 +48,8 @@ private:
 	static int custoUnidade;
 
 	int tipoTorre;
+	
+	Image *imageAliada;
 
 	
 

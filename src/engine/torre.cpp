@@ -20,6 +20,8 @@ Torre::Torre(int tipoTorre, int numLevelTower, int x, int y, std::string path):I
 	currentFrame = numLevelTower - 1;
 
 	numInformacao  = 4;
+	
+	imageAliada = new Image("resources/img/hexagonovermelho.png", 0, 0);
 
 	playSound();
 }
@@ -40,9 +42,29 @@ Torre::update()
 	numInformacao = numInformacao*numLevelTower;
 }
 
+void 
+Torre::setPosition(int x, int y)
+{
+    int imageAliadaX = x + (getWidth()/6) - (imageAliada->getWidth()/2);
+    int imageAliadaY = y + (getHeight()/4) - (imageAliada->getHeight()/2);    
+    
+    SDLGameObject::setPosition(x, y);
+    imageAliada->setPosition(imageAliadaX, imageAliadaY);    
+}
+
+void 
+Torre::clean()
+{
+    imageAliada->clean();
+    delete imageAliada;
+}
+
 void
 Torre::draw()
-{
+{    
+    if(isAliada())
+        imageAliada->draw();
+    
 	TextureManager::Instance()->drawFrame(imageId, (Uint32)position.getX(),(Uint32)position.getY(),width/3,
 	 height/numFrames, actualRow, currentFrame,Render::getInstance()->getRenderer(), 0 );
 }
