@@ -25,7 +25,11 @@ const std::string PlayState::playId = "PLAY";
 
 void
 PlayState::update()
-{
+{    
+	atualizarMapa();
+	
+	hexagonMap->update();
+	
 	for(int i =0; i<(int)playObjects.size(); i++)
 		playObjects[i]->update();
 
@@ -37,8 +41,6 @@ PlayState::update()
 
 	for(int i =0; i<(int)hudButtons.size(); i++)
 		hudButtons[i]->update();
-
-    hexagonMap->update();
 
 	if(bombObject != NULL)
 	{
@@ -79,14 +81,8 @@ PlayState::update()
 	txtLevelBomb->setText(std::to_string(numLevelBomb));
 	txtLevelTower->setText(std::to_string(numLevelTower));
 	txtLevelSpy->setText(std::to_string(numLevelSpy));
-	
-	
-	
-	
-    
-    
-	atualizarMapa();
-	
+	    
+    	
 	if(!isMyTurn)
 		receberMensagens();
 
@@ -145,11 +141,10 @@ PlayState::calculateTime()
 void
 PlayState::render()
 {
-
-	for(int i =0; i<(int)vectorEnemyObjects.size(); i++)
-		vectorEnemyObjects[i]->draw();
-
     hexagonMap->draw();
+    
+    for(int i =0; i<(int)vectorEnemyObjects.size(); i++)
+		vectorEnemyObjects[i]->draw();
 
     for(int i =0; i<(int)playObjects.size(); i++)
 		playObjects[i]->draw();
