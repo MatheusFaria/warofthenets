@@ -9,7 +9,7 @@
 class TextField: public MouseClick{
 public:
 	TextField(int x, int y, int wField, int hField, int fontSize = 30);
-	~TextField();
+	virtual ~TextField();
 
 	void init();
 
