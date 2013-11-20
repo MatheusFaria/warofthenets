@@ -21,7 +21,17 @@
 
 #define VICTORY 70
 
+#define DISCONECTED 90
+
 const std::string PlayState::playId = "PLAY";
+
+void informarDesconexao()
+{
+    Data data;
+	data.type = DISCONECTED;
+
+	NetworkManager::Instance()->sendMessage(data);
+}
 
 void
 PlayState::update()
@@ -176,6 +186,8 @@ PlayState::render()
 bool
 PlayState::onEnter()
 {
+    atexit(informarDesconexao);
+
 	loadMusics();
 
 	mapColumns = 25;
@@ -892,11 +904,7 @@ PlayState::informarVitoria()
 	data.type = VICTORY;
 
 	std::cout<<"EPIC WIN!!!!"<<std::endl;
-	fimDeJogo = true;
-	ativarBotoes(false);
-	hexagonMap->setActive(false);
-	quit->setActive(true);
-
+	finalizarJogo();
 	
 	NetworkManager::Instance()->sendMessage(data);
 }
@@ -1202,8 +1210,12 @@ PlayState::parseData(Data data)
 	    
     else if(unidade == UPDATE_TOWER/10)
         atualizarTorresInimigas();
+        
     else if(unidade == VICTORY/10)
     	receberVitoria();
+    	
+	else if(unidade == DISCONECTED/10)
+	    finalizarJogo();
 }
 
 /*Hexagon * 
@@ -1244,9 +1256,17 @@ void
 PlayState::receberVitoria()
 {
 	std::cout<<"Que loucura cara, vc joga de uma maneira burra"<<std::endl;
-	ativarBotoes(false);
+	finalizarJogo();
+}
+
+void 
+PlayState::finalizarJogo()
+{
+	isMyTurn = true;
+	
+    ativarBotoes(false);
 	hexagonMap->setActive(false);
 	quit->setActive(true);
 
-	fimDeJogo = true;
+	fimDeJogo = true;	
 }

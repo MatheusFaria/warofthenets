@@ -79,6 +79,7 @@ private:
 	void verificarVitoria(Hexagon *hexagon);
 	void receberVitoria();
 	void informarVitoria();
+	void finalizarJogo();
 
 	bool isMyTurn;
 
