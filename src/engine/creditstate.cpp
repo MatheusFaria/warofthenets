@@ -1,4 +1,5 @@
 #include "creditstate.h"
+#include "menustate.h"
 #include "game.h"
 #include "texturemanager.h"
 #include "SDL2/SDL.h"
@@ -74,7 +75,7 @@ bool
 CreditState::eventInMe(SDL_Event sdlEvent)
 {
 	if(sdlEvent.key.keysym.sym == SDLK_ESCAPE){
-		Game::Instance()->getStateMachine()->popState();
+		Game::Instance()->getStateMachine()->pushState(new MenuState());
 		return true;
 	}
 
