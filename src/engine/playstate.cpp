@@ -66,7 +66,6 @@ PlayState::update()
 			{	
 				if(vectorHexagon[i]->getBomba() != NULL )
 				{
-					std::cout << "i: " << i << std::endl;
 					bombObject->explode(hexagonMap->getGrafoHexagon(), vectorHexagon[i]);
 					destroyVectorObjects(bombObject->getVetorDestruicao());
 					//vectorHexagon[i]->destroyGameObject();
@@ -91,9 +90,10 @@ PlayState::update()
 	txtLevelBomb->setText(std::to_string(numLevelBomb));
 	txtLevelTower->setText(std::to_string(numLevelTower));
 	txtLevelSpy->setText(std::to_string(numLevelSpy));
-	    
+    
+    //std::cout << "fimDeJogo: " << fimDeJogo << std::endl;
     	
-	if(!isMyTurn)
+	if(!fimDeJogo)
 		receberMensagens();
 
 }
@@ -746,7 +746,7 @@ PlayState::incObject()
 void
 PlayState::decObject(GameObject* object)
 {
-	std::cout<<"Entrou aqui"<<std::endl;
+	//std::cout<<"Entrou aqui"<<std::endl;
 
 	if(dynamic_cast<Torre*>(object))
 		numTower--;
@@ -857,8 +857,6 @@ PlayState::criarBombaInimiga(Data data)
     Hexagon* hex = hexagonMap->encontrarHexagono(data.x, data.y);
     
     Bomba *bomb = new Bomba(data.type % 10, hex->getX(), hex->getY());
-        
-    std::cout << std::endl;
     
     hex->setObject(bomb);
     bombObject = bomb;
@@ -925,7 +923,6 @@ PlayState::deleteObject(Hexagon *hex)
 		if(it != playObjects.end())
 		{
 		    decObject(object);
-		    std::cout<<"dec object"<<std::endl;
 			playObjects.erase(it);
 		}	
 				
@@ -955,7 +952,6 @@ PlayState::deleteObject(Hexagon *hex)
 void
 PlayState::destroyVectorObjects(std::vector<Hexagon*> destroy)
 {
-	std::cout << "destroy.size(): " << destroy.size() << std::endl;
 	for(unsigned int i =0; i<destroy.size();i++)
 		deleteObject(destroy[i]);
 }
@@ -973,12 +969,10 @@ PlayState::finalizarTurno()
 	{
 		if(dynamic_cast<Torre*>(playObjects[i]))
 		{
-			std::cout<<"Entrou aqui"<<std::endl;
 			numInformacao+=((Torre*)playObjects[i])->getInformacao();
 		}	
 		else if(dynamic_cast<Spy*>(playObjects[i]))
 		{
-		    std::cout<<"Entrou aqui"<<std::endl;
 			numInformacao+=((Spy*)playObjects[i])->getInformacao();
 		}
 	}
@@ -1181,12 +1175,17 @@ PlayState::receberMensagens()
 		data.x -= this->x;
 		data.y -= this->y;
 
+        /*
         std::cout << "\nreceberMensagens: " << data.x << std::endl;    
         std::cout << "data.type: " << data.type << std::endl;   
         std::cout << "data.x: " << data.x << std::endl;
         std::cout << "data.y: " << data.y << std::endl<< std::endl;
-
+        */
+        
 		parseData(data);
+		
+		if(data.type == DISCONECTED)
+		    break;
 	}
 }
 
@@ -1262,6 +1261,7 @@ PlayState::receberVitoria()
 void 
 PlayState::finalizarJogo()
 {
+    //std::cout<<"\n\n RECEBEU MSG PARA FINALIZAR! \n\n"<<std::endl;
 	isMyTurn = true;
 	
     ativarBotoes(false);
