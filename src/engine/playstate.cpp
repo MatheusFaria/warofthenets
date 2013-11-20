@@ -113,6 +113,8 @@ PlayState::update()
             ativarBotoes(false);
 	        hexagonMap->setActive(false);
 	        quit->setActive(true);
+	        Game::Instance()->getStateMachine()->changeState(new GameOverState());
+		    return;
         }
     }
     
@@ -284,10 +286,9 @@ PlayState::onEnter()
 
     
     warnDisconect = new Warn("You typed the wrong IP", "resources/img/warnok.png",
-							"resources/audio/fx_stab-001.wav", "resources/font/Army.ttf");
+							"resources/audio/fx_stab-001.wav", "resources/font/Army.ttf", 26);
 	warnDisconect->init();
-	warnDisconect->setShow(false);	
-    warnDisconect->setText("Your opponent has disconnected.");
+	warnDisconect->setShow(false);
 
 
 	std::cout<<"Play State"<<std::endl;
@@ -932,7 +933,11 @@ PlayState::informarVitoria()
 	Data data;
 	data.type = VICTORY;
 
-	std::cout<<"EPIC WIN!!!!"<<std::endl;
+	//std::cout<<"EPIC WIN!!!!"<<std::endl;
+	
+	warnDisconect->setText("EPIC WIN!!!!.");
+	warnDisconect->setShow(true);
+	
 	finalizarJogo();
 	
 	NetworkManager::Instance()->sendMessage(data);
@@ -1285,7 +1290,11 @@ PlayState::loadMusics()
 void
 PlayState::receberVitoria()
 {
-	std::cout<<"Que loucura cara, vc joga de uma maneira burra"<<std::endl;
+	//std::cout<<"Que loucura cara, vc joga de uma maneira burra"<<std::endl;
+	
+	warnDisconect->setText("Que loucura cara, vc joga de uma maneira burra!");
+	warnDisconect->setShow(true);
+	
 	finalizarJogo();
 }
 
@@ -1305,6 +1314,8 @@ PlayState::finalizarJogo()
 void 
 PlayState::oponentDisconected()
 {
+    warnDisconect->setText("Your opponent has disconnected.");
 	warnDisconect->setShow(true);
+	
     finalizarJogo();
 }
