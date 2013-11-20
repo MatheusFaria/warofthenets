@@ -95,7 +95,29 @@ PlayState::update()
     	
 	if(!fimDeJogo)
 		receberMensagens();
-
+	
+	if(warnDisconect->getShow())
+	{
+	    ativarBotoes(false);
+	    hexagonMap->setActive(false);
+	}
+	else
+	{
+	    if(!fimDeJogo)
+	    {
+		    ativarBotoes(true);
+	        hexagonMap->setActive(true);
+        }
+        else
+        {
+            ativarBotoes(false);
+	        hexagonMap->setActive(false);
+	        quit->setActive(true);
+        }
+    }
+    
+    warnDisconect->update();
+    
 }
 
 void 
@@ -181,6 +203,8 @@ PlayState::render()
 	txtLevelTower->draw();
 	txtLevelSpy->draw();
 	txtTurno->draw();
+	
+	warnDisconect->draw();
 }
 
 bool
@@ -257,6 +281,13 @@ PlayState::onEnter()
 		ativarBotoes(false);
 		txtTurno->setText("WAIT");
 	}
+
+    
+    warnDisconect = new Warn("You typed the wrong IP", "resources/img/warnok.png",
+							"resources/audio/fx_stab-001.wav", "resources/font/Army.ttf");
+	warnDisconect->init();
+	warnDisconect->setShow(false);	
+    warnDisconect->setText("Your opponent has disconnected.");
 
 
 	std::cout<<"Play State"<<std::endl;
@@ -967,7 +998,7 @@ PlayState::finalizarTurno()
 
 	for(unsigned int i =0; i<playObjects.size();i++)
 	{
-		if(dynamic_cast<Torre*>(playObjects[i]))
+		if(dynamic_cast<Torre*>(playObjects[i]) && !dynamic_cast<Base*>(playObjects[i]))
 		{
 			numInformacao+=((Torre*)playObjects[i])->getInformacao();
 		}	
@@ -1214,7 +1245,7 @@ PlayState::parseData(Data data)
     	receberVitoria();
     	
 	else if(unidade == DISCONECTED/10)
-	    finalizarJogo();
+	    oponentDisconected();
 }
 
 /*Hexagon * 
@@ -1269,4 +1300,11 @@ PlayState::finalizarJogo()
 	quit->setActive(true);
 
 	fimDeJogo = true;	
+}
+
+void 
+PlayState::oponentDisconected()
+{
+	warnDisconect->setShow(true);
+    finalizarJogo();
 }

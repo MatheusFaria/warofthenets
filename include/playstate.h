@@ -14,6 +14,7 @@
 #include "keyboardevent.h"
 #include "hexagonmap.h"
 #include "networkplayer.h"
+#include "warn.h"
 #include <vector>
 #include <map>
 #include <queue>
@@ -80,6 +81,7 @@ private:
 	void receberVitoria();
 	void informarVitoria();
 	void finalizarJogo();
+	void oponentDisconected();
 
 	bool isMyTurn;
 
@@ -162,6 +164,8 @@ private:
     Text *txtLevelTower;
     Text *txtLevelBomb;
     Text* txtLevelSpy;
+
+    Warn * warnDisconect;
 
     bool fimDeJogo;
 	int eventX;
