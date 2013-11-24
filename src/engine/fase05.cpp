@@ -20,5 +20,5 @@ Fase05::verificarSeVenceu(void **args, int numArgs)
 	int *levelSpy = (int*) args[1];
 	int *levelBomba = (int*) args[2];
 
-	return *levelTorre == 2 && *levelBomba == 2 && *levelSpy == 2;
+	return *levelTorre == 3 && *levelBomba == 3 && *levelSpy == 3;
 }
