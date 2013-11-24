@@ -14,5 +14,6 @@ include_HEADERS = 	window.h render.h image.h game.h text.h sdlsettings.h \
 					inputhandler.h keyboardevent.h mouseclick.h mouseevent.h \
 					mousemotion.h creditstate.h gameoverstate.h renderableobject.h \
 					geometry.h torre.h bomba.h spy.h hexagonmap.h networkmanager.h \
-					networkplayer.h networkstate.h base.h textarea.h textfield.h warn.h
+					networkplayer.h networkstate.h base.h textarea.h textfield.h warn.h \
+					parseArquivo.h
 
