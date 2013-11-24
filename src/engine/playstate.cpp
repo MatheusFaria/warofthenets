@@ -184,6 +184,26 @@ PlayState::calculateTime()
 void
 PlayState::render()
 {
+	int backgroundX = background->getX();
+	int backgroundY = background->getY();
+
+	background->draw();
+
+	background->setX(backgroundX + background->getWidth());
+	background->setY(backgroundY);
+	background->draw();
+
+	background->setX(backgroundX + background->getWidth());
+	background->setY(backgroundY + background->getHeight());
+	background->draw();
+
+	background->setX(backgroundX);
+	background->setY(backgroundY + background->getHeight());
+	background->draw();
+
+	background->setPosition(backgroundX, backgroundY);
+
+
     hexagonMap->draw();
     
     for(int i =0; i<(int)vectorEnemyObjects.size(); i++)
@@ -440,6 +460,8 @@ PlayState::createHUD()
 
 	std::string font = "resources/font/Army.ttf";
 	int espacamento = 20;
+
+	background = new Image("resources/img/fundo2.png", 0, 0);
 
 	recursoInformacao= new MenuButton(0, 0, "resources/img/paionelinformacao.png", "botaorecursoinformacao");
 	int recursoInformacaoX = 0;
@@ -1169,7 +1191,7 @@ PlayState::atualizarMapa()
 	}
 	else
 	{
-		if(this->x + windowWidth > (mapColumns * 75))
+		if(this->x + windowWidth > ((mapColumns * 75) + 100))
 			this->velocityX = 0;
 	}
 
@@ -1181,7 +1203,7 @@ PlayState::atualizarMapa()
 	}
 	else
 	{
-		if(this->y + windowHeight > (mapRows * 87) + 44)
+		if(this->y + windowHeight > (mapRows * 87) + 44) 
 			this->velocityY=0;
 	}
 
@@ -1197,6 +1219,9 @@ PlayState::atualizarMapa()
 	this->x = (this->x + this->velocityX);
 	this->y = (this->y + this->velocityY);
 	
+	background->setX(background->getX() - this->velocityX);
+	background->setY(background->getY() - this->velocityY);
+
 	hexagonMap->setVelocityX(velocityX);
 	hexagonMap->setVelocityY(velocityY);
 }

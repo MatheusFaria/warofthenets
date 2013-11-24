@@ -126,6 +126,7 @@ private:
 	Image *levelBomb;
 	Image *levelSpy;
 	Image* vitoria;
+	Image* background;
 
 	bool towerActualized;
 	bool bombActualized;
