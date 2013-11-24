@@ -10,6 +10,8 @@
 #include "networkmanager.h"
 #include "soundmanager.h"
 #include "textarea.h"
+#include "fase01.h"
+#include "fase02.h"
 #include <algorithm>
 #include <iostream>
 
@@ -122,11 +124,18 @@ PlayState::update()
     
 }
 
-void 
+bool 
 PlayState::verificarVitoria(Hexagon *hexagon)
 {
 	if(hexagonMap->isVictory(hexagon))
+	{
 		informarVitoria();
+		return true;
+	} else 
+	{
+		return false;
+	}	
+		
 
 }
 
@@ -216,6 +225,14 @@ PlayState::onEnter()
 
 	loadMusics();
 
+	parseArquivo.loadArquivo("src/game/levels/fase01.txt");
+
+	cout << endl;
+	cout << "parseArquivo.getCustoTorre(): " << parseArquivo.getCustoTorre() << endl;
+	cout << "parseArquivo.getCustoBomba(): " << parseArquivo.getCustoBomba() << endl;
+	cout << "parseArquivo.getCustoEspiao(): " << parseArquivo.getCustoEspiao() << endl;
+	cout << endl;
+
 	mapColumns = 25;
 	mapRows = 15;
 
@@ -236,20 +253,20 @@ PlayState::onEnter()
 
 	Render::getInstance()->setColor(255, 255, 255 , 255);
 
-	Torre::setCustoUnidade(3);
-	Bomba::setCustoUnidade(5);
-	Spy::setCustoUnidade(5);
+	Torre::setCustoUnidade(parseArquivo.getCustoTorre());
+	Bomba::setCustoUnidade(parseArquivo.getCustoBomba());
+	Spy::setCustoUnidade(parseArquivo.getCustoEspiao());
 
-	Torre::setCustoAtualizacao(5);
-	Bomba::setCustoAtualizacao(5);
-	Spy::setCustoAtualizacao(5);
+	Torre::setCustoAtualizacao(parseArquivo.getUpgradeTorre());
+	Bomba::setCustoAtualizacao(parseArquivo.getUpgradeBomba());
+	Spy::setCustoAtualizacao(parseArquivo.getUpgradeEspiao());
 
 	idSelected = "";
     
     hexagonMap = new HexagonMap(mapColumns, mapRows);
     hexagonMap->setEventListener(this);
     	
-	numInformacao = 3;
+	numInformacao = parseArquivo.getNumeroRecursoInicial();
 	numTower = 0;
 	numBomb = 0;
 	numSpy = 0;
@@ -265,7 +282,6 @@ PlayState::onEnter()
 	velocityY = 0;
 
 	criarBase();
-	criarPontoVitoria();
 	createHUD();
 	iniciarTurno();
 
@@ -291,6 +307,8 @@ PlayState::onEnter()
 	warnDisconect->setShow(false);
 
 
+	definirCondicaoDeVitoria();
+
 	std::cout<<"Play State"<<std::endl;
 	return true;
 }
@@ -299,21 +317,28 @@ void
 PlayState::criarBase()
 {
 	int baseUm, baseDois;
+	Vector2D pos1, pos2;
+
     if(NetworkManager::Instance()->getTipo() == 1)
 	{
 	    baseUm = Torre::ALIADA;
 	    baseDois = Torre::INIMIGA;
+	    pos1 = parseArquivo.getBaseAlidaPosicao();
+	    pos2 = parseArquivo.getBaseInimigaPosicao();
     }else{
     	baseDois = Torre::ALIADA;
 	    baseUm = Torre::INIMIGA;
+	    pos1 = parseArquivo.getBaseAlidaPosicao();
+	    pos2 = parseArquivo.getBaseInimigaPosicao();
     }
 
-    base1 = new Base(baseUm, 1, 0,0);
-    hexagonMap->putObjectOnMap(2, 2, base1);
+
+    base1 = new Base(baseUm, 1, 0, 0, "resources/img/base.png");
+    hexagonMap->putObjectOnMap(pos1.getX(), pos1.getY(), base1);
     playObjects.push_back(base1);
 
-    base2 = new Base(baseDois, 1, 0,0);
-    hexagonMap->putObjectOnMap(19, 2, base2);
+    base2 = new Base(baseDois, 1, 0, 0, "resources/img/base.png");
+    hexagonMap->putObjectOnMap(pos2.getX(), pos2.getY(), base2);
     playObjects.push_back(base2);
 
 
@@ -323,10 +348,14 @@ void
 PlayState::criarPontoVitoria()
 {
 	vitoria = new Image("resources/img/hexagonoazul.png", 0, 0);
+
+	Vector2D posAliado = parseArquivo.getPontoVitoriaAliado();
+	Vector2D posInimigo = parseArquivo.getPontoVitoriaInimigo();
+
     if(NetworkManager::Instance()->getTipo() == 1)
-    	hexagonMap->putObjectOnMap(19, 10, vitoria);	
+    	hexagonMap->putObjectOnMap(posAliado.getX(), posAliado.getY(), vitoria);	
     else
-    	hexagonMap->putObjectOnMap(2, 10, vitoria);
+    	hexagonMap->putObjectOnMap(posInimigo.getX(), posInimigo.getY(), vitoria);
 
     playObjects.push_back(vitoria);
     
@@ -829,7 +858,14 @@ PlayState::criarTorre(Hexagon *hex, Torre *tower)
 			incObject();
 			numInformacao -= Torre::getCustoUnidade();
 
-			verificarVitoria(hex);
+			std::cout << "\n parseArquivo.getTipoObjetivo(): " << parseArquivo.getTipoObjetivo() << std::endl;
+
+			if(parseArquivo.getTipoObjetivo() == '1')
+			{
+				void *args[] = {this, hex}; 
+				std::cout << "condicaoVitoria->verificarSeVenceu(args, 2);" << std::endl;
+				condicaoVitoria->verificarSeVenceu(args, 2);
+			}
 		}
 	}
 
@@ -1013,6 +1049,16 @@ PlayState::finalizarTurno()
 		}
 	}
 
+	if(parseArquivo.getTipoObjetivo() == '2')
+	{
+		int infoAtual = numInformacao;
+		int infoVitoria = parseArquivo.getNumInfoVitoria();
+
+		void *args[] = {&infoAtual, &infoVitoria}; 
+		if(condicaoVitoria->verificarSeVenceu(args, 2))
+			informarVitoria();
+	}
+
 	Data data;
 	data.type = 40;
 	NetworkManager::Instance()->sendMessage(data);
@@ -1160,6 +1206,12 @@ PlayState::eventInMe(SDL_Event sdlEvent)
 {
 	int velocity = 10;
 
+	if(sdlEvent.key.keysym.sym == SDLK_o)
+	{
+		//std::cout << parseArquivo.getDescricaoObjetivo() << std::endl;
+		warnDisconect->setText(parseArquivo.getDescricaoObjetivo());
+		warnDisconect->setShow(true);
+	}
 	
 	if(sdlEvent.key.keysym.sym == SDLK_UP)
 	{
@@ -1318,4 +1370,23 @@ PlayState::oponentDisconected()
 	warnDisconect->setShow(true);
 	
     finalizarJogo();
+}
+
+void
+PlayState::definirCondicaoDeVitoria()
+{
+	switch(parseArquivo.getTipoObjetivo())
+	{
+		case '1':
+			condicaoVitoria = new Fase01();
+			break;
+
+		case '2':
+			condicaoVitoria = new Fase02();
+			break;
+
+	}
+
+	void *args[] = {this};
+	condicaoVitoria->iniciarCondicoes(args, 1);
 }

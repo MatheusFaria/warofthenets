@@ -2,12 +2,13 @@
 #define BASE_H
 
 #include "torre.h"
+#include <string>
 
 class Base : public Torre{
 
 public:
 
-	Base(int tipoBase, int informacoesPorTurno, int x, int y);
+	Base(int tipoBase, int informacoesPorTurno, int x, int y, std::string path);
 	virtual int getInformacao();
 
 	virtual void update();

@@ -9,11 +9,11 @@ class ParseArquivo{
 
 public:
 
-	ParseArquivo();
+	ParseArquivo(){};
 
 	bool loadArquivo(std::string path);
 
-	char getTipObjetivo() const;
+	char getTipoObjetivo() const;
 	Vector2D getBaseAlidaPosicao() const;
 	Vector2D getBaseInimigaPosicao() const;
 	Vector2D getPontoVitoriaAliado() const;
@@ -37,11 +37,12 @@ public:
 	char getTipoBaseAliada() const;
 	char getTipoBaseInimiga() const;
 
+	std::string getDescricaoObjetivo() const;
 
+	int getNumInfoVitoria() const;
 
 private:	
-
-	map<std::string, std::string> dados;
+	std::map<std::string, std::string> dados;
 
 	char tipoObjetivo;
 	Vector2D baseAlidaPosicao;
@@ -66,6 +67,38 @@ private:
 
 	char tipoBaseAliada;
 	char tipoBaseInimiga;
+
+	int numInfoVitoria;
+
+	std::string descricaoObjetivo;
+	
+	void setTipoObjetivo();
+	void setBaseAlidaPosicao();
+	void setBaseInimigaPosicao();
+	void setPontoVitoriaAliado();
+	void setPontoVitoriaInimigo();
+	void setNumeroRecursoInicial();
+
+	void setCustoTorre();
+	void setCustoBomba();
+	void setCustoEspiao();
+
+	void setEvolucaoCustoTorre();
+	void setEvolucaoCustoEspiao();
+	void setEvolucaoCustoBomba();
+
+	void setUpgradeTorre();
+	void setUpgradeBomba();	
+	void setUpgradeEspiao();
+
+	void setTipoFundo();
+
+	void setTipoBaseAliada();
+	void setTipoBaseInimiga();
+
+	void setDescricaoObjetivo();
+
+	void setNumInfoVitoria();
 };
 
 #endif

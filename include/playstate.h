@@ -15,6 +15,8 @@
 #include "hexagonmap.h"
 #include "networkplayer.h"
 #include "warn.h"
+#include "parseArquivo.h"
+#include "condicaodevitoria.h"
 #include <vector>
 #include <map>
 #include <queue>
@@ -34,6 +36,9 @@ public:
 
 	virtual void onMouseClick(MouseClick *mouseClick);
 	virtual bool eventInMe(SDL_Event sdlEvent);
+
+	void criarPontoVitoria();
+	bool verificarVitoria(Hexagon *hexagon);
 
 
 private:
@@ -64,7 +69,6 @@ private:
 	void criarEspiao(Hexagon *hex, Spy *spy);
 	void criarEspiaoInimiga(Data data);
 	void criarBase();
-	void criarPontoVitoria();
 
 	Hexagon * encontrarHexagono(int x, int y);
 
@@ -74,14 +78,17 @@ private:
 
 	void receberMensagens();
 	void parseData(Data);
+	void definirCondicaoDeVitoria();
 
 	void definirPontoPartida();
 
-	void verificarVitoria(Hexagon *hexagon);
 	void receberVitoria();
 	void informarVitoria();
 	void finalizarJogo();
 	void oponentDisconected();
+
+	ParseArquivo parseArquivo;
+	CondicaoDeVitoria *condicaoVitoria;
 
 	bool isMyTurn;
 
