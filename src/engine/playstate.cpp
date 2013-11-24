@@ -12,6 +12,7 @@
 #include "textarea.h"
 #include "fase01.h"
 #include "fase02.h"
+#include "fase05.h"
 #include <algorithm>
 #include <iostream>
 
@@ -245,7 +246,7 @@ PlayState::onEnter()
 
 	loadMusics();
 
-	parseArquivo.loadArquivo("src/game/levels/fase01.txt");
+	parseArquivo.loadArquivo("src/game/levels/fase05.txt");
 
 	cout << endl;
 	cout << "parseArquivo.getCustoTorre(): " << parseArquivo.getCustoTorre() << endl;
@@ -1081,6 +1082,18 @@ PlayState::finalizarTurno()
 			informarVitoria();
 	}
 
+	if(parseArquivo.getTipoObjetivo() == '5')
+	{
+		int levelTower = numLevelTower;
+		int levelSpy = numLevelSpy;
+		int levelBomba =  numLevelBomb;
+
+		void *args[] = {&levelTower, &levelSpy, &levelBomba};
+		if(condicaoVitoria->verificarSeVenceu(args, 3))
+			informarVitoria();
+
+	}
+
 	Data data;
 	data.type = 40;
 	NetworkManager::Instance()->sendMessage(data);
@@ -1409,6 +1422,10 @@ PlayState::definirCondicaoDeVitoria()
 		case '2':
 			condicaoVitoria = new Fase02();
 			break;
+
+		case '5':
+			condicaoVitoria = new Fase05();
+			break;	
 
 	}
 
