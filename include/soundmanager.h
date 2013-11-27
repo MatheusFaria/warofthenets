@@ -27,6 +27,8 @@ public:
 	void clearSoundManager();
 	void clearFromSoundManager(std::string soundId, sound_type type);
 
+    bool isEnable();
+    void setEnable(bool enable);
 
 private:
 
@@ -37,7 +39,8 @@ private:
 
 	SoundManager();
 	~SoundManager();
-
+    
+	bool soundEnable;
 };
 
 #endif

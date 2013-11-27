@@ -36,6 +36,11 @@ void informarDesconexao()
 	NetworkManager::Instance()->sendMessage(data);
 }
 
+PlayState::PlayState(string numFase)
+{
+    this->numFase = numFase;
+}
+
 void
 PlayState::update()
 {    
@@ -246,7 +251,11 @@ PlayState::onEnter()
 
 	loadMusics();
 
-	parseArquivo.loadArquivo("src/game/levels/fase05.txt");
+	parseArquivo.loadArquivo("src/game/levels/fase0" + numFase + ".txt");
+	
+	//cout << "\n numFase: " << numFase << endl << endl;
+	
+	//parseArquivo.loadArquivo("src/game/levels/fase01.txt");
 
 	cout << endl;
 	cout << "parseArquivo.getCustoTorre(): " << parseArquivo.getCustoTorre() << endl;

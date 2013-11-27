@@ -30,7 +30,7 @@ GameStateMachine::pushState(GameState* state)
 {
 	if( (state != NULL) && (state->getStateId() != gameStates.back()->getStateId()))
 	{
-		gameStates.back()->onExit();
+		//gameStates.back()->onExit();
 		gameStates.push_back(state);
 		gameStates.back()->onEnter();
 	}	

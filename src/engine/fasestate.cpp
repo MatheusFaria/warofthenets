@@ -1,0 +1,168 @@
+#include "fasestate.h"
+#include "playstate.h"
+#include "game.h"
+#include "inputhandler.h"
+#include "networkmanager.h"
+
+const std::string FaseState::faseId = "MENU";
+
+void
+FaseState::update()
+{
+	for(int i = 0; i < (int)vectorButtons.size(); i++)
+		vectorButtons[i]->update();
+	
+	if(NetworkManager::Instance()->getTipo() == 0)
+	    receberMensagens();
+    
+    btnJapao->setActive(false);
+    btnRussia->setActive(false);
+}
+
+void
+FaseState::render()
+{
+	for(int i = 0; i < (int)vectorButtons.size(); i++)
+		vectorButtons[i]->draw();
+}
+
+bool
+FaseState::onEnter()
+{
+	btnBrasil = new MenuButton(0, 0, "resources/img/level1.png", "level1", 3, true);
+	int btnBrasilX = (Game::Instance()->getWindow()->getWidth() / 2) - (btnBrasil->getWidth() / 2);
+	int btnBrasilY = (Game::Instance()->getWindow()->getHeight() / 2) - (btnBrasil->getHeight() * 1);
+	btnBrasil->setPosition(btnBrasilX, btnBrasilY);
+	btnBrasil->setEventListener(this);
+	InputHandler::getInstance()->addMouseClick(btnBrasil);
+	
+	btnAlemanha = new MenuButton(0, 0, "resources/img/level2.png", "level2", 3, true);
+	int btnAlemanhaX = btnBrasilX - (3 * btnAlemanha->getWidth() / 2);
+	int btnAlemanhaY = btnBrasilY;
+	btnAlemanha->setPosition(btnAlemanhaX, btnAlemanhaY);
+	btnAlemanha->setEventListener(this);
+	InputHandler::getInstance()->addMouseClick(btnAlemanha);
+	
+	btnJapao = new MenuButton(0, 0, "resources/img/level4.png", "level4", 3, true);
+	int btnJapaoX = btnBrasilX + (3 * btnJapao->getWidth() / 2);
+	int btnJapaoY = btnBrasilY;
+	btnJapao->setPosition(btnJapaoX, btnJapaoY);
+	btnJapao->setEventListener(this);
+	InputHandler::getInstance()->addMouseClick(btnJapao);
+	
+	btnIndia = new MenuButton(0, 0, "resources/img/level5.png", "level5", 3, true);
+	int btnIndiaX = btnBrasilX - btnIndia->getWidth();
+	int btnIndiaY = (Game::Instance()->getWindow()->getHeight() / 2) + (btnIndia->getHeight() * 1);
+	btnIndia->setPosition(btnIndiaX, btnIndiaY);
+	btnIndia->setEventListener(this);
+	InputHandler::getInstance()->addMouseClick(btnIndia);
+	
+	btnRussia = new MenuButton(0, 0, "resources/img/level3.png", "level3", 3, true);
+	int btnRussiaX = btnBrasilX + btnIndia->getWidth();
+	int btnRussiaY = (Game::Instance()->getWindow()->getHeight() / 2) + (btnRussia->getHeight() * 1);
+	btnRussia->setPosition(btnRussiaX, btnRussiaY);
+	btnRussia->setEventListener(this);
+	InputHandler::getInstance()->addMouseClick(btnRussia);
+	
+	vectorButtons.push_back(btnBrasil);
+	vectorButtons.push_back(btnAlemanha);
+	vectorButtons.push_back(btnJapao);
+	vectorButtons.push_back(btnIndia);
+	vectorButtons.push_back(btnRussia);
+	
+	if(NetworkManager::Instance()->getTipo() == 0)
+		setEnableButtons(false);
+	else
+	    setEnableButtons(true);
+	
+
+	return true;
+}
+
+bool 
+FaseState::onExit()
+{
+	for(int i = 0; i < (int)vectorButtons.size(); i++)
+	{
+		InputHandler::getInstance()->removeMouseClick(vectorButtons[i]);
+		vectorButtons[i]->clean();
+		delete vectorButtons[i];
+    }
+    
+	vectorButtons.clear();
+
+	return true;
+}
+
+std::string 
+FaseState::getStateId() const
+{
+	return faseId;
+}
+
+void  
+FaseState::setEnableButtons(bool enable)
+{
+    for(int i = 0; i < (int)vectorButtons.size(); i++)
+        vectorButtons[i]->setActive(enable);
+}
+
+void
+FaseState::onMouseClick(MouseClick *mouseClick)
+{
+    if(mouseClick == btnBrasil)
+        enviarIniciarFase("1");
+    
+    if(mouseClick == btnAlemanha)
+        enviarIniciarFase("2");
+    
+    //if(mouseClick == btnJapao)
+    //    enviarIniciarFase("4");
+    
+    if(mouseClick == btnIndia)
+        enviarIniciarFase("5");
+    
+    //if(mouseClick == btnRussia)
+    //    enviarIniciarFase("3");
+}
+
+void 
+FaseState::iniciarFase(string nomeFase)
+{
+    for(int i = 0; i < (int)vectorButtons.size(); i++)
+	{
+		InputHandler::getInstance()->removeMouseClick(vectorButtons[i]);
+	}
+    Game::Instance()->getStateMachine()->pushState(new PlayState(nomeFase));
+}
+
+void 
+FaseState::enviarIniciarFase(string nomeFase)
+{
+    Data data;
+
+	data.type = atoi(nomeFase.c_str());
+
+	NetworkManager::Instance()->sendMessage(data);
+	
+	iniciarFase(nomeFase);
+}
+
+void
+FaseState::receberMensagens()
+{
+	Data data;
+
+	while(true)
+	{
+		data = NetworkManager::Instance()->receiveMessage();
+
+		if(data.type == -1)
+			break;
+        else
+		    iniciarFase(std::to_string(data.type));
+		
+		//if(data.type == DISCONECTED)
+		//    break;
+	}
+}

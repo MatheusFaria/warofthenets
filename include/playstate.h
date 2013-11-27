@@ -40,6 +40,7 @@ public:
 	void criarPontoVitoria();
 	bool verificarVitoria(Hexagon *hexagon);
 
+    PlayState(string numFase);
 
 private:
 
@@ -86,6 +87,8 @@ private:
 	void informarVitoria();
 	void finalizarJogo();
 	void oponentDisconected();
+	
+	std::string numFase;
 
 	ParseArquivo parseArquivo;
 	CondicaoDeVitoria *condicaoVitoria;

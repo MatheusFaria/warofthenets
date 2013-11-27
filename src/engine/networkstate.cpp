@@ -1,10 +1,12 @@
 #include "networkstate.h"
 #include "playstate.h"
+#include "fasestate.h"
 #include "inputhandler.h"
 #include "text.h"
 #include "image.h"
 #include "game.h"
 #include "networkmanager.h"
+
 
 const std::string NetworkState::networkId = "IDNetwork";
 
@@ -153,7 +155,9 @@ NetworkState::onMouseClick(MouseClick *mouseClick)
 		NetworkManager::Instance()->setNome(textfields["name"]->getText());
 		NetworkManager::Instance()->createRoom(textfields["name"]->getText(),textfields["ip"]->getText());
 		NetworkManager::Instance()->launchCommunication();
-		Game::Instance()->getStateMachine()->pushState(new PlayState());
+		//Game::Instance()->getStateMachine()->pushState(new PlayState());
+		Game::Instance()->getStateMachine()->pushState(new FaseState());
+		
 	}
     else if(mouseClick == this->buttons["joinRoom"])
 	{
@@ -174,7 +178,8 @@ NetworkState::onMouseClick(MouseClick *mouseClick)
 		NetworkManager::Instance()->setNome(textfields["name"]->getText());
 		NetworkManager::Instance()->joinRoom(textfields["name"]->getText(),textfields["ip"]->getText());
 		NetworkManager::Instance()->launchCommunication();
-		Game::Instance()->getStateMachine()->pushState(new PlayState());
+		//Game::Instance()->getStateMachine()->pushState(new PlayState());
+		Game::Instance()->getStateMachine()->pushState(new FaseState());
 	}
 	
 	if(mouseClick == this->textfields["ip"])

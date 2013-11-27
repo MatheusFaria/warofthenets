@@ -1,6 +1,7 @@
 #include "menustate.h"
 #include "playstate.h"
 #include "creditstate.h"
+#include "optionstate.h"
 #include "inputhandler.h"
 #include "networkstate.h"
 #include "render.h"
@@ -97,7 +98,7 @@ MenuState::createMenu()
 	exitButton->setEventListener(this);
 	InputHandler::getInstance()->addMouseClick(exitButton);
 	
-	audioButton = new MenuButton(0, 0, "resources/img/config.png", "config");
+	audioButton = new MenuButton(0, 0, "resources/img/configbutton.png", "config", 3, true);
 	int audiox = (Game::Instance()->getWindow()->getWidth()) - audioButton->getWidth() - espacamento;
 	int audioy = (Game::Instance()->getWindow()->getHeight()) - audioButton->getHeight() - espacamento;
 	audioButton->setPosition(audiox, audioy);
@@ -164,6 +165,12 @@ MenuState::exitFromMenu()
 }
 
 void
+MenuState::menuToOption()
+{
+	Game::Instance()->getStateMachine()->pushState(new OptionState());
+}
+
+void
 MenuState::onMouseClick(MouseClick *mouseClick)
 {
     if(mouseClick == playButton)
@@ -174,6 +181,9 @@ MenuState::onMouseClick(MouseClick *mouseClick)
         
     if(mouseClick == exitButton)
         exitFromMenu();
+        
+    if(mouseClick == audioButton)
+        menuToOption();
     
 }
 

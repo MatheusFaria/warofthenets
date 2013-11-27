@@ -1,6 +1,7 @@
 #include "gameoverstate.h"
 #include "game.h"
 #include "texturemanager.h"
+#include "networkstate.h"
 #include "inputhandler.h"
 #include "image.h"
 #include "SDL2/SDL.h"
@@ -128,5 +129,5 @@ GameOverState::onMouseClick(MouseClick *mouseClick)
         Game::Instance()->getStateMachine()->pushState(new MenuState());
         
     if(mouseClick == newGame)
-        Game::Instance()->getStateMachine()->changeState(new PlayState());
+        Game::Instance()->getStateMachine()->changeState(new NetworkState());
 }
