@@ -294,7 +294,14 @@ HexagonMap::deleteHexagons()
 	    delete vectorHexagon[i];
 }
 
-
+void 
+HexagonMap::setActive(bool active)
+{
+	for(unsigned int i = 0; i < vectorHexagon.size(); i++)
+	{
+		vectorHexagon[i]->setActive(active);
+	}
+}
 
 
 

@@ -78,7 +78,19 @@ PlayState::update()
 	
 	if(!isMyTurn)
 		receberMensagens();
-
+	
+	if(warnDisconect->getShow())
+	{
+	    ativarBotoes(false);
+	    hexagonMap->setActive(false);
+	}
+	else
+	{
+	    ativarBotoes(true);
+        hexagonMap->setActive(true);
+    }
+	
+    warnDisconect->update();
 }
 
 void
@@ -143,6 +155,8 @@ PlayState::render()
 	txtLevelBomb->draw();
 	txtLevelTower->draw();
 	txtLevelSpy->draw();
+	
+	warnDisconect->draw();
 }
 
 bool
@@ -207,6 +221,10 @@ PlayState::onEnter()
 		ativarBotoes(false);
 	}
 
+    warnDisconect = new Warn("You typed the wrong IP", "resources/img/warnok.png",
+							"resources/audio/fx_stab-001.wav", "resources/font/Army.ttf", 26);
+	warnDisconect->init();
+	warnDisconect->setShow(false);
 
 	std::cout<<"Play State"<<std::endl;
 	return true;
@@ -952,6 +970,12 @@ PlayState::eventInMe(SDL_Event sdlEvent)
 {
 	int velocity = 10;
 
+    if(sdlEvent.key.keysym.sym == SDLK_o)
+	{
+		//std::cout << parseArquivo.getDescricaoObjetivo() << std::endl;
+		warnDisconect->setText("Chegar no hexagono destacado");
+		warnDisconect->setShow(true);
+	}
 	
 	if(sdlEvent.key.keysym.sym == SDLK_UP)
 	{

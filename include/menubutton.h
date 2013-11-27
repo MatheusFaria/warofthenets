@@ -17,6 +17,9 @@ public:
     virtual bool eventInMe(SDL_Event sdlEvent);
     virtual bool verifyEvent(SDL_Event sdlEvent);
 
+    bool setAudioOnClick(string, string);
+    bool playSoundOnClick();
+
 private:
 
 	enum button_state
@@ -29,6 +32,7 @@ private:
 
 	bool released;
 	bool animate;
+	string soundId;
 	
 	SDL_Event sdlEvent;
 

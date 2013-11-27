@@ -13,6 +13,7 @@
 #include "keyboardevent.h"
 #include "hexagonmap.h"
 #include "networkplayer.h"
+#include "warn.h"
 #include <vector>
 #include <map>
 #include <queue>
@@ -142,7 +143,8 @@ private:
     Text *txtLevelTower;
     Text *txtLevelBomb;
     Text* txtLevelSpy;
-
+    
+    Warn * warnDisconect;
 
 	int eventX;
 	int eventY;

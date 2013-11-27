@@ -15,6 +15,7 @@ SoundManager::Instance()
 	if(SoundManager::instance == NULL)
 	{
 		instance = new SoundManager();
+		instance->setEnable(true);
 		return instance;
 	}
 	
@@ -89,9 +90,28 @@ SoundManager::clearFromSoundManager(std::string soundId, sound_type type)
 		sfxMap.erase(soundId);
 }
 
+void
+SoundManager::stopSound()
+{
+	 Mix_HaltMusic();
+}
+
 SoundManager::~SoundManager()
 {
 	Mix_CloseAudio();
 }
+
+bool 
+SoundManager::isEnable()
+{
+    return soundEnable;
+}
+
+void 
+SoundManager::setEnable(bool enable)
+{
+    this->soundEnable = enable;
+}
+
 
 

@@ -31,6 +31,8 @@ public:
     void setVelocityX(int velocityX);
     void setVelocityY(int velocityY);
 
+    void setActive(bool active);
+
 private:
     
 	std::vector<Hexagon*> vectorHexagon;
