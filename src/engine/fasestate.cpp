@@ -81,9 +81,7 @@ FaseState::onEnter()
 	vectorButtons.push_back(btnRussia);
 	
 	if(NetworkManager::Instance()->getTipo() == 0)
-		setEnableButtons(false);
-	else
-	    setEnableButtons(true);
+		InputHandler::getInstance()->setActive(false);
 	
 	rend = Game::Instance()->getWindow()->getRender()->getRenderer();
     rectBackground = {0, 0, 1280, 700};
@@ -173,8 +171,10 @@ FaseState::receberMensagens()
 
 		if(data.type == -1)
 			break;
-        else
+        else{
 		    iniciarFase(std::to_string(data.type));
+		    InputHandler::getInstance()->setActive(true);
+	    }
 		
 		//if(data.type == DISCONECTED)
 		//    break;
