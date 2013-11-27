@@ -32,7 +32,7 @@ private:
 	static const std::string faseId;
 	std::vector<MenuButton*> vectorButtons;
 	
-	Image *imgFaseSelecion;
+	Image *imgTitulo;
 	MenuButton *btnBrasil;
 	MenuButton *btnAlemanha;
 	MenuButton *btnJapao;
@@ -40,6 +40,9 @@ private:
 	MenuButton *btnRussia;
 	
 	void setEnableButtons(bool enable);
+	
+	SDL_Renderer *rend;
+    SDL_Rect rectBackground;
 
 };
 

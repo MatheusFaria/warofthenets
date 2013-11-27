@@ -22,13 +22,23 @@ FaseState::update()
 void
 FaseState::render()
 {
+    SDL_SetRenderDrawColor(rend, 190, 190, 190, 0);
+	SDL_RenderFillRect(rend, &rectBackground);
+	
 	for(int i = 0; i < (int)vectorButtons.size(); i++)
 		vectorButtons[i]->draw();
+		
+	imgTitulo->draw();
 }
 
 bool
 FaseState::onEnter()
 {
+    imgTitulo = new Image("resources/img/titulofase.png", 0, 0);
+    int imgTituloX = (Game::Instance()->getWindow()->getWidth() / 2) - (imgTitulo->getWidth() / 2);
+	int imgTituloY = 10;
+    imgTitulo->setPosition(imgTituloX, imgTituloY);
+    
 	btnBrasil = new MenuButton(0, 0, "resources/img/level1.png", "level1", 3, true);
 	int btnBrasilX = (Game::Instance()->getWindow()->getWidth() / 2) - (btnBrasil->getWidth() / 2);
 	int btnBrasilY = (Game::Instance()->getWindow()->getHeight() / 2) - (btnBrasil->getHeight() * 1);
@@ -75,6 +85,8 @@ FaseState::onEnter()
 	else
 	    setEnableButtons(true);
 	
+	rend = Game::Instance()->getWindow()->getRender()->getRenderer();
+    rectBackground = {0, 0, 1280, 700};
 
 	return true;
 }
@@ -90,6 +102,8 @@ FaseState::onExit()
     }
     
 	vectorButtons.clear();
+	
+	delete imgTitulo;
 
 	return true;
 }
