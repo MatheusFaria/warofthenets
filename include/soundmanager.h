@@ -21,10 +21,14 @@ public:
 
 	void playSound(std::string soundId, int loop);
 	void playMusic(std::string musicId, int loop);
+	
+	void stopSound();
 
 	void clearSoundManager();
 	void clearFromSoundManager(std::string soundId, sound_type type);
 
+    bool isEnable();
+    void setEnable(bool enable);
 
 private:
 
@@ -35,6 +39,8 @@ private:
 
 	SoundManager();
 	~SoundManager();
+	
+	bool soundEnable;
 
 };
 

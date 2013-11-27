@@ -27,6 +27,7 @@ private:
 
 	static void menuToPlay();
 	static void menuToCredit();
+	static void menuToOption();
 	static void exitFromMenu();
 
 	static const std::string menuId;

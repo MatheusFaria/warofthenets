@@ -76,7 +76,7 @@ GameOverState::onEnter()
     previousTime = SDL_GetTicks();
     
 	rend = Game::Instance()->getWindow()->getRender()->getRenderer();
-    rectBackground = {0, 0, 1280, 700};
+    rectBackground = {255, 255, 1280, 700};
     alpha = 255;
     
 	return true;

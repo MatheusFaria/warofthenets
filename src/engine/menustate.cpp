@@ -1,6 +1,7 @@
 #include "menustate.h"
 #include "playstate.h"
 #include "creditstate.h"
+#include "optionstate.h"
 #include "inputhandler.h"
 #include "render.h"
 #include "texturemanager.h"
@@ -113,12 +114,14 @@ MenuState::onExit()
 	TextureManager::Instance()->clearFromTextureMap("playbutton");
 	TextureManager::Instance()->clearFromTextureMap("exitbutton");
 	TextureManager::Instance()->clearFromTextureMap("fundo");
+	TextureManager::Instance()->clearFromTextureMap("audiobutton");
 
 	SoundManager::Instance()->clearFromSoundManager("theme", MUSIC);
 	
 	InputHandler::getInstance()->removeMouseClick(playButton);
 	InputHandler::getInstance()->removeMouseClick(aboutButton);
 	InputHandler::getInstance()->removeMouseClick(exitButton);
+	InputHandler::getInstance()->removeMouseClick(audioButton);
 
 	return true;
 }
@@ -143,6 +146,12 @@ MenuState::menuToCredit()
 }
 
 void
+MenuState::menuToOption()
+{
+	Game::Instance()->getStateMachine()->pushState(new OptionState());
+}
+
+void
 MenuState::exitFromMenu()
 {
     //Game::Instance()->getStateMachine()->popState();
@@ -160,6 +169,9 @@ MenuState::onMouseClick(MouseClick *mouseClick)
         
     if(mouseClick == exitButton)
         exitFromMenu();
+        
+    if(mouseClick == audioButton)
+        menuToOption();
     
 }
 

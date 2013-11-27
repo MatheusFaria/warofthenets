@@ -19,7 +19,7 @@ libengine_la_SOURCES = window.cpp render.cpp log.cpp text.cpp sdlsettings.cpp ga
 					rectangle.cpp pixel.cpp line.cpp circle.cpp hexagon.cpp pausestate.cpp gameoverstate.cpp \
 					soundmanager.cpp event.cpp keyboardevent.cpp mouseclick.cpp mouseevent.cpp \
 					mousemotion.cpp inputhandler.cpp creditstate.cpp gameoverstate.cpp renderableobject.cpp \
-					geometry.cpp torre.cpp
+					geometry.cpp torre.cpp optionstate.cpp
 					
 
 # Libraries needed to build our library
