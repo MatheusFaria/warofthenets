@@ -55,13 +55,13 @@ MenuButton::update()
 		if(animate)
         	currentRow = MOUSE_OVER;
 
-        if( (sdlEvent.button.button == SDL_BUTTON_LEFT) && released )
+        if( (sdlEvent.button.button == SDL_BUTTON_LEFT) )
 		//if(InputHandler::Instance()->getMouseButtonState(LEFT) && released)
 		{	
 			if(animate)
 				currentRow = CLICKED;
 
-			playSoundOnClick();
+			
 
 			released = false;
 		}
@@ -121,7 +121,8 @@ MenuButton::eventInMe(SDL_Event sdlEvent)
         (sdlEvent.button.x < (this->getX() + this->getWidth())) &&
         (sdlEvent.button.y > this->getY()) && 
         (sdlEvent.button.y < (this->getY() + this->getHeight())))
-    {        
+    {
+        playSoundOnClick();
         return true;
     }
     
