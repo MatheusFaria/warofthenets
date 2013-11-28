@@ -6,6 +6,7 @@
 #include "image.h"
 #include "game.h"
 #include "soundmanager.h"
+#include "texturemanager.h"
 #include <string>
 
 const std::string ConfigurationState::configurationId = "IDConfiguration";
@@ -24,11 +25,11 @@ ConfigurationState::onEnter()
 	render->setColor(255, 255, 255, 255);
 	render->clear();
 
-	SDL_Color black = {0, 0, 0, 255};
+	SDL_Color white = {255, 255, 255, 255};
 
 	this->texts["title"] = new Text("Settings", 80);
 	this->texts["title"]->setFont("resources/font/Army.ttf");
-	this->texts["title"]->setColor(black);
+	this->texts["title"]->setColor(white);
 
 	int x = (Game::Instance()->getWindow()->getWidth() / 2) - (this->texts["title"]->getWidth() / 2);
 	int y = 50;
@@ -38,14 +39,14 @@ ConfigurationState::onEnter()
 
 	this->texts["sound"] = new Text("Sound volume:", 50);
 	this->texts["sound"]->setFont("resources/font/Army.ttf");
-	this->texts["sound"]->setColor(black);
+	this->texts["sound"]->setColor(white);
 	x = (Game::Instance()->getWindow()->getWidth() / 4) - (this->texts["sound"]->getWidth() / 2);
 	y += this->texts["sound"]->getHeight()*2;
 	this->texts["sound"]->setPosition(x, y);
 
 	this->texts["soundValue"] = new Text(std::to_string(ConfigurationState::soundVolume), 50);
 	this->texts["soundValue"]->setFont("resources/font/Army.ttf");
-	this->texts["soundValue"]->setColor(black);
+	this->texts["soundValue"]->setColor(white);
 	x += this->texts["sound"]->getWidth() + 40;
 	this->texts["soundValue"]->setPosition(x, y);
 
@@ -66,14 +67,14 @@ ConfigurationState::onEnter()
 
 	this->texts["effect"] = new Text("Effect volume:", 50);
 	this->texts["effect"]->setFont("resources/font/Army.ttf");
-	this->texts["effect"]->setColor(black);
+	this->texts["effect"]->setColor(white);
 	x = (Game::Instance()->getWindow()->getWidth() / 4) - (this->texts["sound"]->getWidth() / 2);
 	y = this->texts["sound"]->getY()*1.5;
 	this->texts["effect"]->setPosition(x, y);
 
 	this->texts["effectValue"] = new Text(std::to_string(ConfigurationState::effectsVolume), 50);
 	this->texts["effectValue"]->setFont("resources/font/Army.ttf");
-	this->texts["effectValue"]->setColor(black);
+	this->texts["effectValue"]->setColor(white);
 	x += this->texts["effect"]->getWidth() + 20;
 	this->texts["effectValue"]->setPosition(x, y);
 
@@ -119,6 +120,7 @@ ConfigurationState::update()
 void 
 ConfigurationState::render()
 {
+	TextureManager::Instance()->drawFrame("fundo", 0, 0, 1280, 700, 0, 0, Render::getInstance()->getRenderer(), 0);
 	for(map<std::string, Text *>::iterator it = this->texts.begin(); it != this->texts.end(); it++)
 		it->second->draw();
 	for(map<std::string, MenuButton *>::iterator it = this->buttons.begin(); it != this->buttons.end(); it++)
