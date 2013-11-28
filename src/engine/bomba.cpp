@@ -11,6 +11,7 @@
 std::string Bomba::path = "resources/img/bomb.png";
 int Bomba::custoUnidade = 0;
 int Bomba::custoAtualizacao = 0;
+int Bomba::actualRow = 0;
 
 Bomba::Bomba(int raioDestruicao, int x, int y):Image(path,x,y)
 {
@@ -18,6 +19,7 @@ Bomba::Bomba(int raioDestruicao, int x, int y):Image(path,x,y)
 	currentFrame = 1;
 
 	this->raioDestruicao = 6 * pow( (2 + 1), (raioDestruicao - 1) );
+	Bomba::actualRow = raioDestruicao-1;
 
 	playExploiveSound();
 	
@@ -41,14 +43,6 @@ Bomba::playExploiveSound()
 		SoundManager::Instance()->playSound("bomba3", 0);
 
 	return true;
-}
-
-void
-Bomba::animate()
-{
-	//int intervalo = 1000;
-	//currentFrame = 1;
-
 }
 
 void
@@ -85,7 +79,7 @@ Bomba::draw()
 {
 
 	TextureManager::Instance()->drawFrame(imageId, (Uint32)position.getX(),(Uint32)position.getY(),width/5,
-	 height, currentRow, currentFrame,Render::getInstance()->getRenderer(), 0 );
+	 height/3, Bomba::actualRow, currentFrame,Render::getInstance()->getRenderer(), 0 );
 }
 
 int
@@ -110,6 +104,12 @@ void
 Bomba::setCustoUnidade(int _custoUnidade)
 {
 	Bomba::custoUnidade = _custoUnidade;
+}
+
+void
+Bomba::incActualColumn()
+{
+	Bomba::actualRow++;
 }
 
 

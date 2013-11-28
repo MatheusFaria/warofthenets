@@ -20,6 +20,7 @@ public:
 	static void setCustoAtualizacao(int _custoAtualizacao);
 	static int getCustoUnidade();
 	static void setCustoUnidade(int _custoUnidade);
+	static void incActualColumn();
 
 	void explode(map<Hexagon*, vector<Hexagon*>> grafoHexagon, Hexagon *hex);
 	std::vector<Hexagon *> getVetorDestruicao();
@@ -35,20 +36,18 @@ private:
 
 	static std::string path;	
 	int numFrames;
-	int actualRow;
 	int raioDestruicao;
+	
 	static int custoAtualizacao;
 	static int custoUnidade;
-
+	static int actualRow;
 
 	std::map<Hexagon *, bool> mapaVisitado;
 	std::queue<Hexagon *> filaVisitar;
 	std::vector<Hexagon *> vetorDestruicao;
 
 	std::string explosionSound;
-
 	void explodeRecursivo(map<Hexagon*, vector<Hexagon*>> grafoHexagon, int num);
-	void animate();
 };
 
 #endif

@@ -339,6 +339,7 @@ PlayState::onEnter()
 
 
 	definirCondicaoDeVitoria();
+	zerarCronometro();
 
 	std::cout<<"Play State"<<std::endl;
 	return true;
@@ -772,6 +773,8 @@ PlayState::onMouseClick(MouseClick *mouseClick)
 	    	numInformacao -= Bomba::getCustoAtualizacao();
 	    	upgradeBomb->incCurrentRow();
 	    	
+
+	    	Bomba::incActualColumn();;
 	    	Bomba::setCustoUnidade(Bomba::getCustoUnidade()+2);
 	    	recursoBomb->setText("cost of UNIT: " + std::to_string(Bomba::getCustoUnidade()));	    	
 	    	
