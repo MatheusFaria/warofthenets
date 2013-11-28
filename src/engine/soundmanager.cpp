@@ -118,3 +118,17 @@ SoundManager::setEnable(bool enable)
     this->soundEnable = enable;
 }
 
+void
+SoundManager::setVolumeSound(int volume)
+{
+	int percent = (volume * MIX_MAX_VOLUME) / 10;
+	Mix_VolumeMusic(percent);
+}
+
+void 
+SoundManager::setVolumeEffect(int volume)
+{
+	int percent = (volume * MIX_MAX_VOLUME) / 10;
+	Mix_Volume(-1, percent);
+}
+

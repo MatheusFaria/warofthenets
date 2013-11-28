@@ -1,7 +1,7 @@
 #include "menustate.h"
 #include "playstate.h"
 #include "creditstate.h"
-#include "optionstate.h"
+#include "configurationstate.h"
 #include "inputhandler.h"
 #include "networkstate.h"
 #include "render.h"
@@ -98,14 +98,14 @@ MenuState::createMenu()
 	exitButton->setEventListener(this);
 	InputHandler::getInstance()->addMouseClick(exitButton);
 	
-	audioButton = new MenuButton(0, 0, "resources/img/configbutton.png", "config", 3, true);
-	int audiox = (Game::Instance()->getWindow()->getWidth()) - audioButton->getWidth() - espacamento;
-	int audioy = (Game::Instance()->getWindow()->getHeight()) - audioButton->getHeight() - espacamento;
-	audioButton->setPosition(audiox, audioy);
-	audioButton->setEventListener(this);
-	InputHandler::getInstance()->addMouseClick(audioButton);
+	configurationButton = new MenuButton(0, 0, "resources/img/configbutton.png", "config", 3, true);
+	int configurationx = (Game::Instance()->getWindow()->getWidth()) - configurationButton->getWidth() - espacamento;
+	int configurationy = (Game::Instance()->getWindow()->getHeight()) - configurationButton->getHeight() - espacamento;
+	configurationButton->setPosition(configurationx, configurationy);
+	configurationButton->setEventListener(this);
+	InputHandler::getInstance()->addMouseClick(configurationButton);
 	
-	menuObjects.push_back(audioButton);
+	menuObjects.push_back(configurationButton);
 	menuObjects.push_back(playButton);
 	menuObjects.push_back(aboutButton);
 	menuObjects.push_back(exitButton);
@@ -167,7 +167,7 @@ MenuState::exitFromMenu()
 void
 MenuState::menuToOption()
 {
-	Game::Instance()->getStateMachine()->pushState(new OptionState());
+	Game::Instance()->getStateMachine()->pushState(new ConfigurationState());
 }
 
 void
@@ -182,7 +182,7 @@ MenuState::onMouseClick(MouseClick *mouseClick)
     if(mouseClick == exitButton)
         exitFromMenu();
         
-    if(mouseClick == audioButton)
+    if(mouseClick == configurationButton)
         menuToOption();
     
 }

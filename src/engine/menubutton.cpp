@@ -55,7 +55,7 @@ MenuButton::update()
 		if(animate)
         	currentRow = MOUSE_OVER;
 
-        if( (sdlEvent.button.button == SDL_BUTTON_LEFT)  )
+        if( (sdlEvent.button.button == SDL_BUTTON_LEFT) && released )
 		//if(InputHandler::Instance()->getMouseButtonState(LEFT) && released)
 		{	
 			if(animate)
