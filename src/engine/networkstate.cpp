@@ -190,7 +190,7 @@ NetworkState::onMouseClick(MouseClick *mouseClick)
 		Game::Instance()->getStateMachine()->changeState(new FaseState());
 	}
 	
-	if(mouseClick == this->textfields["ip"])
+	else if(mouseClick == this->textfields["ip"])
 	{
 	    this->textfields["name"]->setFocused(false);
 	    this->textfields["ip"]->setFocused(true);

@@ -170,8 +170,8 @@ Hexagon::update()
 
 	if(spy != NULL)
 	{	
-		int x = getX() + (getWidth()/2) - (spy->getWidth()/2);
-		int y = getY() + (getHeight()/2) - (spy->getHeight()/4);	
+		int x = getX() + (getWidth()/2) - ((spy->getWidth()/3)/2);
+		int y = getY() + (getHeight()/2) - (spy->getHeight()/2);	
 		spy->setPosition(x,y);
 	}
 

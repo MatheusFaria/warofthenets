@@ -21,6 +21,7 @@ public:
 
     int getInformacao() const;
     void setNumInformacao(int numInfo);
+    void incActualColumn();
     
 private:
 
@@ -29,6 +30,7 @@ private:
 	static std::string path;
 	int numLevelSpy;	
 	int numInformacao;
+	int actualRow;
 	static int custoAtualizacao;
 	static int custoUnidade;
 };

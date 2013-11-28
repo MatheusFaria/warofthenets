@@ -14,8 +14,10 @@ Spy::Spy(int numLevelSpy, int x, int y):Image(path,x,y)
 {
 	this->numLevelSpy = numLevelSpy;
 	this->numInformacao = 0;
-	//currentFrame = numLevelSpy - 1;
-	currentFrame = 0;
+	this->numFrames = 4;
+	actualRow = 1;
+	currentFrame = numLevelSpy - 1;
+	//currentFrame = 0;
 
 	playSound();
 }
@@ -30,14 +32,15 @@ Spy::playSound()
 void
 Spy::update()
 {
-
+	int intervalo = 100;
+	actualRow = (SDL_GetTicks()/intervalo)%numFrames;
 }
 
 void
 Spy::draw()
 {
-	TextureManager::Instance()->drawFrame(imageId, (Uint32)position.getX(),(Uint32)position.getY(),width,
-	 height, currentRow, currentFrame,Render::getInstance()->getRenderer(), 0 );
+	TextureManager::Instance()->drawFrame(imageId, (Uint32)position.getX(),(Uint32)position.getY(),width/3,
+	 height/numFrames, actualRow, currentFrame,Render::getInstance()->getRenderer(), 0 );
 }
 
 int
@@ -63,6 +66,13 @@ Spy::setCustoUnidade(int _custoUnidade)
 {
 	Spy::custoUnidade = _custoUnidade;
 }
+
+void
+Spy::incActualColumn()
+{
+	currentFrame++;
+}
+
 
 int
 Spy::getLevel()

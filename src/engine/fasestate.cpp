@@ -36,7 +36,7 @@ bool
 FaseState::onEnter()
 {
 
-	SoundManager::Instance()->loadSound("resources/audio/Intro_Black_Vortex.ogg", "stage", MUSIC);
+	SoundManager::Instance()->loadSound("resources/audio/Black_Vortex.ogg", "stage", MUSIC);
 	SoundManager::Instance()->playMusic("stage", -1);
 
     imgTitulo = new Image("resources/img/titulofase.png", 0, 0);

@@ -57,8 +57,13 @@ private:
 	void finalizarTurno();
 	void calculateTime();
 	void atualizarCronometro();
+
 	void atualizarTorres();
 	void atualizarTorresInimigas();
+
+	void atualizarEspiao();
+	void atualizarEspioesInimigos();
+
 	void atualizarMapa();
 	void ativarBotoes(bool);
 	void zerarCronometro();

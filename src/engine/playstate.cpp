@@ -20,6 +20,7 @@
 #define BOMB 20
 #define SPY 30
 
+#define UPDATE_SPY 50
 #define UPDATE_TOWER 60
 
 #define VICTORY 70
@@ -799,6 +800,7 @@ PlayState::onMouseClick(MouseClick *mouseClick)
 	    	Spy::setCustoAtualizacao(Spy::getCustoAtualizacao()+2);
 	        upgradeSpy->setText("cost of UPGRADE: " + std::to_string(Spy::getCustoAtualizacao()));
 
+	        atualizarEspiao();
 	    	spyActualized = true;
 	    }	
     }
@@ -1175,6 +1177,30 @@ PlayState::iniciarTurno()
 }
 
 void 
+PlayState::atualizarEspiao()
+{
+	for(unsigned int i =0; i<playObjects.size(); i++)
+	{
+		if(dynamic_cast<Spy*>(playObjects[i]))
+			((Spy*)playObjects[i])->incActualColumn();
+	}
+
+	Data data;
+	data.type = UPDATE_SPY;
+	NetworkManager::Instance()->sendMessage(data);
+}
+
+void 
+PlayState::atualizarEspioesInimigos()
+{
+    for(unsigned int i =0; i<vectorEnemyObjects.size(); i++)
+	{
+		if(dynamic_cast<Spy*>(vectorEnemyObjects[i]))
+			((Spy*)vectorEnemyObjects[i])->incActualColumn();
+	}
+}
+
+void 
 PlayState::atualizarTorres()
 {
 	for(unsigned int i =0; i<playObjects.size(); i++)
@@ -1187,6 +1213,7 @@ PlayState::atualizarTorres()
 	data.type = UPDATE_TOWER;
 	NetworkManager::Instance()->sendMessage(data);
 }
+
 void 
 PlayState::atualizarTorresInimigas()
 {
@@ -1341,6 +1368,9 @@ PlayState::parseData(Data data)
 	    
     else if(unidade == UPDATE_TOWER/10)
         atualizarTorresInimigas();
+
+    else if(unidade == UPDATE_SPY/10)
+    	atualizarEspioesInimigos();
         
     else if(unidade == VICTORY/10)
     	receberVitoria();
