@@ -349,27 +349,33 @@ void
 PlayState::criarBase()
 {
 	int baseUm, baseDois;
+	string tipoBaseUm, tipoBaseDois;
 	Vector2D pos1, pos2;
+	
+	tipoBaseUm = parseArquivo.getTipoBaseAliada();
+	tipoBaseDois = parseArquivo.getTipoBaseInimiga();
 
     if(NetworkManager::Instance()->getTipo() == 1)
 	{
-	    baseUm = Torre::ALIADA;
-	    baseDois = Torre::INIMIGA;
+	    baseUm = Torre::ALIADA;	    
+	    baseDois = Torre::INIMIGA;    
+	    
 	    pos1 = parseArquivo.getBaseAlidaPosicao();
 	    pos2 = parseArquivo.getBaseInimigaPosicao();
     }else{
-    	baseDois = Torre::ALIADA;
+    	baseDois = Torre::ALIADA;    	
 	    baseUm = Torre::INIMIGA;
+	    
 	    pos1 = parseArquivo.getBaseAlidaPosicao();
 	    pos2 = parseArquivo.getBaseInimigaPosicao();
     }
 
 
-    base1 = new Base(baseUm, 1, 0, 0, "resources/img/base.png");
+    base1 = new Base(baseUm, 1, 0, 0, "resources/img/base" + tipoBaseUm + ".png");
     hexagonMap->putObjectOnMap(pos1.getX(), pos1.getY(), base1);
     playObjects.push_back(base1);
 
-    base2 = new Base(baseDois, 1, 0, 0, "resources/img/base.png");
+    base2 = new Base(baseDois, 1, 0, 0, "resources/img/base" + tipoBaseDois + ".png");
     hexagonMap->putObjectOnMap(pos2.getX(), pos2.getY(), base2);
     playObjects.push_back(base2);
 
