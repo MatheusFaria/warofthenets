@@ -2,6 +2,7 @@
 #include "playstate.h"
 #include "game.h"
 #include "inputhandler.h"
+#include "soundmanager.h"
 #include "networkmanager.h"
 
 const std::string FaseState::faseId = "MENU";
@@ -34,6 +35,10 @@ FaseState::render()
 bool
 FaseState::onEnter()
 {
+
+	SoundManager::Instance()->loadSound("resources/audio/Intro_Black_Vortex.ogg", "stage", MUSIC);
+	SoundManager::Instance()->playMusic("stage", -1);
+
     imgTitulo = new Image("resources/img/titulofase.png", 0, 0);
     int imgTituloX = (Game::Instance()->getWindow()->getWidth() / 2) - (imgTitulo->getWidth() / 2);
 	int imgTituloY = 10;
@@ -102,6 +107,9 @@ FaseState::onExit()
 	vectorButtons.clear();
 	
 	delete imgTitulo;
+
+	SoundManager::Instance()->stopSound();
+	SoundManager::Instance()->clearFromSoundManager("stage", MUSIC);
 
 	return true;
 }

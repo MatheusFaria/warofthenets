@@ -58,7 +58,7 @@ MenuState::onEnter()
 	
 	createMenu();
 
-	SoundManager::Instance()->loadSound("resources/audio/Black_Vortex.ogg", "theme", MUSIC);
+	SoundManager::Instance()->loadSound("resources/audio/Five_Armies.ogg", "theme", MUSIC);
 	SoundManager::Instance()->playMusic("theme", 1);
 	
 	std::cout<<"Entering Menu State"<<std::endl;
@@ -148,13 +148,13 @@ MenuState::menuToPlay()
 {
 	//Game::Instance()->getStateMachine()->pushState(new GameOverState());
 	//Game::Instance()->getStateMachine()->pushState(new PlayState());
-	Game::Instance()->getStateMachine()->pushState(new NetworkState());
+	Game::Instance()->getStateMachine()->changeState(new NetworkState());
 }
 
 void
 MenuState::menuToCredit()
 {
-	Game::Instance()->getStateMachine()->pushState(new CreditState());
+	Game::Instance()->getStateMachine()->changeState(new CreditState());
 }
 
 void

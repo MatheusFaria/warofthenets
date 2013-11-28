@@ -3,6 +3,7 @@
 #include "SDL2/SDL.h"
 #include "texturemanager.h"
 #include "render.h"
+#include "soundmanager.h"
 #include <iostream>
 
 std::string Spy::path = "resources/img/spy.png";
@@ -15,7 +16,16 @@ Spy::Spy(int numLevelSpy, int x, int y):Image(path,x,y)
 	this->numInformacao = 0;
 	//currentFrame = numLevelSpy - 1;
 	currentFrame = 0;
+
+	playSound();
 }
+
+void 
+Spy::playSound()
+{
+	SoundManager::Instance()->playSound("spy", 0);
+}
+
 
 void
 Spy::update()

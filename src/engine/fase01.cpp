@@ -10,6 +10,7 @@ Fase01::iniciarCondicoes(void **args, int numArgs)
 {
 	PlayState *estado = (PlayState *) args[0];
 	estado->criarPontoVitoria();
+	return true;
 }
 
 bool 

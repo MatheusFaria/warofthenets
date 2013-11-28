@@ -436,7 +436,11 @@ PlayState::onExit()
 	SoundManager::Instance()->clearFromSoundManager("bomba2", SFX);
 	SoundManager::Instance()->clearFromSoundManager("bomba3", SFX);
 	SoundManager::Instance()->clearFromSoundManager("torre", SFX);
-    
+	SoundManager::Instance()->clearFromSoundManager("derrota", SFX);
+	SoundManager::Instance()->clearFromSoundManager("vitoria", SFX);
+	SoundManager::Instance()->clearFromSoundManager("turno", SFX);
+    SoundManager::Instance()->clearFromSoundManager("spy", SFX);
+
 	return true;
 }
 
@@ -1000,9 +1004,9 @@ PlayState::informarVitoria()
 {
 	Data data;
 	data.type = VICTORY;
-
-	//std::cout<<"EPIC WIN!!!!"<<std::endl;
 	
+	SoundManager::Instance()->stopSound();
+	SoundManager::Instance()->playSound("vitoria", 0);
 	warnDisconect->setText("EPIC WIN!!!!.");
 	warnDisconect->setShow(true);
 	
@@ -1125,6 +1129,8 @@ PlayState::iniciarTurno()
         
     std::cout << "Iniciando turno" << std::endl;
     isMyTurn = true;
+
+    SoundManager::Instance()->playSound("turno", 0);
     
 	if(upgradeTower != NULL && upgradeTower->getCurrentRow()==1)
 	{
@@ -1205,7 +1211,6 @@ PlayState::atualizarMapa()
 		return;
     }
     
-	//std::cout<<"this->x : "<<this->x<<std::endl;
 	if(this->velocityX<0)
 	{
 		if(this->x + this->velocityX < 0)	
@@ -1255,7 +1260,6 @@ PlayState::eventInMe(SDL_Event sdlEvent)
 
 	if(sdlEvent.key.keysym.sym == SDLK_o)
 	{
-		//std::cout << parseArquivo.getDescricaoObjetivo() << std::endl;
 		warnDisconect->setText(parseArquivo.getDescricaoObjetivo());
 		warnDisconect->setShow(true);
 	}
@@ -1309,13 +1313,6 @@ PlayState::receberMensagens()
 
 		data.x -= this->x;
 		data.y -= this->y;
-
-        /*
-        std::cout << "\nreceberMensagens: " << data.x << std::endl;    
-        std::cout << "data.type: " << data.type << std::endl;   
-        std::cout << "data.x: " << data.x << std::endl;
-        std::cout << "data.y: " << data.y << std::endl<< std::endl;
-        */
         
 		parseData(data);
 		
@@ -1352,22 +1349,6 @@ PlayState::parseData(Data data)
 	    oponentDisconected();
 }
 
-/*Hexagon * 
-PlayState::encontrarHexagono(int x, int y)
-{
-	std::vector<Hexagon*> vectorHexagon = hexagonMap->getVectorHexagon();
-
-	for(unsigned int i = 0; i < vectorHexagon.size(); i++)
-	{
-		if(vectorHexagon[i]->isMyCoordinate(x, y))
-			return vectorHexagon[i];
-	}
-	
-	std::cout << "HEXAGONO NULO!" << std::endl;
-
-	return NULL;
-}*/
-
 void 
 PlayState::ativarBotoes(bool comando)
 {
@@ -1383,7 +1364,10 @@ PlayState::loadMusics()
 	SoundManager::Instance()->loadSound("resources/audio/explosion_medium_close-005.wav", "bomba1", SFX);
 	SoundManager::Instance()->loadSound("resources/audio/explosion_medium-003.wav", "bomba2", SFX);
 	SoundManager::Instance()->loadSound("resources/audio/explosion_large_debris-007.wav", "bomba3", SFX);
-
+	SoundManager::Instance()->loadSound("resources/audio/derrota.wav", "derrota", SFX);
+	SoundManager::Instance()->loadSound("resources/audio/vitoria.wav", "vitoria", SFX);
+	SoundManager::Instance()->loadSound("resources/audio/startTurn - Info Arrive.wav", "turno", SFX);
+	SoundManager::Instance()->loadSound("resources/audio/putSpy.wav", "spy", SFX);
 }
 
 void
@@ -1391,6 +1375,8 @@ PlayState::receberVitoria()
 {
 	//std::cout<<"Que loucura cara, vc joga de uma maneira burra"<<std::endl;
 	
+	SoundManager::Instance()->stopSound();
+	SoundManager::Instance()->playSound("derrota", 0);	
 	warnDisconect->setText("Que loucura cara, vc joga de uma maneira burra!");
 	warnDisconect->setShow(true);
 	

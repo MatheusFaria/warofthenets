@@ -24,6 +24,8 @@ public:
     
 private:
 
+	void playSound();
+
 	static std::string path;
 	int numLevelSpy;	
 	int numInformacao;

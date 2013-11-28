@@ -95,9 +95,18 @@ void
 SoundManager::clearFromSoundManager(std::string soundId, sound_type type)
 {
 	if(type == MUSIC)
+	{
+		Mix_Music*  music= musicMap[soundId];	
 		musicMap.erase(soundId);
+		Mix_FreeMusic(music);
+	}	
 	else if(type == SFX)
+	{
+		Mix_Chunk *sound = sfxMap[soundId];
 		sfxMap.erase(soundId);
+		Mix_FreeChunk(sound);
+	}
+		
 }
 
 SoundManager::~SoundManager()

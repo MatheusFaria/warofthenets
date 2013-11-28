@@ -1,6 +1,7 @@
 #include "creditstate.h"
 #include "menustate.h"
 #include "game.h"
+#include "soundmanager.h"
 #include "texturemanager.h"
 #include "SDL2/SDL.h"
 #include "inputhandler.h"
@@ -39,6 +40,10 @@ CreditState::onEnter()
 {
 	imagePath = "resources/img/credits.png";
 	imageId = "credit";
+
+	SoundManager::Instance()->loadSound("resources/audio/Credits_George_Street_Shuffle.ogg", "credit", MUSIC);
+	SoundManager::Instance()->playMusic("credit", -1);
+
 	if(!TextureManager::Instance()->loadImage(imagePath,
 	 imageId, Render::getInstance()->getRenderer()))
 	{
@@ -61,6 +66,8 @@ CreditState::onExit()
 	TextureManager::Instance()->clearFromTextureMap(imageId);
     
     InputHandler::getInstance()->removeKeyboardEvent(this);
+
+    SoundManager::Instance()->clearFromSoundManager("credit", MUSIC);
 
 	return true;
 }

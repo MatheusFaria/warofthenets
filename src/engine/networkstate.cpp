@@ -2,6 +2,7 @@
 #include "playstate.h"
 #include "fasestate.h"
 #include "inputhandler.h"
+#include "soundmanager.h"
 #include "text.h"
 #include "image.h"
 #include "game.h"
@@ -15,6 +16,9 @@ NetworkState::NetworkState() {}
 bool
 NetworkState::onEnter()
 {
+	SoundManager::Instance()->loadSound("resources/audio/Stage5_Hitman.ogg","network", MUSIC);
+	SoundManager::Instance()->playMusic("network", -1);
+
 	Render * render = Render::getInstance();
 	render->setColor(255, 255, 255, 255);
 	render->clear();
@@ -129,6 +133,10 @@ NetworkState::onExit()
 		InputHandler::getInstance()->removeMouseClick(it->second);
 		delete it->second;
 	}
+
+	SoundManager::Instance()->stopSound();
+	SoundManager::Instance()->clearFromSoundManager("network", MUSIC);
+
 	return true;
 }
 
@@ -156,7 +164,7 @@ NetworkState::onMouseClick(MouseClick *mouseClick)
 		NetworkManager::Instance()->createRoom(textfields["name"]->getText(),textfields["ip"]->getText());
 		NetworkManager::Instance()->launchCommunication();
 		//Game::Instance()->getStateMachine()->pushState(new PlayState());
-		Game::Instance()->getStateMachine()->pushState(new FaseState());
+		Game::Instance()->getStateMachine()->changeState(new FaseState());
 		
 	}
     else if(mouseClick == this->buttons["joinRoom"])
@@ -179,7 +187,7 @@ NetworkState::onMouseClick(MouseClick *mouseClick)
 		NetworkManager::Instance()->joinRoom(textfields["name"]->getText(),textfields["ip"]->getText());
 		NetworkManager::Instance()->launchCommunication();
 		//Game::Instance()->getStateMachine()->pushState(new PlayState());
-		Game::Instance()->getStateMachine()->pushState(new FaseState());
+		Game::Instance()->getStateMachine()->changeState(new FaseState());
 	}
 	
 	if(mouseClick == this->textfields["ip"])
