@@ -1437,7 +1437,9 @@ PlayState::finalizarJogo()
 	hexagonMap->setActive(false);
 	quit->setActive(true);
 
-	fimDeJogo = true;	
+	fimDeJogo = true;
+	
+	NetworkManager::Instance()->finishCommunication();
 }
 
 void 
