@@ -105,6 +105,19 @@ GameOverState::onExit()
 	return true;
 }
 
+void 
+GameOverState::enable()
+{
+    newGame->setActive(true);
+    quitToMenu->setActive(true);
+}
+void 
+GameOverState::disable()
+{
+    newGame->setActive(false);
+    quitToMenu->setActive(false);
+}
+
 std::string 
 GameOverState::getStateId() const
 {

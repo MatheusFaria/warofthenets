@@ -68,6 +68,20 @@ TutorialState::onEnter()
 	return true;
 }
 
+void 
+TutorialState::enable()
+{
+    for(map<std::string, MenuButton *>::iterator it = this->buttons.begin(); it != this->buttons.end(); it++)
+		it->second->setActive(true);
+}
+
+void 
+TutorialState::disable()
+{
+    for(map<std::string, MenuButton *>::iterator it = this->buttons.begin(); it != this->buttons.end(); it++)
+		it->second->setActive(false);
+}
+
 std::string
 TutorialState::getStateId() const
 {

@@ -111,6 +111,27 @@ FaseState::onExit()
 	return true;
 }
 
+void  
+FaseState::enable()
+{
+    btnBrasil->setActive(true);
+    btnAlemanha->setActive(true);
+    btnJapao->setActive(true);
+    btnIndia->setActive(true);
+    btnRussia->setActive(true);
+}
+
+void  
+FaseState::disable()
+{
+    btnBrasil->setActive(false);
+    btnAlemanha->setActive(false);
+    btnJapao->setActive(false);
+    btnIndia->setActive(false);
+    btnRussia->setActive(false);
+}
+
+
 std::string 
 FaseState::getStateId() const
 {

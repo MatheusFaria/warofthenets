@@ -141,6 +141,18 @@ NetworkState::onExit()
 }
 
 void 
+NetworkState::enable()
+{
+    enableAllClicks();
+}
+
+void 
+NetworkState::disable()
+{
+    disableAllClicks();
+}
+
+void 
 NetworkState::onMouseClick(MouseClick *mouseClick)
 {
     if(mouseClick == this->buttons["createRoom"])

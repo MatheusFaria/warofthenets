@@ -23,6 +23,9 @@ public:
 
 	virtual bool onEnter();
 	virtual bool onExit();
+	
+	virtual void enable();
+	virtual void disable();
 
 	void enableAllClicks();
 	void disableAllClicks();

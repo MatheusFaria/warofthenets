@@ -68,6 +68,26 @@ MenuState::onEnter()
 }
 
 void 
+MenuState::enable()
+{
+    playButton->setActive(true);
+	aboutButton->setActive(true);
+	exitButton->setActive(true);
+	configurationButton->setActive(true);
+	tutorialButton->setActive(true);
+}
+
+void 
+MenuState::disable()
+{
+    playButton->setActive(false);
+	aboutButton->setActive(false);
+	exitButton->setActive(false);
+	configurationButton->setActive(false);
+	tutorialButton->setActive(false);    
+}
+
+void 
 MenuState::createMenu()
 {
 
@@ -130,6 +150,8 @@ MenuState::onExit()
 	TextureManager::Instance()->clearFromTextureMap("exitbutton");
 	TextureManager::Instance()->clearFromTextureMap("fundo");
 	TextureManager::Instance()->clearFromTextureMap("title");
+	TextureManager::Instance()->clearFromTextureMap("config");
+	TextureManager::Instance()->clearFromTextureMap("tutorial");
 
 	SoundManager::Instance()->stopSound();
 	SoundManager::Instance()->clearFromSoundManager("theme", MUSIC);
@@ -138,6 +160,8 @@ MenuState::onExit()
 	InputHandler::getInstance()->removeMouseClick(playButton);
 	InputHandler::getInstance()->removeMouseClick(aboutButton);
 	InputHandler::getInstance()->removeMouseClick(exitButton);
+	InputHandler::getInstance()->removeMouseClick(configurationButton);
+	InputHandler::getInstance()->removeMouseClick(tutorialButton);
 
 	return true;
 }
@@ -159,7 +183,7 @@ MenuState::menuToPlay()
 void
 MenuState::menuToCredit()
 {
-	Game::Instance()->getStateMachine()->changeState(new CreditState());
+	Game::Instance()->getStateMachine()->pushState(new CreditState());
 }
 
 void

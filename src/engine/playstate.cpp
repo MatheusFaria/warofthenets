@@ -1431,6 +1431,19 @@ PlayState::ativarBotoes(bool comando)
 
 }
 
+void 
+PlayState::enable()
+{
+    ativarBotoes(true);
+    hexagonMap->setActive(true);
+}
+void 
+PlayState::disable()
+{
+    ativarBotoes(false);
+    hexagonMap->setActive(false);
+}
+
 void
 PlayState::loadMusics()
 {

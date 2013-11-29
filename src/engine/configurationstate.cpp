@@ -104,6 +104,19 @@ ConfigurationState::onEnter()
 	return true;
 }
 
+void 
+ConfigurationState::enable()
+{
+    for(map<std::string, MenuButton *>::iterator it = this->buttons.begin(); it != this->buttons.end(); it++)
+		it->second->setActive(true);
+}
+void 
+ConfigurationState::disable()
+{
+    for(map<std::string, MenuButton *>::iterator it = this->buttons.begin(); it != this->buttons.end(); it++)
+		it->second->setActive(false);
+}
+
 std::string
 ConfigurationState::getStateId() const
 {

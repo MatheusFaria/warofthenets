@@ -16,6 +16,9 @@ public:
 
 	virtual bool onEnter();
 	virtual bool onExit();
+	
+	virtual void enable();
+	virtual void disable();
 
 	virtual std::string getStateId() const;
 	

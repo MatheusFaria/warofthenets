@@ -60,6 +60,18 @@ CreditState::onEnter()
 	return true;
 }
 
+void 
+CreditState::enable()
+{
+    this->setActive(true);
+}
+
+void 
+CreditState::disable()
+{
+    this->setActive(false);
+}
+
 bool
 CreditState::onExit()
 {

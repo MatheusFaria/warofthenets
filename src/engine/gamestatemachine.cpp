@@ -30,9 +30,12 @@ GameStateMachine::pushState(GameState* state)
 {
 	if( (state != NULL) && (state->getStateId() != gameStates.back()->getStateId()))
 	{
-		//gameStates.back()->onExit();
+	    if(gameStates.size() > 0)
+		    gameStates.back()->disable();
+	    
 		gameStates.push_back(state);
 		gameStates.back()->onEnter();
+		gameStates.back()->enable();		
 	}	
 }
 
@@ -45,6 +48,10 @@ GameStateMachine::popState()
 		{
 		    GameState *temp = gameStates.back();
 			gameStates.pop_back();
+			
+			if(gameStates.size() > 0)
+			    gameStates.back()->enable();
+			    
 			delete temp;
 		}
 	}
@@ -63,5 +70,6 @@ GameStateMachine::changeState(GameState* state)
 
 	gameStates.push_back(state);
 	gameStates.back()->onEnter();
+	//gameStates.back()->enable();
 }
 
