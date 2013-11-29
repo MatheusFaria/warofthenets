@@ -28,6 +28,7 @@ private:
 	static void menuToPlay();
 	static void menuToCredit();
 	static void menuToOption();
+	static void menuToTutorial();
 	static void exitFromMenu();
 
 	static const std::string menuId;
@@ -37,6 +38,7 @@ private:
 	MenuButton *aboutButton;
 	MenuButton *exitButton;
 	MenuButton *configurationButton;
+	MenuButton *tutorialButton;
 
 };
 

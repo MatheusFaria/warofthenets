@@ -2,6 +2,7 @@
 #include "playstate.h"
 #include "creditstate.h"
 #include "configurationstate.h"
+#include "tutorialstate.h"
 #include "inputhandler.h"
 #include "networkstate.h"
 #include "render.h"
@@ -70,7 +71,7 @@ void
 MenuState::createMenu()
 {
 
-	int espacamento = 40;
+	int espacamento = 20;
 
 	playButton = new MenuButton(0, 0, "resources/img/play.png", "playbutton", 3, true);
 	int playx = (Game::Instance()->getWindow()->getWidth() / 2) - (playButton->getWidth() / 2);
@@ -88,12 +89,15 @@ MenuState::createMenu()
 	aboutButton->setEventListener(this);
 	InputHandler::getInstance()->addMouseClick(aboutButton);
 
+	tutorialButton = new MenuButton(0, 0, "resources/img/tutorial.png", "tutorial",3, true);
+	int tutorialy= abouty + aboutButton->getHeight() + espacamento;
+	tutorialButton->setPosition(playx, tutorialy);
+	tutorialButton->setEventListener(this);
+	InputHandler::getInstance()->addMouseClick(tutorialButton);
 	
 	exitButton = new MenuButton(0, 0, "resources/img/exit.png", "exitbutton", 3, true);
 	int exitx = aboutx;
-	int exity = (Game::Instance()->getWindow()->getHeight()/2) +(aboutButton->getHeight())+
-		(exitButton->getHeight()/2) + espacamento*2;
-
+	int exity = tutorialy + espacamento + tutorialButton->getHeight();
 	exitButton->setPosition(exitx, exity);
 	exitButton->setEventListener(this);
 	InputHandler::getInstance()->addMouseClick(exitButton);
@@ -109,6 +113,7 @@ MenuState::createMenu()
 	menuObjects.push_back(playButton);
 	menuObjects.push_back(aboutButton);
 	menuObjects.push_back(exitButton);
+	menuObjects.push_back(tutorialButton);
 
 }
 
@@ -171,19 +176,23 @@ MenuState::menuToOption()
 }
 
 void
+MenuState::menuToTutorial()
+{
+	Game::Instance()->getStateMachine()->pushState(new TutorialState());
+}
+
+void
 MenuState::onMouseClick(MouseClick *mouseClick)
 {
     if(mouseClick == playButton)
         menuToPlay();
-    
     if(mouseClick == aboutButton)
         menuToCredit();
-        
     if(mouseClick == exitButton)
         exitFromMenu();
-        
     if(mouseClick == configurationButton)
         menuToOption();
-    
+    if(mouseClick == tutorialButton)
+        menuToTutorial();
 }
 
