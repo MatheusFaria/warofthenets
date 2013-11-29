@@ -1438,16 +1438,17 @@ PlayState::finalizarJogo()
     ativarBotoes(false);
 	hexagonMap->setActive(false);
 	quit->setActive(true);
-	
+
+//<<<<<<< HEAD
 	fimDeJogo = true;	
 
     NetworkManager::Instance()->finishCommunication();
     //NetworkManager::deleteInstance();
-
+//=======
 	//fimDeJogo = true;
 	
-	//NetworkManager::Instance()->finishCommunication();
-
+	//etworkManager::Instance()->finishCommunication();
+//>>>>>>> c1ac1a5cfff029e2967773475f612b565bf7bbd2
 }
 
 void 

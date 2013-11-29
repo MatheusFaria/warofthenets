@@ -73,7 +73,7 @@ void  NetworkManager::finishCommunication()
 		if(this->client->getServerSocket() != NULL)
 			SDLNet_TCP_Close(this->client->getServerSocket());
 
-		client->closeSocket();
+		//client->closeSocket();
 
 		cout<<"Passou por aqui"<<endl;
 		
