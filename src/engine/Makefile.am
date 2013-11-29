@@ -21,7 +21,7 @@ libengine_la_SOURCES = window.cpp render.cpp log.cpp text.cpp sdlsettings.cpp ga
 					mousemotion.cpp inputhandler.cpp creditstate.cpp gameoverstate.cpp renderableobject.cpp \
 					geometry.cpp torre.cpp bomba.cpp spy.cpp hexagonmap.cpp networkmanager.cpp \
 					networkplayer.cpp networkstate.cpp base.cpp textarea.cpp textfield.cpp warn.cpp \
-					parseArquivo.cpp fase01.cpp fase02.cpp fase03.cpp fase05.cpp fasestate.cpp \
+					parseArquivo.cpp fase01.cpp fase02.cpp fase03.cpp fase04.cpp fase05.cpp fasestate.cpp \
 					configurationstate.cpp tutorialstate.cpp
 					
 

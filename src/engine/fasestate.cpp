@@ -15,8 +15,6 @@ FaseState::update()
 	
 	if(NetworkManager::Instance()->getTipo() == 0)
 	    receberMensagens();
-    
-    btnRussia->setActive(false);
 }
 
 void
@@ -134,15 +132,15 @@ FaseState::onMouseClick(MouseClick *mouseClick)
     
     if(mouseClick == btnAlemanha)
         enviarIniciarFase("2");
-    
+        
     if(mouseClick == btnJapao)
         enviarIniciarFase("3");
     
     if(mouseClick == btnIndia)
         enviarIniciarFase("5");
-    
-    //if(mouseClick == btnRussia)
-    //    enviarIniciarFase("4");
+
+    if(mouseClick == btnRussia)
+        enviarIniciarFase("4");
 }
 
 void 
