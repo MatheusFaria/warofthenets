@@ -3,6 +3,7 @@
 #include "fasestate.h"
 #include "inputhandler.h"
 #include "soundmanager.h"
+#include "SDL2/SDL.h"
 #include "text.h"
 #include "image.h"
 #include "game.h"
@@ -83,6 +84,13 @@ NetworkState::onEnter()
 							"resources/audio/fx_stab-001.wav", "resources/font/Army.ttf");
 	this->warn->init();
 	this->warn->setShow(false);
+
+	previousTime = SDL_GetTicks();
+
+	rend = Game::Instance()->getWindow()->getRender()->getRenderer();
+    rectBackground = {0, 0, 1280, 700};
+    alpha = 255;
+
 	return true;
 }
 
@@ -95,6 +103,22 @@ NetworkState::getStateId() const
 void 
 NetworkState::update()
 {
+	                                                                                                                                                                           
+    if(alpha <= 0)
+    {
+        velocity = 0;
+    }else{
+        velocity = -0.085;
+    }
+    
+    alpha += ((SDL_GetTicks() - previousTime) / 1) * velocity;
+    
+    previousTime = SDL_GetTicks();
+    
+    if(alpha < 0)
+        alpha = 0;
+
+
 	if(this->warn->getShow())
 		this->disableAllClicks();
 	else
@@ -116,6 +140,9 @@ NetworkState::render()
 	for(map<std::string, TextField *>::iterator it = this->textfields.begin(); it != this->textfields.end(); it++)
 		it->second->draw();
 	this->warn->draw();
+
+	SDL_SetRenderDrawColor(rend, 255, 255, 255, alpha);
+	SDL_RenderFillRect(rend, &rectBackground);
 }
 
 bool

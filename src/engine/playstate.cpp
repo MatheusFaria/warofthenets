@@ -47,6 +47,21 @@ PlayState::PlayState(string numFase)
 void
 PlayState::update()
 {    
+	                                                                                                                                                                              
+    if(alpha <= 0)
+    {
+        velocity = 0;
+    }else{
+        velocity = -0.085;
+    }
+    
+    alpha += ((SDL_GetTicks() - previousTime) / 1) * velocity;
+    
+    previousTime = SDL_GetTicks();
+    
+    if(alpha < 0)
+        alpha = 0;
+
 	atualizarMapa();
 	
 	hexagonMap->update();
@@ -245,6 +260,9 @@ PlayState::render()
 	txtTurno->draw();
 	
 	warnDisconect->draw();
+
+	SDL_SetRenderDrawColor(rend, 255, 255, 255, alpha);
+	SDL_RenderFillRect(rend, &rectBackground);
 }
 
 bool
@@ -345,6 +363,13 @@ PlayState::onEnter()
 
 	definirCondicaoDeVitoria();
 	zerarCronometro();
+
+
+	previousTime = SDL_GetTicks();
+
+	rend = Game::Instance()->getWindow()->getRender()->getRenderer();
+    rectBackground = {0, 0, 1280, 700};
+    alpha = 255;
 
 	std::cout<<"Play State"<<std::endl;
 	return true;

@@ -190,6 +190,13 @@ private:
 	int eventX;
 	int eventY;
 
+	float velocity;
+	float previousTime;
+
+	SDL_Renderer *rend;
+    SDL_Rect rectBackground;
+    int alpha;
+
 };
 
 #endif

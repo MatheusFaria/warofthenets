@@ -64,6 +64,12 @@ TutorialState::onEnter()
 	x = Game::Instance()->getWindow()->getWidth()/2 - this->images[4]->getWidth()/2;
 	y = Game::Instance()->getWindow()->getHeight()/2 - this->images[4]->getHeight()/2;
 	this->images[4]->setPosition(x, y);
+
+	previousTime = SDL_GetTicks();
+    
+	rend = Game::Instance()->getWindow()->getRender()->getRenderer();
+    rectBackground = {0, 0, 1280, 700};
+    alpha = 255;
 	
 	return true;
 }
@@ -93,6 +99,21 @@ TutorialState::update()
 {
 	for(map<std::string, MenuButton *>::iterator it = this->buttons.begin(); it != this->buttons.end(); it++)
 		it->second->update();
+
+
+    if(alpha <= 0)
+    {
+        velocity = 0;
+    }else{
+        velocity = -0.085;
+    }
+    
+    alpha += ((SDL_GetTicks() - previousTime) / 1) * velocity;
+    
+    previousTime = SDL_GetTicks();
+    
+    if(alpha < 0)
+        alpha = 0;
 }
 
 void 
@@ -102,6 +123,10 @@ TutorialState::render()
 	for(map<std::string, MenuButton *>::iterator it = this->buttons.begin(); it != this->buttons.end(); it++)
 		it->second->draw();
 	this->images[this->page]->draw();
+
+	SDL_SetRenderDrawColor(rend, 255, 255, 255, alpha);
+	SDL_RenderFillRect(rend, &rectBackground);
+
 }
 
 bool

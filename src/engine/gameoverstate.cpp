@@ -1,3 +1,4 @@
+#include "SDL2/SDL.h"
 #include "gameoverstate.h"
 #include "game.h"
 #include "texturemanager.h"

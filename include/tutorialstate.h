@@ -34,6 +34,13 @@ private:
 	int page;
 	int maxPage;
 	int minPage;
+
+	float velocity;
+	float previousTime;
+	
+	SDL_Renderer *rend;
+    SDL_Rect rectBackground;
+    int alpha;
 };
 
 #endif
