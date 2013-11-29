@@ -254,6 +254,8 @@ PlayState::onEnter()
 
 	loadMusics();
 
+	actualTime = SDL_GetTicks();
+
 	parseArquivo.loadArquivo("src/game/levels/fase0" + numFase + ".txt");
 	
 	//cout << "\n numFase: " << numFase << endl << endl;
@@ -303,6 +305,7 @@ PlayState::onEnter()
 	numTower = 0;
 	numBomb = 0;
 	numSpy = 0;
+	minutes=seconds=0;
 
 	numLevelTower = 1;
 	numLevelBomb = 1;
@@ -1135,9 +1138,10 @@ PlayState::finalizarTurno()
 	if(parseArquivo.getTipoObjetivo() == '3')
 	{
 		int infoVitoria = parseArquivo.getNumInfoVitoria();
-		void *args[] = {&numInfoSpy, &infoVitoria};
+		std::string objetivo = parseArquivo.getDescricaoObjetivo();
+		void *args[] = {&numInfoSpy, &infoVitoria, &objetivo};
 
-		if(condicaoVitoria->verificarSeVenceu(args, 2))
+		if(condicaoVitoria->verificarSeVenceu(args, 3))
 			informarVitoria();
 	}
 
@@ -1331,7 +1335,14 @@ PlayState::eventInMe(SDL_Event sdlEvent)
 
 	if(sdlEvent.key.keysym.sym == SDLK_o)
 	{
-		warnDisconect->setText(parseArquivo.getDescricaoObjetivo());
+		if(parseArquivo.getTipoObjetivo() == '3')
+		{
+			int numInformacao = ((Fase03*)condicaoVitoria)->getNumInformacao();
+			int vitoria = parseArquivo.getNumInfoVitoria() - numInformacao;
+			warnDisconect->setText(parseArquivo.getDescricaoObjetivo() + std::to_string(vitoria));
+		}
+		else
+			warnDisconect->setText(parseArquivo.getDescricaoObjetivo());
 		warnDisconect->setShow(true);
 	}
 	
