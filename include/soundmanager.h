@@ -27,8 +27,11 @@ public:
 	void clearSoundManager();
 	void clearFromSoundManager(std::string soundId, sound_type type);
 
-    bool isEnable();
-    void setEnable(bool enable);
+  bool isEnable();
+  void setEnable(bool enable);
+
+	void setVolumeSound(int volume);
+	void setVolumeEffect(int volume);
 
 private:
 
