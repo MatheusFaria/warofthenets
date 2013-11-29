@@ -483,7 +483,12 @@ PlayState::createHUD()
 	std::string font = "resources/font/Army.ttf";
 	int espacamento = 20;
 
-	background = new Image("resources/img/fundo2.png", 0, 0);
+    string tipoFundo = "";
+    tipoFundo += parseArquivo.getTipoFundo();
+    
+    std::cout << "\n\n tipoFundo: " << tipoFundo << endl;
+    
+	background = new Image("resources/img/fundo" + tipoFundo + ".png", 0, 0);
 
 	recursoInformacao= new MenuButton(0, 0, "resources/img/paionelinformacao.png", "botaorecursoinformacao");
 	int recursoInformacaoX = 0;
@@ -1433,11 +1438,16 @@ PlayState::finalizarJogo()
     ativarBotoes(false);
 	hexagonMap->setActive(false);
 	quit->setActive(true);
-
+	
 	fimDeJogo = true;	
 
     NetworkManager::Instance()->finishCommunication();
     //NetworkManager::deleteInstance();
+
+	//fimDeJogo = true;
+	
+	//NetworkManager::Instance()->finishCommunication();
+
 }
 
 void 
