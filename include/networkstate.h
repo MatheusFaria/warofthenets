@@ -8,6 +8,7 @@
 #include "textfield.h"
 #include "mouseclick.h"
 #include "warn.h"
+#include "SDL2/SDL_thread.h"
 #include <map>
 #include <string>
 
@@ -40,6 +41,9 @@ private:
 	std::map<std::string, TextField*> textfields;
 	Warn * warn;
 	static const std::string networkId;
+	
+	SDL_Thread *threadWaitOponent;
+	
 	
 };
 
