@@ -89,7 +89,7 @@ MenuState::createMenu()
 	aboutButton->setEventListener(this);
 	InputHandler::getInstance()->addMouseClick(aboutButton);
 
-	tutorialButton = new MenuButton(0, 0, "resources/img/tutorial.png", "tutorial",3, true);
+	tutorialButton = new MenuButton(0, 0, "resources/img/tutorial_button.png", "tutorial",3, true);
 	int tutorialy= abouty + aboutButton->getHeight() + espacamento;
 	tutorialButton->setPosition(playx, tutorialy);
 	tutorialButton->setEventListener(this);
