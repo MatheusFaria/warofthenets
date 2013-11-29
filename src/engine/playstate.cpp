@@ -1127,9 +1127,10 @@ PlayState::finalizarTurno()
 	if(parseArquivo.getTipoObjetivo() == '3')
 	{
 		int infoVitoria = parseArquivo.getNumInfoVitoria();
-		void *args[] = {&numInfoSpy, &infoVitoria};
+		std::string objetivo = parseArquivo.getDescricaoObjetivo();
+		void *args[] = {&numInfoSpy, &infoVitoria, &objetivo};
 
-		if(condicaoVitoria->verificarSeVenceu(args, 2))
+		if(condicaoVitoria->verificarSeVenceu(args, 3))
 			informarVitoria();
 	}
 
@@ -1323,7 +1324,14 @@ PlayState::eventInMe(SDL_Event sdlEvent)
 
 	if(sdlEvent.key.keysym.sym == SDLK_o)
 	{
-		warnDisconect->setText(parseArquivo.getDescricaoObjetivo());
+		if(parseArquivo.getTipoObjetivo() == '3')
+		{
+			int numInformacao = ((Fase03*)condicaoVitoria)->getNumInformacao();
+			int vitoria = parseArquivo.getNumInfoVitoria() - numInformacao;
+			warnDisconect->setText(parseArquivo.getDescricaoObjetivo() + std::to_string(vitoria));
+		}
+		else
+			warnDisconect->setText(parseArquivo.getDescricaoObjetivo());
 		warnDisconect->setShow(true);
 	}
 	

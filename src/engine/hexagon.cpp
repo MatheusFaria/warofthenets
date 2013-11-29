@@ -130,8 +130,11 @@ Hexagon::activateSpy()
 {
 	if(object != NULL)
 	{
-		int numInfo = ((Torre*)object)->spyOnTower(((Spy*)spy)->getLevel());
-        ((Spy*)spy)->setNumInformacao(numInfo);
+		if(!((Torre*)object)->isAliada())
+		{	
+			int numInfo = ((Torre*)object)->spyOnTower(((Spy*)spy)->getLevel());
+		    ((Spy*)spy)->setNumInformacao(numInfo);
+		}    
     }
 }
 

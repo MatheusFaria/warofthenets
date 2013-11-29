@@ -10,7 +10,7 @@ public:
 	virtual bool verificarSeVenceu(void **args, int numArgs);
 	virtual bool iniciarCondicoes(void **args, int numArgs);
 
-	int setNumInformacao(int numInfo);
+	int getNumInformacao();
 
 private:
 
