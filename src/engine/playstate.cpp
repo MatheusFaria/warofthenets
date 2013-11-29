@@ -160,10 +160,10 @@ PlayState::atualizarCronometro()
 	
 	tempo+=std::to_string(minutes)+":";
 
-	if(seconds<10)
+	if(15 - seconds<10)
 		tempo+="0";
 
-	tempo += std::to_string(seconds);
+	tempo += std::to_string(15 - seconds);
 	txtTime->setText(tempo);
 
 	int xseconds = painelCronometro->getX() + painelCronometro->getWidth()/2 - txtTime->getWidth()/2; 
@@ -174,7 +174,7 @@ void
 PlayState::zerarCronometro()
 {
 	minutes=seconds=0;
-	std::string tempo = "00:00";
+	std::string tempo = "00:15";
 
 	txtTime->setText(tempo);
 }
