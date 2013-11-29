@@ -8,6 +8,7 @@
 #include "textfield.h"
 #include "mouseclick.h"
 #include "warn.h"
+#include "SDL2/SDL_thread.h"
 #include <map>
 #include <string>
 
@@ -47,6 +48,9 @@ private:
 	SDL_Renderer *rend;
     SDL_Rect rectBackground;
     int alpha;
+	
+	SDL_Thread *threadWaitOponent;
+	
 	
 };
 

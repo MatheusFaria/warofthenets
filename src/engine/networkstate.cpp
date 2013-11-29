@@ -9,6 +9,7 @@
 #include "game.h"
 #include "networkmanager.h"
 
+bool oponenteConectado = false;
 
 const std::string NetworkState::networkId = "IDNetwork";
 
@@ -128,6 +129,13 @@ NetworkState::update()
 	for(map<std::string, TextField *>::iterator it = this->textfields.begin(); it != this->textfields.end(); it++)
 		it->second->update();
 	this->warn->update();
+	
+	if(oponenteConectado)
+    {
+        NetworkManager::Instance()->launchCommunication();
+		Game::Instance()->getStateMachine()->changeState(new FaseState());
+		oponenteConectado = false;
+    }
 }
 
 void 
@@ -179,6 +187,17 @@ NetworkState::disable()
     disableAllClicks();
 }
 
+
+
+int aguardarCliente(void *ptr)
+{
+    string *room = (string *) ptr;
+    NetworkManager::Instance()->createRoom(room[0], room[1]);
+    oponenteConectado = true;
+    
+    return 0;
+}
+
 void 
 NetworkState::onMouseClick(MouseClick *mouseClick)
 {
@@ -200,11 +219,15 @@ NetworkState::onMouseClick(MouseClick *mouseClick)
 		NetworkManager::Instance()->setTipo(1);
 		NetworkManager::Instance()->setIp(textfields["ip"]->getText());
 		NetworkManager::Instance()->setNome(textfields["name"]->getText());
-		NetworkManager::Instance()->createRoom(textfields["name"]->getText(),textfields["ip"]->getText());
-		NetworkManager::Instance()->launchCommunication();
-		//Game::Instance()->getStateMachine()->pushState(new PlayState());
-		Game::Instance()->getStateMachine()->changeState(new FaseState());
-		
+ 		
+		disable();
+ 		
+ 		oponenteConectado = false;
+ 		
+ 		string room[] = {textfields["name"]->getText(), textfields["ip"]->getText()};
+ 		
+ 		threadWaitOponent = SDL_CreateThread(aguardarCliente, "aguardarCliente", room);
+ 				
 	}
     else if(mouseClick == this->buttons["joinRoom"])
 	{
