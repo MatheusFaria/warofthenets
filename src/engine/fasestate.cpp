@@ -17,7 +17,6 @@ FaseState::update()
 	    receberMensagens();
     
     btnJapao->setActive(false);
-    btnRussia->setActive(false);
 }
 
 void
@@ -137,13 +136,13 @@ FaseState::onMouseClick(MouseClick *mouseClick)
         enviarIniciarFase("2");
     
     //if(mouseClick == btnJapao)
-    //    enviarIniciarFase("4");
+    //    enviarIniciarFase("3");
     
     if(mouseClick == btnIndia)
         enviarIniciarFase("5");
     
-    //if(mouseClick == btnRussia)
-    //    enviarIniciarFase("3");
+    if(mouseClick == btnRussia)
+        enviarIniciarFase("4");
 }
 
 void 

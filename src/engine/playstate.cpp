@@ -12,6 +12,7 @@
 #include "textarea.h"
 #include "fase01.h"
 #include "fase02.h"
+#include "fase04.h"
 #include "fase05.h"
 #include <algorithm>
 #include <iostream>
@@ -927,6 +928,13 @@ PlayState::criarTorre(Hexagon *hex, Torre *tower)
 				std::cout << "condicaoVitoria->verificarSeVenceu(args, 2);" << std::endl;
 				condicaoVitoria->verificarSeVenceu(args, 2);
 			}
+			else if(parseArquivo.getTipoObjetivo() == '4')
+			{
+			    int *pointerNumTower = &numTower;
+				void *args[] = {this, hex, pointerNumTower}; 
+				std::cout << "condicaoVitoria->verificarSeVenceu(args, 2);" << std::endl;
+				condicaoVitoria->verificarSeVenceu(args, 2);
+			}
 		}
 	}
 
@@ -1478,6 +1486,10 @@ PlayState::definirCondicaoDeVitoria()
 
 		case '2':
 			condicaoVitoria = new Fase02();
+			break;
+		
+		case '4':
+			condicaoVitoria = new Fase04();
 			break;
 
 		case '5':
