@@ -67,13 +67,15 @@ void  NetworkManager::finishCommunication()
 		cout << "INICIO SDL_WaitThread" << endl;
 		this->setFinished(true);
 
+        /*
 		if(this->client->getClientSocket() != NULL)
 			SDLNet_TCP_Close(this->client->getClientSocket());
 
 		if(this->client->getServerSocket() != NULL)
 			SDLNet_TCP_Close(this->client->getServerSocket());
-
-		//client->closeSocket();
+        */
+		
+		client->closeSocket();
 
 		cout<<"Passou por aqui"<<endl;
 		
