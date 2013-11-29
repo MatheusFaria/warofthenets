@@ -102,18 +102,17 @@ NetworkPlayer::finalizeGame()
 void 
 NetworkPlayer::closeSocket()
 {
-	/*switch(this->type)
+	switch(this->type)
 	{
 		case 0:
-			SDLNet_TCP_Close(clientSocket);
-			break;
-		case 1:
 			SDLNet_TCP_Close(serverSocket);
 			break;
-	}*/
-
-	clientSocket = NULL;
-	serverSocket = NULL;		
+		case 1:
+			//SDLNet_TCP_Close(clientSocket);
+			SDLNet_TCP_Close(serverSocket);
+			break;
+	}
+		
 }
 
 int 
