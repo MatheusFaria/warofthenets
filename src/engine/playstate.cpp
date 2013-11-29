@@ -13,6 +13,7 @@
 #include "fase01.h"
 #include "fase02.h"
 #include "fase04.h"
+#include "fase03.h"
 #include "fase05.h"
 #include <algorithm>
 #include <iostream>
@@ -1102,6 +1103,8 @@ PlayState::finalizarTurno()
 {
 	 if(!isMyTurn)
         return;
+
+    int numInfoSpy = 0;
         
     std::cout << "Finalizando turno" << std::endl;
 	ativarBotoes(false);
@@ -1114,6 +1117,7 @@ PlayState::finalizarTurno()
 		}	
 		else if(dynamic_cast<Spy*>(playObjects[i]))
 		{
+			numInfoSpy += ((Spy*)playObjects[i])->getInformacao();
 			numInformacao+=((Spy*)playObjects[i])->getInformacao();
 		}
 	}
@@ -1124,6 +1128,15 @@ PlayState::finalizarTurno()
 		int infoVitoria = parseArquivo.getNumInfoVitoria();
 
 		void *args[] = {&infoAtual, &infoVitoria}; 
+		if(condicaoVitoria->verificarSeVenceu(args, 2))
+			informarVitoria();
+	}
+
+	if(parseArquivo.getTipoObjetivo() == '3')
+	{
+		int infoVitoria = parseArquivo.getNumInfoVitoria();
+		void *args[] = {&numInfoSpy, &infoVitoria};
+
 		if(condicaoVitoria->verificarSeVenceu(args, 2))
 			informarVitoria();
 	}
@@ -1491,6 +1504,10 @@ PlayState::definirCondicaoDeVitoria()
 		case '4':
 			condicaoVitoria = new Fase04();
 			break;
+
+		case '3':
+			condicaoVitoria = new Fase03();
+			break;	
 
 		case '5':
 			condicaoVitoria = new Fase05();
