@@ -371,11 +371,11 @@ PlayState::criarBase()
     }
 
 
-    base1 = new Base(baseUm, 1, 0, 0, "resources/img/base" + tipoBaseUm + ".png");
+    base1 = new Base(baseUm, 1, 0, 0, "resources/img/base.png");
     hexagonMap->putObjectOnMap(pos1.getX(), pos1.getY(), base1);
     playObjects.push_back(base1);
 
-    base2 = new Base(baseDois, 1, 0, 0, "resources/img/base" + tipoBaseDois + ".png");
+    base2 = new Base(baseDois, 1, 0, 0, "resources/img/base.png");
     hexagonMap->putObjectOnMap(pos2.getX(), pos2.getY(), base2);
     playObjects.push_back(base2);
 
@@ -706,6 +706,8 @@ PlayState::onMouseClick(MouseClick *mouseClick)
 	
 	if(mouseClick == quit)
 	{
+		informarDesconexao();
+		NetworkManager::Instance()->finishCommunication();
 	    Game::Instance()->getStateMachine()->changeState(new GameOverState());
 		return;
     }
@@ -1353,7 +1355,7 @@ PlayState::receberMensagens()
 		parseData(data);
 		
 		if(data.type == DISCONECTED)
-		    break;
+	  		break;
 	}
 }
 
@@ -1433,6 +1435,9 @@ PlayState::finalizarJogo()
 	quit->setActive(true);
 
 	fimDeJogo = true;	
+
+    NetworkManager::Instance()->finishCommunication();
+    //NetworkManager::deleteInstance();
 }
 
 void 

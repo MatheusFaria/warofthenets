@@ -7,11 +7,13 @@
 #include "SDL2/SDL_thread.h"
 #include <queue>
 #include <string>
+#include <thread>
 
 class NetworkManager{
 public:
 	
 	static NetworkManager* Instance();
+	static void deleteInstance();
 	~NetworkManager();
 
 	int launchCommunication();
@@ -31,7 +33,8 @@ public:
 	void setIp(std::string ip);
 	std::string getIp();
 	
-	
+	bool isFinished(){return finishThread;};
+	void setFinished(bool finished){this->finishThread = finished;};
 
 
 private:
@@ -43,6 +46,11 @@ private:
 	bool wasInit;
 	std::queue<Data> messages;
 	SDL_Thread * listenThread;
+
+	std::thread *lstThread;
+
+
+	bool finishThread;
 
 	int init();
 	static int listenNetwork(void * ptr); 

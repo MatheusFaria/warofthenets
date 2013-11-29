@@ -34,6 +34,9 @@ NetworkPlayer::createServer()
 
 	this->serverSocket = SDLNet_TCP_Open(this->serverAddr);
 	cout << "Socket Created" << endl;
+
+	cout << "SDL_ERROR: " << SDLNet_GetError() << endl;
+
 	if(this->serverSocket == NULL)
 		return -1;
 
@@ -83,7 +86,37 @@ NetworkPlayer::sendMessage(Data * package)
 	}
 }
 
+void
+NetworkPlayer::finalizeGame()
+{
+	cout << "INICIO finalizeGame()" << endl;
+
+	//SDLNet_TCP_Close(this->serverSocket);
+	//SDLNet_TCP_Close(this->clientSocket);
+
+	SDLNet_Quit();
+
+	cout << "FIM finalizeGame()" << endl;
+}
+
 void 
+NetworkPlayer::closeSocket()
+{
+	/*switch(this->type)
+	{
+		case 0:
+			SDLNet_TCP_Close(clientSocket);
+			break;
+		case 1:
+			SDLNet_TCP_Close(serverSocket);
+			break;
+	}*/
+
+	clientSocket = NULL;
+	serverSocket = NULL;		
+}
+
+int 
 NetworkPlayer::receiveMessage()
 {
 	//if(clientSocket == NULL)
@@ -93,11 +126,11 @@ NetworkPlayer::receiveMessage()
 	switch(this->type)
 	{
 		case 0:
-			SDLNet_TCP_Recv(clientSocket, this->package, sizeof(Data));
-			break;
+			return SDLNet_TCP_Recv(clientSocket, this->package, sizeof(Data));
+			
 		case 1:
-			SDLNet_TCP_Recv(serverSocket, this->package, sizeof(Data));
-			break;
+			return SDLNet_TCP_Recv(serverSocket, this->package, sizeof(Data));
+			
 	}
 }
 

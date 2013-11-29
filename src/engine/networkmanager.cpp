@@ -12,6 +12,7 @@ NetworkManager::NetworkManager()
 	this->client = NULL;
 	this->wasInit = false;
 	this->listenThread = NULL;
+	this->lstThread = NULL;
 }
 
 NetworkManager::~NetworkManager() {}
@@ -23,6 +24,16 @@ NetworkManager::Instance()
 		instance = new NetworkManager();
 
 	return instance;
+}
+
+void 
+NetworkManager::deleteInstance()
+{
+	if(instance != NULL)
+	{
+		delete instance;
+		instance = NULL;
+	}
 }
 
 int
@@ -38,17 +49,39 @@ NetworkManager::init()
 
 int NetworkManager::launchCommunication()
 {
-	this->listenThread = SDL_CreateThread(listenNetwork, "listenNetwork", this);
-	if(this->listenThread == NULL)
+	//this->listenThread = SDL_CreateThread(listenNetwork, "listenNetwork", this);
+	//if(this->listenThread == NULL)
+	this->lstThread = new thread(listenNetwork, this);
+	if(this->lstThread == NULL)
 		return -1;
 	return 0;
 }
 
 void  NetworkManager::finishCommunication()
 {
+	cout << "\n\n INICIO finishCommunication" << endl;
 	int returnCode;
-	if(this->listenThread != NULL)
-		SDL_WaitThread(this->listenThread, &returnCode);
+	//if(this->listenThread != NULL)
+	if(this->lstThread != NULL)
+	{
+		cout << "INICIO SDL_WaitThread" << endl;
+		this->setFinished(true);
+
+		if(this->client->getClientSocket() != NULL)
+			SDLNet_TCP_Close(this->client->getClientSocket());
+
+		if(this->client->getServerSocket() != NULL)
+			SDLNet_TCP_Close(this->client->getServerSocket());
+
+		client->closeSocket();
+
+		cout<<"Passou por aqui"<<endl;
+		
+		this->lstThread->detach();	
+
+		//SDL_WaitThread(this->listenThread, &returnCode);
+		cout << "FIM SDL_WaitThread" << endl << endl;
+	}
 }
 
 void
@@ -104,37 +137,48 @@ int
 NetworkManager::listenNetwork(void * ptr)
 {
 	NetworkManager * net = (NetworkManager *) ptr;
+
 	//cout << "Recieve Message" << endl;
 	if(net->client == NULL)
 		cout << "Server NULL" << endl;
 	
 	Data * pkg = new Data;
 	pkg->type = -2;
-	while(pkg->type != -1)
+	net->setFinished(false);
+	while(pkg->type != -1 && !net->isFinished())
 	{
-		net->client->receiveMessage();
+		
+		if(!net->isFinished())
+			net->client->receiveMessage();
+		
 		pkg = net->client->getPackage();
+	
 		if(pkg != NULL)
 		{
-		    /*
-			cout<<"\nMensagem ouvida: "<<endl;
-			cout<<"pkg->type: "<<pkg->type<<endl;
-			cout<<"pkg->x: "<<pkg->x<<endl;
-			cout<<"pkg->y: "<<pkg->y<<endl<<endl;
-			*/
+		   
+			
 			if(pkg->type == 0)
 			    continue;
+		
 			net->messages.push(*pkg);
+			
 		}	
 
+	
 		if(pkg == NULL)
 			cout << "Package NULL" << endl;
 		else
 		{
-			//cout << "Package NOT null" << endl;
-			//cout << pkg->type << endl;
+		
 		}
+		
 	}
+
+	cout << "\n\n Wait Thread" << endl << endl;
+
+	//net->server->finalizeGame();
+	//net->client->finalizeGame();
+
 	return 0;
 }
 

@@ -18,11 +18,20 @@ public:
 	int createServer();
 	int createClient(std::string ip, int port);
 
+	void closeSocket();
+
 	void sendMessage(Data * package);
-	void receiveMessage();
+	int receiveMessage();
 
 	Data * getPackage(); 
 	int acceptConnection();
+	void finalizeGame();
+
+	TCPsocket getServerSocket(){return serverSocket;};
+	TCPsocket getClientSocket(){return clientSocket;};
+
+
+	int getType(){return type;};
 
 	static int SERVER_TYPE;
 	static int CLIENT_TYPE;
@@ -33,6 +42,8 @@ private:
 	int port;
 
 	int type;
+
+
 
 	IPaddress * serverAddr;
 	IPaddress * clientAddr;
