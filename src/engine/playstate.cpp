@@ -254,6 +254,8 @@ PlayState::onEnter()
 
 	loadMusics();
 
+	actualTime = SDL_GetTicks();
+
 	parseArquivo.loadArquivo("src/game/levels/fase0" + numFase + ".txt");
 	
 	//cout << "\n numFase: " << numFase << endl << endl;
@@ -303,6 +305,7 @@ PlayState::onEnter()
 	numTower = 0;
 	numBomb = 0;
 	numSpy = 0;
+	minutes=seconds=0;
 
 	numLevelTower = 1;
 	numLevelBomb = 1;
