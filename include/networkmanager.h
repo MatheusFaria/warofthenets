@@ -5,6 +5,7 @@
 #include "SDL2/SDL.h"
 #include "SDL2/SDL_net.h"
 #include "SDL2/SDL_thread.h"
+#include "warn.h"
 #include <queue>
 #include <string>
 #include <thread>
@@ -36,6 +37,7 @@ public:
 	bool isFinished(){return finishThread;};
 	void setFinished(bool finished){this->finishThread = finished;};
 
+	void setCanceled(bool cancel);
 
 private:
 
@@ -46,11 +48,12 @@ private:
 	bool wasInit;
 	std::queue<Data> messages;
 	SDL_Thread * listenThread;
-
+	Warn * wait;
 	std::thread *lstThread;
 
 
 	bool finishThread;
+	bool canceled;
 
 	int init();
 	static int listenNetwork(void * ptr); 

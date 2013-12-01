@@ -16,6 +16,7 @@ Warn::Warn(std::string warnMessage, std::string okButtonPath, std::string okButt
 	this->okButton = NULL;
 	this->bg = NULL;
 	this->show = true;
+	this->clicked = false;
 }
 
 Warn::~Warn()
@@ -47,7 +48,7 @@ Warn::init()
 	x += this->text->getWidth();
 	y += this->text->getHeight() + 30;
 
-	this->okButton = new MenuButton(x, y, this->buttonPath, "warnOkButton", 3, true); 
+	this->okButton = new MenuButton(x, y, this->buttonPath, this->buttonPath, 3, true); 
 	this->okButton->setEventListener(this);
 	this->okButton->setAudioOnClick(this->musicPath, "playClick");
 	InputHandler::getInstance()->addMouseClick(this->okButton);
@@ -107,6 +108,7 @@ Warn::onMouseClick(MouseClick *mouseClick)
     if(mouseClick == this->okButton)
 	{
 		this->show = false;
+		this->clicked = true;
 		InputHandler::getInstance()->removeMouseClick(this->okButton);
 	}
 }
@@ -115,6 +117,18 @@ bool
 Warn::getShow() const
 {
 	return this->show;
+}
+
+bool  
+Warn::wasClicked() const
+{
+	return this->clicked;
+}
+
+void   
+Warn::setClicked(bool click)
+{
+	this->clicked = click;
 }
 
 void
