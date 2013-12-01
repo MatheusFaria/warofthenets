@@ -106,7 +106,7 @@ PlayState::update()
 	else
 		zerarCronometro();
 	
-	if(seconds >= 15)
+	if(seconds >= 30)
 		finalizarTurno();
 
 	txtNumInformation->setText(std::to_string(numInformacao));
@@ -175,10 +175,10 @@ PlayState::atualizarCronometro()
 	
 	tempo+=std::to_string(minutes)+":";
 
-	if(15 - seconds<10)
+	if(30 - seconds<10)
 		tempo+="0";
 
-	tempo += std::to_string(15 - seconds);
+	tempo += std::to_string(30 - seconds);
 	txtTime->setText(tempo);
 
 	int xseconds = painelCronometro->getX() + painelCronometro->getWidth()/2 - txtTime->getWidth()/2; 
@@ -189,7 +189,7 @@ void
 PlayState::zerarCronometro()
 {
 	minutes=seconds=0;
-	std::string tempo = "00:15";
+	std::string tempo = "00:30";
 
 	txtTime->setText(tempo);
 }
@@ -231,7 +231,10 @@ PlayState::render()
     hexagonMap->draw();
     
     for(int i =0; i<(int)vectorEnemyObjects.size(); i++)
-		vectorEnemyObjects[i]->draw();
+	{
+		if(!dynamic_cast<Spy *>(vectorEnemyObjects[i]))
+			vectorEnemyObjects[i]->draw();
+	}
 
     for(int i =0; i<(int)playObjects.size(); i++)
 		playObjects[i]->draw();
@@ -378,7 +381,7 @@ PlayState::onEnter()
 void 
 PlayState::criarBase()
 {
-	int baseUm, baseDois, numMyBase;
+	int baseUm=0, baseDois, numMyBase;
 	string tipoBaseUm, tipoBaseDois;
 	Vector2D pos1, pos2;
 	
@@ -429,7 +432,7 @@ PlayState::criarBase()
 void 
 PlayState::criarPontoVitoria()
 {
-	vitoria = new Image("resources/img/hexagonoazul.png", 0, 0);
+	vitoria = new Image("resources/img/camp.png", 0, 0);
 
 	Vector2D posAliado = parseArquivo.getPontoVitoriaAliado();
 	Vector2D posInimigo = parseArquivo.getPontoVitoriaInimigo();
@@ -1112,6 +1115,34 @@ PlayState::deleteObject(Hexagon *hex)
 		delete object;
 
 	}
+
+	
+	object = hex->getSpy();
+
+	if(object != NULL)
+	{
+
+		vector<GameObject*>::iterator it;
+
+		it = find(playObjects.begin(), playObjects.end(), object);
+
+		if(it != playObjects.end())
+		{
+		    decObject(object);
+			playObjects.erase(it);
+		}	
+				
+		it = find(vectorEnemyObjects.begin(), vectorEnemyObjects.end(), object);
+		
+		if(it != vectorEnemyObjects.end())
+			vectorEnemyObjects.erase(it);
+
+		
+		delete object;
+
+	}
+	
+
 	
 	GameObject* bomba = hex->getBomba();
 
@@ -1325,7 +1356,7 @@ PlayState::atualizarMapa()
 	}
 	else
 	{
-		if(this->x + windowWidth > ((mapColumns * 75) + 300))
+		if(this->x + windowWidth > ((mapColumns * 75) + 150))
 			this->velocityX = 0;
 	}
 
@@ -1620,18 +1651,24 @@ PlayState::moveMap(int x, int y)
 
 	while(this->x + this->velocityX < 0){
 		velocityX += 10;
+		cout << "1" << endl;
 	}
 
-	while(this->x + windowWidth > ((mapColumns * 75) + 300)){
+	while(this->x + this->velocityX > ((mapColumns * 75) + 150)){
 		velocityX -= 10;
+		cout << "2" << endl;
+		cout << "this->x + windowWidth: " << this->x + windowWidth << endl;
+		cout << "velocityX: " << velocityX << endl;
 	}
 
 	while(this->y + this->velocityY < 0){
 		velocityY += 10;
+		cout << "3" << endl;
 	}
 
-	while(this->y + windowHeight > (mapRows * 87) + 94){
+	while(this->y + this->velocityY > (mapRows * 87) + 94){
 		velocityY -= 10;
+		cout << "4" << endl;
 	}
 
 	cout << "x: " << x << endl;

@@ -242,7 +242,7 @@ Hexagon::getSpy()
 bool 
 Hexagon::haveObject()
 {
-    if(object == NULL && bomba == NULL)
+    if(object == NULL && bomba == NULL && spy == NULL)
         return false;
     else
         return true;
@@ -254,6 +254,7 @@ Hexagon::destroyGameObject()
 	std::cout<<"destroyGameObject"<<std::endl;
 	object = NULL;
 	bomba = NULL;
+	spy = NULL;
 }
 
 bool 

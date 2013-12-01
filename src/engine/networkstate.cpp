@@ -139,17 +139,21 @@ NetworkState::update()
 	
 	if(oponenteConectado)
     {
+    	SDL_WaitThread(threadWaitOponent, NULL);
+
         NetworkManager::Instance()->launchCommunication();
 		Game::Instance()->getStateMachine()->changeState(new FaseState());
 		oponenteConectado = false;
     }
-
-	if(this->wait->wasClicked())
+    else if(this->wait->wasClicked())
 	{
+		/*
 		this->wait->setClicked(false);
         NetworkManager::Instance()->setCanceled(true);
 		SDL_WaitThread(threadWaitOponent, NULL);
+		NetworkManager::Instance()->closeClientSocket();
 		Game::Instance()->getStateMachine()->changeState(new MenuState());
+		*/
 	}
 }
 

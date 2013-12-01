@@ -58,10 +58,16 @@ int NetworkManager::launchCommunication()
 	return 0;
 }
 
-void  NetworkManager::finishCommunication()
+void
+NetworkManager::closeClientSocket()
+{
+	client->closeSocket();
+}
+
+void  
+NetworkManager::finishCommunication()
 {
 	cout << "\n\n INICIO finishCommunication" << endl;
-	int returnCode;
 	//if(this->listenThread != NULL)
 	if(this->lstThread != NULL)
 	{
@@ -76,7 +82,7 @@ void  NetworkManager::finishCommunication()
 			SDLNet_TCP_Close(this->client->getServerSocket());
         */
 		
-		client->closeSocket();
+		this->closeClientSocket();
 
 		cout<<"Passou por aqui"<<endl;
 		

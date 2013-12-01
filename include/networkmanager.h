@@ -25,6 +25,8 @@ public:
 	Data receiveMessage();
 	void sendMessage(Data message);
 
+	void closeClientSocket();
+
 	void setTipo(int tipo);
 	int getTipo() const;
 
