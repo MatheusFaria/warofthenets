@@ -1,6 +1,7 @@
 #include "networkstate.h"
 #include "playstate.h"
 #include "fasestate.h"
+#include "menustate.h"
 #include "inputhandler.h"
 #include "soundmanager.h"
 #include "SDL2/SDL.h"
@@ -87,6 +88,11 @@ NetworkState::onEnter()
 	this->warn->init();
 	this->warn->setShow(false);
 
+	this->wait = new Warn("Waiting another player...", "resources/img/cancelButton.png",
+							"resources/audio/fx_stab-001.wav", "resources/font/Army.ttf");
+	this->wait->init();
+	this->wait->setShow(false);
+
 	previousTime = SDL_GetTicks();
 
 	rend = Game::Instance()->getWindow()->getRender()->getRenderer();
@@ -104,8 +110,7 @@ NetworkState::getStateId() const
 
 void 
 NetworkState::update()
-{
-	                                                                                                                                                                           
+{                                                                                                                                          
     if(alpha <= 0)
     {
         velocity = 0;
@@ -121,7 +126,7 @@ NetworkState::update()
         alpha = 0;
 
 
-	if(this->warn->getShow())
+	if(this->warn->getShow() || this->wait->getShow())
 		this->disableAllClicks();
 	else
 		this->enableAllClicks();
@@ -130,6 +135,7 @@ NetworkState::update()
 	for(map<std::string, TextField *>::iterator it = this->textfields.begin(); it != this->textfields.end(); it++)
 		it->second->update();
 	this->warn->update();
+	this->wait->update();
 	
 	if(oponenteConectado)
     {
@@ -137,6 +143,14 @@ NetworkState::update()
 		Game::Instance()->getStateMachine()->changeState(new FaseState());
 		oponenteConectado = false;
     }
+
+	if(this->wait->wasClicked())
+	{
+		this->wait->setClicked(false);
+        NetworkManager::Instance()->setCanceled(true);
+		SDL_WaitThread(threadWaitOponent, NULL);
+		Game::Instance()->getStateMachine()->changeState(new MenuState());
+	}
 }
 
 void 
@@ -149,6 +163,7 @@ NetworkState::render()
 	for(map<std::string, TextField *>::iterator it = this->textfields.begin(); it != this->textfields.end(); it++)
 		it->second->draw();
 	this->warn->draw();
+	this->wait->draw();
 
 	SDL_SetRenderDrawColor(rend, 255, 255, 255, alpha);
 	SDL_RenderFillRect(rend, &rectBackground);
@@ -218,13 +233,14 @@ NetworkState::onMouseClick(MouseClick *mouseClick)
 		NetworkManager::Instance()->setTipo(1);
 		NetworkManager::Instance()->setIp(textfields["ip"]->getText());
 		NetworkManager::Instance()->setNome(textfields["name"]->getText());
- 		
+
 		disable();
- 		
+
  		oponenteConectado = false;
- 		
+
 		threadWaitOponent = SDL_CreateThread(aguardarCliente, "aguardarCliente", &textfields);
- 				
+
+		this->wait->setShow(true);
 	}
     else if(mouseClick == this->buttons["joinRoom"])
 	{

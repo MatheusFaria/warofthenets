@@ -13,6 +13,7 @@ NetworkManager::NetworkManager()
 	this->wasInit = false;
 	this->listenThread = NULL;
 	this->lstThread = NULL;
+	this->canceled = false;
 }
 
 NetworkManager::~NetworkManager() {}
@@ -94,7 +95,7 @@ NetworkManager::createRoom(std::string name, std::string ip)
 	cout << "Object Server Created" << endl;
 	cout << this->client->createServer() << endl;
 	cout << "Server Created" << endl;
-	while(this->client->acceptConnection()){ SDL_Delay(1);}
+	while(this->client->acceptConnection() && !this->canceled){ SDL_Delay(1);}
 }
 
 int
@@ -105,6 +106,11 @@ NetworkManager::joinRoom(std::string name, std::string ip)
 	return 0;
 }
 
+void 
+NetworkManager::setCanceled(bool cancel)
+{
+	this->canceled = cancel;
+}
 
 Data
 NetworkManager::receiveMessage()

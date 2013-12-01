@@ -19,6 +19,10 @@ public:
 	void onMouseClick(MouseClick *mouseClick);
 
 	bool getShow() const;
+
+	bool wasClicked() const;
+	void setClicked(bool click);
+
 	void setShow(bool show);
 
 	void setScreenBlackness(int alpha);
@@ -33,6 +37,7 @@ private:
 	std::string fontPath;
 	int fontSize;
 	bool show;
+	bool clicked;
 	SDL_Color bgColor;
 	SDL_Color letterColor;
 	Text * text;

@@ -40,6 +40,7 @@ private:
 	std::map<std::string, Text*> texts;
 	std::map<std::string, TextField*> textfields;
 	Warn * warn;
+	Warn * wait;
 	static const std::string networkId;
 
 	float velocity;
