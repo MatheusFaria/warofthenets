@@ -31,4 +31,4 @@ dist_warofthenets_DATA = img/logo.png font/Army.ttf font/BarcodeFont.ttf font/Ba
 							audio/Stage5_Rising_Game.ogg audio/derrota.wav audio/explosion_large_debris-007.wav \
 							audio/explosion_medium-003.wav audio/explosion_medium_close-005.wav audio/fx_stab-001.wav \
 							audio/mechanical_metallic_rattle-001.wav audio/putSpy.wav audio/startTurn_-_Info_Arrive.wav \
-							audio/vitoria.wav font/Base_02.ttf font/monospaced.ttf
+							audio/vitoria.wav font/Base_02.ttf font/monospaced.ttf img/camp.png
