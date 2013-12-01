@@ -3,6 +3,7 @@
 #include "game.h"
 #include "texturemanager.h"
 #include "networkstate.h"
+#include "soundmanager.h"
 #include "inputhandler.h"
 #include "image.h"
 #include "SDL2/SDL.h"
@@ -48,6 +49,9 @@ GameOverState::render()
 bool
 GameOverState::onEnter()
 {
+    SoundManager::Instance()->loadSound("resources/audio/GameOver_Ghost_Story.ogg", "gameover", MUSIC);
+    SoundManager::Instance()->playMusic("gameover", -1);
+
     background = new Image("resources/img/fundo.png");
     
     title = new Image("resources/img/gameover.png");
