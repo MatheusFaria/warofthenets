@@ -24,6 +24,7 @@ TextureManager::loadImage(string imagePath,  string imageId, SDL_Renderer* rende
 {
 	if(getTexture(imageId) == NULL)	
 	{
+		
 		SDL_Surface* surface = IMG_Load(imagePath.c_str());
 
 		if(!surface)

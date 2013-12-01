@@ -110,7 +110,3 @@ SDLGameObject::getCurrentRow()
 	return currentRow;
 }
 
-
-
-
-
