@@ -96,6 +96,9 @@ private:
 	void informarVitoria();
 	void finalizarJogo();
 	void oponentDisconected();
+
+	void moveMap(int x, int y);
+	void goToBase();
 	
 	std::string numFase;
 	std::string musicaFase;
@@ -158,6 +161,8 @@ private:
 
 	GameObject* base1;
 	GameObject* base2;
+	GameObject* myBase;
+	
 	Bomba* bombObject;
 	std::string idSelected;
 	

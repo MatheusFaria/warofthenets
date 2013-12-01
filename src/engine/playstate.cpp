@@ -334,8 +334,9 @@ PlayState::onEnter()
 	velocityX = 0;
 	velocityY = 0;
 
-	criarBase();
+	
 	createHUD();
+	criarBase();
 	iniciarTurno();
 
 	InputHandler::getInstance()->addKeyboardEvent(this);
@@ -377,9 +378,10 @@ PlayState::onEnter()
 void 
 PlayState::criarBase()
 {
-	int baseUm, baseDois;
+	int baseUm, baseDois, numMyBase;
 	string tipoBaseUm, tipoBaseDois;
 	Vector2D pos1, pos2;
+	
 	
 	tipoBaseUm = "";
 	tipoBaseDois = "";
@@ -389,16 +391,17 @@ PlayState::criarBase()
 	
 	cout << endl;
 	cout <<	"tipoBaseUm: " << endl;
-	
 
     if(NetworkManager::Instance()->getTipo() == 1)
 	{
+		numMyBase = baseUm;
 	    baseUm = Torre::ALIADA;	    
 	    baseDois = Torre::INIMIGA;    
 	    
 	    pos1 = parseArquivo.getBaseAlidaPosicao();
 	    pos2 = parseArquivo.getBaseInimigaPosicao();
     }else{
+    	numMyBase = baseDois;
     	baseDois = Torre::ALIADA;    	
 	    baseUm = Torre::INIMIGA;
 	    
@@ -415,7 +418,12 @@ PlayState::criarBase()
     hexagonMap->putObjectOnMap(pos2.getX(), pos2.getY(), base2);
     playObjects.push_back(base2);
 
+    if(numMyBase == baseUm)
+    	myBase = base1;
+    else
+    	myBase = base2;
 
+    goToBase();
 }
 
 void 
@@ -1317,7 +1325,7 @@ PlayState::atualizarMapa()
 	}
 	else
 	{
-		if(this->x + windowWidth > ((mapColumns * 75) + 100))
+		if(this->x + windowWidth > ((mapColumns * 75) + 300))
 			this->velocityX = 0;
 	}
 
@@ -1329,7 +1337,7 @@ PlayState::atualizarMapa()
 	}
 	else
 	{
-		if(this->y + windowHeight > (mapRows * 87) + 44) 
+		if(this->y + windowHeight > (mapRows * 87) + 94) 
 			this->velocityY=0;
 	}
 
@@ -1356,6 +1364,12 @@ bool
 PlayState::eventInMe(SDL_Event sdlEvent)
 {
 	int velocity = 10;
+
+	if(sdlEvent.key.keysym.sym == SDLK_b)
+	{
+		if(sdlEvent.key.state == SDL_PRESSED)
+			goToBase();
+	}
 
 	if(sdlEvent.key.keysym.sym == SDLK_o)
 	{
@@ -1595,4 +1609,59 @@ PlayState::definirCondicaoDeVitoria()
 
 	void *args[] = {this};
 	condicaoVitoria->iniciarCondicoes(args, 1);
+}
+
+void 
+PlayState::moveMap(int x, int y)
+{
+	velocityX = x - this->x;
+	velocityY = y - this->y;
+
+
+	while(this->x + this->velocityX < 0){
+		velocityX += 10;
+	}
+
+	while(this->x + windowWidth > ((mapColumns * 75) + 300)){
+		velocityX -= 10;
+	}
+
+	while(this->y + this->velocityY < 0){
+		velocityY += 10;
+	}
+
+	while(this->y + windowHeight > (mapRows * 87) + 94){
+		velocityY -= 10;
+	}
+
+	cout << "x: " << x << endl;
+	cout << "y: " << y << endl;
+	cout << "this->x: " << this->x << endl;
+	cout << "this->y: " << this->y << endl;
+	cout << "velocityX: " << velocityX << endl;
+	cout << "velocityY: " << velocityY << endl;
+
+	atualizarMapa();
+	hexagonMap->updateMap();
+
+	cout << "this->x: " << this->x << endl;
+	cout << "this->y: " << this->y << endl;
+
+	velocityX = 0;
+	velocityY = 0;
+}
+
+void 
+PlayState::goToBase()
+{
+	//Hexagon *hexagon = hexagonMap->getHexagon(basePosition.getX(), basePosition.getY());
+
+    //moveMap(hexagon->getX() - 640, hexagon->getY() - 350);
+
+	hexagonMap->update();
+
+	int moveX = this->x + myBase->getX() - 640;
+	int moveY = this->y + myBase->getY() - 350;
+
+    moveMap(moveX, moveY);
 }
