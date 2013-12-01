@@ -1534,7 +1534,7 @@ PlayState::loadMusics()
 	SoundManager::Instance()->loadSound("resources/audio/explosion_large_debris-007.wav", "bomba3", SFX);
 	SoundManager::Instance()->loadSound("resources/audio/derrota.wav", "derrota", SFX);
 	SoundManager::Instance()->loadSound("resources/audio/vitoria.wav", "vitoria", SFX);
-	SoundManager::Instance()->loadSound("resources/audio/startTurn - Info Arrive.wav", "turno", SFX);
+	SoundManager::Instance()->loadSound("resources/audio/startTurn_-_Info_Arrive.wav", "turno", SFX);
 	SoundManager::Instance()->loadSound("resources/audio/putSpy.wav", "spy", SFX);
 }
 

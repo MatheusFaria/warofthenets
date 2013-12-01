@@ -32,6 +32,16 @@ SoundManager::SoundManager()
 bool
 SoundManager::loadSound(std::string path, std::string soundId, sound_type type)
 {
+	std::string realPath = "/opt/warofthenets/resources/";
+	int i = (int) path.size() - 1;
+	for(; i >= 0; i--)
+	{
+		if(path[i] == '/')
+			break;
+	}
+	realPath += std::string(path.begin() + i + 1, path.end());
+	path = realPath;
+
 	if(type == MUSIC)
 	{
 		Mix_Music* music = Mix_LoadMUS(path.c_str());

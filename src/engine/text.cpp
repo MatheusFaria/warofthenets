@@ -34,6 +34,16 @@ Text::setFont(string fontPath)
 	if(this->font != NULL)
 		TTF_CloseFont(this->font);
 
+	std::string realPath = "/opt/warofthenets/resources/";
+	int i = (int) this->fontPath.size() - 1;
+	for(; i >= 0; i--)
+	{
+		if(this->fontPath[i] == '/')
+			break;
+	}
+	realPath += std::string(this->fontPath.begin() + i + 1, this->fontPath.end());
+	this->fontPath = realPath;
+
 	this->font = TTF_OpenFont(this->fontPath.c_str(), this->size);
 	if(this->font == NULL)
 	{
