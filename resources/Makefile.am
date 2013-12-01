@@ -6,8 +6,8 @@ warofthenetsdir = /opt/$(PACKAGE)/resources
 #warofthenetsdir = ./resources
 
 dist_warofthenets_DATA = img/logo.png font/Army.ttf font/BarcodeFont.ttf font/Base_02.ttf \
-							img/play.png img/exit.png img/fundo.png img/about.png \
-							audio/Black_Vortex.ogg img/settingsbutton.png img/credits.png 
+							img/play.png  \
+							audio/Black_Vortex.ogg img/settingsbutton.png  \
 							img/about.png img/back.png img/base.png img/base1.png img/base2.png \
 							img/base3.png img/base4.png img/base5.png img/base6.png img/bomb.png \
 							img/bomba.png img/botaoFimTurno.png img/botaolevel.png img/botaorecursobomba.png \
@@ -17,7 +17,7 @@ dist_warofthenets_DATA = img/logo.png font/Army.ttf font/BarcodeFont.ttf font/Ba
 							img/enablesound.png img/exit.png img/fundo.jpg img/fundo.png img/fundo1.png \
 							img/fundo2.png img/fundo3.png img/gamename.png img/gameover.png img/gameover2.png \
 							img/hex_grama.png img/hexagonoazul.png img/hexagonovermelho.png img/history.png \
-							img/hud_bg.png img/hud_final img/joinroom_button.png img/level1.png img/level2.png \
+							img/hud_bg.png img/joinroom_button.png img/level1.png img/level2.png \
 							img/level3.png img/level4.png img/level5.png img/loading.png img/logo.png img/menubutton.png \
 							img/menututorial.png img/mit.png img/newgame.png img/next.png img/options.png \
 							img/painelcronometro.png img/painelcronometro1.png img/painellinhadejogo.png img/painelrecurso.png \

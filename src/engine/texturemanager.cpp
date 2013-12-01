@@ -24,7 +24,16 @@ TextureManager::loadImage(string imagePath,  string imageId, SDL_Renderer* rende
 {
 	if(getTexture(imageId) == NULL)	
 	{
-		
+		string realPath = "/opt/warofthenets/resources/";
+		int i = (int) imagePath.size() - 1;
+		for(; i >= 0; i--)
+		{
+			if(imagePath[i] == '/')
+				break;
+		}
+		realPath += string(imagePath.begin() + i + 1, imagePath.end());
+		imagePath = realPath;
+
 		SDL_Surface* surface = IMG_Load(imagePath.c_str());
 
 		if(!surface)
