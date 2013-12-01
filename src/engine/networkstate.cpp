@@ -7,6 +7,7 @@
 #include "image.h"
 #include "game.h"
 #include "networkmanager.h"
+#include "log.h"
 
 bool oponenteConectado = false;
 
@@ -160,12 +161,10 @@ NetworkState::disable()
     disableAllClicks();
 }
 
-
-
 int aguardarCliente(void *ptr)
 {
-    string *room = (string *) ptr;
-    NetworkManager::Instance()->createRoom(room[0], room[1]);
+    map<std::string, TextField *> room = *((map<std::string, TextField *> *) ptr);
+    NetworkManager::Instance()->createRoom(room["ip"]->getText(), room["name"]->getText());
     oponenteConectado = true;
     
     return 0;
@@ -197,9 +196,7 @@ NetworkState::onMouseClick(MouseClick *mouseClick)
  		
  		oponenteConectado = false;
  		
- 		string room[] = {textfields["name"]->getText(), textfields["ip"]->getText()};
- 		
- 		threadWaitOponent = SDL_CreateThread(aguardarCliente, "aguardarCliente", room);
+		threadWaitOponent = SDL_CreateThread(aguardarCliente, "aguardarCliente", &textfields);
  				
 	}
     else if(mouseClick == this->buttons["joinRoom"])
