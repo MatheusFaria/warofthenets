@@ -44,8 +44,12 @@ private:
 	
 	void setEnableButtons(bool enable);
 	
+	float velocity;
+	float previousTime;
+
 	SDL_Renderer *rend;
     SDL_Rect rectBackground;
+    int alpha;
 
 };
 

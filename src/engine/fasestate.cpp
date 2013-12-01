@@ -10,6 +10,21 @@ const std::string FaseState::faseId = "MENU";
 void
 FaseState::update()
 {
+
+	if(alpha <= 0)
+    {
+        velocity = 0;
+    }else{
+        velocity = -0.085;
+    }
+    
+    alpha += ((SDL_GetTicks() - previousTime) / 1) * velocity;
+    
+    previousTime = SDL_GetTicks();
+    
+    if(alpha < 0)
+        alpha = 0;
+
 	for(int i = 0; i < (int)vectorButtons.size(); i++)
 		vectorButtons[i]->update();
 	
@@ -20,13 +35,14 @@ FaseState::update()
 void
 FaseState::render()
 {
-    SDL_SetRenderDrawColor(rend, 190, 190, 190, 0);
-	SDL_RenderFillRect(rend, &rectBackground);
 	
 	for(int i = 0; i < (int)vectorButtons.size(); i++)
 		vectorButtons[i]->draw();
 		
 	imgTitulo->draw();
+
+	SDL_SetRenderDrawColor(rend, 190, 190, 190, alpha);
+	SDL_RenderFillRect(rend, &rectBackground);
 }
 
 bool
@@ -85,8 +101,11 @@ FaseState::onEnter()
 	if(NetworkManager::Instance()->getTipo() == 0)
 		InputHandler::getInstance()->setActive(false);
 	
+	previousTime = SDL_GetTicks();
+
 	rend = Game::Instance()->getWindow()->getRender()->getRenderer();
     rectBackground = {0, 0, 1280, 700};
+    alpha = 255;
 
 	return true;
 }

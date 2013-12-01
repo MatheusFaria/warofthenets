@@ -41,6 +41,13 @@ private:
 	std::map<std::string, TextField*> textfields;
 	Warn * warn;
 	static const std::string networkId;
+
+	float velocity;
+	float previousTime;
+
+	SDL_Renderer *rend;
+    SDL_Rect rectBackground;
+    int alpha;
 	
 	SDL_Thread *threadWaitOponent;
 	

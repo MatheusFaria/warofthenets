@@ -47,6 +47,21 @@ PlayState::PlayState(string numFase)
 void
 PlayState::update()
 {    
+	                                                                                                                                                                              
+    if(alpha <= 0)
+    {
+        velocity = 0;
+    }else{
+        velocity = -0.085;
+    }
+    
+    alpha += ((SDL_GetTicks() - previousTime) / 1) * velocity;
+    
+    previousTime = SDL_GetTicks();
+    
+    if(alpha < 0)
+        alpha = 0;
+
 	atualizarMapa();
 	
 	hexagonMap->update();
@@ -245,6 +260,9 @@ PlayState::render()
 	txtTurno->draw();
 	
 	warnDisconect->draw();
+
+	SDL_SetRenderDrawColor(rend, 255, 255, 255, alpha);
+	SDL_RenderFillRect(rend, &rectBackground);
 }
 
 bool
@@ -252,12 +270,12 @@ PlayState::onEnter()
 {
     atexit(informarDesconexao);
 
-	loadMusics();
-
 	actualTime = SDL_GetTicks();
 
 	parseArquivo.loadArquivo("src/game/levels/fase0" + numFase + ".txt");
-	
+	selectStageMusic();
+	loadMusics();	
+
 	//cout << "\n numFase: " << numFase << endl << endl;
 	
 	//parseArquivo.loadArquivo("src/game/levels/fase01.txt");
@@ -283,7 +301,6 @@ PlayState::onEnter()
 
 	fimDeJogo = false;
 
-	SoundManager::Instance()->loadSound("resources/audio/Audio Network - Dark Surge.ogg", "theme", MUSIC);
 	SoundManager::Instance()->playMusic("theme", -1);
 
 	Render::getInstance()->setColor(255, 255, 255 , 255);
@@ -345,6 +362,13 @@ PlayState::onEnter()
 
 	definirCondicaoDeVitoria();
 	zerarCronometro();
+
+
+	previousTime = SDL_GetTicks();
+
+	rend = Game::Instance()->getWindow()->getRender()->getRenderer();
+    rectBackground = {0, 0, 1280, 700};
+    alpha = 255;
 
 	std::cout<<"Play State"<<std::endl;
 	return true;
@@ -1458,6 +1482,7 @@ PlayState::disable()
 void
 PlayState::loadMusics()
 {
+	SoundManager::Instance()->loadSound(musicaFase, "theme", MUSIC);
 	SoundManager::Instance()->loadSound("resources/audio/mechanical_metallic_rattle-001.wav", "torre", SFX);
 	SoundManager::Instance()->loadSound("resources/audio/explosion_medium_close-005.wav", "bomba1", SFX);
 	SoundManager::Instance()->loadSound("resources/audio/explosion_medium-003.wav", "bomba2", SFX);
@@ -1466,6 +1491,35 @@ PlayState::loadMusics()
 	SoundManager::Instance()->loadSound("resources/audio/vitoria.wav", "vitoria", SFX);
 	SoundManager::Instance()->loadSound("resources/audio/startTurn - Info Arrive.wav", "turno", SFX);
 	SoundManager::Instance()->loadSound("resources/audio/putSpy.wav", "spy", SFX);
+}
+
+void 
+PlayState::selectStageMusic()
+{
+	std::string caminho = "resources/audio/";
+
+	switch(parseArquivo.getTipoObjetivo())
+	{
+		case '1':
+			musicaFase = caminho + "Stage1_Call_to_Adventure.ogg";
+			break;
+
+		case '2':
+			musicaFase = caminho + 	"Stage2_The_Descent.ogg";
+			break;
+
+		case '3':
+			musicaFase = caminho + 	"Stage3_Tempting_Secrets.ogg";
+			break;
+
+		case '4':
+			musicaFase = caminho + 	"Stage4_The_Complex.ogg";
+			break;
+
+		case '5':
+			musicaFase = caminho + "Stage5_Rising_Game.ogg";
+			break;	
+	}
 }
 
 void

@@ -50,6 +50,7 @@ private:
 	GameObject* createObject(Hexagon *hex);
 
 	void loadMusics();
+	void selectStageMusic();
 
 	void incObject();
 	void showObject(Hexagon* hex);
@@ -97,6 +98,7 @@ private:
 	void oponentDisconected();
 	
 	std::string numFase;
+	std::string musicaFase;
 
 	ParseArquivo parseArquivo;
 	CondicaoDeVitoria *condicaoVitoria;
@@ -116,7 +118,6 @@ private:
 	int mapRows;
 
 	static const std::string playId;
-
     HexagonMap *hexagonMap;
 
 	std::vector<MenuButton*> hudButtons;
@@ -189,6 +190,13 @@ private:
     bool fimDeJogo;
 	int eventX;
 	int eventY;
+
+	float velocity;
+	float previousTime;
+
+	SDL_Renderer *rend;
+    SDL_Rect rectBackground;
+    int alpha;
 
 };
 
