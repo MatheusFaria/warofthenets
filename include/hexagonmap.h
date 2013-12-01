@@ -24,6 +24,7 @@ public:
 
     void setEventListener(Event::EventListener *eventListener);
     Hexagon* encontrarHexagono(int x, int y);
+    Hexagon* getHexagon(int x, int y);
     void putObjectOnMap(int x, int y, GameObject* object);
     bool canConstruct(Hexagon *hexagon);
     
@@ -33,6 +34,8 @@ public:
     
     void setVelocityX(int velocityX);
     void setVelocityY(int velocityY);
+    
+    void updateMap();
 
     void setActive(bool active);
 
@@ -52,7 +55,6 @@ private:
     
     bool estaConectadoNaBase(Hexagon *hexagono);
     bool existeTorreNoHexagono(Hexagon *hexagon);
-    Hexagon* getHexagon(int x, int y);
     
     void addHexagonsOnInputHandler();
     void removeHexagonsOnInputHandler();
@@ -67,7 +69,6 @@ private:
     bool existeTorreEmAlgumHexagono();
     bool possuiTorreNoAdjacenteDoAdjacente(Hexagon *hexagon);
     
-    void updateMap();
 
     void deleteHexagons();
 	
