@@ -1654,7 +1654,7 @@ PlayState::moveMap(int x, int y)
 		cout << "1" << endl;
 	}
 
-	while(this->x + this->velocityX > ((mapColumns * 75) + 150)){
+	while(this->x + this->velocityX > ((mapColumns * 75)) + 150 - windowWidth){
 		velocityX -= 10;
 		cout << "2" << endl;
 		cout << "this->x + windowWidth: " << this->x + windowWidth << endl;
@@ -1666,7 +1666,7 @@ PlayState::moveMap(int x, int y)
 		cout << "3" << endl;
 	}
 
-	while(this->y + this->velocityY > (mapRows * 87) + 94){
+	while(this->y + this->velocityY > (mapRows * 87) + 94 - windowHeight){
 		velocityY -= 10;
 		cout << "4" << endl;
 	}
