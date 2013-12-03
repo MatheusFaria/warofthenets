@@ -4,6 +4,7 @@
 #include <iostream>
 #include <cstdio>
 #include <cstdlib>
+#include <string>
 
 bool
 ParseArquivo::loadArquivo(std::string path)
@@ -15,6 +16,20 @@ ParseArquivo::loadArquivo(std::string path)
 							"evolEspiao", "upTorre", "upBomba", "upEspiao", "tipoFundo", "tipoBaseAliada",
 							"tipoBaseInimiga", "descricaoObjetivo", "numInfoVitoria"};
 	std::string param;
+	
+	std::string realPath = "/opt/warofthenets/resources/";
+	
+	int j = (int) path.size() - 1;
+	for(; j >= 0; j--)
+	{
+		if(path[j] == '/')
+			break;
+	}
+	realPath += std::string(path.begin() + j + 1, path.end());
+	path = realPath;
+	
+	std::cout << "\n\n PATH: " << path << std::endl << std::endl;
+	
 
 	std::ifstream arquivo(path.c_str());
 
