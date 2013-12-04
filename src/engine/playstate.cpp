@@ -242,6 +242,9 @@ PlayState::render()
 	txtTurno->draw();
 	
 	warnDisconect->draw();
+	
+	if(showTxtInfoObjective)
+	    txtInfoObjective->draw();
 }
 
 bool
@@ -322,12 +325,16 @@ PlayState::onEnter()
 		isMyTurn = true;
 		ativarBotoes(true);
 		txtTurno->setText("PLAY");
+		
+		showTxtInfoObjective = true;
 	}
 	else
 	{
 		isMyTurn = false;
 		ativarBotoes(false);
 		txtTurno->setText("WAIT");
+		
+		showTxtInfoObjective = true;
 	}
 
     
@@ -614,6 +621,14 @@ PlayState::createHUD()
     x = hudTurno->getWidth()/2 - txtTurno->getWidth()/2;
     y = hudTurno->getY() + hudTurno->getHeight()/2 - txtTurno->getHeight()/2;
     txtTurno->setPosition(x,y);
+    
+    txtInfoObjective = new Text("Press 'O' to view the objective", 28);
+    txtInfoObjective->setFont(font);
+    txtInfoObjective->setColor(whiteColor);
+    x = 640 - txtInfoObjective->getWidth()/2;
+    y = 0;
+    txtInfoObjective->setPosition(x,y);
+    showTxtInfoObjective = false;
 
     hudBackground = new Image("resources/img/hud_bg.png", 0, 0);
 
@@ -1071,7 +1086,7 @@ PlayState::finalizarTurno()
 
 	for(unsigned int i =0; i<playObjects.size();i++)
 	{
-		if(dynamic_cast<Torre*>(playObjects[i]) && !dynamic_cast<Base*>(playObjects[i]))
+		if(dynamic_cast<Torre*>(playObjects[i]) /*&& !dynamic_cast<Base*>(playObjects[i])*/)
 		{
 			numInformacao+=((Torre*)playObjects[i])->getInformacao();
 		}	
@@ -1102,6 +1117,8 @@ PlayState::finalizarTurno()
 			informarVitoria();
 
 	}
+	
+	showTxtInfoObjective = true;
 
 	Data data;
 	data.type = 40;
@@ -1158,7 +1175,12 @@ PlayState::iniciarTurno()
 		}
 
 	}
-
+	
+	if(showTxtInfoObjective = false)
+	    showTxtInfoObjective = true;
+    else
+	    showTxtInfoObjective = false;
+	
 	towerActualized = false;
 	bombActualized = false;
 	spyActualized = false;
