@@ -1,6 +1,0 @@
-Para fazer com a rede do jogo funcione, e necessário que um dos jogadores seja o servidor e outro o cliente. Para isso acontecer, quando o jogo for executado, ele pedirá um parâmetro. Dessa forma, os valores possíveis são:
-
-1 - Servidor
-0 - CLiente
-
-É necessário mudar o ip que se encontra setado na varíável ip da classe main.cpp.
