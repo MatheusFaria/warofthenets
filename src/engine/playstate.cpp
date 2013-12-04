@@ -297,7 +297,7 @@ PlayState::onEnter()
 	windowWidth = Game::Instance()->getWindow()->getWidth();
 	windowHeight = Game::Instance()->getWindow()->getHeight();
 	
-	//showHistory();
+	showHistory();
 
 	bombObject = NULL;
 	upgradeTower = NULL;
