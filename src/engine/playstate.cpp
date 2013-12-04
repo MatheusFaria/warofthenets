@@ -794,11 +794,14 @@ PlayState::onMouseClick(MouseClick *mouseClick)
 
     	if(temp->isMouseLeft())
     		showObject(temp);
+    	
+    	/*
     	else if(temp->isMouseRight())
     	{
     		std::cout<<"Clicou no direito"<<std::endl;
     		deleteObject(temp);	
-    	}	
+    	}
+    	*/	
 
     	return;	
     }

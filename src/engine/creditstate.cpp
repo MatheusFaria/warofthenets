@@ -6,6 +6,8 @@
 #include "SDL2/SDL.h"
 #include "inputhandler.h"
 
+#include <iostream>
+using namespace std;
 
 const std::string CreditState::creditId = "CREDIT";
 
@@ -13,16 +15,21 @@ const std::string CreditState::creditId = "CREDIT";
 void 
 CreditState::update()
 {
-	if(imageY - 50 > 0)
-	    //velocity = -0.325;
-	    velocity = -3.25;
+	if(imageY > -1500)
+	    velocity = -1;
+	    //velocity = -3.25;
 	    //velocity = -0.1625;
     else
         velocity = 0;
     
-    imageY += ((SDL_GetTicks() - previousTime) / 100) * velocity;
+    //imageY += ((SDL_GetTicks() - previousTime) / 100) * velocity;
+    
+    imageY += velocity;
     
     previousTime = SDL_GetTicks();
+    
+    cout << "\n\nimageY: " << imageY << endl;
+    cout << "velocity: " << velocity << endl;
 
 }
 
@@ -38,7 +45,7 @@ CreditState::render()
 bool
 CreditState::onEnter()
 {
-	imagePath = "resources/img/credits.png";
+	imagePath = "resources/img/castscreen.png";
 	imageId = "credit";
 
 	SoundManager::Instance()->loadSound("resources/audio/Credits_George_Street_Shuffle.ogg", "credit", MUSIC);
