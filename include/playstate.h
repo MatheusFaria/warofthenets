@@ -189,6 +189,9 @@ private:
     Text *txtLevelTower;
     Text *txtLevelBomb;
     Text* txtLevelSpy;
+    
+    Text *txtInfoObjective;
+    bool showTxtInfoObjective;
 
     Warn * warnDisconect;
 

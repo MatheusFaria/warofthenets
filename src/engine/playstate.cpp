@@ -144,8 +144,7 @@ PlayState::update()
         }
     }
     
-    warnDisconect->update();
-    
+    warnDisconect->update();    
 }
 
 bool 
@@ -266,6 +265,9 @@ PlayState::render()
 
 	SDL_SetRenderDrawColor(rend, 255, 255, 255, alpha);
 	SDL_RenderFillRect(rend, &rectBackground);
+	
+	if(showTxtInfoObjective)
+	    txtInfoObjective->draw();
 }
 
 bool
@@ -343,6 +345,8 @@ PlayState::onEnter()
 	iniciarTurno();
 
 	InputHandler::getInstance()->addKeyboardEvent(this);
+	
+	showTxtInfoObjective = true;
 
 	if(NetworkManager::Instance()->getTipo() == 0)
 	{
@@ -678,6 +682,14 @@ PlayState::createHUD()
     x = hudTurno->getWidth()/2 - txtTurno->getWidth()/2;
     y = hudTurno->getY() + hudTurno->getHeight()/2 - txtTurno->getHeight()/2;
     txtTurno->setPosition(x,y);
+    
+    txtInfoObjective = new Text("Press 'O' to view the objective", 28);
+    txtInfoObjective->setFont(font);
+    txtInfoObjective->setColor(whiteColor);
+    x = 640 - txtInfoObjective->getWidth()/2;
+    y = 0;
+    txtInfoObjective->setPosition(x,y);
+    showTxtInfoObjective = false;
 
     hudBackground = new Image("resources/img/hud_bg.png", 0, 0);
 
@@ -1219,6 +1231,8 @@ PlayState::finalizarTurno()
 			informarVitoria();
 
 	}
+	
+	showTxtInfoObjective = true;
 
 	Data data;
 	data.type = 40;
@@ -1277,6 +1291,8 @@ PlayState::iniciarTurno()
 		}
 
 	}
+
+    showTxtInfoObjective = false;
 
 	towerActualized = false;
 	bombActualized = false;
