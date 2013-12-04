@@ -272,7 +272,7 @@ PlayState::onEnter()
 	windowWidth = Game::Instance()->getWindow()->getWidth();
 	windowHeight = Game::Instance()->getWindow()->getHeight();
 	
-	//showHistory();
+	showHistory();
 
 	bombObject = NULL;
 	upgradeTower = NULL;
@@ -1176,7 +1176,7 @@ PlayState::iniciarTurno()
 
 	}
 	
-	if(showTxtInfoObjective = false)
+	if(showTxtInfoObjective == false)
 	    showTxtInfoObjective = true;
     else
 	    showTxtInfoObjective = false;
