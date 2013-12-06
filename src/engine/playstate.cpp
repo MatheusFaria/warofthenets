@@ -190,6 +190,7 @@ PlayState::calculateTime()
 void
 PlayState::render()
 {
+    /*
 	int backgroundX = background->getX();
 	int backgroundY = background->getY();
 
@@ -208,7 +209,7 @@ PlayState::render()
 	background->draw();
 
 	background->setPosition(backgroundX, backgroundY);
-
+    */
 
     hexagonMap->draw();
     
@@ -272,7 +273,7 @@ PlayState::onEnter()
 	windowWidth = Game::Instance()->getWindow()->getWidth();
 	windowHeight = Game::Instance()->getWindow()->getHeight();
 	
-	showHistory();
+	//showHistory();
 
 	bombObject = NULL;
 	upgradeTower = NULL;
@@ -556,7 +557,7 @@ PlayState::createHUD()
 	int hudTurnoY = painelCronometroY - hudTurno->getHeight() - espacamento;
 	hudTurno->setPosition(hudTurnoX, hudTurnoY);
 	
-	//SDL_Color blackColor = {0, 0, 0, 0};
+	SDL_Color blackColor = {0, 0, 0, 0};
 	SDL_Color whiteColor = {255, 255, 255, 0};
 	
 	txtNumInformation = new Text("0", 32);
@@ -624,7 +625,7 @@ PlayState::createHUD()
     
     txtInfoObjective = new Text("Press 'O' to view the objective", 28);
     txtInfoObjective->setFont(font);
-    txtInfoObjective->setColor(whiteColor);
+    txtInfoObjective->setColor(blackColor);
     x = 640 - txtInfoObjective->getWidth()/2;
     y = 0;
     txtInfoObjective->setPosition(x,y);

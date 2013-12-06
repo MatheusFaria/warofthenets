@@ -147,8 +147,8 @@ void
 MenuState::menuToPlay()
 {
 	//Game::Instance()->getStateMachine()->pushState(new GameOverState());
-	//Game::Instance()->getStateMachine()->pushState(new PlayState());
-	Game::Instance()->getStateMachine()->pushState(new NetworkState());
+	Game::Instance()->getStateMachine()->pushState(new PlayState("1"));
+	//Game::Instance()->getStateMachine()->pushState(new NetworkState());
 }
 
 void
