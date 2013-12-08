@@ -44,6 +44,7 @@ TutorialState::onEnter()
 	this->buttons["prev"]->setEventListener(this);
 	this->buttons["prev"]->setAudioOnClick("resources/audio/fx_stab-001.wav", "prevClick");
 	InputHandler::getInstance()->addMouseClick(this->buttons["prev"]);
+	this->buttons["prev"]->setActive(false);
 
 	this->images[1] = new Image("resources/img/tutorial1.png", 0, 0, 1);
 	x = Game::Instance()->getWindow()->getWidth()/2 - this->images[1]->getWidth()/2;
@@ -100,6 +101,16 @@ TutorialState::update()
 	for(map<std::string, MenuButton *>::iterator it = this->buttons.begin(); it != this->buttons.end(); it++)
 		it->second->update();
 
+	if(this->page == this->maxPage)
+		this->buttons["next"]->setActive(false);
+	else
+		this->buttons["next"]->setActive(true);
+
+	
+	if(this->page == this->minPage)
+		this->buttons["prev"]->setActive(false);
+	else
+		this->buttons["prev"]->setActive(true);
 
     if(alpha <= 0)
     {
@@ -120,10 +131,12 @@ void
 TutorialState::render()
 {
 	TextureManager::Instance()->drawFrame("fundo", 0, 0, 1280, 700, 0, 0, Render::getInstance()->getRenderer(), 0);
-	for(map<std::string, MenuButton *>::iterator it = this->buttons.begin(); it != this->buttons.end(); it++)
-		it->second->draw();
 	this->images[this->page]->draw();
-
+	this->buttons["menu"]->draw();
+	if(this->page < this->maxPage)
+		this->buttons["next"]->draw();
+	if(this->page > this->minPage)
+		this->buttons["prev"]->draw();
 	SDL_SetRenderDrawColor(rend, 255, 255, 255, alpha);
 	SDL_RenderFillRect(rend, &rectBackground);
 
