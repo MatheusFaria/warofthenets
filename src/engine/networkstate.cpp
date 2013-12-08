@@ -85,6 +85,14 @@ NetworkState::onEnter()
 	y += 5;
 	this->texts["name"]->setPosition(x, y);
 
+	this->buttons["menu"] = new MenuButton(x, y, "resources/img/menubutton.png", "menuButton", 3, true);
+	x = (Game::Instance()->getWindow()->getWidth() / 2) - (this->buttons["menu"]->getWidth() / 2);
+	y = (Game::Instance()->getWindow()->getHeight()) - (this->buttons["menu"]->getHeight()) - 10;
+	this->buttons["menu"]->setPosition(x, y);
+	this->buttons["menu"]->setEventListener(this);
+	this->buttons["menu"]->setAudioOnClick("resources/audio/fx_stab-001.wav", "playClick");
+	InputHandler::getInstance()->addMouseClick(this->buttons["menu"]);
+
 	this->warn = new Warn("You typed the wrong IP", "resources/img/warnok.png",
 							"resources/audio/fx_stab-001.wav", "resources/font/Army.ttf");
 	this->warn->init();
@@ -259,7 +267,6 @@ NetworkState::onMouseClick(MouseClick *mouseClick)
 		NetworkManager::Instance()->setNome(textfields["name"]->getText());
 		NetworkManager::Instance()->joinRoom(textfields["name"]->getText(),textfields["ip"]->getText());
 		NetworkManager::Instance()->launchCommunication();
-		//Game::Instance()->getStateMachine()->pushState(new PlayState());
 		Game::Instance()->getStateMachine()->changeState(new FaseState());
 	}
 	
@@ -273,19 +280,10 @@ NetworkState::onMouseClick(MouseClick *mouseClick)
 	    this->textfields["ip"]->setFocused(false);
 	    this->textfields["name"]->setFocused(true);
 	}
-	
-	/*std::string nome = NetworkManager::Instance()->nome;
-	int tipo  = NetworkManager::Instance()->tipo;
-	std::string ip = NetworkManager::Instance()->ip;
-
-	if(tipo == 1)
-		NetworkManager::Instance()->joinRoom(nome, ip);
-	else
-		NetworkManager::Instance()->createRoom(nome, ip);
-
-	NetworkManager::Instance()->launchCommunication();*/
-	
-	
+    else if(mouseClick == this->buttons["menu"])
+	{
+		Game::Instance()->getStateMachine()->changeState(new MenuState());
+	}
 }
 
 void
@@ -305,3 +303,4 @@ NetworkState::disableAllClicks()
 	for(map<std::string, TextField *>::iterator it = this->textfields.begin(); it != this->textfields.end(); it++)
 		it->second->setActive(false);
 }
+
