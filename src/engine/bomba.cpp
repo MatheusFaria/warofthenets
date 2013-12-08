@@ -142,7 +142,7 @@ Bomba::explodeRecursivo(map<Hexagon*, vector<Hexagon*>> grafoHexagon, int num)
 	Hexagon *hex = filaVisitar.front();
 	filaVisitar.pop();
 
-	if( (hex->haveObject() && !dynamic_cast<Base*>(hex->getObject()) ) || 
+	if( (hex->haveTower() && !dynamic_cast<Base*>(hex->getObject()) ) || 
 		(hex->getSpy() != NULL) )
 		vetorDestruicao.push_back(hex);
 

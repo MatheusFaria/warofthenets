@@ -240,6 +240,15 @@ Hexagon::getSpy()
 }
 
 bool 
+Hexagon::haveTower()
+{
+    if(object == NULL)
+        return false;
+    else
+        return true;
+}
+
+bool 
 Hexagon::haveObject()
 {
     if(object == NULL && bomba == NULL && spy == NULL)
