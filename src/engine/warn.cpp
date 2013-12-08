@@ -17,6 +17,7 @@ Warn::Warn(std::string warnMessage, std::string okButtonPath, std::string okButt
 	this->bg = NULL;
 	this->show = true;
 	this->clicked = false;
+	this->buttonShow = true;
 }
 
 Warn::~Warn()
@@ -95,7 +96,8 @@ Warn::draw()
 	{
 		this->bg->draw();
 		this->text->draw();
-		this->okButton->draw();
+		if(this->buttonShow)
+			this->okButton->draw();
 	}
 }
 
@@ -139,4 +141,30 @@ Warn::setShow(bool show)
 		InputHandler::getInstance()->removeMouseClick(this->okButton);
 	else
 		InputHandler::getInstance()->addMouseClick(this->okButton);
+}
+
+void
+Warn::disableButton()
+{
+	this->okButton->setActive(false);
+}
+
+void
+Warn::enableButton()
+{
+	this->okButton->setActive(true);
+}
+
+void
+Warn::hideButton()
+{
+	this->disableButton();
+	this->buttonShow = false;
+}
+
+void
+Warn::showButton()
+{
+	this->enableButton();
+	this->buttonShow = true;
 }

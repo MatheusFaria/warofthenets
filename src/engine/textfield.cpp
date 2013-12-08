@@ -83,13 +83,9 @@ TextField::eventInMe(SDL_Event sdlEvent)
 	if((x >= this->xField) && (x <= (this->xField + this->wField)) &&
 		(y >= this->yField) && (y <= (this->yField + this->hField)))
 	{
-		//this->focused = true;
-		//SDL_StartTextInput();
 		return true;
 	}
 
-	//this->focused = false;
-	//SDL_StopTextInput();
 	return false;
 }
 
@@ -195,3 +191,9 @@ TextField::setPosition(int x, int y)
 	this->yField = y;
 }
 
+void
+TextField::setText(std::string msg)
+{
+	this->text->setValue(msg);
+	this->xcursor += this->wLetterSize*msg.size();
+}

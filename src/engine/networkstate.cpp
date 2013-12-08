@@ -58,6 +58,7 @@ NetworkState::onEnter()
 	y += this->buttons["createRoom"]->getHeight() + this->textfields["ip"]->getHeight()*3;
 	this->textfields["ip"]->setPosition(x, y);
 	this->textfields["ip"]->init();
+	this->textfields["ip"]->setText("127.0.0.1");
 	this->textfields["ip"]->setEventListener(this);
 	InputHandler::getInstance()->addMouseClick(this->textfields["ip"]);
 	
@@ -73,6 +74,7 @@ NetworkState::onEnter()
 	y += this->textfields["ip"]->getHeight()*2;
 	this->textfields["name"]->setPosition(x, y);
 	this->textfields["name"]->init();
+	this->textfields["name"]->setText("Player");
 	this->textfields["name"]->setEventListener(this);
 	InputHandler::getInstance()->addMouseClick(this->textfields["name"]);
 
@@ -92,6 +94,7 @@ NetworkState::onEnter()
 							"resources/audio/fx_stab-001.wav", "resources/font/Army.ttf");
 	this->wait->init();
 	this->wait->setShow(false);
+	this->wait->hideButton();
 
 	previousTime = SDL_GetTicks();
 
@@ -145,16 +148,7 @@ NetworkState::update()
 		Game::Instance()->getStateMachine()->changeState(new FaseState());
 		oponenteConectado = false;
     }
-    else if(this->wait->wasClicked())
-	{
-		/*
-		this->wait->setClicked(false);
-        NetworkManager::Instance()->setCanceled(true);
-		SDL_WaitThread(threadWaitOponent, NULL);
-		NetworkManager::Instance()->closeClientSocket();
-		Game::Instance()->getStateMachine()->changeState(new MenuState());
-		*/
-	}
+
 }
 
 void 

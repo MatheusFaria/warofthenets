@@ -24,6 +24,7 @@ public:
 	int getHeight() const;
 
 	void setPosition(int x, int y);
+	void setText(std::string msg);
 	
 	void setFocused(bool focused);
 

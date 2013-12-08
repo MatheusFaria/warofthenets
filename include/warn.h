@@ -29,6 +29,11 @@ public:
 	void setText(std::string text);
 	void setScreenColor(SDL_Color screenColor);
 	void setTextColor(SDL_Color textColor);
+
+	void enableButton();
+	void disableButton();
+	void hideButton();
+	void showButton();
 	
 private:
 	std::string message;
@@ -37,6 +42,7 @@ private:
 	std::string fontPath;
 	int fontSize;
 	bool show;
+	bool buttonShow;
 	bool clicked;
 	SDL_Color bgColor;
 	SDL_Color letterColor;
