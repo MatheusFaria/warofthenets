@@ -25,6 +25,8 @@ public:
 	GameObject* getSpy();
 	bool haveObject();
 
+    bool haveTower();
+
 	bool isMouseRight();
 	bool isMouseLeft();
 	bool isMouseMiddle();

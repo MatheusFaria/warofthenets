@@ -297,7 +297,7 @@ PlayState::onEnter()
 	windowWidth = Game::Instance()->getWindow()->getWidth();
 	windowHeight = Game::Instance()->getWindow()->getHeight();
 	
-	showHistory();
+	//showHistory();
 
 	bombObject = NULL;
 	upgradeTower = NULL;
@@ -903,8 +903,10 @@ PlayState::createObject(Hexagon *hex)
 		recurso = new Bomba(numLevelBomb, hex->getX(), hex->getY());
 	}		
 	else if(idSelected == "resources/img/spy.png" && numInformacao >= Spy::getCustoUnidade())
-        recurso = new Spy(numLevelSpy);
-	
+	{
+	    if(hex->haveTower() && !(( (Torre*) hex->getObject() )->isAliada()) && (!dynamic_cast<Base*>(hex->getObject()) ))
+            recurso = new Spy(numLevelSpy);
+	}
 
 	return recurso;
 }
@@ -1058,6 +1060,8 @@ PlayState::criarEspiao(Hexagon *hex, Spy *spy)
 {
 	if(numInformacao >= Spy::getCustoUnidade())
 	{
+	    
+	
 		if(hex->setObject(spy))
 		{
 			playObjects.push_back(spy);
