@@ -38,8 +38,6 @@ Torre::update()
 {
 	int intervalo = 100;
 	actualRow = (SDL_GetTicks()/intervalo)%numFrames;
-
-	numInformacao = numInformacao*numLevelTower;
 }
 
 void 
@@ -67,6 +65,19 @@ Torre::draw()
     
 	TextureManager::Instance()->drawFrame(imageId, (Uint32)position.getX(),(Uint32)position.getY(),width/3,
 	 height/numFrames, actualRow, currentFrame,Render::getInstance()->getRenderer(), 0 );
+}
+
+int 
+Torre::getNumLevel()
+{
+    return numLevelTower;
+}
+
+void 
+Torre::setNumLevel(int numLevel)
+{
+    this->numLevelTower = numLevel;
+    this->numInformacao = 4 * numLevelTower;
 }
 
 int

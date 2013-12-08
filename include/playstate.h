@@ -63,7 +63,7 @@ private:
 	void atualizarCronometro();
 
 	void atualizarTorres();
-	void atualizarTorresInimigas();
+	void atualizarTorresInimigas(int enemyNumLevelTower);
 
 	void atualizarEspiao();
 	void atualizarEspioesInimigos();

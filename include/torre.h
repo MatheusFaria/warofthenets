@@ -20,6 +20,9 @@ public:
 	static void setCustoAtualizacao(int _custoAtualizacao);
 	static int getCustoUnidade();
 	static void setCustoUnidade(int _custoUnidade);
+	
+	int getNumLevel();
+	void setNumLevel(int numLevel);
 
 	void incActualColumn();
 	virtual int getInformacao();

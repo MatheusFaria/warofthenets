@@ -97,6 +97,8 @@ PlayState::update()
 					//vectorHexagon[i]->destroyGameObject();
 				}
 			}
+			
+			decObject(bombObject);
 			bombObject = NULL;
 		}	
 	}
@@ -303,6 +305,10 @@ PlayState::onEnter()
 	upgradeTower = NULL;
 	upgradeBomb = NULL;
 	upgradeSpy = NULL;
+	
+	towerActualized = false;
+	bombActualized = false;
+	spyActualized = false;
 
 	fimDeJogo = false;
 
@@ -351,13 +357,13 @@ PlayState::onEnter()
 	if(NetworkManager::Instance()->getTipo() == 0)
 	{
 		isMyTurn = true;
-		ativarBotoes(true);
+		//ativarBotoes(true);
 		txtTurno->setText("PLAY");
 	}
 	else
 	{
 		isMyTurn = false;
-		ativarBotoes(false);
+		//ativarBotoes(false);
 		txtTurno->setText("WAIT");
 	}
 
@@ -814,7 +820,7 @@ PlayState::onMouseClick(MouseClick *mouseClick)
     
     if(mouseClick == upgradeTower)
     {
-    	if(towerActualized)
+    	if(towerActualized || !isMyTurn)
     		return;
 
     	if(Torre::getCustoAtualizacao()<=numInformacao && numLevelTower < 3)
@@ -838,7 +844,7 @@ PlayState::onMouseClick(MouseClick *mouseClick)
     
     if(mouseClick == upgradeBomb)
     {
-    	if(bombActualized)
+    	if(bombActualized || !isMyTurn)
     		return;
 
     	if(Bomba::getCustoAtualizacao()<=numInformacao && numLevelBomb < 3)
@@ -862,7 +868,7 @@ PlayState::onMouseClick(MouseClick *mouseClick)
     
     if(mouseClick == upgradeSpy)
     {
-    	if(spyActualized)
+    	if(spyActualized || !isMyTurn)
     		return;
 
     	if(Spy::getCustoAtualizacao()<=numInformacao && numLevelSpy < 3)
@@ -1114,7 +1120,6 @@ PlayState::deleteObject(Hexagon *hex)
 
 	if(object != NULL)
 	{
-
 		vector<GameObject*>::iterator it;
 
 		it = find(playObjects.begin(), playObjects.end(), object);
@@ -1162,14 +1167,15 @@ PlayState::deleteObject(Hexagon *hex)
 	}
 	
 
-	
+	/*
 	GameObject* bomba = hex->getBomba();
 
 	if(bomba!= NULL)
 	{
 		decObject(bomba);	
 		delete bomba;
-	}	
+	}
+	*/
 
 
 	hex->destroyGameObject();
@@ -1192,7 +1198,6 @@ PlayState::finalizarTurno()
     int numInfoSpy = 0;
         
     std::cout << "Finalizando turno" << std::endl;
-	ativarBotoes(false);
 
 	for(unsigned int i =0; i<playObjects.size();i++)
 	{
@@ -1248,6 +1253,8 @@ PlayState::finalizarTurno()
 	actualTime = SDL_GetTicks();
 	isMyTurn = false;
 	txtTurno->setText("WAIT");
+	
+	ativarBotoes(false);
 	
 	//iniciarTurno();
 }
@@ -1340,21 +1347,27 @@ PlayState::atualizarTorres()
 	for(unsigned int i =0; i<playObjects.size(); i++)
 	{
 		if(dynamic_cast<Torre*>(playObjects[i]))
+		{
+		    ((Torre*)playObjects[i])->setNumLevel(numLevelTower);
 			((Torre*)playObjects[i])->incActualColumn();
+		}
 	}
 	
 	Data data;
-	data.type = UPDATE_TOWER;
+	data.type = UPDATE_TOWER + numLevelTower;
 	NetworkManager::Instance()->sendMessage(data);
 }
 
 void 
-PlayState::atualizarTorresInimigas()
+PlayState::atualizarTorresInimigas(int enemyNumLevelTower)
 {
     for(unsigned int i =0; i<vectorEnemyObjects.size(); i++)
 	{
 		if(dynamic_cast<Torre*>(vectorEnemyObjects[i]))
+		{
+		    ((Torre*)vectorEnemyObjects[i])->setNumLevel(enemyNumLevelTower);
 			((Torre*)vectorEnemyObjects[i])->incActualColumn();
+		}
 	}
 }
 
@@ -1514,7 +1527,7 @@ PlayState::parseData(Data data)
 	    criarEspiaoInimiga(data);
 	    
     else if(unidade == UPDATE_TOWER/10)
-        atualizarTorresInimigas();
+        atualizarTorresInimigas(data.type %  10);
 
     else if(unidade == UPDATE_SPY/10)
     	atualizarEspioesInimigos();

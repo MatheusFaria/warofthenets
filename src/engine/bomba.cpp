@@ -13,13 +13,15 @@ int Bomba::custoUnidade = 0;
 int Bomba::custoAtualizacao = 0;
 int Bomba::actualRow = 0;
 
-Bomba::Bomba(int raioDestruicao, int x, int y):Image(path,x,y)
+Bomba::Bomba(int numLevel, int x, int y):Image(path,x,y)
 {
 	numFrames = 5;
 	currentFrame = 1;
+	
+	this->numLevel = numLevel;
 
-	this->raioDestruicao = 6 * pow( (2 + 1), (raioDestruicao - 1) );
-	Bomba::actualRow = raioDestruicao-1;
+	this->raioDestruicao = 6 /* * pow( (2 + 1), (raioDestruicao - 1) )*/ ;
+	Bomba::actualRow = numLevel-1;
 
 	playExploiveSound();
 	
@@ -35,9 +37,9 @@ Bomba::Bomba(int raioDestruicao, int x, int y):Image(path,x,y)
 bool 
 Bomba::playExploiveSound()
 {
-	if(raioDestruicao == 6)
+	if(numLevel == 1)
 		SoundManager::Instance()->playSound("bomba1", 0);
-	else if(raioDestruicao == 18)
+	else if(numLevel == 2)
 		SoundManager::Instance()->playSound("bomba2", 0);
 	else
 		SoundManager::Instance()->playSound("bomba3", 0);
@@ -142,11 +144,15 @@ Bomba::explodeRecursivo(map<Hexagon*, vector<Hexagon*>> grafoHexagon, int num)
 	Hexagon *hex = filaVisitar.front();
 	filaVisitar.pop();
 
-	if( (hex->haveTower() && !dynamic_cast<Base*>(hex->getObject()) ) || 
-		(hex->getSpy() != NULL) )
-		vetorDestruicao.push_back(hex);
-
-	
+	if( (hex->haveTower() && !dynamic_cast<Base*>(hex->getObject()) ) )
+	{
+		if( ( (Torre *) hex->getObject() )->getNumLevel() <= numLevel)
+		    vetorDestruicao.push_back(hex);
+    }
+    else if(hex->getSpy() != NULL)
+	{
+	    vetorDestruicao.push_back(hex);
+	}
 	std::vector<Hexagon *> adjacentes = grafoHexagon[hex];
 
 	//std::cout << "adjacentes: " << adjacentes.size() << std::endl;

@@ -12,7 +12,7 @@ class Bomba : public Image{
 
 public:
 
-	Bomba(int raioDestruicao = 1, int x=0, int y=0);
+	Bomba(int numLevel = 1, int x=0, int y=0);
 	virtual void update();
 	virtual void draw();
     
@@ -37,6 +37,8 @@ private:
 	static std::string path;	
 	int numFrames;
 	int raioDestruicao;
+	
+	int numLevel;
 	
 	static int custoAtualizacao;
 	static int custoUnidade;

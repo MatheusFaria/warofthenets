@@ -257,7 +257,7 @@ HexagonMap::estaConectadoNaBase(Hexagon *hexagono)
 
 		mapaVisitado[hexFront] = true;
 
-		if(hexFront->haveObject())
+		if(hexFront->haveTower())
 		{
 			if(dynamic_cast<Base *>(hexFront->getObject()))
 			{
@@ -288,7 +288,7 @@ HexagonMap::estaConectadoNaBase(Hexagon *hexagono)
 				{
 					mapaVisitado[vectorHexagonAdjacenteAdjacente[j]] = true;
 
-					if(vectorHexagonAdjacenteAdjacente[j]->haveObject())
+					if(vectorHexagonAdjacenteAdjacente[j]->haveTower())
 					{
 						if( ((Torre*) vectorHexagonAdjacenteAdjacente[j]->getObject())->isAliada() ) 
 							filaVisitar.push(vectorHexagonAdjacenteAdjacente[j]);
@@ -313,7 +313,7 @@ HexagonMap::estaConectadoNaBase(Hexagon *hexagono)
 bool
 HexagonMap::existeTorreNoHexagono(Hexagon *hexagon)
 {
-	if(hexagon->haveObject())
+	if(hexagon->haveTower())
 		return true;
 	else
 		return false;
@@ -324,7 +324,7 @@ HexagonMap::existeTorreEmAlgumHexagono()
 {
     for(unsigned int i = 0; i < vectorHexagon.size(); i++)
     {
-    	if(vectorHexagon[i]->haveObject())
+    	if(vectorHexagon[i]->haveTower())
     		return true;
     }
     
@@ -339,7 +339,7 @@ HexagonMap::possuiTorreAdjacente(Hexagon *hexagon)
     
     for(unsigned int i = 0; i < adjacents.size(); i++)
     {
-    	if(adjacents[i]->haveObject())
+    	if(adjacents[i]->haveTower())
 		{
 			if( ((Torre *)adjacents[i]->getObject())->isAliada())
 				return true;
@@ -364,7 +364,7 @@ HexagonMap::possuiTorreNoAdjacenteDoAdjacente(Hexagon *hexagon)
 
     	for(unsigned int i = 0; i < adjacentsAdj.size(); i++)
     	{
-			if(adjacentsAdj[i]->haveObject())
+			if(adjacentsAdj[i]->haveTower())
 				return true;
 		}
 	}
