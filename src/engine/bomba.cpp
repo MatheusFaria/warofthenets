@@ -84,6 +84,12 @@ Bomba::draw()
 	 height/3, Bomba::actualRow, currentFrame,Render::getInstance()->getRenderer(), 0 );
 }
 
+int 
+Bomba::getNumLevel()
+{
+    return numLevel;
+}
+
 int
 Bomba::getCustoAtualizacao()
 {
@@ -143,13 +149,19 @@ Bomba::explodeRecursivo(map<Hexagon*, vector<Hexagon*>> grafoHexagon, int num)
 
 	Hexagon *hex = filaVisitar.front();
 	filaVisitar.pop();
+	
+	bool hexFoiAdicionadoNoVetorDestruicao = false;
 
 	if( (hex->haveTower() && !dynamic_cast<Base*>(hex->getObject()) ) )
 	{
 		if( ( (Torre *) hex->getObject() )->getNumLevel() <= numLevel)
+		{
 		    vetorDestruicao.push_back(hex);
+		    hexFoiAdicionadoNoVetorDestruicao = true;
+	    }
     }
-    else if(hex->getSpy() != NULL)
+    
+    if(hex->getSpy() != NULL && !hexFoiAdicionadoNoVetorDestruicao)
 	{
 	    vetorDestruicao.push_back(hex);
 	}

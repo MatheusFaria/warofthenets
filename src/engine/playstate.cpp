@@ -99,6 +99,7 @@ PlayState::update()
 			}
 			
 			decObject(bombObject);
+			delete bombObject;
 			bombObject = NULL;
 		}	
 	}
@@ -1066,8 +1067,6 @@ PlayState::criarEspiao(Hexagon *hex, Spy *spy)
 {
 	if(numInformacao >= Spy::getCustoUnidade())
 	{
-	    
-	
 		if(hex->setObject(spy))
 		{
 			playObjects.push_back(spy);
@@ -1120,23 +1119,32 @@ PlayState::deleteObject(Hexagon *hex)
 
 	if(object != NULL)
 	{
-		vector<GameObject*>::iterator it;
+	    
+	    cout << "Torre level: " << ( (Torre *) object )->getNumLevel() << endl;
+	    cout << "Bomba level: " << bombObject->getNumLevel() << endl;
+	    
+	    if( ( (Torre *) object )->getNumLevel() <= bombObject->getNumLevel() )
+	    {	
+		    vector<GameObject*>::iterator it;
 
-		it = find(playObjects.begin(), playObjects.end(), object);
+		    it = find(playObjects.begin(), playObjects.end(), object);
 
-		if(it != playObjects.end())
-		{
-		    decObject(object);
-			playObjects.erase(it);
-		}	
+		    if(it != playObjects.end())
+		    {
+		        decObject(object);
+			    playObjects.erase(it);
+		    }	
 				
-		it = find(vectorEnemyObjects.begin(), vectorEnemyObjects.end(), object);
+		    it = find(vectorEnemyObjects.begin(), vectorEnemyObjects.end(), object);
 		
-		if(it != vectorEnemyObjects.end())
-			vectorEnemyObjects.erase(it);
+		    if(it != vectorEnemyObjects.end())
+			    vectorEnemyObjects.erase(it);
 
+            hex->destroyTorre();
 		
-		delete object;
+		    delete object;
+
+        }
 
 	}
 
@@ -1161,6 +1169,7 @@ PlayState::deleteObject(Hexagon *hex)
 		if(it != vectorEnemyObjects.end())
 			vectorEnemyObjects.erase(it);
 
+        hex->destroySpy();
 		
 		delete object;
 
@@ -1178,7 +1187,8 @@ PlayState::deleteObject(Hexagon *hex)
 	*/
 
 
-	hex->destroyGameObject();
+	//hex->destroyGameObject();
+	hex->destroyBomba();
 		
 }
 
@@ -1201,7 +1211,7 @@ PlayState::finalizarTurno()
 
 	for(unsigned int i =0; i<playObjects.size();i++)
 	{
-		if(dynamic_cast<Torre*>(playObjects[i]) && !dynamic_cast<Base*>(playObjects[i]))
+		if(dynamic_cast<Torre*>(playObjects[i]) /* && !dynamic_cast<Base*>(playObjects[i]) */ )
 		{
 			numInformacao+=((Torre*)playObjects[i])->getInformacao();
 		}	

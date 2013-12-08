@@ -258,12 +258,31 @@ Hexagon::haveObject()
 }
 
 void 
+Hexagon::destroyTorre()
+{
+    object = NULL;
+}
+
+void 
+Hexagon::destroyBomba()
+{
+    bomba = NULL;
+}
+
+void 
+Hexagon::destroySpy()
+{
+    spy = NULL;
+}
+
+void 
 Hexagon::destroyGameObject()
 {
-	std::cout<<"destroyGameObject"<<std::endl;
-	object = NULL;
-	bomba = NULL;
-	spy = NULL;
+	//std::cout<<"destroyGameObject"<<std::endl;
+	
+	destroyTorre();
+	destroyBomba();
+	destroySpy();
 }
 
 bool 

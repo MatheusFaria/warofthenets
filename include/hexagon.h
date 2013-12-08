@@ -18,6 +18,10 @@ public:
 	void update();
 	void draw();
 	bool setObject(GameObject* _object);
+	
+	void destroyTorre();
+	void destroyBomba();
+	void destroySpy();
 	void destroyGameObject();
 	
 	GameObject* getObject();

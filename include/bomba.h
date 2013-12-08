@@ -21,6 +21,8 @@ public:
 	static int getCustoUnidade();
 	static void setCustoUnidade(int _custoUnidade);
 	static void incActualColumn();
+	
+	int getNumLevel();
 
 	void explode(map<Hexagon*, vector<Hexagon*>> grafoHexagon, Hexagon *hex);
 	std::vector<Hexagon *> getVetorDestruicao();
