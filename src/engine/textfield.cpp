@@ -196,4 +196,5 @@ TextField::setText(std::string msg)
 {
 	this->text->setValue(msg);
 	this->xcursor += this->wLetterSize*msg.size();
+	this->cursor->setPosition(this->xcursor, this->ycursor);
 }
