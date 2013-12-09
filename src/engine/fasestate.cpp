@@ -196,6 +196,9 @@ FaseState::iniciarFase(string nomeFase)
 void 
 FaseState::enviarIniciarFase(string nomeFase)
 {
+    if(!faseValida(nomeFase))
+        return;
+
     Data data;
 
 	data.type = atoi(nomeFase.c_str());
@@ -215,8 +218,11 @@ FaseState::receberMensagens()
 		data = NetworkManager::Instance()->receiveMessage();
 
 		if(data.type == -1)
+		{
 			break;
-        else{
+        }
+        else if(faseValida(std::to_string(data.type))) 
+        {
 		    iniciarFase(std::to_string(data.type));
 		    InputHandler::getInstance()->setActive(true);
 	    }
@@ -224,4 +230,14 @@ FaseState::receberMensagens()
 		//if(data.type == DISCONECTED)
 		//    break;
 	}
+}
+
+bool 
+FaseState::faseValida(string nomeFase)
+{
+    if( nomeFase == "1" || nomeFase == "2" || nomeFase == "3" ||
+        nomeFase == "4" || nomeFase == "5")
+        return true;
+    else
+        return false;
 }

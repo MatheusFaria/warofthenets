@@ -31,6 +31,8 @@ private:
     void receberMensagens();
     void iniciarFase(string nomeFase);
     void enviarIniciarFase(string nomeFase);
+    
+    bool faseValida(string nomeFase);
 
 	static const std::string faseId;
 	std::vector<MenuButton*> vectorButtons;
