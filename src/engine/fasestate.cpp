@@ -221,7 +221,7 @@ FaseState::receberMensagens()
 		{
 			break;
         }
-        else //if(faseValida(std::to_string(data.type))) 
+        else if(faseValida(std::to_string(data.type))) 
         {
 		    iniciarFase(std::to_string(data.type));
 		    InputHandler::getInstance()->setActive(true);
