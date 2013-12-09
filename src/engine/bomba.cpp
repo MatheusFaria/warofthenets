@@ -132,8 +132,17 @@ Bomba::explode(map<Hexagon*, vector<Hexagon*>>  grafoHexagon, Hexagon *hex)
 		filaVisitar.pop();
 	}
 
-	mapaVisitado[hex] = true;
 	filaVisitar.push(hex);
+	
+	std::vector<Hexagon *> adjacentes = grafoHexagon[hex];
+	
+	std::cout << std::endl << std::endl << std::endl;
+	std::cout << "adjacentes.size(): " << adjacentes.size() << std::endl << std::endl;
+	
+	for(unsigned int i = 0; i < adjacentes.size(); i++)
+    {
+        filaVisitar.push(adjacentes[i]);
+    }
 
 	explodeRecursivo(grafoHexagon, 0);
 }
@@ -145,43 +154,30 @@ Bomba::explodeRecursivo(map<Hexagon*, vector<Hexagon*>> grafoHexagon, int num)
 	if(num > (raioDestruicao) || filaVisitar.empty())
 		return;
 
-	//std::cout << "\n\n num: " << num << std::endl;
-
-	Hexagon *hex = filaVisitar.front();
-	filaVisitar.pop();
+    while(!filaVisitar.empty())
+    {
+	    Hexagon *hex = filaVisitar.front();
+	    filaVisitar.pop();
 	
-	bool hexFoiAdicionadoNoVetorDestruicao = false;
+	
+	    bool hexFoiAdicionadoNoVetorDestruicao = false;
 
-	if( (hex->haveTower() && !dynamic_cast<Base*>(hex->getObject()) ) )
-	{
-		if( ( (Torre *) hex->getObject() )->getNumLevel() <= numLevel)
-		{
-		    vetorDestruicao.push_back(hex);
-		    hexFoiAdicionadoNoVetorDestruicao = true;
+	    if( (hex->haveTower() && !dynamic_cast<Base*>(hex->getObject()) ) )
+	    {
+		    if( ( (Torre *) hex->getObject() )->getNumLevel() <= numLevel)
+		    {
+		        vetorDestruicao.push_back(hex);
+		        hexFoiAdicionadoNoVetorDestruicao = true;
+	        }
+        }
+        
+        if(hex->getSpy() != NULL && !hexFoiAdicionadoNoVetorDestruicao)
+	    {
+	        vetorDestruicao.push_back(hex);
 	    }
     }
-    
-    if(hex->getSpy() != NULL && !hexFoiAdicionadoNoVetorDestruicao)
-	{
-	    vetorDestruicao.push_back(hex);
-	}
-	std::vector<Hexagon *> adjacentes = grafoHexagon[hex];
 
-	//std::cout << "adjacentes: " << adjacentes.size() << std::endl;
-	
-	for (unsigned int i = 0; i < adjacentes.size(); ++i)
-	{
-		//std::cout << "i: " << i << std::endl;
-		if(mapaVisitado.find(adjacentes[i]) == mapaVisitado.end())
-		{
-			//std::cout << "i no if: " << i << std::endl;
-
-			filaVisitar.push(adjacentes[i]);
-			mapaVisitado[adjacentes[i]] = true;
-		}
-	}
-
-	explodeRecursivo(grafoHexagon, num + 1);
+	//explodeRecursivo(grafoHexagon, num + 1);
 }
 
 std::vector<Hexagon *> 

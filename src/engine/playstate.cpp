@@ -1106,9 +1106,9 @@ PlayState::informarVitoria()
 	warnDisconect->setText("EPIC WIN!!!!.");
 	warnDisconect->setShow(true);
 	
-	finalizarJogo();
-	
 	NetworkManager::Instance()->sendMessage(data);
+		
+	finalizarJogo();	
 }
 
 void
