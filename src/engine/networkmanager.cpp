@@ -14,6 +14,8 @@ NetworkManager::NetworkManager()
 	this->listenThread = NULL;
 	this->lstThread = NULL;
 	this->canceled = false;
+	this->ip = "127.0.0.1";
+	this->nome = "Player";
 }
 
 NetworkManager::~NetworkManager() {}
