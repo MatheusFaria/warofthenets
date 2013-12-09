@@ -174,13 +174,13 @@ FaseState::onMouseClick(MouseClick *mouseClick)
         enviarIniciarFase("2");
         
     if(mouseClick == btnJapao)
-        enviarIniciarFase("3");
+        enviarIniciarFase("4");
     
     if(mouseClick == btnIndia)
         enviarIniciarFase("5");
 
     if(mouseClick == btnRussia)
-        enviarIniciarFase("4");
+        enviarIniciarFase("3");
 }
 
 void 
