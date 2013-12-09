@@ -58,7 +58,7 @@ NetworkState::onEnter()
 	y += this->buttons["createRoom"]->getHeight() + this->textfields["ip"]->getHeight()*3;
 	this->textfields["ip"]->setPosition(x, y);
 	this->textfields["ip"]->init();
-	this->textfields["ip"]->setText("192.168.43.178");
+	this->textfields["ip"]->setText(NetworkManager::Instance()->getIp());
 	this->textfields["ip"]->setEventListener(this);
 	InputHandler::getInstance()->addMouseClick(this->textfields["ip"]);
 	
@@ -74,7 +74,7 @@ NetworkState::onEnter()
 	y += this->textfields["ip"]->getHeight()*2;
 	this->textfields["name"]->setPosition(x, y);
 	this->textfields["name"]->init();
-	this->textfields["name"]->setText("Player");
+	this->textfields["name"]->setText(NetworkManager::Instance()->getNome());
 	this->textfields["name"]->setEventListener(this);
 	InputHandler::getInstance()->addMouseClick(this->textfields["name"]);
 
