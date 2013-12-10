@@ -3,11 +3,13 @@
 
 #include "gameestate.h"
 #include "gameobject.h"
+#include "event.h"
 #include "mouseclick.h"
 #include "menubutton.h"
 #include <vector>
 
-class MenuState : public GameState, MouseClick::MouseClickListener{
+class MenuState : public GameState, MouseClick::MouseClickListener,
+                  public Event{
 
 public:
 
@@ -23,6 +25,9 @@ public:
 	virtual std::string getStateId() const;
 	
 	virtual void onMouseClick(MouseClick *mouseClick);
+	
+	virtual bool eventInMe(SDL_Event);
+	virtual bool verifyEvent(SDL_Event sdlEvent);
 
 	void createMenu();
 
@@ -42,6 +47,10 @@ private:
 	MenuButton *exitButton;
 	MenuButton *configurationButton;
 	MenuButton *tutorialButton;
+	
+	SDL_Event sdlEvent;
+	int atractTime;
+	int atualTime;
 
 };
 

@@ -16,5 +16,5 @@ include_HEADERS = 	window.h render.h image.h game.h text.h sdlsettings.h \
 					geometry.h torre.h bomba.h spy.h hexagonmap.h networkmanager.h \
 					networkplayer.h networkstate.h base.h textarea.h textfield.h warn.h \
 					parseArquivo.h condicaodevitoria.h fase01.h fase02.h fase03.h fase04.h fase05.h \
-					fasestate.h configurationstate.h tutorialstate.h
+					fasestate.h configurationstate.h tutorialstate.h attractstate.h
 

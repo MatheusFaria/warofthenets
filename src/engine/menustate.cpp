@@ -3,6 +3,7 @@
 #include "creditstate.h"
 #include "configurationstate.h"
 #include "tutorialstate.h"
+#include "attractstate.h"
 #include "inputhandler.h"
 #include "networkstate.h"
 #include "render.h"
@@ -19,9 +20,15 @@ const std::string MenuState::menuId = "MENU";
 void
 MenuState::update()
 {
-
 	for(int i =0; i<(int)menuObjects.size(); i++)
 		menuObjects[i]->update();
+		
+		
+	if((int)SDL_GetTicks() - atualTime > atractTime)
+	{
+	    //InputHandler::getInstance()->removeEvent(this);
+	    Game::Instance()->getStateMachine()->pushState(new AttractState());
+    }
 }
 
 void
@@ -42,6 +49,8 @@ MenuState::render()
 bool
 MenuState::onEnter()
 {
+    atractTime = 10000;
+	atualTime = SDL_GetTicks();
 	
 	if(!TextureManager::Instance()->loadImage("resources/img/fundo.png",
 		"fundo", Render::getInstance()->getRenderer()))
@@ -62,7 +71,8 @@ MenuState::onEnter()
 	SoundManager::Instance()->loadSound("resources/audio/Five_Armies.ogg", "theme", MUSIC);
 	SoundManager::Instance()->playMusic("theme", 1);
 	
-	std::cout<<"Entering Menu State"<<std::endl;
+	InputHandler::getInstance()->addEvent(this);
+	
 
 	return true;
 }
@@ -70,6 +80,7 @@ MenuState::onEnter()
 void 
 MenuState::enable()
 {
+    atualTime = SDL_GetTicks();
     playButton->setActive(true);
 	aboutButton->setActive(true);
 	exitButton->setActive(true);
@@ -84,7 +95,7 @@ MenuState::disable()
 	aboutButton->setActive(false);
 	exitButton->setActive(false);
 	configurationButton->setActive(false);
-	tutorialButton->setActive(false);    
+	tutorialButton->setActive(false);
 }
 
 void 
@@ -163,6 +174,9 @@ MenuState::onExit()
 	InputHandler::getInstance()->removeMouseClick(configurationButton);
 	InputHandler::getInstance()->removeMouseClick(tutorialButton);
 
+    InputHandler::getInstance()->removeEvent(this);
+    
+    
 	return true;
 }
 
@@ -219,4 +233,54 @@ MenuState::onMouseClick(MouseClick *mouseClick)
     if(mouseClick == tutorialButton)
         menuToTutorial();
 }
+
+
+
+bool
+MenuState::eventInMe(SDL_Event)
+{
+    return false;
+}
+
+
+bool 
+MenuState::verifyEvent(SDL_Event sdlEvent)
+{
+    if(sdlEvent.type == SDL_MOUSEMOTION)
+    {
+        
+        if( this->sdlEvent.motion.x == 0 &&
+            this->sdlEvent.motion.y == 0)
+        {
+            SDL_Event temp = sdlEvent;
+            this->sdlEvent = temp;
+            return false;
+        }
+        
+        if( abs(this->sdlEvent.motion.x - sdlEvent.motion.x) > 2 ||
+            abs(this->sdlEvent.motion.y - sdlEvent.motion.y) > 2 )
+        {
+            atualTime = SDL_GetTicks();
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    if( (sdlEvent.type == SDL_MOUSEBUTTONDOWN) ||
+        (sdlEvent.type == SDL_MOUSEBUTTONUP) ||
+        (sdlEvent.type == SDL_KEYDOWN) ||
+        (sdlEvent.type == SDL_KEYUP))
+    {
+        atualTime = SDL_GetTicks();
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
 

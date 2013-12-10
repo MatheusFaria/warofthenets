@@ -11,6 +11,7 @@
 #include <cmath>
 #include "texturemanager.h"
 #include "menustate.h"
+#include "attractstate.h"
 #include "inputhandler.h"
 #include "soundmanager.h"
 
@@ -72,6 +73,7 @@ Game::init()
 	SDL_SetRenderDrawBlendMode(this->window->getRender()->getRenderer(), SDL_BLENDMODE_BLEND);
 
 	this->gameStateMachine = new GameStateMachine();
+	//this->gameStateMachine->changeState(new AttractState());
 	this->gameStateMachine->changeState(new MenuState());
 	//this->gameStateMachine->changeState(new NetworkState());
 }
