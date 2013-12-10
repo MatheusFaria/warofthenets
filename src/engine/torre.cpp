@@ -77,7 +77,7 @@ void
 Torre::setNumLevel(int numLevel)
 {
     this->numLevelTower = numLevel;
-    this->numInformacao = 4 * numLevelTower;
+    this->numInformacao = 2 * numLevelTower;
 }
 
 int
