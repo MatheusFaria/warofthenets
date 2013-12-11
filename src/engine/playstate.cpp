@@ -94,7 +94,7 @@ PlayState::update()
 				{
 					bombObject->explode(hexagonMap->getGrafoHexagon(), vectorHexagon[i]);
 					destroyVectorObjects(bombObject->getVetorDestruicao());
-					//vectorHexagon[i]->destroyGameObject();
+					vectorHexagon[i]->destroyBomba();
 				}
 			}
 			
