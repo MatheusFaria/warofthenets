@@ -84,6 +84,7 @@ void
 NetworkManager::createRoom(std::string name, std::string ip)
 {
 	this->client = new NetworkPlayer(name, ip, PORT);
+	this->client->createServer();
 	while(this->client->acceptConnection() && !this->canceled){ SDL_Delay(1);}
 }
 
