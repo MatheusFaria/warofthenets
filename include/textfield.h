@@ -22,6 +22,9 @@ public:
 	std::string getText() const;
 	int getWidth() const;
 	int getHeight() const;
+	
+	int getX() const;
+	int getY() const;
 
 	void setPosition(int x, int y);
 	void setText(std::string msg);

@@ -128,13 +128,14 @@ Hexagon::setObject(GameObject* _object)
 void
 Hexagon::activateSpy()
 {
-	if(object != NULL)
+	if(object != NULL && spy != NULL)
 	{
-		if(!((Torre*)object)->isAliada())
-		{	
+		//if(!((Torre*)object)->isAliada())
+		//{	
 			int numInfo = ((Torre*)object)->spyOnTower(((Spy*)spy)->getLevel());
 		    ((Spy*)spy)->setNumInformacao(numInfo);
-		}    
+		    
+		//}    
     }
 }
 
@@ -158,10 +159,10 @@ Hexagon::update()
         backgroundImages[i]->setPosition(x, y);
     }
 
-	if(dynamic_cast<Base*> (object))
+	if(dynamic_cast<Base*> (object) || dynamic_cast<Image*> (object))
 	{
-		int x = getX() - object->getWidth()/4;
-		int y = getY() - object->getHeight()/4;
+		int x = getX() + (getWidth()/2) - (object->getWidth()/2);
+		int y = getY() + (getHeight()/2) - (object->getHeight()/2);
 		object->setPosition(x,y);
 	}
 	else if(object != NULL)

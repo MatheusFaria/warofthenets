@@ -34,12 +34,14 @@ FaseState::update()
 
 void
 FaseState::render()
-{
+{    
+	imgFundo->draw();
 	
 	for(int i = 0; i < (int)vectorButtons.size(); i++)
 		vectorButtons[i]->draw();
 		
 	imgTitulo->draw();
+	imgLogo->draw();
 
 	SDL_SetRenderDrawColor(rend, 190, 190, 190, alpha);
 	SDL_RenderFillRect(rend, &rectBackground);
@@ -48,18 +50,24 @@ FaseState::render()
 bool
 FaseState::onEnter()
 {
-
 	SoundManager::Instance()->loadSound("resources/audio/Black_Vortex.ogg", "stage", MUSIC);
 	SoundManager::Instance()->playMusic("stage", -1);
 
-    imgTitulo = new Image("resources/img/titulofase.png", 0, 0);
+    imgTitulo = new Image("resources/img/title_choose_level.png", 0, 0);
     int imgTituloX = (Game::Instance()->getWindow()->getWidth() / 2) - (imgTitulo->getWidth() / 2);
-	int imgTituloY = 10;
+	int imgTituloY = 75;
     imgTitulo->setPosition(imgTituloX, imgTituloY);
     
+    imgFundo = new Image("resources/img/fundo.png");
+	imgFundo->setPosition(0, 0);
+    
+    imgLogo = new Image("resources/img/title_small.png");
+	int imgLogoX = (Game::Instance()->getWindow()->getWidth()) - imgLogo->getWidth();
+	imgLogo->setPosition(imgLogoX, 0);
+        
 	btnBrasil = new MenuButton(0, 0, "resources/img/level1.png", "level1", 3, true);
 	int btnBrasilX = (Game::Instance()->getWindow()->getWidth() / 2) - (btnBrasil->getWidth() / 2);
-	int btnBrasilY = (Game::Instance()->getWindow()->getHeight() / 2) - (btnBrasil->getHeight() * 1);
+	int btnBrasilY = (Game::Instance()->getWindow()->getHeight() / 2) - (btnBrasil->getHeight() * 1) + 25;
 	btnBrasil->setPosition(btnBrasilX, btnBrasilY);
 	btnBrasil->setEventListener(this);
 	InputHandler::getInstance()->addMouseClick(btnBrasil);
@@ -80,14 +88,14 @@ FaseState::onEnter()
 	
 	btnIndia = new MenuButton(0, 0, "resources/img/level5.png", "level5", 3, true);
 	int btnIndiaX = btnBrasilX - btnIndia->getWidth();
-	int btnIndiaY = (Game::Instance()->getWindow()->getHeight() / 2) + (btnIndia->getHeight() * 1);
+	int btnIndiaY = (Game::Instance()->getWindow()->getHeight() / 2) + (btnIndia->getHeight()/2);
 	btnIndia->setPosition(btnIndiaX, btnIndiaY);
 	btnIndia->setEventListener(this);
 	InputHandler::getInstance()->addMouseClick(btnIndia);
 	
 	btnRussia = new MenuButton(0, 0, "resources/img/level3.png", "level3", 3, true);
 	int btnRussiaX = btnBrasilX + btnIndia->getWidth();
-	int btnRussiaY = (Game::Instance()->getWindow()->getHeight() / 2) + (btnRussia->getHeight() * 1);
+	int btnRussiaY = (Game::Instance()->getWindow()->getHeight() / 2) + (btnRussia->getHeight()/2);
 	btnRussia->setPosition(btnRussiaX, btnRussiaY);
 	btnRussia->setEventListener(this);
 	InputHandler::getInstance()->addMouseClick(btnRussia);
@@ -123,6 +131,8 @@ FaseState::onExit()
 	vectorButtons.clear();
 	
 	delete imgTitulo;
+	delete imgFundo;
+	delete imgLogo;
 
 	SoundManager::Instance()->stopSound();
 	SoundManager::Instance()->clearFromSoundManager("stage", MUSIC);

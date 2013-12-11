@@ -35,7 +35,7 @@ private:
 	static const std::string gameOverId;	
     
     Image *background;
-    Image *title;
+    Image *imgLogo;
     MenuButton *newGame;
     MenuButton *quitToMenu;
     

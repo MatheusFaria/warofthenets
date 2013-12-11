@@ -16,6 +16,8 @@ public:
 	static void setCustoAtualizacao(int _custoAtualizacao);
 	static int getCustoUnidade();
 	static void setCustoUnidade(int _custoUnidade);
+	
+	void setNumLevel(int numLevel);
 
 	int getLevel();
 

@@ -38,6 +38,9 @@ private:
 	std::vector<MenuButton*> vectorButtons;
 	
 	Image *imgTitulo;
+	Image *imgFundo;
+	Image *imgLogo;
+	
 	MenuButton *btnBrasil;
 	MenuButton *btnAlemanha;
 	MenuButton *btnJapao;

@@ -134,8 +134,8 @@ MenuState::createMenu()
 	InputHandler::getInstance()->addMouseClick(exitButton);
 	
 	configurationButton = new MenuButton(0, 0, "resources/img/configbutton.png", "config", 3, true);
-	int configurationx = (Game::Instance()->getWindow()->getWidth()) - configurationButton->getWidth() - espacamento;
-	int configurationy = (Game::Instance()->getWindow()->getHeight()) - configurationButton->getHeight() - espacamento;
+	int configurationx = (Game::Instance()->getWindow()->getWidth()) - configurationButton->getWidth();
+	int configurationy = (Game::Instance()->getWindow()->getHeight()) - configurationButton->getHeight();
 	configurationButton->setPosition(configurationx, configurationy);
 	configurationButton->setEventListener(this);
 	InputHandler::getInstance()->addMouseClick(configurationButton);

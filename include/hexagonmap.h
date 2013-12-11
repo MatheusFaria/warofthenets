@@ -28,6 +28,7 @@ public:
     void putObjectOnMap(int x, int y, GameObject* object);
     bool canConstruct(Hexagon *hexagon);
     
+    bool actualizeSpy();    
     
     std::vector<Hexagon*> getVectorHexagon();
     std::map<Hexagon*, std::vector<Hexagon*>> getGrafoHexagon();

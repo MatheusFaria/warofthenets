@@ -5,6 +5,7 @@
 #include "gameobject.h"
 #include "menubutton.h"
 #include "mouseclick.h"
+#include "image.h"
 #include <map>
 #include <string>
 
@@ -31,6 +32,7 @@ private:
 
 	std::map<std::string, MenuButton*> buttons;
 	std::map<std::string, Text*> texts;
+	std::map<std::string, Image*> images;
 	static int soundVolume, effectsVolume;
 	static const std::string configurationId;
 	

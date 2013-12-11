@@ -327,8 +327,7 @@ PlayState::onEnter()
 
 	idSelected = "";
     
-    hexagonMap = new HexagonMap(mapColumns, mapRows);
-    hexagonMap->setEventListener(this);
+    
     	
 	numInformacao = parseArquivo.getNumeroRecursoInicial();
 	numTower = 0;
@@ -346,10 +345,13 @@ PlayState::onEnter()
 	velocityX = 0;
 	velocityY = 0;
 
+    hexagonMap = new HexagonMap(mapColumns, mapRows);
+    hexagonMap->setEventListener(this);
 	
 	createHUD();
 	criarBase();
 	iniciarTurno();
+	
 
 	InputHandler::getInstance()->addKeyboardEvent(this);
 	
@@ -599,14 +601,14 @@ PlayState::createHUD()
 	int levelSpyY = recursoSpyY + recursoSpy->getHeight() - levelSpy->getHeight();
 	levelSpy->setPosition(levelSpyX, levelSpyY);
 
-	quit = new MenuButton(0, 0, "resources/img/botaosair.png", "botaosair");
+	quit = new MenuButton(0, 0, "resources/img/botaosair.png", "botaosair", 3);
 	int quitX = windowWidth - quit->getWidth();
 	int quitY = 0;
 	quit->setPosition(quitX, quitY);
 	quit->setEventListener(this);
 	InputHandler::getInstance()->addMouseClick(quit);
 
-	fimTurno = new MenuButton(0, 0, "resources/img/botaoFimTurno.png", "botaofimturno");
+	fimTurno = new MenuButton(0, 0, "resources/img/botaoFimTurno.png", "botaofimturno", 3);
 	int fimTurnoX = windowWidth - fimTurno->getWidth();
 	int fimTurnoY = windowHeight - fimTurno->getHeight();
 	fimTurno->setPosition(fimTurnoX, fimTurnoY);
@@ -1337,22 +1339,32 @@ PlayState::atualizarEspiao()
 	for(unsigned int i =0; i<playObjects.size(); i++)
 	{
 		if(dynamic_cast<Spy*>(playObjects[i]))
+	    {	        
+		    ((Spy*)playObjects[i])->setNumLevel(numLevelSpy);
 			((Spy*)playObjects[i])->incActualColumn();
+		}
 	}
+	
+	hexagonMap->actualizeSpy();
 
 	Data data;
-	data.type = UPDATE_SPY;
+	data.type = UPDATE_SPY + numLevelSpy;
 	NetworkManager::Instance()->sendMessage(data);
 }
 
 void 
-PlayState::atualizarEspioesInimigos()
+PlayState::atualizarEspioesInimigos(int numLevelSpyEnemy)
 {
     for(unsigned int i =0; i<vectorEnemyObjects.size(); i++)
 	{
 		if(dynamic_cast<Spy*>(vectorEnemyObjects[i]))
+		{
+		    ((Spy*)vectorEnemyObjects[i])->setNumLevel(numLevelSpyEnemy);
 			((Spy*)vectorEnemyObjects[i])->incActualColumn();
+		}
 	}
+	
+	hexagonMap->actualizeSpy();
 }
 
 void 
@@ -1366,6 +1378,8 @@ PlayState::atualizarTorres()
 			((Torre*)playObjects[i])->incActualColumn();
 		}
 	}
+	
+	hexagonMap->actualizeSpy();
 	
 	Data data;
 	data.type = UPDATE_TOWER + numLevelTower;
@@ -1383,6 +1397,8 @@ PlayState::atualizarTorresInimigas(int enemyNumLevelTower)
 			((Torre*)vectorEnemyObjects[i])->incActualColumn();
 		}
 	}
+	
+	hexagonMap->actualizeSpy();
 }
 
 void 
@@ -1544,7 +1560,7 @@ PlayState::parseData(Data data)
         atualizarTorresInimigas(data.type %  10);
 
     else if(unidade == UPDATE_SPY/10)
-    	atualizarEspioesInimigos();
+    	atualizarEspioesInimigos(data.type % 10);
         
     else if(unidade == VICTORY/10)
     	receberVitoria();
