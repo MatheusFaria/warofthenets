@@ -35,14 +35,12 @@ PauseState::render()
 bool
 PauseState::onEnter()
 {
-	std::cout<<"Pause State Entered"<<std::endl;
 	return true;
 }
 
 bool
 PauseState::onExit()
 {
-	std::cout<<"Pause State Left"<<std::endl;
 	return true;
 }
 

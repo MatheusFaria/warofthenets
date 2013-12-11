@@ -69,40 +69,21 @@ NetworkManager::closeClientSocket()
 void  
 NetworkManager::finishCommunication()
 {
-	cout << "\n\n INICIO finishCommunication" << endl;
-	//if(this->listenThread != NULL)
 	if(this->lstThread != NULL)
 	{
-		cout << "INICIO SDL_WaitThread" << endl;
 		this->setFinished(true);
 
-        /*
-		if(this->client->getClientSocket() != NULL)
-			SDLNet_TCP_Close(this->client->getClientSocket());
-
-		if(this->client->getServerSocket() != NULL)
-			SDLNet_TCP_Close(this->client->getServerSocket());
-        */
-		
 		this->closeClientSocket();
 
-		cout<<"Passou por aqui"<<endl;
-		
 		this->lstThread->detach();	
 
-		//SDL_WaitThread(this->listenThread, &returnCode);
-		cout << "FIM SDL_WaitThread" << endl << endl;
 	}
 }
 
 void
 NetworkManager::createRoom(std::string name, std::string ip)
 {
-	cout << "Create Server" << endl;
 	this->client = new NetworkPlayer(name, ip, PORT);
-	cout << "Object Server Created" << endl;
-	cout << this->client->createServer() << endl;
-	cout << "Server Created" << endl;
 	while(this->client->acceptConnection() && !this->canceled){ SDL_Delay(1);}
 }
 
@@ -140,10 +121,8 @@ NetworkManager::receiveMessage()
 void 
 NetworkManager::sendMessage(Data message)
 {
-	cout << "Send Message" << endl;
 	if(this->client == NULL)
 	{
-		cout << "Client NULL" << endl;
 		return;
 	}
 	this->client->sendMessage(&message);
@@ -154,10 +133,6 @@ NetworkManager::listenNetwork(void * ptr)
 {
 	NetworkManager * net = (NetworkManager *) ptr;
 
-	//cout << "Recieve Message" << endl;
-	if(net->client == NULL)
-		cout << "Server NULL" << endl;
-	
 	Data * pkg = new Data;
 	pkg->type = -2;
 	net->setFinished(false);
@@ -179,21 +154,7 @@ NetworkManager::listenNetwork(void * ptr)
 			net->messages.push(*pkg);
 			
 		}	
-
-	
-		if(pkg == NULL)
-			cout << "Package NULL" << endl;
-		else
-		{
-		
-		}
-		
 	}
-
-	cout << "\n\n Wait Thread" << endl << endl;
-
-	//net->server->finalizeGame();
-	//net->client->finalizeGame();
 
 	return 0;
 }

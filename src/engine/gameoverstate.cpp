@@ -103,7 +103,6 @@ GameOverState::onExit()
     delete newGame;
     delete background;
     
-	//std::cout<<"Exiting Game Over State"<<std::endl;
 	return true;
 }
 

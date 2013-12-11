@@ -54,7 +54,6 @@ OptionState::onEnter()
 	if(!TextureManager::Instance()->loadImage("resources/img/options.png",
 		"options", Render::getInstance()->getRenderer()))
 	{
-		std::cout<<"Error"<<std::endl;
 		return false;
 	}
 	

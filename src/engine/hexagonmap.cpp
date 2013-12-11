@@ -96,16 +96,6 @@ HexagonMap::createMap()
 		}
 	}
 	
-	/*
-	std::cout << "createMap()" << std::endl;
-	std::cout << "vectorHexagon.size()" << vectorHexagon.size() << std::endl;
-	
-	for(unsigned int i = 0; i < vectorHexagon.size(); i++)
-    {
-        std::cout << "vectorHexagon[i]->getX(): " << vectorHexagon[i]->getX() << std::endl;
-        std::cout << "vectorHexagon[i]->getY(): " << vectorHexagon[i]->getY() << std::endl;
-	}
-	*/
 }
 
 
@@ -251,7 +241,6 @@ HexagonMap::estaConectadoNaBase(Hexagon *hexagono)
 	
 	while(!filaVisitar.empty())
 	{
-		cout << "filaVisitar.size(): " << filaVisitar.size() << endl;
 		Hexagon *hexFront = filaVisitar.front();
 		filaVisitar.pop();
 

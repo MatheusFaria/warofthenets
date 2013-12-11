@@ -74,8 +74,6 @@ Spy::setNumLevel(int numLevel)
 {
     this->numLevelSpy = numLevel;
     
-    cout << endl;
-    cout << "setNumLevel(): " << this->numLevelSpy << endl;
 }
 
 void

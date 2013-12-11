@@ -14,8 +14,6 @@ Fase02::iniciarCondicoes(void **, int)
 bool 
 Fase02::verificarSeVenceu(void **args, int)
 {
-	cout << "\n verificarSeVenceu \n" << endl;
-
 	int* infoAtual = (int*) args[0];
 	int* infoNecessaria = (int*) args[1];
 

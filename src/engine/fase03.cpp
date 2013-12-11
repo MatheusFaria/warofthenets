@@ -21,7 +21,6 @@ Fase03::getNumInformacao()
 bool 
 Fase03::verificarSeVenceu(void **args, int)
 {
-	cout<<"Verificando logica de vitoria"<<numInformacao<<endl;
 	int *informacao = (int*) args[0];
 	int *condicaoVitoria = (int*) args[1];
 

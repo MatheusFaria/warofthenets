@@ -34,7 +34,6 @@ MenuState::update()
 void
 MenuState::render()
 {
-	//std::cout<<"Drawing menu"<<std::endl;
 
 	TextureManager::Instance()->drawFrame("fundo", 0, 0, 1280,
 	 700, 0, 0, Render::getInstance()->getRenderer(), 0);
@@ -55,7 +54,6 @@ MenuState::onEnter()
 	if(!TextureManager::Instance()->loadImage("resources/img/fundo.png",
 		"fundo", Render::getInstance()->getRenderer()))
 	{
-		std::cout<<"Error"<<std::endl;
 		return false;
 	}
 

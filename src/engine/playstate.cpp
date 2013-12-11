@@ -120,7 +120,6 @@ PlayState::update()
 	txtLevelTower->setText(std::to_string(numLevelTower));
 	txtLevelSpy->setText(std::to_string(numLevelSpy));
     
-    //std::cout << "fimDeJogo: " << fimDeJogo << std::endl;
     	
 	if(!fimDeJogo)
 		receberMensagens();
@@ -284,15 +283,8 @@ PlayState::onEnter()
 	selectStageMusic();
 	loadMusics();	
 
-	//cout << "\n numFase: " << numFase << endl << endl;
 	
 	//parseArquivo.loadArquivo("src/game/levels/fase01.txt");
-
-	cout << endl;
-	cout << "parseArquivo.getCustoTorre(): " << parseArquivo.getCustoTorre() << endl;
-	cout << "parseArquivo.getCustoBomba(): " << parseArquivo.getCustoBomba() << endl;
-	cout << "parseArquivo.getCustoEspiao(): " << parseArquivo.getCustoEspiao() << endl;
-	cout << endl;
 
 	mapColumns = 25;
 	mapRows = 15;
@@ -387,7 +379,6 @@ PlayState::onEnter()
     rectBackground = {0, 0, 1280, 700};
     alpha = 255;
 
-	std::cout<<"Play State"<<std::endl;
 	return true;
 }
 
@@ -405,8 +396,6 @@ PlayState::criarBase()
 	tipoBaseUm += parseArquivo.getTipoBaseAliada();
 	tipoBaseDois += parseArquivo.getTipoBaseInimiga();
 	
-	cout << endl;
-	cout <<	"tipoBaseUm: " << endl;
 
     if(NetworkManager::Instance()->getTipo() == 1)
 	{
@@ -545,8 +534,6 @@ PlayState::createHUD()
 
     string tipoFundo = "";
     tipoFundo += parseArquivo.getTipoFundo();
-    
-    std::cout << "\n\n tipoFundo: " << tipoFundo << endl;
     
 	background = new Image("resources/img/fundo" + tipoFundo + ".png", 0, 0);
 
@@ -702,7 +689,7 @@ PlayState::createHUD()
 
     hudBackground = new Image("resources/img/hud_bg.png", 0, 0);
 
-    upgradeTower = new MenuButton(0,0,"resources/img/buttonupgrade.png", "buttonupgrade", 3, true);
+    upgradeTower = new MenuButton(0,0,"resources/img/buttonupgrade.png", "buttonupgrade", 3);
     x = levelTowerX;
     y = levelTowerY - upgradeTower->getHeight() -espacamento/4;
     upgradeTower->setPosition(x,y);
@@ -712,7 +699,7 @@ PlayState::createHUD()
 	upgradeTower->activeTextArea(true);
 	upgradeTower->setAudioOnClick("resources/audio/mechanical_machine_lever_pull-001.wav", "upTower");
 	
-    upgradeBomb = new MenuButton(0,0,"resources/img/buttonupgrade.png", "buttonupgrade", 3, true);
+    upgradeBomb = new MenuButton(0,0,"resources/img/buttonupgrade.png", "buttonupgrade", 3);
     x = levelBombX;
     y = levelBombY - upgradeBomb->getHeight() -espacamento/4;
     upgradeBomb->setPosition(x,y);
@@ -761,7 +748,6 @@ PlayState::onMouseClick(MouseClick *mouseClick)
 	{
 		idSelected = "resources/img/tower.png";
 
-		std::cout << "Selecionou: TORRE" << std::endl;
 		return;
 	}
 
@@ -769,7 +755,6 @@ PlayState::onMouseClick(MouseClick *mouseClick)
 	{
 		idSelected = "resources/img/bomb.png";
 
-		std::cout << "Selecionou: BOMBA" << std::endl;
 		return;
 	}
 
@@ -777,7 +762,6 @@ PlayState::onMouseClick(MouseClick *mouseClick)
 	{
 		idSelected = "resources/img/spy.png";
 
-		std::cout << "Selecionou: ESPIAO" << std::endl;
 		return;
 	}
 	
@@ -791,18 +775,15 @@ PlayState::onMouseClick(MouseClick *mouseClick)
 
     if(dynamic_cast<Hexagon*>(mouseClick))
     {
-        std::cout<<"isMyTurn = " << isMyTurn <<std::endl;
         
         if(!isMyTurn)
             return;
             
-    	std::cout<<"Clicou no Hexagon"<<std::endl;
     	Hexagon *temp = (Hexagon *) mouseClick;
 
     	if(temp->getX() + temp->getWidth() < hudBackground->getWidth())
     		return;
 
-    	//std::cout<<"temp->haveObject(): " << temp->haveObject() <<std::endl;
 
 
     	if(temp->isMouseLeft())
@@ -811,7 +792,6 @@ PlayState::onMouseClick(MouseClick *mouseClick)
     	/*
     	else if(temp->isMouseRight())
     	{
-    		std::cout<<"Clicou no direito"<<std::endl;
     		deleteObject(temp);	
     	}
     	*/	
@@ -821,7 +801,6 @@ PlayState::onMouseClick(MouseClick *mouseClick)
 
     if(mouseClick == fimTurno)
     {
-    	std::cout<<"Fim turno!"<<std::endl;
     	finalizarTurno();
     }
     
@@ -938,7 +917,6 @@ PlayState::incObject()
 void
 PlayState::decObject(GameObject* object)
 {
-	//std::cout<<"Entrou aqui"<<std::endl;
 
 	if(dynamic_cast<Torre*>(object))
 		numTower--;
@@ -989,19 +967,16 @@ PlayState::criarTorre(Hexagon *hex, Torre *tower)
 			incObject();
 			numInformacao -= Torre::getCustoUnidade();
 
-			std::cout << "\n parseArquivo.getTipoObjetivo(): " << parseArquivo.getTipoObjetivo() << std::endl;
 
 			if(parseArquivo.getTipoObjetivo() == '1')
 			{
 				void *args[] = {this, hex}; 
-				std::cout << "condicaoVitoria->verificarSeVenceu(args, 2);" << std::endl;
 				condicaoVitoria->verificarSeVenceu(args, 2);
 			}
 			else if(parseArquivo.getTipoObjetivo() == '4')
 			{
 			    int *pointerNumTower = &numTower;
 				void *args[] = {this, hex, pointerNumTower}; 
-				std::cout << "condicaoVitoria->verificarSeVenceu(args, 2);" << std::endl;
 				condicaoVitoria->verificarSeVenceu(args, 2);
 			}
 		}
@@ -1126,8 +1101,6 @@ PlayState::deleteObject(Hexagon *hex)
 	if(object != NULL)
 	{
 	    
-	    cout << "Torre level: " << ( (Torre *) object )->getNumLevel() << endl;
-	    cout << "Bomba level: " << bombObject->getNumLevel() << endl;
 	    
 	    if( ( (Torre *) object )->getNumLevel() <= bombObject->getNumLevel() )
 	    {	
@@ -1213,7 +1186,6 @@ PlayState::finalizarTurno()
 
     int numInfoSpy = 0;
         
-    std::cout << "Finalizando turno" << std::endl;
 
 	for(unsigned int i =0; i<playObjects.size();i++)
 	{
@@ -1284,7 +1256,6 @@ PlayState::iniciarTurno()
         	
 	txtTurno->setText("PLAY");
         
-    std::cout << "Iniciando turno" << std::endl;
     isMyTurn = true;
 
     SoundManager::Instance()->playSound("turno", 0);
@@ -1637,7 +1608,6 @@ PlayState::selectStageMusic()
 void
 PlayState::receberVitoria()
 {
-	//std::cout<<"Que loucura cara, vc joga de uma maneira burra"<<std::endl;
 	
 	SoundManager::Instance()->stopSound();
 	SoundManager::Instance()->playSound("derrota", 0);	
@@ -1650,23 +1620,15 @@ PlayState::receberVitoria()
 void 
 PlayState::finalizarJogo()
 {
-    //std::cout<<"\n\n RECEBEU MSG PARA FINALIZAR! \n\n"<<std::endl;
 	isMyTurn = true;
 	
     ativarBotoes(false);
 	hexagonMap->setActive(false);
 	quit->setActive(true);
 
-//<<<<<<< HEAD
 	fimDeJogo = true;	
 
     NetworkManager::Instance()->finishCommunication();
-    //NetworkManager::deleteInstance();
-//=======
-	//fimDeJogo = true;
-	
-	//etworkManager::Instance()->finishCommunication();
-//>>>>>>> c1ac1a5cfff029e2967773475f612b565bf7bbd2
 }
 
 void 
@@ -1718,38 +1680,22 @@ PlayState::moveMap(int x, int y)
 
 	while(this->x + this->velocityX < 0){
 		velocityX += 10;
-		cout << "1" << endl;
 	}
 
 	while(this->x + this->velocityX > ((mapColumns * 75)) + 150 - windowWidth){
 		velocityX -= 10;
-		cout << "2" << endl;
-		cout << "this->x + windowWidth: " << this->x + windowWidth << endl;
-		cout << "velocityX: " << velocityX << endl;
 	}
 
 	while(this->y + this->velocityY < 0){
 		velocityY += 10;
-		cout << "3" << endl;
 	}
 
 	while(this->y + this->velocityY > (mapRows * 87) + 94 - windowHeight){
 		velocityY -= 10;
-		cout << "4" << endl;
 	}
-
-	cout << "x: " << x << endl;
-	cout << "y: " << y << endl;
-	cout << "this->x: " << this->x << endl;
-	cout << "this->y: " << this->y << endl;
-	cout << "velocityX: " << velocityX << endl;
-	cout << "velocityY: " << velocityY << endl;
 
 	atualizarMapa();
 	hexagonMap->updateMap();
-
-	cout << "this->x: " << this->x << endl;
-	cout << "this->y: " << this->y << endl;
 
 	velocityX = 0;
 	velocityY = 0;

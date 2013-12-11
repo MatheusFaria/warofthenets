@@ -31,7 +31,6 @@ Game* Game::instance = NULL;
 
 Game::Game()
 {
-	cout << "Creating War of the Nets" << endl;
 	finish = false;
 }
 
@@ -50,7 +49,6 @@ Game::Instance()
 
 Game::~Game()
 {
-	cout << "Finishing War of the Nets" << endl;
 	if(window != NULL)
 		delete window;
 }
@@ -58,13 +56,8 @@ Game::~Game()
 void
 Game::init()
 {
-	cout << "Intialize" << endl;
 
-	if(SDLSettings::setUpEnviroment())
-		cout << "Enviroment Set" << endl;
-	else
-		cout << "Could not Set Enviroment" << endl;
-		
+	SDLSettings::setUpEnviroment();
 
 	const char * title = "War of The Nets";
 	this->window = new Window(WIDTH, HEIGHT, 0, 0, title);
@@ -101,7 +94,6 @@ Game::render()
 void
 Game::run()
 {
-	cout << "Run" << endl;
 	presentation();
 	SDL_Delay(2000);
 	
@@ -134,14 +126,10 @@ Game::run()
             {
                 SDL_Delay((int)(DELAY - frameTime - 1));
             }
-	    }/*else{
-	        cout << "PULOU!" << endl;
-	    }*/
+	    }
 	    
 	    frameTime = SDL_GetTicks() - frameStart;
 	    
-	    //cout << "frameTime: " << frameTime << endl;
-	    //cout << "DELAY: " << DELAY << endl;
 	    
 	    SDL_Delay(1);
 	}
@@ -234,8 +222,6 @@ Game::presentation()
 void 
 Game::clean()
 {
-    cout << "cleaning game"<<endl;
-    
     gameStateMachine->clean();
     
     gameStateMachine = 0;
@@ -268,30 +254,24 @@ void renderWorld();
 
 void updateTime()
 {
-	cout<<"Update time"<<endl;
 }
 
 void getInput()
 {
-	cout<<"Inputs received"<<endl;
 }
 
 void getNetworkMessage()
 {
-	cout<<"Getting Network Message"<<endl;
 }
 
 void simulateWorld()
 {
-	cout<<"Simulating world units"<<endl;
 }
 
 void updateObjects()
 {
-	cout<<"Onjects atualized"<<endl;
 }
 
 void renderWorld()
 {
-	cout<<"World Screen Atualized"<<endl;
 }

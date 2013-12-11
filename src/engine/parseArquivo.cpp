@@ -28,9 +28,6 @@ ParseArquivo::loadArquivo(std::string path)
 	realPath += std::string(path.begin() + j + 1, path.end());
 	path = realPath;
 	
-	std::cout << "\n\n PATH: " << path << std::endl << std::endl;
-	
-
 	std::ifstream arquivo(path.c_str());
 
 	

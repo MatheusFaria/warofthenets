@@ -16,8 +16,6 @@ Fase04::iniciarCondicoes(void **args, int)
 bool 
 Fase04::verificarSeVenceu(void **args, int)
 {
-	cout << "\n verificarSeVenceu \n" << endl;
-
 	PlayState *estado = (PlayState *) args[0];
 	Hexagon *hex = (Hexagon *) args[1];
 	int *numTorres = (int *) args[2];

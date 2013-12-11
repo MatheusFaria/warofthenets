@@ -48,7 +48,6 @@ SoundManager::loadSound(std::string path, std::string soundId, sound_type type)
 
 		if(!music)
 		{
-			std::cout<<"Could not load music: "<<Mix_GetError()<<std::endl;
 			return false;
 		}
 
@@ -61,7 +60,6 @@ SoundManager::loadSound(std::string path, std::string soundId, sound_type type)
 
 		if(!chunk)
 		{
-			std::cout<<"Could not load sfx: "<<Mix_GetError()<<std::endl;
 			return false;
 		} 
 

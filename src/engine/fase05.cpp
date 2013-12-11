@@ -14,8 +14,6 @@ Fase05::iniciarCondicoes(void **, int)
 bool 
 Fase05::verificarSeVenceu(void **args, int)
 {
-	cout << "\n verificarSeVenceu \n" << endl;
-
 	int *levelTorre = (int*) args[0];
 	int *levelSpy = (int*) args[1];
 	int *levelBomba = (int*) args[2];

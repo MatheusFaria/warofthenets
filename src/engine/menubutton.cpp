@@ -85,7 +85,6 @@ MenuButton::update()
 			currentRow = MOUSE_OUT;
 	}	
 	
-	//cout << "released: " << released << endl;
 }
 
 void

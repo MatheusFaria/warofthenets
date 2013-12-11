@@ -136,8 +136,6 @@ Bomba::explode(map<Hexagon*, vector<Hexagon*>>  grafoHexagon, Hexagon *hex)
 	
 	std::vector<Hexagon *> adjacentes = grafoHexagon[hex];
 	
-	std::cout << std::endl << std::endl << std::endl;
-	std::cout << "adjacentes.size(): " << adjacentes.size() << std::endl << std::endl;
 	
 	for(unsigned int i = 0; i < adjacentes.size(); i++)
     {

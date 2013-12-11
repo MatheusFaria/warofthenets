@@ -38,8 +38,6 @@ TextureManager::loadImage(string imagePath,  string imageId, SDL_Renderer* rende
 
 		if(!surface)
 		{
-			cout<<"Error:"<<endl;
-			//cout<<"Error: "<<SDL_GetError()<<endl;
 			return false;
 		}
 
@@ -54,7 +52,6 @@ TextureManager::loadImage(string imagePath,  string imageId, SDL_Renderer* rende
 		}
 		else
 		{
-			cout<<"Error:"<<endl;
 			return false;
 		}
 	}	
@@ -75,7 +72,6 @@ TextureManager::draw(string imageId, int x, int y,
 
 	if(textureMap.find(imageId) == textureMap.end())
 	{
-		cout<<"Couldn't find the respective image with id: "<<imageId<<endl;
 		return;
 	}
 
@@ -101,7 +97,6 @@ TextureManager::drawFrame(std::string imageId, int x, int y, int width, int heig
 
 	if(getTexture(imageId) == NULL)
 	{
-		cout<<"Couldn't find the respective image with id: "<<imageId<<endl;
 		return;
 	}	
 	
@@ -139,7 +134,6 @@ TextureManager::clearFromTextureMap(string imageId)
 	{
 		SDL_DestroyTexture(textureMap[imageId]);
 		textureMap.erase(imageId);
-		//std::cout<<imageId<<std::endl;
 		textureCount.erase(imageId);
 	}
 	else
@@ -151,7 +145,6 @@ TextureManager::getTexture(string imageId)
 {
 	if(textureMap.find(imageId) == textureMap.end())
 	{
-		//cout<<"Couldn't find the respective image with id: "<<imageId<<endl;
 		return NULL;
 	}
 	else

@@ -27,9 +27,6 @@ CreditState::update()
     imageY += velocity;
     
     previousTime = SDL_GetTicks();
-    
-    cout << "\n\nimageY: " << imageY << endl;
-    cout << "velocity: " << velocity << endl;
 
 }
 

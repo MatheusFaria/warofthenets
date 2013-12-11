@@ -116,12 +116,6 @@ Torre::spyOnTower(int levelSpy)
     int infoSpy = levelSpy * numLevelTower;
 	numInformacao = (numLevelTower * 4) - infoSpy;
 	
-	cout << endl;
-	cout << "levelSpy: " << levelSpy << endl;
-	cout << "numLevelTower: " << numLevelTower << endl;
-	cout << "numInformacao: " << numInformacao << endl;
-	cout << "infoSpy: " << infoSpy << endl;
-		
 	return infoSpy;
 }
 
@@ -134,7 +128,6 @@ Torre::removeSpy()
 int 
 Torre::getInformacao()
 {
-	//std::cout<<"numInformacao"<<numInformacao<<std::endl;
 	return numInformacao;
 }
 

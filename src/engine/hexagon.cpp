@@ -279,7 +279,6 @@ Hexagon::destroySpy()
 void 
 Hexagon::destroyGameObject()
 {
-	//std::cout<<"destroyGameObject"<<std::endl;
 	
 	destroyTorre();
 	destroyBomba();
