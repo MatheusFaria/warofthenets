@@ -19,6 +19,8 @@ public:
 	void draw();
 	bool setObject(GameObject* _object);
 	
+	void activateSpy();
+	
 	void destroyTorre();
 	void destroyBomba();
 	void destroySpy();
@@ -44,7 +46,6 @@ private:
 	int size;
 
 	void putObjectInSurface();
-	void activateSpy();
 
     std::vector<Image*> backgroundImages;
 

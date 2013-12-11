@@ -52,33 +52,32 @@ GameOverState::onEnter()
     SoundManager::Instance()->loadSound("resources/audio/GameOver_Ghost_Story.ogg", "gameover", MUSIC);
     SoundManager::Instance()->playMusic("gameover", -1);
 
-    background = new Image("resources/img/fundo.png");
+    background = new Image("resources/img/gameover2.png");
+    background->setPosition(0, 0);
+    gameOverObjects.push_back(background);
     
-    title = new Image("resources/img/gameover.png");
-    int titleX = (Game::Instance()->getWindow()->getWidth() / 2) - (title->getWidth() / 2);
-	int titleY = 50;
-	title->setPosition(titleX, titleY);
-
-    newGame = new MenuButton(0, 0, "resources/img/newgame.png", "newGame");
-	int newGameX = (Game::Instance()->getWindow()->getWidth() / 2) - (newGame->getWidth() / 2);
-	int newGameY= (Game::Instance()->getWindow()->getHeight() / 2) - (newGame->getHeight() / 2);
+    imgLogo = new Image("resources/img/title_small.png");
+	int imgLogoX = (Game::Instance()->getWindow()->getWidth()) - imgLogo->getWidth();
+	imgLogo->setPosition(imgLogoX, 0);
+	gameOverObjects.push_back(imgLogo);
+    
+    newGame = new MenuButton(0, 0, "resources/img/newgame.png", "newGame", 3, true);
+	int newGameX = (Game::Instance()->getWindow()->getWidth() / 2) - (3 * newGame->getWidth() / 2);
+	int newGameY = Game::Instance()->getWindow()->getHeight() - newGame->getHeight() - 20;
 	newGame->setPosition(newGameX, newGameY);
 	newGame->setEventListener(this);
 	InputHandler::getInstance()->addMouseClick(newGame);
+	gameOverObjects.push_back(newGame);
 
-    quitToMenu = new MenuButton(0, 0, "resources/img/quittomenu.png", "quitToMenu");
-	int quitToMenuX = (Game::Instance()->getWindow()->getWidth() / 2) - (quitToMenu->getWidth() / 2);
-	int quitToMenuY= (Game::Instance()->getWindow()->getHeight() / 2) + (quitToMenu->getHeight() / 2) + 20;
+    quitToMenu = new MenuButton(0, 0, "resources/img/quittomenu.png", "quitToMenu", 3, true);
+	int quitToMenuX = (Game::Instance()->getWindow()->getWidth() / 2) + (quitToMenu->getWidth() / 2);
+	int quitToMenuY = Game::Instance()->getWindow()->getHeight() - quitToMenu->getHeight() - 20;
 	quitToMenu->setPosition(quitToMenuX, quitToMenuY);
 	quitToMenu->setEventListener(this);
 	InputHandler::getInstance()->addMouseClick(quitToMenu);
-    
-    gameOverObjects.push_back(background);
-    gameOverObjects.push_back(title);
-    gameOverObjects.push_back(newGame);
     gameOverObjects.push_back(quitToMenu);
     
-    InputHandler::getInstance()->addKeyboardEvent(this);
+    //InputHandler::getInstance()->addKeyboardEvent(this);
     
     previousTime = SDL_GetTicks();
     
@@ -92,18 +91,16 @@ GameOverState::onEnter()
 bool
 GameOverState::onExit()
 {    
-    InputHandler::getInstance()->removeKeyboardEvent(this);
+    //InputHandler::getInstance()->removeKeyboardEvent(this);
     InputHandler::getInstance()->removeMouseClick(quitToMenu);
     InputHandler::getInstance()->removeMouseClick(newGame);
     
     quitToMenu->clean();
     newGame->clean();
-    title->clean();
     background->clean();
     
     delete quitToMenu;
     delete newGame;
-    delete title;
     delete background;
     
 	//std::cout<<"Exiting Game Over State"<<std::endl;

@@ -7,6 +7,7 @@
 #include "networkmanager.h"
 #include "textfield.h"
 #include "mouseclick.h"
+#include "image.h"
 #include "warn.h"
 #include "SDL2/SDL_thread.h"
 #include <map>
@@ -37,8 +38,11 @@ public:
 private:
 
 	std::map<std::string, MenuButton*> buttons;
-	std::map<std::string, Text*> texts;
 	std::map<std::string, TextField*> textfields;
+	std::map<std::string, Image*> images;
+	
+	Image *fundo;
+	
 	Warn * warn;
 	Warn * wait;
 	static const std::string networkId;

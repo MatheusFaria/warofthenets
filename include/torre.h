@@ -27,6 +27,8 @@ public:
 	void incActualColumn();
 	virtual int getInformacao();
 	int spyOnTower(int levelSpy);
+	
+	void removeSpy();
 
 	bool playSound();
 

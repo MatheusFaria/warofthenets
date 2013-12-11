@@ -19,7 +19,7 @@ Torre::Torre(int tipoTorre, int numLevelTower, int x, int y, std::string path):I
 	this->numLevelTower = numLevelTower;
 	currentFrame = numLevelTower - 1;
 
-	numInformacao  = 4;
+	numInformacao = 4;
 	
 	imageAliada = new Image("resources/img/hexagonovermelho.png", 0, 0);
 
@@ -113,10 +113,22 @@ Torre::incActualColumn()
 int
 Torre::spyOnTower(int levelSpy)
 {
-    int infoSpy = numInformacao/(5 - levelSpy);
-	numInformacao -= infoSpy;
+    int infoSpy = (numLevelTower*4)/(5 - levelSpy);
+	numInformacao = (numLevelTower * 4) - infoSpy;
 	
+	cout << endl;
+	cout << "levelSpy: " << levelSpy << endl;
+	cout << "numLevelTower: " << numLevelTower << endl;
+	cout << "numInformacao: " << numInformacao << endl;
+	cout << "infoSpy: " << infoSpy << endl;
+		
 	return infoSpy;
+}
+
+void 
+Torre::removeSpy()
+{
+    numInformacao = (numLevelTower * 4);
 }
 
 int 

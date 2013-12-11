@@ -408,6 +408,15 @@ HexagonMap::putObjectOnMap(int x, int y, GameObject* object)
 
 }
 
+bool 
+HexagonMap::actualizeSpy()
+{
+    for(unsigned int i = 0; i < vectorHexagon.size(); i++)
+	{
+		vectorHexagon[i]->activateSpy();
+	}
+}
+
 Hexagon *
 HexagonMap::getHexagon(int x, int y)
 {

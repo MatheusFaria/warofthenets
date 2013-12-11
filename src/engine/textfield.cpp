@@ -198,3 +198,15 @@ TextField::setText(std::string msg)
 	this->xcursor += this->wLetterSize*msg.size();
 	this->cursor->setPosition(this->xcursor, this->ycursor);
 }
+
+int 
+TextField::getX() const
+{
+    return xField;
+}
+
+int 
+TextField::getY() const
+{
+    return yField;
+}

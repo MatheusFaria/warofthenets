@@ -6,6 +6,8 @@
 #include "soundmanager.h"
 #include <iostream>
 
+using namespace std;
+
 std::string Spy::path = "resources/img/spy.png";
 int Spy::custoUnidade = 0;
 int Spy::custoAtualizacao = 0;
@@ -65,6 +67,15 @@ void
 Spy::setCustoUnidade(int _custoUnidade)
 {
 	Spy::custoUnidade = _custoUnidade;
+}
+
+void 
+Spy::setNumLevel(int numLevel)
+{
+    this->numLevelSpy = numLevel;
+    
+    cout << endl;
+    cout << "setNumLevel(): " << this->numLevelSpy << endl;
 }
 
 void

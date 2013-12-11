@@ -66,7 +66,7 @@ private:
 	void atualizarTorresInimigas(int enemyNumLevelTower);
 
 	void atualizarEspiao();
-	void atualizarEspioesInimigos();
+	void atualizarEspioesInimigos(int numLevelSpyEnemy);
 
 	void atualizarMapa();
 	void ativarBotoes(bool);

@@ -8,13 +8,13 @@ warofthenetsdir = /opt/$(PACKAGE)/resources
 dist_warofthenets_DATA = img/logo.png font/Army.ttf font/BarcodeFont.ttf font/Base_02.ttf \
 							img/play.png  \
 							audio/Black_Vortex.ogg img/settingsbutton.png  \
-							img/about.png img/back.png img/base.png img/base1.png img/base2.png \
+							img/about.png img/back.png img/base1.png img/base2.png \
 							img/base3.png img/base4.png img/base5.png img/base6.png img/bomb.png \
 							img/bomba.png img/botaoFimTurno.png img/botaolevel.png img/botaorecursobomba.png \
 							img/botaorecursoespiao.png img/botaorecursotorre.png img/botaosair.png \
 							img/button.png img/buttonupgrade.png img/cancelButton.png img/config.png \
 							img/configbutton.png img/createroom_button.png img/credits.png img/down.png \
-							img/enablesound.png img/exit.png img/fundo.jpg img/fundo.png img/fundo1.png \
+							img/enablesound.png img/exit.png img/fundo.png img/fundo1.png \
 							img/fundo2.png img/fundo3.png img/gamename.png img/gameover.png img/gameover2.png \
 							img/hex_grama.png img/hexagonoazul.png img/hexagonovermelho.png img/history.png \
 							img/hud_bg.png img/joinroom_button.png img/level1.png img/level2.png \
@@ -32,4 +32,7 @@ dist_warofthenets_DATA = img/logo.png font/Army.ttf font/BarcodeFont.ttf font/Ba
 							audio/explosion_medium-003.wav audio/explosion_medium_close-005.wav audio/fx_stab-001.wav \
 							audio/mechanical_metallic_rattle-001.wav audio/putSpy.wav audio/startTurn_-_Info_Arrive.wav \
 							audio/vitoria.wav font/Base_02.ttf font/monospaced.ttf img/camp.png \
-							img/fase01.txt img/fase02.txt img/fase03.txt img/fase04.txt img/fase05.txt img/castscreen.png
+							img/fase01.txt img/fase02.txt img/fase03.txt img/fase04.txt img/fase05.txt img/castscreen.png \
+							img/title_choose_level.png img/title_new_game.png img/title_settings.png img/title_small.png \
+							img/text_address.png img/text_name.png img/text_effect_volume.png img/text_sound_volume.png \
+							img/text_or.png
