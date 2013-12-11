@@ -159,7 +159,7 @@ Hexagon::update()
         backgroundImages[i]->setPosition(x, y);
     }
 
-	if(dynamic_cast<Base*> (object) || dynamic_cast<Image*> (object))
+	if(dynamic_cast<Base*> (object))
 	{
 		int x = getX() + (getWidth()/2) - (object->getWidth()/2);
 		int y = getY() + (getHeight()/2) - (object->getHeight()/2);

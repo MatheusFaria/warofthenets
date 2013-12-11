@@ -77,7 +77,7 @@ void
 Torre::setNumLevel(int numLevel)
 {
     this->numLevelTower = numLevel;
-    this->numInformacao = 2 * numLevelTower;
+    this->numInformacao = 4 * numLevelTower;
 }
 
 int
@@ -113,7 +113,7 @@ Torre::incActualColumn()
 int
 Torre::spyOnTower(int levelSpy)
 {
-    int infoSpy = (numLevelTower*4)/(5 - levelSpy);
+    int infoSpy = levelSpy * numLevelTower;
 	numInformacao = (numLevelTower * 4) - infoSpy;
 	
 	cout << endl;
