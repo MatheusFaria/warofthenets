@@ -6,7 +6,7 @@
 using namespace std;
 
 bool
-Fase03::iniciarCondicoes(void **args, int numArgs)
+Fase03::iniciarCondicoes(void **, int)
 {
 	this->numInformacao = 0;
 	return true;
@@ -19,7 +19,7 @@ Fase03::getNumInformacao()
 }
 
 bool 
-Fase03::verificarSeVenceu(void **args, int numArgs)
+Fase03::verificarSeVenceu(void **args, int)
 {
 	cout<<"Verificando logica de vitoria"<<numInformacao<<endl;
 	int *informacao = (int*) args[0];

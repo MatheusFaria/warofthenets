@@ -415,6 +415,8 @@ HexagonMap::actualizeSpy()
 	{
 		vectorHexagon[i]->activateSpy();
 	}
+
+	return true;
 }
 
 Hexagon *

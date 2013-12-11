@@ -51,7 +51,7 @@ private:
 	std::vector<Hexagon *> vetorDestruicao;
 
 	std::string explosionSound;
-	void explodeRecursivo(map<Hexagon*, vector<Hexagon*>> grafoHexagon, int num);
+	void explodeRecursivo(int num);
 };
 
 #endif

@@ -6,13 +6,13 @@
 using namespace std;
 
 bool
-Fase05::iniciarCondicoes(void **args, int numArgs)
+Fase05::iniciarCondicoes(void **, int)
 {
 	return true;
 }
 
 bool 
-Fase05::verificarSeVenceu(void **args, int numArgs)
+Fase05::verificarSeVenceu(void **args, int)
 {
 	cout << "\n verificarSeVenceu \n" << endl;
 

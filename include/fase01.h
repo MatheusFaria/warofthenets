@@ -7,8 +7,8 @@ class Fase01 : public CondicaoDeVitoria {
 
 public:
 
-	virtual bool verificarSeVenceu(void **args, int numArgs);
-	virtual bool iniciarCondicoes(void **args, int numArgs);
+	virtual bool verificarSeVenceu(void **args, int);
+	virtual bool iniciarCondicoes(void **args, int);
 };
 
 #endif

@@ -144,12 +144,12 @@ Bomba::explode(map<Hexagon*, vector<Hexagon*>>  grafoHexagon, Hexagon *hex)
         filaVisitar.push(adjacentes[i]);
     }
 
-	explodeRecursivo(grafoHexagon, 0);
+	explodeRecursivo(0);
 }
 
  
 void 
-Bomba::explodeRecursivo(map<Hexagon*, vector<Hexagon*>> grafoHexagon, int num)
+Bomba::explodeRecursivo(int num)
 {
 	if(num > (raioDestruicao) || filaVisitar.empty())
 		return;
@@ -176,8 +176,6 @@ Bomba::explodeRecursivo(map<Hexagon*, vector<Hexagon*>> grafoHexagon, int num)
 	        vetorDestruicao.push_back(hex);
 	    }
     }
-
-	//explodeRecursivo(grafoHexagon, num + 1);
 }
 
 std::vector<Hexagon *> 

@@ -131,6 +131,8 @@ NetworkPlayer::receiveMessage()
 			return SDLNet_TCP_Recv(serverSocket, this->package, sizeof(Data));
 			
 	}
+
+	return 0;
 }
 
 Data *

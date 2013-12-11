@@ -6,7 +6,7 @@
 using namespace std;
 
 bool
-Fase04::iniciarCondicoes(void **args, int numArgs)
+Fase04::iniciarCondicoes(void **args, int)
 {
 	PlayState *estado = (PlayState *) args[0];
 	estado->criarPontoVitoria();
@@ -14,7 +14,7 @@ Fase04::iniciarCondicoes(void **args, int numArgs)
 }
 
 bool 
-Fase04::verificarSeVenceu(void **args, int numArgs)
+Fase04::verificarSeVenceu(void **args, int)
 {
 	cout << "\n verificarSeVenceu \n" << endl;
 
