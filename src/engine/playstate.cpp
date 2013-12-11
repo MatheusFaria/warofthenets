@@ -702,7 +702,7 @@ PlayState::createHUD()
 
     hudBackground = new Image("resources/img/hud_bg.png", 0, 0);
 
-    upgradeTower = new MenuButton(0,0,"resources/img/buttonupgrade.png", "buttonupgrade", 3);
+    upgradeTower = new MenuButton(0,0,"resources/img/buttonupgrade.png", "buttonupgrade", 3, true);
     x = levelTowerX;
     y = levelTowerY - upgradeTower->getHeight() -espacamento/4;
     upgradeTower->setPosition(x,y);
@@ -710,8 +710,9 @@ PlayState::createHUD()
 	InputHandler::getInstance()->addMouseClick(upgradeTower);
 	upgradeTower->setText("cost of UPGRADE: " + std::to_string(Torre::getCustoAtualizacao()));
 	upgradeTower->activeTextArea(true);
+	upgradeTower->setAudioOnClick("resources/audio/mechanical_machine_lever_pull-001.wav", "upTower");
 	
-    upgradeBomb = new MenuButton(0,0,"resources/img/buttonupgrade.png", "buttonupgrade", 3);
+    upgradeBomb = new MenuButton(0,0,"resources/img/buttonupgrade.png", "buttonupgrade", 3, true);
     x = levelBombX;
     y = levelBombY - upgradeBomb->getHeight() -espacamento/4;
     upgradeBomb->setPosition(x,y);
@@ -719,6 +720,8 @@ PlayState::createHUD()
 	InputHandler::getInstance()->addMouseClick(upgradeBomb);
 	upgradeBomb->setText("cost of UPGRADE: " + std::to_string(Bomba::getCustoAtualizacao()));
 	upgradeBomb->activeTextArea(true);
+	upgradeBomb->setAudioOnClick("resources/audio/mechanical_machine_scifi_pulse-001.wav", "upBomb");
+	
 
     upgradeSpy = new MenuButton(0,0,"resources/img/buttonupgrade.png", "buttonupgrade", 3);
     x = levelSpyX;
@@ -728,6 +731,7 @@ PlayState::createHUD()
 	InputHandler::getInstance()->addMouseClick(upgradeSpy);
 	upgradeSpy->setText("cost of UPGRADE: " + std::to_string(Spy::getCustoAtualizacao()));
 	upgradeSpy->activeTextArea(true);
+	upgradeSpy->setAudioOnClick("resources/audio/mechanical_metallic_rattle-002.wav", "upSpy");
 
 
 	hudButtons.push_back(upgradeTower);
@@ -1598,6 +1602,7 @@ PlayState::loadMusics()
 	SoundManager::Instance()->loadSound("resources/audio/vitoria.wav", "vitoria", SFX);
 	SoundManager::Instance()->loadSound("resources/audio/startTurn_-_Info_Arrive.wav", "turno", SFX);
 	SoundManager::Instance()->loadSound("resources/audio/putSpy.wav", "spy", SFX);
+
 }
 
 void 
