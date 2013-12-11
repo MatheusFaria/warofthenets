@@ -15,6 +15,6 @@
 5
 1
 6
-2
-Chegar no hexagono com acampamento
+1
+Reach hexagon with camp
 0

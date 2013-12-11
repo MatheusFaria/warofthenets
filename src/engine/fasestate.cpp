@@ -79,21 +79,21 @@ FaseState::onEnter()
 	btnAlemanha->setEventListener(this);
 	InputHandler::getInstance()->addMouseClick(btnAlemanha);
 	
-	btnJapao = new MenuButton(0, 0, "resources/img/level4.png", "level4", 3, true);
+	btnJapao = new MenuButton(0, 0, "resources/img/level3.png", "level3", 3, true);
 	int btnJapaoX = btnBrasilX + (3 * btnJapao->getWidth() / 2);
 	int btnJapaoY = btnBrasilY;
 	btnJapao->setPosition(btnJapaoX, btnJapaoY);
 	btnJapao->setEventListener(this);
 	InputHandler::getInstance()->addMouseClick(btnJapao);
 	
-	btnIndia = new MenuButton(0, 0, "resources/img/level5.png", "level5", 3, true);
+	btnIndia = new MenuButton(0, 0, "resources/img/level4.png", "level4", 3, true);
 	int btnIndiaX = btnBrasilX - btnIndia->getWidth();
 	int btnIndiaY = (Game::Instance()->getWindow()->getHeight() / 2) + (btnIndia->getHeight()/2);
 	btnIndia->setPosition(btnIndiaX, btnIndiaY);
 	btnIndia->setEventListener(this);
 	InputHandler::getInstance()->addMouseClick(btnIndia);
 	
-	btnRussia = new MenuButton(0, 0, "resources/img/level3.png", "level3", 3, true);
+	btnRussia = new MenuButton(0, 0, "resources/img/level5.png", "level5", 3, true);
 	int btnRussiaX = btnBrasilX + btnIndia->getWidth();
 	int btnRussiaY = (Game::Instance()->getWindow()->getHeight() / 2) + (btnRussia->getHeight()/2);
 	btnRussia->setPosition(btnRussiaX, btnRussiaY);
