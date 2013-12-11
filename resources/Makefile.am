@@ -35,4 +35,5 @@ dist_warofthenets_DATA = img/logo.png font/Army.ttf font/BarcodeFont.ttf font/Ba
 							audio/mechanical_machine_scifi_pulse-001.wav font/Base_02.ttf font/monospaced.ttf img/camp.png \
 							img/fase01.txt img/fase02.txt img/fase03.txt img/fase04.txt img/fase05.txt img/castscreen.png \
 							img/title_choose_level.png img/title_new_game.png img/title_settings.png img/title_small.png \
-							img/text_address.png img/text_name.png img/text_effect_volume.png img/text_sound_volume.png
+							img/text_address.png img/text_name.png img/text_effect_volume.png img/text_sound_volume.png \
+							img/text_or.png
