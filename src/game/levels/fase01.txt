@@ -1,11 +1,11 @@
 1
 2 2
 19 2
-7 8
+16 13
 5 13
-100
+10
 5
-5
+15
 5
 2
 2
@@ -16,5 +16,5 @@
 1
 6
 1
-Chegar no hexagono com acampamento
+Reach hexagon with camp
 0

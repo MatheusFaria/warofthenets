@@ -24,11 +24,13 @@ MenuState::update()
 		menuObjects[i]->update();
 		
 		
+    /*
 	if((int)SDL_GetTicks() - atualTime > atractTime)
 	{
 	    //InputHandler::getInstance()->removeEvent(this);
 	    Game::Instance()->getStateMachine()->pushState(new AttractState());
     }
+    */
 }
 
 void

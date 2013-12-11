@@ -102,9 +102,9 @@ FaseState::onEnter()
 	
 	vectorButtons.push_back(btnBrasil);
 	vectorButtons.push_back(btnAlemanha);
-	vectorButtons.push_back(btnJapao);
+	//vectorButtons.push_back(btnJapao);
 	vectorButtons.push_back(btnIndia);
-	vectorButtons.push_back(btnRussia);
+	//vectorButtons.push_back(btnRussia);
 	
 	if(NetworkManager::Instance()->getTipo() == 0)
 		InputHandler::getInstance()->setActive(false);
@@ -183,14 +183,14 @@ FaseState::onMouseClick(MouseClick *mouseClick)
     if(mouseClick == btnAlemanha)
         enviarIniciarFase("2");
         
-    if(mouseClick == btnJapao)
-        enviarIniciarFase("4");
+    //if(mouseClick == btnJapao)
+    //    enviarIniciarFase("4");
     
     if(mouseClick == btnIndia)
         enviarIniciarFase("5");
 
-    if(mouseClick == btnRussia)
-        enviarIniciarFase("3");
+    //if(mouseClick == btnRussia)
+    //    enviarIniciarFase("3");
 }
 
 void 

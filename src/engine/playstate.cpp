@@ -702,7 +702,7 @@ PlayState::createHUD()
 
     hudBackground = new Image("resources/img/hud_bg.png", 0, 0);
 
-    upgradeTower = new MenuButton(0,0,"resources/img/buttonupgrade.png", "buttonupgrade", 3, true);
+    upgradeTower = new MenuButton(0,0,"resources/img/buttonupgrade.png", "buttonupgrade", 3);
     x = levelTowerX;
     y = levelTowerY - upgradeTower->getHeight() -espacamento/4;
     upgradeTower->setPosition(x,y);
@@ -712,7 +712,7 @@ PlayState::createHUD()
 	upgradeTower->activeTextArea(true);
 	upgradeTower->setAudioOnClick("resources/audio/mechanical_machine_lever_pull-001.wav", "upTower");
 	
-    upgradeBomb = new MenuButton(0,0,"resources/img/buttonupgrade.png", "buttonupgrade", 3, true);
+    upgradeBomb = new MenuButton(0,0,"resources/img/buttonupgrade.png", "buttonupgrade", 3);
     x = levelBombX;
     y = levelBombY - upgradeBomb->getHeight() -espacamento/4;
     upgradeBomb->setPosition(x,y);
